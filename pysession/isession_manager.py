@@ -3,7 +3,13 @@ from typing import Any, Dict, List, TypeVar, Type
 
 T = TypeVar("T")
 
+
 class ISessionManager(ABC):
+    @property
+    @abstractmethod
+    def prop_key(self) -> str:
+        pass
+
     @abstractmethod
     def session(self, session_id: str):
         """
@@ -16,6 +22,18 @@ class ISessionManager(ABC):
 
     @abstractmethod
     def save(self, session_id: str, key: str, data: Any) -> None:
+        pass
+
+    @abstractmethod
+    def save_all(self, session_id: str, data: Dict[str, Any]) -> None:
+        pass
+
+    @abstractmethod
+    def save_global(self, key: str, data: Any) -> None:
+        pass
+
+    @abstractmethod
+    def save_prop(self, session_id: str, prop_key: str, data: Any) -> None:
         pass
 
     @abstractmethod
@@ -37,7 +55,15 @@ class ISessionManager(ABC):
         pass
 
     @abstractmethod
-    def fetch_all(self, session_id: str) -> Dict[str, Any]:
+    def get_from_props(self, session_id: str, prop_key: str, t: Type[T] = None) -> Any or T:
+        pass
+
+    @abstractmethod
+    def get_user_props(self, session_id: str) -> Dict[str, Any] or None:
+        pass
+
+    @abstractmethod
+    def fetch_all(self, session_id: str) -> Dict[str, Any] or None:
         pass
 
     @abstractmethod
@@ -45,11 +71,7 @@ class ISessionManager(ABC):
         pass
 
     @abstractmethod
-    def save_all(self, data: Dict[str, Any]) -> None:
-        pass
-
-    @abstractmethod
-    def evict_all(self, data: List[str]) -> None:
+    def evict_all(self, session_id: str, keys: List[str]) -> None:
         pass
 
     @abstractmethod
@@ -65,21 +87,5 @@ class ISessionManager(ABC):
         pass
 
     @abstractmethod
-    def get_from_props(self, session_id: str, prop_key: str, t: Type[T] = None) -> Any or T:
-        pass
-
-    @abstractmethod
     def key_in_session(self, session_id: str, key: str, check_global: bool = True) -> bool:
-        pass
-
-    @abstractmethod
-    def get_user_props(self, session_id: str) -> Dict[str, Any]:
-        pass
-
-    @abstractmethod
-    def save_global(self, key: str, data: Any) -> None:
-        pass
-
-    @abstractmethod
-    def save_prop(self, session_id: str, key: str, data: Any) -> None:
         pass

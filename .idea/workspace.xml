@@ -5,17 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e700a6d4-f3fd-4ca6-8806-bc5eb9b6e49c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/pywce.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pysession/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pysession/isession_manager.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pysession/session_impl/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pysession/session_impl/default_session_manager.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/engine.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pysession/isession_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/pysession/isession_manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pysession/session_impl/default_session_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/pysession/session_impl/default_session_manager.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,6 +19,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Python Script" />
+        <option value="Python Unit Test" />
       </list>
     </option>
   </component>
@@ -73,7 +67,7 @@
       <option name="presentableId" value="Default" />
       <updated>1736011130682</updated>
       <workItem from="1736011131895" duration="2690000" />
-      <workItem from="1736017722741" duration="498000" />
+      <workItem from="1736017722741" duration="2908000" />
     </task>
     <servers />
   </component>
