@@ -1,6 +1,7 @@
 import threading
 from typing import Any, Dict, Type, List
 
+from engine_logger import get_engine_logger
 from pysession.isession_manager import ISessionManager, T
 
 
@@ -16,6 +17,9 @@ class DefaultSessionManager(ISessionManager):
         self.global_session: Dict[str, Any] = {}
         self.sessions: Dict[str, Dict[str, Any]] = {}
         self.lock = threading.Lock()
+        self.logger = get_engine_logger(__name__)
+
+        self.logger.debug("Initialized default session manager!")
 
     @property
     def prop_key(self) -> str:
