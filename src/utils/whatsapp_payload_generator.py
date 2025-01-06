@@ -1,6 +1,8 @@
 from typing import Dict, Any
 
 from modules.whatsapp import WaUser
+from src.constants.template import TemplateConstants
+
 
 class WhatsAppPayloadGenerator:
     """
@@ -19,12 +21,13 @@ class WhatsAppPayloadGenerator:
     def text(self) -> Dict[str, Any]:
         data = {
             "recipient_id": self.user.wa_id,
-            "message": self.template.get("message")
+            "message": self.template.get(TemplateConstants.MESSAGE),
+            "message_id": self.template.get(TemplateConstants.REPLY_MESSAGE_ID)
         }
 
         return data
 
-    def button(self) -> Dict[Any, Any]:
+    def button(self) -> Dict[str, Any]:
         """
         Method to create a button object to be used in the send_message method.
 
@@ -33,11 +36,16 @@ class WhatsAppPayloadGenerator:
         Args:
                button[dict]: A dictionary containing the button data
         """
-        data = {"type": "list", "action": button.get("action")}
-        if button.get("header"):
-            data["header"] = {"type": "text", "text": button.get("header")}
-        if button.get("body"):
-            data["body"] = {"text": button.get("body")}
-        if button.get("footer"):
-            data["footer"] = {"text": button.get("footer")}
+        data = {"type": "list", "action": "reply"}
+        # TODO: verify button action
+
+        if self.template.get(TemplateConstants.MESSAGE_TITLE):
+            data["header"] = {"type": "text", "text": self.template.get(TemplateConstants.MESSAGE_TITLE)}
+        if self.template.get(TemplateConstants.MESSAGE_BODY):
+            data["body"] = {"text": self.template.get(TemplateConstants.MESSAGE_BODY)}
+        if self.template.get(TemplateConstants.MESSAGE_FOOTER):
+            data["footer"] = {"text": self.template.get(TemplateConstants.MESSAGE_FOOTER)}
+
         return data
+
+    # TODO: implement other template types supporting supported message types
