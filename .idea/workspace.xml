@@ -5,7 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e700a6d4-f3fd-4ca6-8806-bc5eb9b6e49c" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/engine_logger.py" beforeDir="false" afterPath="$PROJECT_DIR$/engine_logger.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/modules/pysession/session_impl/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/modules/whatsapp/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/pywce.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/pywce.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pysession/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/modules/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pysession/isession_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/modules/pysession/isession_manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pysession/session_impl/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/modules/pysession/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pysession/session_impl/default_session_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/modules/pysession/session_impl/default_session_manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/constants/engine.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/engine.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_v.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_v.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,7 +48,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Python.test_v.executor": "Debug",
+    "Python.test_v.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "dev",
@@ -45,11 +57,13 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "Errors",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\modules" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce" />
     </key>
   </component>
@@ -71,7 +85,7 @@
       <updated>1736011130682</updated>
       <workItem from="1736011131895" duration="2690000" />
       <workItem from="1736017722741" duration="5700000" />
-      <workItem from="1736091333100" duration="780000" />
+      <workItem from="1736091333100" duration="5044000" />
     </task>
     <servers />
   </component>
@@ -79,6 +93,6 @@
     <option name="version" value="3" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/pywce$test_v.coverage" NAME="test_v Coverage Results" MODIFIED="1736023258802" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/pywce$test_v.coverage" NAME="test_v Coverage Results" MODIFIED="1736092146828" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

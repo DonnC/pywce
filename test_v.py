@@ -1,4 +1,4 @@
-from pysession.session_impl.default_session_manager import DefaultSessionManager
+from modules.pysession.session_impl.default_session_manager import DefaultSessionManager
 
 session_id = 'pywce'
 

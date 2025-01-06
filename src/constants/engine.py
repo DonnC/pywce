@@ -1,4 +1,3 @@
-# engine constants
 from dataclasses import dataclass
 
 

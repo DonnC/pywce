@@ -2,7 +2,7 @@ import threading
 from typing import Any, Dict, Type, List
 
 from engine_logger import get_engine_logger
-from pysession.isession_manager import ISessionManager, T
+from modules.pysession.isession_manager import ISessionManager, T
 
 
 class DefaultSessionManager(ISessionManager):
