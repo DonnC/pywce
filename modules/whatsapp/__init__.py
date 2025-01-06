@@ -5,21 +5,17 @@ Unofficial python wrapper for the WhatsApp Cloud API.
 """
 import mimetypes
 import os
+from logging import Logger
 from typing import Dict, Any, List, Union
 
 import httpx
 from httpx import AsyncClient
 
 from engine_logger import get_engine_logger
-
-
-class WhatsAppConfig:
-    """
-        Store whatsapp configs to use in [WhatsApp] class
-    """
-    token: str
-    phone_number_id: str
-    version: str
+from modules.whatsapp.model.wa_user import WaUser
+from .config import WhatsAppConfig
+from .message_utils import MessageTypeEnum, MessageUtils
+from .model.response_structure import ResponseStructure
 
 
 class WhatsApp:
@@ -27,14 +23,14 @@ class WhatsApp:
     WhatsApp Object
     """
 
-    def __init__(self, config: WhatsAppConfig):
+    def __init__(self, whatsapp_config: WhatsAppConfig):
         """
         Initialize the WhatsApp Object
 
         Args:
             config[WhatsAppConfig]: config object
         """
-        self.config = config
+        self.config = whatsapp_config
         self.base_url = f"https://graph.facebook.com/{self.config.version}"
         self.url = f"{self.base_url}/{self.config.phone_number_id}/messages"
 
@@ -44,6 +40,8 @@ class WhatsApp:
         }
 
         self.logger = get_engine_logger(__name__)
+
+        self.util = self.Utils(self)
 
     async def __send_request__(self, message_type: str, recipient_id: str, data: Dict[str, Any]):
         self.logger.info(f"Sending {message_type} to {recipient_id}")
@@ -59,7 +57,7 @@ class WhatsApp:
             self.logger.error(f"Response: {response.text}")
             return response.json()
 
-    async def send_message(self, message: str, recipient_id: str, recipient_type: str = "individual",
+    async def send_message(self, recipient_id: str, message: str, recipient_type: str = "individual",
                            message_id: str = None, preview_url: bool = True):
         """
          Sends a text message to a WhatsApp user
@@ -83,7 +81,7 @@ class WhatsApp:
 
         return await self.__send_request__(message_type='Message', recipient_id=recipient_id, data=data)
 
-    async def send_reaction(self, emoji: str, message_id: str, recipient_id: str, recipient_type: str = "individual"):
+    async def send_reaction(self, recipient_id: str, emoji: str, message_id: str, recipient_type: str = "individual"):
         """
         Sends a reaction message to a WhatsApp user's message asynchronously.
 
@@ -111,7 +109,7 @@ class WhatsApp:
 
         return await self.__send_request__(message_type='Reaction', recipient_id=recipient_id, data=data)
 
-    async def send_template(self, template: str, recipient_id: str, components: List[Dict], message_id: str = None,
+    async def send_template(self, recipient_id: str, template: str, components: List[Dict], message_id: str = None,
                             lang: str = "en_US"):
         """
         Asynchronously sends a template message to a WhatsApp user. Templates can be:
@@ -151,8 +149,8 @@ class WhatsApp:
 
         return await self.__send_request__(message_type='Template', recipient_id=recipient_id, data=data)
 
-    async def send_location(self, lat: str, lon: str, name: str, address: str, recipient_id: str,
-                            message_id: str = None, ):
+    async def send_location(self, recipient_id: str, lat: str, lon: str, name: str = None, address: str = None,
+                            message_id: str = None):
         """
         Asynchronously sends a location message to a WhatsApp user.
 
@@ -187,8 +185,8 @@ class WhatsApp:
 
     async def send_image(
             self,
-            image: str,
             recipient_id: str,
+            image: str,
             recipient_type: str = "individual",
             caption: str = None,
             link: bool = True,
@@ -223,7 +221,7 @@ class WhatsApp:
 
         return await self.__send_request__(message_type='Image', recipient_id=recipient_id, data=data)
 
-    async def send_sticker(self, sticker: str, recipient_id: str, recipient_type="individual", link: bool = True,
+    async def send_sticker(self, recipient_id: str, sticker: str, recipient_type="individual", link: bool = True,
                            message_id: str = None):
         """
         Asynchronously sends a sticker message to a WhatsApp user.
@@ -255,7 +253,7 @@ class WhatsApp:
 
         return await self.__send_request__(message_type='Sticker', recipient_id=recipient_id, data=data)
 
-    async def send_audio(self, audio: str, recipient_id: str, link=True, message_id: str = None):
+    async def send_audio(self, recipient_id: str, audio: str, link=True, message_id: str = None):
         """
         Asynchronously sends an audio message to a WhatsApp user. Audio messages can be sent by either passing the audio ID or by passing the audio link.
 
@@ -281,7 +279,7 @@ class WhatsApp:
 
         return await self.__send_request__(message_type='Audio', recipient_id=recipient_id, data=data)
 
-    async def send_video(self, video: str, recipient_id: str, caption: str = None, link: bool = True,
+    async def send_video(self, recipient_id: str, video: str, caption: str = None, link: bool = True,
                          message_id: str = None):
         """
         Asynchronously sends a video message to a WhatsApp user. Video messages can either be sent by passing the video ID or by passing the video link.
@@ -309,7 +307,7 @@ class WhatsApp:
 
         return await self.__send_request__(message_type='Video', recipient_id=recipient_id, data=data)
 
-    async def send_document(self, document: str, recipient_id: str, caption: str = None, link: bool = True,
+    async def send_document(self, recipient_id: str, document: str, caption: str = None, link: bool = True,
                             filename: str = None, message_id: str = None):
         """
         Asynchronously sends a document message to a WhatsApp user. Documents can either be sent by passing the document ID or by passing the document link.
@@ -339,7 +337,7 @@ class WhatsApp:
 
         return await self.__send_request__(message_type='Document', recipient_id=recipient_id, data=data)
 
-    async def send_contacts(self, contacts: List[Dict[Any, Any]], recipient_id: str, message_id:str=None):
+    async def send_contacts(self, recipient_id: str, contacts: List[Dict[Any, Any]], message_id: str = None):
         """
         Asynchronously sends a list of contacts to a WhatsApp user.
 
@@ -379,71 +377,6 @@ class WhatsApp:
             data["context"] = {"message_id": message_id}
 
         return await self.__send_request__(message_type='Contacts', recipient_id=recipient_id, data=data)
-
-    async def upload_media(self, media: str) -> Union[Dict[Any, Any], None]:
-        """
-        Asynchronously uploads a media file to the cloud API and returns the ID of the media.
-
-        Args:
-            media (str): Path of the media to be uploaded.
-
-        Example:
-            >>>  from modules.whatsapp import WhatsApp
-            >>> whatsapp = WhatsApp()
-            >>> whatsapp.upload_media("/path/to/media")
-
-        REFERENCE:
-        https://developers.facebook.com/docs/whatsapp/cloud-api/reference/media#
-        """
-        content_type, _ = mimetypes.guess_type(media)
-        headers = self.headers.copy()
-        self.logger.info(f"Uploading media {media}")
-
-        try:
-            async with AsyncClient() as client, open(os.path.realpath(media), 'rb') as file:
-                files = {'file': (os.path.basename(media), file, content_type)}
-                data = {
-                    'messaging_product': 'whatsapp',
-                    'type': content_type
-                }
-                response = await client.post(
-                    f"{self.base_url}/{self.config.phone_number_id}/media",
-                    headers=headers,
-                    files=files,
-                    data=data
-                )
-
-            if response.status_code == 200:
-                self.logger.info(f"Media {media} uploaded")
-                return response.json()
-            else:
-                self.logger.info(f"Error uploading media {media}")
-                self.logger.info(f"Status code: {response.status_code}")
-                self.logger.info(f"Response: {response.text}")
-                return None
-
-        except Exception as e:
-            self.logger.error(f"Exception occurred while uploading media: {str(e)}")
-            return None
-
-    async def delete_media(self, media_id: str) -> Union[Dict[Any, Any], None]:
-        """
-        Asynchronously deletes a media from the cloud API.
-
-        Args:
-            media_id (str): ID of the media to be deleted.
-        """
-        self.logger.info(f"Deleting media {media_id}")
-        async with httpx.AsyncClient() as client:
-            response = await client.delete(f"{self.base_url}/{media_id}", headers=self.headers)
-
-        if response.status_code == 200:
-            self.logger.info(f"Media {media_id} deleted")
-            return response.json()
-        else:
-            self.logger.info(f"Error deleting media {media_id}: {response.status_code}")
-            self.logger.error(f"Response: {response.text}")
-            return None
 
     async def mark_as_read(self, message_id: str) -> Dict[Any, Any]:
         """
@@ -486,7 +419,7 @@ class WhatsApp:
             data["footer"] = {"text": button.get("footer")}
         return data
 
-    async def send_button(self, button: Dict[Any, Any], recipient_id: str) -> Dict[Any, Any]:
+    async def send_button(self, recipient_id: str, button: Dict[Any, Any]) -> Dict[Any, Any]:
         """
         Asynchronously sends an interactive buttons message to a WhatsApp user.
 
@@ -515,382 +448,214 @@ class WhatsApp:
             self.logger.error(f"Response: {response.text}")
             return response.json()
 
-    async def send_reply_button(self, button: Dict[Any, Any], recipient_id: str) -> Dict[Any, Any]:
+    class Utils:
         """
-        Asynchronously sends an interactive reply buttons [menu] message to a WhatsApp user.
-
-        Args:
-            button (dict): A dictionary containing the button data.
-            recipient_id (str): Phone number of the user with country code without +.
-
-        Note:
-            The maximum number of buttons is 3; more than 3 buttons will raise an error.
+            Utility class for WhatsApp utility methods
         """
-        data = {
-            "messaging_product": "whatsapp",
-            "recipient_type": "individual",
-            "to": recipient_id,
-            "type": "interactive",
-            "interactive": button,
-        }
 
-        self.logger.info(f"Sending reply buttons to {recipient_id}")
-        async with httpx.AsyncClient() as client:
-            response = await client.post(self.url, headers=self.headers, json=data)
+        def __init__(self, parent) -> None:
+            self.parent = parent
+            self.logger: Logger = parent.logger
 
-        if response.status_code == 200:
-            self.logger.info(f"Reply buttons sent to {recipient_id}")
-            return response.json()
-        else:
-            self.logger.info(f"Reply buttons not sent to {recipient_id}: {response.status_code}")
-            self.logger.error(f"Response: {response.text}")
-            return response.json()
+        def __pre_process__(self, webhook_data: Dict[Any, Any]) -> Dict[Any, Any]:
+            """
+            Preprocesses the data received from the webhook.
 
-    async def query_media_url(self, media_id: str) -> Union[str, None]:
-        """
-        Asynchronously query media URL from a media ID obtained either by manually uploading media or received media.
+            This method is designed to only be used internally.
 
-        Args:
-            media_id (str): Media ID of the media.
+            Args:
+                webhook_data[dict]: The data received from the webhook
+            """
+            value_entry = webhook_data["entry"][0]["changes"][0]["value"]
+            assert value_entry.get("messaging_product") == "whatsapp"
+            return value_entry
 
-        Returns:
-            str: Media URL, or None if not found or an error occurred.
+        def is_valid_webhook_message(self, webhook_data: Dict) -> bool:
+            processed_data = self.__pre_process__(webhook_data)
+            return "messages" in processed_data
 
-        Example:
-            >>>  from modules.whatsapp import WhatsApp
-            >>> whatsapp = WhatsApp(token, phone_number_id)
-            >>> whatsapp.query_media_url("media_id")
-        """
-        self.logger.info(f"Querying media URL for {media_id}")
-        async with httpx.AsyncClient() as client:
-            response = await client.get(f"{self.base_url}/{media_id}", headers=self.headers)
+        def is_valid_response(self, recipient_id: str, response_data: Dict[str, Any]) -> bool:
+            """
+            check if the response after sending to whatsapp is a valid 1
+            """
 
-        if response.status_code == 200:
-            self.logger.info(f"Media URL queried for {media_id}")
-            return response.json().get("url")
-        else:
-            self.logger.info(f"Media URL not queried for {media_id}: {response.status_code}")
-            self.logger.info(f"Response: {response.text}")
-            return None
+            is_whatsapp = response_data.get("messaging_product") == "whatsapp"
+            is_same_recipient = recipient_id == response_data.get("contacts")[0].get("wa_id")
+            has_msg_id = response_data.get("messages")[0].get("id").startswith("wamid.")
 
-    async def download_media(self, media_url: str, mime_type: str, file_path: str = "temp") -> Union[str, None]:
-        """
-        Asynchronously download media from a media URL obtained either by manually uploading media or received media.
+            return is_whatsapp and is_same_recipient and has_msg_id
 
-        Args:
-            media_url (str): Media URL of the media.
-            mime_type (str): Mime type of the media.
-            file_path (str): Path of the file to be downloaded to. Default is "temp".
-                             Do not include the file extension. It will be added automatically.
+        def get_wa_user(self, webhook_data: Dict[Any, Any]) -> Union[WaUser, None]:
+            data = self.__pre_process__(webhook_data)
 
-        Returns:
-            str: Path to the downloaded file, or None if there was an error.
+            if not self.is_valid_webhook_message(webhook_data):
+                self.logger.error("Invalid webhook message")
+                return None
 
-        Example:
-            >>>  from modules.whatsapp import WhatsApp
-            >>> whatsapp = WhatsApp(token, phone_number_id)
-            >>> whatsapp.download_media("https://example.com/media_url", "image/jpeg")
-            >>> whatsapp.download_media("https://example.com/media_url", "video/mp4", "path/to/file") #do not include the file extension
-        """
-        extension = mime_type.split("/")[1].split(";")[0].strip()
-        save_file_here = f"{file_path}.{extension}" if file_path else f"temp.{extension}"
+            user = WaUser()
 
-        try:
+            if "contacts" in data:
+                user.wa_id = data["contacts"][0]["wa_id"]
+                user.name = data["contacts"][0]["profile"]["name"]
+
+            if "messages" in data:
+                user.msg_id = data["messages"][0]["id"]
+                user.timestamp = data["messages"][0]["timestamp"]
+
+            user.validate()
+
+            return user
+
+        def get_delivery(self, webhook_data: Dict[Any, Any]) -> Union[str, None]:
+            """
+            Extracts the delivery status of the message from the data received from the webhook.
+            """
+            data = self.__pre_process__(webhook_data)
+            if "statuses" in data:
+                return data["statuses"][0]["status"]
+
+        def get_response_structure(self, webhook_data: Dict[Any, Any]) -> Union[ResponseStructure, None]:
+            """
+            Compute the response body of the message from the data received from the webhook.
+            :param webhook_data: WhatsApp webhook data
+            :return: ResponseStructure with response type and body
+            """
+            if self.is_valid_webhook_message(webhook_data):
+                data = self.__pre_process__(webhook_data)
+                return MessageUtils(message_data=data.get("messages")[0]).get_structure()
+
+        async def upload_media(self, media_path: str) -> Union[Dict[Any, Any], None]:
+            """
+            Asynchronously uploads a media file to the cloud API and returns the ID of the media.
+
+            Args:
+                media_path (str): Path of the media to be uploaded.
+
+            Example:
+                >>>  from modules.whatsapp import WhatsApp
+                >>> whatsapp = WhatsApp()
+                >>> whatsapp.util.upload_media("/path/to/media")
+
+            REFERENCE:
+            https://developers.facebook.com/docs/whatsapp/cloud-api/reference/media#
+            """
+            content_type, _ = mimetypes.guess_type(media_path)
+            headers = self.parent.headers.copy()
+            self.logger.info(f"Uploading media {media_path}")
+
+            try:
+                async with AsyncClient() as client, open(os.path.realpath(media_path), 'rb') as file:
+                    files = {'file': (os.path.basename(media_path), file, content_type)}
+                    data = {
+                        'messaging_product': 'whatsapp',
+                        'type': content_type
+                    }
+                    response = await client.post(
+                        f"{self.parent.base_url}/{self.parent.config.phone_number_id}/media",
+                        headers=headers,
+                        files=files,
+                        data=data
+                    )
+
+                if response.status_code == 200:
+                    self.logger.info(f"Media {media_path} uploaded")
+                    return response.json()
+                else:
+                    self.logger.info(f"Error uploading media {media_path}")
+                    self.logger.info(f"Status code: {response.status_code}")
+                    self.logger.info(f"Response: {response.text}")
+                    return None
+
+            except Exception as e:
+                self.logger.error(f"Exception occurred while uploading media: {str(e)}")
+                return None
+
+        async def delete_media(self, media_id: str) -> Union[Dict[Any, Any], None]:
+            """
+            Asynchronously deletes a media from the cloud API.
+
+            Args:
+                media_id (str): ID of the media to be deleted.
+            """
+            self.logger.info(f"Deleting media {media_id}")
+
             async with httpx.AsyncClient() as client:
-                response = await client.get(media_url)
+                response = await client.delete(f"{self.parent.base_url}/{media_id}", headers=self.parent.headers)
 
             if response.status_code == 200:
-                # Ensure the directory exists
-                os.makedirs(os.path.dirname(save_file_here), exist_ok=True)
-                with open(save_file_here, "wb") as f:
-                    f.write(response.content)
-                self.logger.info(f"Media downloaded to {save_file_here}")
-                return save_file_here
+                self.logger.info(f"Media {media_id} deleted")
+                return response.json()
             else:
-                self.logger.error(f"Failed to download media. Status code: {response.status_code}")
+                self.logger.info(f"Error deleting media {media_id}: {response.status_code}")
+                self.logger.error(f"Response: {response.text}")
                 return None
-        except Exception as e:
-            self.logger.error(f"Error downloading media to {save_file_here}: {str(e)}")
-            return None
 
-    def preprocess(self, data: Dict[Any, Any]) -> Dict[Any, Any]:
-        """
-        Preprocesses the data received from the webhook.
+        async def query_media_url(self, media_id: str) -> Union[str, None]:
+            """
+            Asynchronously query media URL from a media ID obtained either by manually uploading media or received media.
 
-        This method is designed to only be used internally.
+            Args:
+                media_id (str): Media ID of the media.
 
-        Args:
-            data[dict]: The data received from the webhook
-        """
-        return data["entry"][0]["changes"][0]["value"]
+            Returns:
+                str: Media URL, or None if not found or an error occurred.
 
-    def is_message(self, data: Dict[Any, Any]) -> bool:
-        """is_message checks if the data received from the webhook is a message.
+            Example:
+                >>>  from modules.whatsapp import WhatsApp
+                >>> whatsapp = WhatsApp()
+                >>> whatsapp.util.query_media_url("media_id")
+            """
+            self.logger.info(f"Querying media URL for {media_id}")
+            async with httpx.AsyncClient() as client:
+                response = await client.get(f"{self.parent.base_url}/{media_id}", headers=self.parent.headers)
 
-        Args:
-            data (Dict[Any, Any]): The data received from the webhook
+            if response.status_code == 200:
+                self.logger.info(f"Media URL queried for {media_id}")
+                return response.json().get("url")
+            else:
+                self.logger.info(f"Media URL not queried for {media_id}: {response.status_code}")
+                self.logger.info(f"Response: {response.text}")
+                return None
 
-        Returns:
-            bool: True if the data is a message, False otherwise
-        """
-        data = self.preprocess(data)
-        if "messages" in data:
-            return True
-        else:
-            return False
+        async def download_media(self, media_url: str, mime_type: str, file_path: str = None) -> Union[str, None]:
+            """
+            Asynchronously download media from a media URL obtained either by manually uploading media or received media.
 
-    def get_mobile(self, data: Dict[Any, Any]) -> Union[str, None]:
-        """
-        Extracts the mobile number of the sender from the data received from the webhook.
+            Args:
+                media_url (str): Media URL of the media.
+                mime_type (str): Mime type of the media.
+                file_path (str): Path of the file to be downloaded to. Default is "temp".
+                                 Do not include the file extension. It will be added automatically.
 
-        Args:
-            data[dict]: The data received from the webhook
-        Returns:
-            str: The mobile number of the sender
+            Returns:
+                str: Path to the downloaded file, or None if there was an error.
 
-        Example:
-            >>>  from modules.whatsapp import WhatsApp
-            >>> whatsapp = WhatsApp(token, phone_number_id)
-            >>> mobile = whatsapp.get_mobile(data)
-        """
-        data = self.preprocess(data)
-        if "contacts" in data:
-            return data["contacts"][0]["wa_id"]
+            Example:
+                >>>  from modules.whatsapp import WhatsApp
+                >>> whatsapp = WhatsApp()
+                >>> whatsapp.util.download_media("https://example.com/media_url", "image/jpeg")
+                >>> whatsapp.util.download_media("https://example.com/media_url", "video/mp4", "path/to/file") #do not include the file extension
+            """
 
-    def get_name(self, data: Dict[Any, Any]) -> Union[str, None]:
-        """
-        Extracts the name of the sender from the data received from the webhook.
+            from random import randint
 
-        Args:
-            data[dict]: The data received from the webhook
-        Returns:
-            str: The name of the sender
-        Example:
-            >>>  from modules.whatsapp import WhatsApp
-            >>> whatsapp = WhatsApp(token, phone_number_id)
-            >>> mobile = whatsapp.get_name(data)
-        """
-        contact = self.preprocess(data)
-        if contact:
-            return contact["contacts"][0]["profile"]["name"]
+            extension = mime_type.split("/")[1].split(";")[0].strip()
+            save_file_here = f"{file_path}.{extension}" if file_path is not None else f"pywce-media-temp-{randint(11, 999999)}.{extension}"
 
-    def get_message(self, data: Dict[Any, Any]) -> Union[str, None]:
-        """
-        Extracts the text message of the sender from the data received from the webhook.
+            try:
+                async with httpx.AsyncClient() as client:
+                    response = await client.get(media_url)
 
-        Args:
-            data[dict]: The data received from the webhook
-        Returns:
-            str: The text message received from the sender
-        Example:
-            >>>  from modules.whatsapp import WhatsApp
-            >>> whatsapp = WhatsApp(token, phone_number_id)
-            >>> message = message.get_message(data)
-        """
-        data = self.preprocess(data)
-        if "messages" in data:
-            return data["messages"][0]["text"]["body"]
-
-    def get_message_id(self, data: Dict[Any, Any]) -> Union[str, None]:
-        """
-        Extracts the message id of the sender from the data received from the webhook.
-
-        Args:
-            data[dict]: The data received from the webhook
-        Returns:
-            str: The message id of the sender
-        Example:
-            >>>  from modules.whatsapp import WhatsApp
-            >>> whatsapp = WhatsApp(token, phone_number_id)
-            >>> message_id = whatsapp.get_message_id(data)
-        """
-        data = self.preprocess(data)
-        if "messages" in data:
-            return data["messages"][0]["id"]
-
-    def get_message_timestamp(self, data: Dict[Any, Any]) -> Union[str, None]:
-        """ "
-        Extracts the timestamp of the message from the data received from the webhook.
-
-        Args:
-            data[dict]: The data received from the webhook
-        Returns:
-            str: The timestamp of the message
-        Example:
-            >>>  from modules.whatsapp import WhatsApp
-            >>> whatsapp = WhatsApp(token, phone_number_id)
-            >>> whatsapp.get_message_timestamp(data)
-        """
-        data = self.preprocess(data)
-        if "messages" in data:
-            return data["messages"][0]["timestamp"]
-
-    def get_interactive_response(self, data: Dict[Any, Any]) -> Union[Dict, None]:
-        """
-         Extracts the response of the interactive message from the data received from the webhook.
-
-         Args:
-            data[dict]: The data received from the webhook
-        Returns:
-            dict: The response of the interactive message
-
-        Example:
-            >>>  from modules.whatsapp import WhatsApp
-            >>> whatsapp = WhatsApp(token, phone_number_id)
-            >>> response = whatsapp.get_interactive_response(data)
-            >>> interactive_type = response.get("type")
-            >>> message_id = response[interactive_type]["id"]
-            >>> message_text = response[interactive_type]["title"]
-        """
-        data = self.preprocess(data)
-        if "messages" in data:
-            if "interactive" in data["messages"][0]:
-                return data["messages"][0]["interactive"]
-
-    def get_location(self, data: Dict[Any, Any]) -> Union[Dict, None]:
-        """
-        Extracts the location of the sender from the data received from the webhook.
-
-        Args:
-            data[dict]: The data received from the webhook
-
-        Returns:
-            dict: The location of the sender
-
-        Example:
-            >>>  from modules.whatsapp import WhatsApp
-            >>> whatsapp = WhatsApp(token, phone_number_id)
-            >>> whatsapp.get_location(data)
-        """
-        data = self.preprocess(data)
-        if "messages" in data:
-            if "location" in data["messages"][0]:
-                return data["messages"][0]["location"]
-
-    def get_image(self, data: Dict[Any, Any]) -> Union[Dict, None]:
-        """ "
-        Extracts the image of the sender from the data received from the webhook.
-
-        Args:
-            data[dict]: The data received from the webhook
-        Returns:
-            dict: The image_id of an image sent by the sender
-
-        Example:
-            >>>  from modules.whatsapp import WhatsApp
-            >>> whatsapp = WhatsApp(token, phone_number_id)
-            >>> image_id = whatsapp.get_image(data)
-        """
-        data = self.preprocess(data)
-        if "messages" in data:
-            if "image" in data["messages"][0]:
-                return data["messages"][0]["image"]
-
-    def get_document(self, data: Dict[Any, Any]) -> Union[Dict, None]:
-        """ "
-        Extracts the document of the sender from the data received from the webhook.
-
-        Args:
-            data[dict]: The data received from the webhook
-        Returns:
-            dict: The document_id of an image sent by the sender
-
-        Example:
-            >>>  from modules.whatsapp import WhatsApp
-            >>> whatsapp = WhatsApp(token, phone_number_id)
-            >>> document_id = whatsapp.get_document(data)
-        """
-        data = self.preprocess(data)
-        if "messages" in data:
-            if "document" in data["messages"][0]:
-                return data["messages"][0]["document"]
-
-    def get_audio(self, data: Dict[Any, Any]) -> Union[Dict, None]:
-        """
-        Extracts the audio of the sender from the data received from the webhook.
-
-        Args:
-            data[dict]: The data received from the webhook
-
-        Returns:
-            dict: The audio of the sender
-
-        Example:
-            >>>  from modules.whatsapp import WhatsApp
-            >>> whatsapp = WhatsApp(token, phone_number_id)
-            >>> whatsapp.get_audio(data)
-        """
-        data = self.preprocess(data)
-        if "messages" in data:
-            if "audio" in data["messages"][0]:
-                return data["messages"][0]["audio"]
-
-    def get_video(self, data: Dict[Any, Any]) -> Union[Dict, None]:
-        """
-        Extracts the video of the sender from the data received from the webhook.
-
-        Args:
-            data[dict]: The data received from the webhook
-
-        Returns:
-            dict: Dictionary containing the video details sent by the sender
-
-        Example:
-            >>>  from modules.whatsapp import WhatsApp
-            >>> whatsapp = WhatsApp(token, phone_number_id)
-            >>> whatsapp.get_video(data)
-        """
-        data = self.preprocess(data)
-        if "messages" in data:
-            if "video" in data["messages"][0]:
-                return data["messages"][0]["video"]
-
-    def get_message_type(self, data: Dict[Any, Any]) -> Union[str, None]:
-        """
-        Gets the type of the message sent by the sender from the data received from the webhook.
-
-
-        Args:
-            data [dict]: The data received from the webhook
-
-        Returns:
-            str: The type of the message sent by the sender
-
-        Example:
-            >>>  from modules.whatsapp import WhatsApp
-            >>> whatsapp = WhatsApp(token, phone_number_id)
-            >>> whatsapp.get_message_type(data)
-        """
-        data = self.preprocess(data)
-        if "messages" in data:
-            return data["messages"][0]["type"]
-
-    def get_delivery(self, data: Dict[Any, Any]) -> Union[Dict, None]:
-        """
-        Extracts the delivery status of the message from the data received from the webhook.
-        Args:
-            data [dict]: The data received from the webhook
-
-        Returns:
-            dict: The delivery status of the message and message id of the message
-        """
-        data = self.preprocess(data)
-        if "statuses" in data:
-            return data["statuses"][0]["status"]
-
-    def changed_field(self, data: Dict[Any, Any]) -> str:
-        """
-        Helper function to check if the field changed in the data received from the webhook.
-
-        Args:
-            data [dict]: The data received from the webhook
-
-        Returns:
-            str: The field changed in the data received from the webhook
-
-        Example:
-            >>>  from modules.whatsapp import WhatsApp
-            >>> whatsapp = WhatsApp(token, phone_number_id)
-            >>> whatsapp.changed_field(data)
-        """
-        return data["entry"][0]["changes"][0]["field"]
+                if response.status_code == 200:
+                    # Ensure the directory exists
+                    os.makedirs(os.path.dirname(save_file_here), exist_ok=True)
+                    with open(save_file_here, "wb") as f:
+                        f.write(response.content)
+                    self.logger.info(f"Media downloaded to {save_file_here}")
+                    return save_file_here
+                else:
+                    self.logger.error(f"Failed to download media. Status code: {response.status_code}")
+                    return None
+            except Exception as e:
+                self.logger.error(f"Error downloading media to {save_file_here}: {str(e)}")
+                return None
