@@ -1,15 +1,30 @@
 from typing import Dict, Any
 
+from modules.whatsapp import WaUser
 
 class WhatsAppPayloadGenerator:
     """
         Generates whatsapp api payload from given engine template
+
+        template: {
+            "stage_name": {.. stage_data ..}
+        }
+        ```
     """
 
-    def __init__(self, template: Dict[str, Any]):
+    def __init__(self, template: Dict[str, Any], user: WaUser) -> None:
         self.template = template
+        self.user = user
 
-    def button(self, button: Dict[Any, Any]) -> Dict[Any, Any]:
+    def text(self) -> Dict[str, Any]:
+        data = {
+            "recipient_id": self.user.wa_id,
+            "message": self.template.get("message")
+        }
+
+        return data
+
+    def button(self) -> Dict[Any, Any]:
         """
         Method to create a button object to be used in the send_message method.
 

@@ -36,14 +36,24 @@ class WhatsApp:
 
         self.headers = {
             "Content-Type": "application/json",
-            "Authorization": "Bearer {}".format(self.config.token)
+            "Authorization": f"Bearer {self.config.token}"
         }
 
         self.logger = get_engine_logger(__name__)
-
         self.util = self.Utils(self)
 
     async def __send_request__(self, message_type: str, recipient_id: str, data: Dict[str, Any]):
+        """
+        Send a request to the official WhatsApp API
+
+        TODO: handle whatsapp known response errors.
+
+        :param message_type:
+        :param recipient_id:
+        :param data:
+        :return:
+        """
+
         self.logger.info(f"Sending {message_type} to {recipient_id}")
 
         async with httpx.AsyncClient() as client:
@@ -183,11 +193,17 @@ class WhatsApp:
 
         return await self.__send_request__(message_type='Location', recipient_id=recipient_id, data=data)
 
-    async def send_media(self, recipient_id: str, media: str, media_type: MessageTypeEnum, recipient_type="individual",
-                         link: bool = False,
-                         caption: str = None,
-                         filename: str = None,
-                         message_id: str = None):
+    async def send_media(
+            self,
+            recipient_id: str,
+            media: str,
+            media_type: MessageTypeEnum,
+            recipient_type="individual",
+            link: bool = False,
+            caption: str = None,
+            filename: str = None,
+            message_id: str = None
+    ):
         """
         Asynchronously send media message to a WhatsApp user.
 
@@ -221,17 +237,17 @@ class WhatsApp:
                 data[media_type.name.lower()] = {"link": media} if link else {"id": media}
 
             case MessageTypeEnum.VIDEO:
-                data[media_type.name.lower()] = {"link": media, "caption": caption} if link else {"id": media,
-                                                                                                  "caption": caption}
+                data[media_type.name.lower()] = {"link": media, "caption": caption} if link \
+                    else {"id": media, "caption": caption}
+
             case MessageTypeEnum.DOCUMENT:
-                data[media_type.name.lower()] = {"link": media, "caption": caption, "filename": filename} if link else {
-                    "id": media,
-                    "caption": caption}
+                data[media_type.name.lower()] = {"link": media, "caption": caption, "filename": filename} if link \
+                    else {"id": media, "caption": caption}
 
             case MessageTypeEnum.IMAGE:
                 data["recipient_type"] = recipient_type
-                data[MessageTypeEnum.IMAGE.name.lower()] = {"link": media, "caption": caption} if link else {
-                    "id": media, "caption": caption}
+                data[MessageTypeEnum.IMAGE.name.lower()] = {"link": media, "caption": caption} if link \
+                    else {"id": media, "caption": caption}
 
             case _:
                 raise TypeError(f"Unknown media message type {media_type.name}")
@@ -264,7 +280,7 @@ class WhatsApp:
                     }],
                 ...
                 }]
-            >>> whatsapp.send_contacts(contacts, "5511999999999")
+            >>> whatsapp.send_contacts("5511999999999", contacts)
 
         REFERENCE:
         https://developers.facebook.com/docs/whatsapp/cloud-api/reference/messages#contacts-object
@@ -305,16 +321,13 @@ class WhatsApp:
 
         return await self.__send_request__(message_type='MarkAsRead', recipient_id=message_id, data=data)
 
-    async def send_interactive(self, recipient_id: str, payload: Dict[Any, Any], message_id: str = None) -> Dict[
-        Any, Any]:
+    async def send_interactive(self, recipient_id: str, payload: Dict[Any, Any], message_id: str = None):
         """
         Asynchronously sends an interactive message to a WhatsApp user.
 
         Args:
             payload (dict): A dictionary containing the interactive type payload.
             recipient_id (str): Phone number of the user with country code without +.
-
-        Check https://github.com/Neurotech-HQ/heyoo#sending-interactive-reply-buttons for an example.
         """
         data = {
             "messaging_product": "whatsapp",
@@ -332,6 +345,7 @@ class WhatsApp:
         """
             Utility class for WhatsApp utility methods
         """
+        __HUB_SIGNATURE_HEADER_KEY__ = "x-hub-signature-256"
 
         def __init__(self, parent) -> None:
             self.parent = parent
@@ -354,11 +368,22 @@ class WhatsApp:
             processed_data = self.__pre_process__(webhook_data)
             return "messages" in processed_data
 
-        def is_valid_response(self, recipient_id: str, response_data: Dict[str, Any]) -> bool:
-            """
-            check if the response after sending to whatsapp is a valid 1
-            """
+        def verify_webhook_verification_challenge(self, mode: str, challenge: str, token: str) -> Union[str, None]:
+            if mode == "subscribe" and token == self.parent.config.hub_verification_token:
+                return challenge
+            return None
 
+        def verify_webhook_payload(self, webhook_payload: Dict, webhook_headers: Dict) -> bool:
+            # TODO: perform request header hub signature verification
+            if self.__HUB_SIGNATURE_HEADER_KEY__ not in webhook_headers:
+                raise Exception("Unsecure webhook payload received")
+
+            return True
+
+        def is_request_successful(self, recipient_id: str, response_data: Dict[str, Any]) -> bool:
+            """
+            check if the response after sending to whatsapp is valid
+            """
             is_whatsapp = response_data.get("messaging_product") == "whatsapp"
             is_same_recipient = recipient_id == response_data.get("contacts")[0].get("wa_id")
             has_msg_id = response_data.get("messages")[0].get("id").startswith("wamid.")

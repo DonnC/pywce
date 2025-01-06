@@ -5,8 +5,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e700a6d4-f3fd-4ca6-8806-bc5eb9b6e49c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/utils/whatsapp_payload_generator.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/pychatbot/main.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/modules/session/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/modules/session/impl/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/sample/template.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/constants/template.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/constants/template_type.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/modules/session/test_default_session_impl.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/engine_logger.py" beforeDir="false" afterPath="$PROJECT_DIR$/engine_logger.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/modules/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/pysession/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/.env.sample" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/pysession/isession_manager.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/pysession/session_impl/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/pychatbot/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/pysession/session_impl/default_session_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/modules/session/impl/default_session_manager.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modules/whatsapp/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/modules/whatsapp/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/whatsapp/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/modules/whatsapp/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/constants/engine.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/engine.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/whatsapp_payload_generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/whatsapp_payload_generator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_v.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,6 +56,9 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;Python tests.Python tests for test_default_session_impl.TestDefaultSessionManager.test_save.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in test_default_session_impl.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in tests.executor&quot;: &quot;Run&quot;,
     &quot;Python.test_v.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
@@ -52,10 +74,68 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\resources" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\modules\whatsapp\model" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\modules" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce" />
     </key>
+  </component>
+  <component name="RunManager" selected="Python tests.Python tests for test_default_session_impl.TestDefaultSessionManager.test_save">
+    <configuration name="Python tests for test_default_session_impl.TestDefaultSessionManager.test_save" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="pywce" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/modules/session" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_default_session_impl.TestDefaultSessionManager.test_save&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests in test_default_session_impl.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="pywce" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/modules/session" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/tests/modules/session/test_default_session_impl.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests in tests" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="pywce" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/tests&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python tests.Python tests for test_default_session_impl.TestDefaultSessionManager.test_save" />
+        <item itemvalue="Python tests.Python tests in tests" />
+        <item itemvalue="Python tests.Python tests in test_default_session_impl.py" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -76,7 +156,9 @@
       <workItem from="1736011131895" duration="2690000" />
       <workItem from="1736017722741" duration="5700000" />
       <workItem from="1736091333100" duration="5044000" />
-      <workItem from="1736156186420" duration="15905000" />
+      <workItem from="1736156186420" duration="16132000" />
+      <workItem from="1736181928989" duration="2935000" />
+      <workItem from="1736187982173" duration="3323000" />
     </task>
     <servers />
   </component>
@@ -84,6 +166,7 @@
     <option name="version" value="3" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/pywce$.coverage" NAME=" Coverage Results" MODIFIED="1736184643330" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/modules/session" />
     <SUITE FILE_PATH="coverage/pywce$test_v.coverage" NAME="test_v Coverage Results" MODIFIED="1736092146828" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

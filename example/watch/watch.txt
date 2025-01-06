@@ -1,0 +1,7 @@
+This is a watcher file
+Any update to this file will trigger bot templates reload
+You may use this to keep track of template changes
+And update templates changes on the fly
+
+## Changelog
+- Initial changelog

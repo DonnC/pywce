@@ -2,7 +2,7 @@ import threading
 from typing import Any, Dict, Type, List
 
 from engine_logger import get_engine_logger
-from modules.pysession.isession_manager import ISessionManager, T
+from modules.session import ISessionManager, T
 
 
 class DefaultSessionManager(ISessionManager):
@@ -13,6 +13,7 @@ class DefaultSessionManager(ISessionManager):
 
         Uses a thread-safe approach using threading.Lock() with context for safety
     """
+
     def __init__(self):
         self.global_session: Dict[str, Any] = {}
         self.sessions: Dict[str, Dict[str, Any]] = {}
@@ -64,7 +65,7 @@ class DefaultSessionManager(ISessionManager):
         with self.lock:
             self.sessions.get(session_id).pop(key)
 
-    def save_all(self, session_id:str, data: Dict[str, Any]) -> None:
+    def save_all(self, session_id: str, data: Dict[str, Any]) -> None:
         for k, v in data.items():
             self.save(session_id, k, v)
 
