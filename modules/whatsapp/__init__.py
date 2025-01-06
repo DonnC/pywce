@@ -183,54 +183,19 @@ class WhatsApp:
 
         return await self.__send_request__(message_type='Location', recipient_id=recipient_id, data=data)
 
-    async def send_image(
-            self,
-            recipient_id: str,
-            image: str,
-            recipient_type: str = "individual",
-            caption: str = None,
-            link: bool = True,
-            message_id: str = None
-    ):
+    async def send_media(self, recipient_id: str, media: str, media_type: MessageTypeEnum, recipient_type="individual",
+                         link: bool = False,
+                         caption: str = None,
+                         filename: str = None,
+                         message_id: str = None):
         """
-        Asynchronously sends an image message to a WhatsApp user. The image can be sent by specifying either
-        an image ID or a link to the image.
+        Asynchronously send media message to a WhatsApp user.
+
+        There are two ways to send media message to a user, either by passing the media id or by passing the media link.
+        Media id is the id of the media uploaded to the cloud API.
 
         Args:
-            image (str): Image ID or link to the image.
-            recipient_id (str): Phone number of the user with country code without +.
-            recipient_type (str): Type of the recipient, either individual or group.
-            caption (str, optional): Caption for the image.
-            link (bool): True if sending by image ID, False if sending by image link.
-
-        Example:
-            >>>  from modules.whatsapp import WhatsApp
-            >>> whatsapp = WhatsApp('token', 'phone_number_id')
-            >>> whatsapp.send_image("https://i.imgur.com/Fh7XVYY.jpeg", "5511999999999")
-        """
-        data = {
-            "messaging_product": "whatsapp",
-            "recipient_type": recipient_type,
-            "to": recipient_id,
-            "type": "image",
-            "image": {"link": image, "caption": caption} if link else {"id": image, "caption": caption}
-        }
-
-        if message_id is not None:
-            data["context"] = {"message_id": message_id}
-
-        return await self.__send_request__(message_type='Image', recipient_id=recipient_id, data=data)
-
-    async def send_sticker(self, recipient_id: str, sticker: str, recipient_type="individual", link: bool = True,
-                           message_id: str = None):
-        """
-        Asynchronously sends a sticker message to a WhatsApp user.
-
-        There are two ways to send a sticker message to a user, either by passing the sticker id or by passing the sticker link.
-        Sticker id is the id of the sticker uploaded to the cloud API.
-
-        Args:
-            sticker (str): Sticker id or link of the sticker.
+            media (str): media id or link of the sticker.
             recipient_id (str): Phone number of the user with country code without +.
             recipient_type (str): Type of the recipient, either individual or group.
             link (bool): Whether to send a sticker id or a sticker link, True means that the sticker is an id, False means the sticker is a link.
@@ -238,104 +203,43 @@ class WhatsApp:
         Example:
             >>>  from modules.whatsapp import WhatsApp
             >>> whatsapp = WhatsApp('token', 'phone_number_id')
-            >>> whatsapp.send_sticker("https://link_to_sticker_image.png", "5511999999999", link=True)
+            >>> whatsapp.send_media("https://link_to_sticker_image.png", "5511999999999", link=True)
         """
+
         data = {
             "messaging_product": "whatsapp",
-            "recipient_type": recipient_type,
             "to": recipient_id,
-            "type": "sticker",
-            "sticker": {"link": sticker} if link else {"id": sticker},
+            "type": media_type.name.lower()
         }
+
+        match media_type:
+            case MessageTypeEnum.STICKER:
+                data["recipient_type"] = recipient_type
+                data[media_type.name.lower()] = {"link": media} if link else {"id": media}
+
+            case MessageTypeEnum.AUDIO:
+                data[media_type.name.lower()] = {"link": media} if link else {"id": media}
+
+            case MessageTypeEnum.VIDEO:
+                data[media_type.name.lower()] = {"link": media, "caption": caption} if link else {"id": media,
+                                                                                                  "caption": caption}
+            case MessageTypeEnum.DOCUMENT:
+                data[media_type.name.lower()] = {"link": media, "caption": caption, "filename": filename} if link else {
+                    "id": media,
+                    "caption": caption}
+
+            case MessageTypeEnum.IMAGE:
+                data["recipient_type"] = recipient_type
+                data[MessageTypeEnum.IMAGE.name.lower()] = {"link": media, "caption": caption} if link else {
+                    "id": media, "caption": caption}
+
+            case _:
+                raise TypeError(f"Unknown media message type {media_type.name}")
 
         if message_id is not None:
             data["context"] = {"message_id": message_id}
 
-        return await self.__send_request__(message_type='Sticker', recipient_id=recipient_id, data=data)
-
-    async def send_audio(self, recipient_id: str, audio: str, link=True, message_id: str = None):
-        """
-        Asynchronously sends an audio message to a WhatsApp user. Audio messages can be sent by either passing the audio ID or by passing the audio link.
-
-        Args:
-            audio (str): Audio ID or link of the audio.
-            recipient_id (str): Phone number of the user with country code without +.
-            link (bool): Whether to send an audio ID or an audio link, True means that the audio is an ID, False means that the audio is a link.
-
-        Example:
-            >>>  from modules.whatsapp import WhatsApp
-            >>> whatsapp = WhatsApp()
-            >>> whatsapp.send_audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", "5511999999999")
-        """
-        data = {
-            "messaging_product": "whatsapp",
-            "to": recipient_id,
-            "type": "audio",
-            "audio": {"link": audio} if link else {"id": audio},
-        }
-
-        if message_id is not None:
-            data["context"] = {"message_id": message_id}
-
-        return await self.__send_request__(message_type='Audio', recipient_id=recipient_id, data=data)
-
-    async def send_video(self, recipient_id: str, video: str, caption: str = None, link: bool = True,
-                         message_id: str = None):
-        """
-        Asynchronously sends a video message to a WhatsApp user. Video messages can either be sent by passing the video ID or by passing the video link.
-
-        Args:
-            video (str): Video ID or link of the video.
-            recipient_id (str): Phone number of the user with country code without +.
-            caption (str, optional): Caption of the video.
-            link (bool): Whether to send a video ID or a video link, True means that the video is an ID, False means that the video is a link.
-
-        Example:
-            >>>  from modules.whatsapp import WhatsApp
-            >>> whatsapp = WhatsApp()
-            >>> whatsapp.send_video("https://www.youtube.com/watch?v=dQw4w9WgXcQ", "5511999999999")
-        """
-        data = {
-            "messaging_product": "whatsapp",
-            "to": recipient_id,
-            "type": "video",
-            "video": {"link": video, "caption": caption} if link else {"id": video, "caption": caption},
-        }
-
-        if message_id is not None:
-            data["context"] = {"message_id": message_id}
-
-        return await self.__send_request__(message_type='Video', recipient_id=recipient_id, data=data)
-
-    async def send_document(self, recipient_id: str, document: str, caption: str = None, link: bool = True,
-                            filename: str = None, message_id: str = None):
-        """
-        Asynchronously sends a document message to a WhatsApp user. Documents can either be sent by passing the document ID or by passing the document link.
-
-        Args:
-            document (str): Document ID or link of the document.
-            recipient_id (str): Phone number of the user with country code without +.
-            caption (str, optional): Caption of the document.
-            link (bool): Whether to send a document ID or a document link, True means the document is an ID, False means the document is a link.
-            filename (str, optional): Name of the file if sending by link.
-
-        Example:
-            >>>  from modules.whatsapp import WhatsApp
-            >>> whatsapp = WhatsApp()
-            >>> whatsapp.send_document("https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf", "5511999999999")
-        """
-        data = {
-            "messaging_product": "whatsapp",
-            "to": recipient_id,
-            "type": "document",
-            "document": {"link": document, "caption": caption, "filename": filename} if link
-            else {"id": document, "caption": caption}
-        }
-
-        if message_id is not None:
-            data["context"] = {"message_id": message_id}
-
-        return await self.__send_request__(message_type='Document', recipient_id=recipient_id, data=data)
+        return await self.__send_request__(message_type=media_type.name.title(), recipient_id=recipient_id, data=data)
 
     async def send_contacts(self, recipient_id: str, contacts: List[Dict[Any, Any]], message_id: str = None):
         """
@@ -396,35 +300,18 @@ class WhatsApp:
         data = {
             "messaging_product": "whatsapp",
             "status": "read",
-            "message_id": message_id,
+            "message_id": message_id
         }
 
         return await self.__send_request__(message_type='MarkAsRead', recipient_id=message_id, data=data)
 
-    def __create_button__(self, button: Dict[Any, Any]) -> Dict[Any, Any]:
+    async def send_interactive(self, recipient_id: str, payload: Dict[Any, Any], message_id: str = None) -> Dict[
+        Any, Any]:
         """
-        Method to create a button object to be used in the send_message method.
-
-        This is method is designed to only be used internally by the send_button method.
+        Asynchronously sends an interactive message to a WhatsApp user.
 
         Args:
-               button[dict]: A dictionary containing the button data
-        """
-        data = {"type": "list", "action": button.get("action")}
-        if button.get("header"):
-            data["header"] = {"type": "text", "text": button.get("header")}
-        if button.get("body"):
-            data["body"] = {"text": button.get("body")}
-        if button.get("footer"):
-            data["footer"] = {"text": button.get("footer")}
-        return data
-
-    async def send_button(self, recipient_id: str, button: Dict[Any, Any]) -> Dict[Any, Any]:
-        """
-        Asynchronously sends an interactive buttons message to a WhatsApp user.
-
-        Args:
-            button (dict): A dictionary containing the button data (rows-title may not exceed 20 characters).
+            payload (dict): A dictionary containing the interactive type payload.
             recipient_id (str): Phone number of the user with country code without +.
 
         Check https://github.com/Neurotech-HQ/heyoo#sending-interactive-reply-buttons for an example.
@@ -433,20 +320,13 @@ class WhatsApp:
             "messaging_product": "whatsapp",
             "to": recipient_id,
             "type": "interactive",
-            "interactive": self.__create_button__(button),
+            "interactive": payload
         }
 
-        self.logger.info(f"Sending buttons to {recipient_id}")
-        async with httpx.AsyncClient() as client:
-            response = await client.post(self.url, headers=self.headers, json=data)
+        if message_id is not None:
+            data["context"] = {"message_id": message_id}
 
-        if response.status_code == 200:
-            self.logger.info(f"Buttons sent to {recipient_id}")
-            return response.json()
-        else:
-            self.logger.info(f"Buttons not sent to {recipient_id}: {response.status_code}")
-            self.logger.error(f"Response: {response.text}")
-            return response.json()
+        return await self.__send_request__(message_type='Interactive', recipient_id=recipient_id, data=data)
 
     class Utils:
         """
