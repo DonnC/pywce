@@ -1,3 +1,4 @@
 python-dotenv~=1.0.1
 httpx~=0.28.1
+ruamel.yaml~=0.18.10
 requests-toolbelt~=1.0.0
