@@ -4,10 +4,10 @@ from dataclasses import dataclass
 @dataclass(frozen=True)
 class TemplateConstants:
     TEMPLATE_TYPE = "type"
-    REST_HOOK_PLACEHOLDER = "rest:"
-    TRIGGER_ROUTE_PARAM = "trigger-route"
     CHECKPOINT = "checkpoint"
     READ_RECEIPT = "ack"
+
+    # boolean: If true or set, skip session processing. Treat it like a quick message, once-off
     SESSION = "session"
     PROP = "prop"
     AUTHENTICATED = "authenticated"
@@ -20,7 +20,7 @@ class TemplateConstants:
     DYNAMIC_ROUTER = "router"
     MIDDLEWARE = "middleware"
     TEMPLATE = "template"
-    METHOD_PARAMS = "params"
+    PARAMS = "params"
 
    # inner template keys
     MESSAGE = "message"
@@ -32,3 +32,4 @@ class TemplateConstants:
     MESSAGE_MEDIA_FILENAME = "filename"
     MESSAGE_BUTTONS = "buttons"
     MESSAGE_SECTIONS = "sections"
+

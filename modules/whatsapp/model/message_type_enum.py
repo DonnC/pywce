@@ -20,3 +20,6 @@ class MessageTypeEnum(Enum):
     INTERACTIVE_LIST = 15
     INTERACTIVE_FLOW = 16
     INTERACTIVE_BUTTON = 17
+
+    # others
+    MEDIA=18

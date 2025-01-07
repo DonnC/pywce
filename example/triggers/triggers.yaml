@@ -7,3 +7,7 @@
 
 # for reporting
 "REPORT": "re:^report$"
+
+400:
+  session: true
+  id: 23
