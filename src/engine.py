@@ -58,12 +58,16 @@ class PywceEngine:
                 self.logger.warning("Invalid webhook message, skipping..")
                 return
 
-            Worker(job=WorkerJob(
+            worker = Worker(job=WorkerJob(
                 engine_config=self.config,
                 payload=self.whatsapp.util.get_response_structure(webhook_data),
+                user=self.whatsapp.util.get_wa_user(webhook_data),
                 templates=self.__TEMPLATES__,
                 triggers=self.__TRIGGERS__)
             )
+
+            # process current webhook request
+            worker.work()
 
         else:
             self.logger.warning("Webhook payload is invalid")
