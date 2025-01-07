@@ -1,5 +1,5 @@
-import time
 from datetime import datetime
+from time import time
 from typing import List
 
 from engine_logger import get_engine_logger
@@ -7,7 +7,9 @@ from modules.session import ISessionManager
 from modules.whatsapp import MessageTypeEnum
 from src.constants.engine import EngineConstants
 from src.constants.session import SessionConstants
+from src.exceptions import TemplateRenderException
 from src.models import WorkerJob
+from src.services.message_processor import MessageProcessor
 
 
 class Worker:
@@ -50,6 +52,11 @@ class Worker:
         time_difference = abs((current_time - webhook_time).total_seconds())
         return time_difference > self.job.engine_config.webhook_timestamp_threshold_s
 
+    def __processor__(self):
+        processor = MessageProcessor(data=self.job)
+        processor.setup()
+        pass
+
     def work(self):
         """
         Handles every webhook request
@@ -71,7 +78,7 @@ class Worker:
                 return
 
         last_debounce_timestamp = self.session.get(session_id=self.session_id, key=SessionConstants.CURRENT_DEBOUNCE)
-        current_time = int(time.time() * 1000)
+        current_time = int(time() * 1000)
 
         if last_debounce_timestamp is None or current_time - last_debounce_timestamp >= self.job.engine_config.debounce_timeout_ms:
             self.session.save(session_id=self.session_id, key=SessionConstants.CURRENT_DEBOUNCE, data=current_time)
@@ -82,3 +89,14 @@ class Worker:
 
         if self.job.engine_config.handle_session_queue:
             self.__append_message_to_queue__()
+
+        try:
+            self.__processor__()
+            self.session.save(session_id=self.session_id, key=SessionConstants.CURRENT_MSG_ID, data=self.user.msg_id)
+
+        except TemplateRenderException as e:
+            self.logger.error("Failed to render template: " + e.message)
+            # TODO: generate and send a button message
+            #       message: Failed to process your message
+            #       buttons: [Retry, Report]
+            return

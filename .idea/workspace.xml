@@ -5,12 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e700a6d4-f3fd-4ca6-8806-bc5eb9b6e49c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/constants/session.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/exceptions/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/services/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/services/message_processor.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utils/engine_util.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/engine.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/engine.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/worker.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/worker.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/exceptions/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/exceptions/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/worker.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/worker.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,13 +63,14 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\src\services" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\resources" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\modules\whatsapp\model" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\modules" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Python tests for test_default_session_impl.TestDefaultSessionManager.test_save">
+  <component name="RunManager">
     <configuration name="Python tests for test_default_session_impl.TestDefaultSessionManager.test_save" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="pywce" />
       <option name="ENV_FILES" value="" />
@@ -147,7 +151,7 @@
       <workItem from="1736187982173" duration="3400000" />
       <workItem from="1736192380262" duration="715000" />
       <workItem from="1736231445546" duration="9420000" />
-      <workItem from="1736243332101" duration="7842000" />
+      <workItem from="1736243332101" duration="15998000" />
     </task>
     <servers />
   </component>
@@ -155,8 +159,8 @@
     <option name="version" value="3" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/pywce$main.coverage" NAME="main Coverage Results" MODIFIED="1736241031772" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/example" />
-    <SUITE FILE_PATH="coverage/pywce$.coverage" NAME=" Coverage Results" MODIFIED="1736184643330" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/modules/session" />
+    <SUITE FILE_PATH="coverage/pywce$main.coverage" NAME="main Coverage Results" MODIFIED="1736258301252" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/example" />
+    <SUITE FILE_PATH="coverage/pywce$.coverage" NAME=" Coverage Results" MODIFIED="1736258292096" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/modules/session" />
     <SUITE FILE_PATH="coverage/pywce$test_v.coverage" NAME="test_v Coverage Results" MODIFIED="1736092146828" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

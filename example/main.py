@@ -36,6 +36,6 @@ def load_yaml_files(directory_path):
 
 
 # Usage
-directory = "templates"  # Replace with your directory path
+directory = "triggers"  # Replace with your directory path
 merged_templates = load_yaml_files(directory)
 print(merged_templates)

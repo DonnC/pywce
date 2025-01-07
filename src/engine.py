@@ -6,7 +6,7 @@ import ruamel.yaml
 from engine_logger import get_engine_logger
 from modules.whatsapp import WhatsApp
 from src.models import PywceEngineConfig, WorkerJob
-from src.worker import Worker
+from src.services.worker import Worker
 
 class PywceEngine:
     __TEMPLATES__: Dict = {}
