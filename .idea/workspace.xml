@@ -5,13 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e700a6d4-f3fd-4ca6-8806-bc5eb9b6e49c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/services/hook_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/triggers/triggers.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/triggers/triggers.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/whatsapp/model/message_type_enum.py" beforeDir="false" afterPath="$PROJECT_DIR$/modules/whatsapp/model/message_type_enum.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/whatsapp/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/modules/whatsapp/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/constants/engine.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/engine.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/constants/session.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/session.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/constants/template.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/template.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/hook_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/hook_service.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/services/message_processor.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/message_processor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/worker.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/worker.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/engine_util.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/engine_util.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/whatsapp_payload_generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/whatsapp_payload_generator.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -151,6 +155,7 @@
       <workItem from="1736231445546" duration="9420000" />
       <workItem from="1736243332101" duration="15998000" />
       <workItem from="1736264763270" duration="5454000" />
+      <workItem from="1736328857723" duration="13622000" />
     </task>
     <servers />
   </component>

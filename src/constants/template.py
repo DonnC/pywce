@@ -15,7 +15,7 @@ class TemplateConstants:
     REPLY_MESSAGE_ID = "message-id"
     ON_GENERATE = "on-generate"
     VALIDATOR = "validator"
-    ROUTE_TRANSIENT = "transient"
+    TRANSIENT = "transient"
     ROUTES = "routes"
     DYNAMIC_ROUTER = "router"
     MIDDLEWARE = "middleware"

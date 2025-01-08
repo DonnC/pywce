@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Dict, Any
 
 from modules.session import ISessionManager
@@ -58,7 +58,7 @@ class HookArg:
         user_input: the raw user input, usually a str if message was a button / text
     """
     user: WaUser
-    params: Dict[str, Any] = None
+    params: Dict[str, Any] = field(default_factory=dict)
     template_body: TemplateDynamicBody = None
     from_trigger: bool = False
     user_input: str = None

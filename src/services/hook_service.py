@@ -12,6 +12,6 @@ class HookService:
     """
 
     @staticmethod
-    def process_hook(hook_name: str, hook_arg: HookArg):
+    def process_hook(hook_name: str, hook_arg: HookArg) -> HookArg:
         # TODO: implement process hook
-        pass
+        return hook_arg

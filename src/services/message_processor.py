@@ -1,8 +1,9 @@
-from typing import Dict, Tuple, Any
+from typing import Dict, Tuple, Any, Union
 
 from engine_logger import get_engine_logger
 from modules.session import ISessionManager
 from modules.whatsapp import MessageTypeEnum
+from src.constants.engine import EngineConstants
 from src.constants.session import SessionConstants
 from src.constants.template import TemplateConstants
 from src.exceptions import EngineInternalException, EngineResponseException
@@ -133,13 +134,13 @@ class MessageProcessor:
             self.session.save(session_id=self.session_id, key=SessionConstants.LATEST_CHECKPOINT,
                               data=self.CURRENT_STAGE)
 
-    def __check_template_params__(self, template: Dict[str, Any] = None) -> None:
+    def __check_template_params__(self, template: Dict = None) -> None:
         tpl = self.CURRENT_TEMPLATE if template is None else template
 
         self.HOOK_ARG.from_trigger = self.IS_FROM_TRIGGER
 
         if TemplateConstants.PARAMS in tpl:
-            self.HOOK_ARG.params = tpl.get(TemplateConstants.PARAMS)
+            self.HOOK_ARG.params.update(tpl.get(TemplateConstants.PARAMS))
 
     def __process_hook__(self, stage_key: str) -> None:
         if stage_key in self.CURRENT_TEMPLATE:
@@ -149,36 +150,59 @@ class MessageProcessor:
             )
 
     # - start template hooks processing -
-    def __on_generate__(self, next_template: Dict[str, Any]) -> None:
+    def __on_generate__(self, next_template: Dict) -> None:
         if TemplateConstants.ON_GENERATE in next_template:
             HookService.process_hook(
                 hook_name=next_template.get(TemplateConstants.ON_GENERATE),
                 hook_arg=self.HOOK_ARG
             )
 
-    # - end template hooks -
+    def __bluetick_message__(self) -> None:
+        # a fire & forget approach
+        if TemplateConstants.READ_RECEIPT in self.CURRENT_TEMPLATE:
+            try:
+                self.whatsapp.mark_as_read(self.user.msg_id)
+            except:
+                self.logger.warning("Failed to do read receipts (blue-tick) message")
 
-    def setup(self) -> None:
+    def __save_prop__(self) -> None:
+        # usually applicable to TEXT message types
+        if TemplateConstants.PROP in self.CURRENT_TEMPLATE:
+            self.session.save_prop(
+                session_id=self.session_id,
+                prop_key=self.CURRENT_TEMPLATE.get(TemplateConstants.PROP),
+                data=self.USER_INPUT[0]
+            )
+
+    def process_dynamic_route_hook(self) -> Union[str, None]:
         """
-        Should be called before any other methods are called.
+        Check if current template has a `router` hook specified
 
-        Called after object instantiation.
+        Router hook is used to check next-route flow, instead of using routes defined, it
+        reroutes to the response of the `router` hook.
 
-        :return: None
+        Router hook should return route stage inside the additional_data with key [EngineConstants.DYNAMIC_ROUTE_KEY]
+
+        :return: str or None
         """
-        self.__get_current_template__()
-        self.__get_message_body__()
-        self.__check_for_session_bypass__()
-        self.__check_save_checkpoint__()
 
-        self.HOOK_ARG = HookArg(
-            session_manager=self.session,
-            user=self.user,
-            user_input=self.USER_INPUT[0],
-            additional_data=self.USER_INPUT[1]
-        )
+        if TemplateConstants.DYNAMIC_ROUTER in self.CURRENT_TEMPLATE:
+            try:
+                self.__check_template_params__()
 
-    def process_pre_hooks(self, next_stage_template: Dict[str, Any] = None) -> None:
+                result = HookService.process_hook(
+                    hook_name=self.CURRENT_TEMPLATE.get(TemplateConstants.DYNAMIC_ROUTER),
+                    hook_arg=self.HOOK_ARG
+                )
+
+                return result.additional_data.get(EngineConstants.DYNAMIC_ROUTE_KEY)
+
+            except Exception as e:
+                self.logger.error("Failed to do dynamic route hook", exc_info=True)
+
+        return None
+
+    def process_pre_hooks(self, next_stage_template: Dict = None) -> None:
         """
         Process all hooks before message response is generated
         and send back to user
@@ -190,5 +214,43 @@ class MessageProcessor:
         self.__on_generate__(next_stage_template)
 
     def process_post_hooks(self) -> None:
-        # TODO: implement process post hooks
-        pass
+        """
+        Process all hooks soon after receiving message from user.
+
+        This processes the previous message which was processed & generated for sending
+        to user
+
+        e.g. Generate stage A template, process all A's pre-hooks and send to user.
+        User respond message of stage A. Engine processes all post-hooks of stage A template
+        before processing any next stage template.
+
+        :return: None
+        """
+        self.__bluetick_message__()
+        self.__check_template_params__()
+        self.__process_hook__(stage_key=TemplateConstants.VALIDATOR)
+        self.__process_hook__(stage_key=TemplateConstants.ON_RECEIVE)
+        self.__process_hook__(stage_key=TemplateConstants.MIDDLEWARE)
+        self.__save_prop__()
+
+        # - end template hooks -
+
+    def setup(self) -> None:
+        """
+            Should be called before any other methods are called.
+
+            Called after object instantiation.
+
+            :return: None
+            """
+        self.__get_current_template__()
+        self.__get_message_body__()
+        self.__check_for_session_bypass__()
+        self.__check_save_checkpoint__()
+
+        self.HOOK_ARG = HookArg(
+            session_manager=self.session,
+            user=self.user,
+            user_input=self.USER_INPUT[0],
+            additional_data=self.USER_INPUT[1]
+        )

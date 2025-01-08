@@ -62,8 +62,9 @@ class WhatsApp:
         if response.status_code == 200:
             self.logger.info(f"{message_type.title()} sent to {recipient_id}")
             return response.json()
+
         else:
-            self.logger.info(f"{message_type.title()} not sent to {recipient_id}: {response.status_code}")
+            self.logger.error(f"{message_type.title()} not sent to: {recipient_id} | code: {response.status_code}")
             self.logger.error(f"Response: {response.text}")
             return response.json()
 
@@ -465,10 +466,11 @@ class WhatsApp:
                 if response.status_code == 200:
                     self.logger.info(f"Media {media_path} uploaded")
                     return response.json()
+
                 else:
-                    self.logger.info(f"Error uploading media {media_path}")
-                    self.logger.info(f"Status code: {response.status_code}")
-                    self.logger.info(f"Response: {response.text}")
+                    self.logger.error(f"Error uploading media {media_path}")
+                    self.logger.error(f"Status code: {response.status_code}")
+                    self.logger.error(f"Response: {response.text}")
                     return None
 
             except Exception as e:
@@ -491,7 +493,7 @@ class WhatsApp:
                 self.logger.info(f"Media {media_id} deleted")
                 return response.json()
             else:
-                self.logger.info(f"Error deleting media {media_id}: {response.status_code}")
+                self.logger.error(f"Error deleting media {media_id}: {response.status_code}")
                 self.logger.error(f"Response: {response.text}")
                 return None
 
@@ -518,8 +520,8 @@ class WhatsApp:
                 self.logger.info(f"Media URL queried for {media_id}")
                 return response.json().get("url")
             else:
-                self.logger.info(f"Media URL not queried for {media_id}: {response.status_code}")
-                self.logger.info(f"Response: {response.text}")
+                self.logger.error(f"Media URL not queried for {media_id}: {response.status_code}")
+                self.logger.error(f"Response: {response.text}")
                 return None
 
         async def download_media(self, media_url: str, mime_type: str, file_path: str = None) -> Union[str, None]:
@@ -552,7 +554,6 @@ class WhatsApp:
                     response = await client.get(media_url)
 
                 if response.status_code == 200:
-                    # Ensure the directory exists
                     os.makedirs(os.path.dirname(save_file_here), exist_ok=True)
                     with open(save_file_here, "wb") as f:
                         f.write(response.content)
@@ -561,6 +562,7 @@ class WhatsApp:
                 else:
                     self.logger.error(f"Failed to download media. Status code: {response.status_code}")
                     return None
+
             except Exception as e:
                 self.logger.error(f"Error downloading media to {save_file_here}: {str(e)}")
                 return None

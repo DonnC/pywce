@@ -15,7 +15,12 @@ class SessionConstants:
 
     # used to check against wa_id on authentication hook
     VALID_AUTH_MSISDN = "k_pywce_auth_msisdn"
-    LAST_ACTIVITY = "k_pywce_last_activity"
+
+    # used to check when last user was authenticated against session expiry timeout
+    # in ISO 8601 format
+    AUTH_EXPIRE_AT = "k_pywce_auth_expire_on"
+    LAST_ACTIVITY_AT = "k_pywce_last_activity"
+
     CURRENT_MSG_ID = "k_pywce_current_msg_id"
     CURRENT_DEBOUNCE = "k_pywce_current_debounce"
 
