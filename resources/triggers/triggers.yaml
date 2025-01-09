@@ -2,7 +2,7 @@
 # in order to process a specific stage template
 
 # e.g. If a user types `start` - render the START-MENU stage template
-# defined in the /templates directory
+# defined in the /test_templates directory
 "START-MENU": "re:(?i)(start)|(hi)|(hie)"
 
 # for reporting

@@ -14,9 +14,9 @@ from httpx import AsyncClient
 from engine_logger import get_engine_logger
 from modules.whatsapp.model.wa_user import WaUser
 from .config import WhatsAppConfig
-from .message_utils import MessageTypeEnum, MessageUtils
+from .model.message_type_enum import MessageTypeEnum
 from .model.response_structure import ResponseStructure
-
+from .message_utils import MessageUtils
 
 class WhatsApp:
     """
@@ -33,6 +33,9 @@ class WhatsApp:
         self.config = whatsapp_config
         self.base_url = f"https://graph.facebook.com/{self.config.version}"
         self.url = f"{self.base_url}/{self.config.phone_number_id}/messages"
+
+        if self.config.use_emulator is True:
+            self.url = self.config.emulator_url
 
         self.headers = {
             "Content-Type": "application/json",
@@ -104,7 +107,7 @@ class WhatsApp:
 
         Example:
             ```python
-            from modules.whatsapp import WhatsApp
+            from test_modules.whatsapp import WhatsApp
 
             whatsapp = WhatsApp('token', 'phone_number_id')
             whatsapp.send_reaction("\uD83D\uDE00", "wamid.HBgLM...", "5511999999999")
@@ -138,7 +141,7 @@ class WhatsApp:
             lang (str): Language of the template message, default is "en_US".
 
         Example:
-            >>> from modules.whatsapp import WhatsApp
+            >>> from test_modules.whatsapp import WhatsApp
             >>> whatsapp = WhatsApp("token", "phone_number_id")
             >>> whatsapp.send_template("hello_world", "5511999999999",
             >>>     components=[{"type": "header", "parameters": [{"type": "text", "text": "Header Text"}]}],
@@ -173,7 +176,7 @@ class WhatsApp:
             recipient_id (str): Phone number of the user with country code without +.
 
         Example:
-            >>>  from modules.whatsapp import WhatsApp
+            >>>  from test_modules.whatsapp import WhatsApp
             >>> whatsapp = WhatsApp('token', 'phone_number_id')
             >>> whatsapp.send_location("-23.564", "-46.654", "My Location", "Rua dois, 123", "5511999999999")
         """
@@ -240,7 +243,7 @@ class WhatsApp:
             link (bool): Whether to send a sticker id or a sticker link, True means that the sticker is an id, False means the sticker is a link.
 
         Example:
-            >>>  from modules.whatsapp import WhatsApp
+            >>>  from test_modules.whatsapp import WhatsApp
             >>> whatsapp = WhatsApp('token', 'phone_number_id')
             >>> whatsapp.send_media("https://link_to_sticker_image.png", "5511999999999", link=True)
         """
@@ -289,7 +292,7 @@ class WhatsApp:
             recipient_id (str): Phone number of the user with country code without +.
 
         Example:
-            >>>  from modules.whatsapp import WhatsApp
+            >>>  from test_modules.whatsapp import WhatsApp
             >>> whatsapp = WhatsApp()
             >>> contacts = [{
                 "addresses": [{
@@ -332,7 +335,7 @@ class WhatsApp:
             Dict[Any, Any]: Response from the API.
 
         Example:
-            >>>  from modules.whatsapp import WhatsApp
+            >>>  from test_modules.whatsapp import WhatsApp
             >>> whatsapp = WhatsApp()
             >>> whatsapp.mark_as_read("message_id")
         """
@@ -466,7 +469,7 @@ class WhatsApp:
                 media_path (str): Path of the media to be uploaded.
 
             Example:
-                >>>  from modules.whatsapp import WhatsApp
+                >>>  from test_modules.whatsapp import WhatsApp
                 >>> whatsapp = WhatsApp()
                 >>> whatsapp.util.upload_media("/path/to/media")
 
@@ -536,7 +539,7 @@ class WhatsApp:
                 str: Media URL, or None if not found or an error occurred.
 
             Example:
-                >>>  from modules.whatsapp import WhatsApp
+                >>>  from test_modules.whatsapp import WhatsApp
                 >>> whatsapp = WhatsApp()
                 >>> whatsapp.util.query_media_url("media_id")
             """
@@ -566,7 +569,7 @@ class WhatsApp:
                 str: Path to the downloaded file, or None if there was an error.
 
             Example:
-                >>>  from modules.whatsapp import WhatsApp
+                >>>  from test_modules.whatsapp import WhatsApp
                 >>> whatsapp = WhatsApp()
                 >>> whatsapp.util.download_media("https://example.com/media_url", "image/jpeg")
                 >>> whatsapp.util.download_media("https://example.com/media_url", "video/mp4", "path/to/file") #do not include the file extension

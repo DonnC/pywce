@@ -15,6 +15,9 @@ class ISessionManager(ABC):
         """
         create a unique user session from given session_id
 
+        No matter how many times its called, it should return the same specific user
+        session instance
+
         :param session_id: unique session id (wa_id, mobile_no)
         :return: self
         """
@@ -63,7 +66,7 @@ class ISessionManager(ABC):
         pass
 
     @abstractmethod
-    def fetch_all(self, session_id: str) -> Dict[str, Any] or None:
+    def fetch_all(self, session_id: str, is_global:bool) -> Dict[str, Any] or None:
         pass
 
     @abstractmethod
@@ -80,6 +83,10 @@ class ISessionManager(ABC):
 
     @abstractmethod
     def clear(self, session_id: str, retain_keys: List[str] = None) -> None:
+        pass
+
+    @abstractmethod
+    def clear_global(self) -> None:
         pass
 
     @abstractmethod

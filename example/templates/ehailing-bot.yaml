@@ -1,5 +1,5 @@
-# an example chatbot stage templates
-# the templates can be separated into different files for easy management
+# an example chatbot stage test_templates
+# the test_templates can be separated into different files for easy management
 # stage names can be numbers or any supported YAML data type
 
 "START-MENU":

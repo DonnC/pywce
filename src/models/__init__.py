@@ -43,7 +43,7 @@ class TemplateDynamicBody:
     """
         type: specifies type of dynamic message body given
         initial_flow_payload: for flows that require initial data passed to a whatsapp flow
-        render_template_payload: for `template` hooks and dynamic templates
+        render_template_payload: for `template` hooks and dynamic test_templates
     """
     typ: MessageTypeEnum = None
     initial_flow_payload: Dict[str, Any] = None

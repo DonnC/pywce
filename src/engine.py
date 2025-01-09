@@ -49,7 +49,7 @@ class PywceEngine:
     def verify_webhook(self, mode, challenge, token):
         return self.whatsapp.util.verify_webhook_verification_challenge(mode, challenge, token)
 
-    def process_webhook(self, webhook_data: Dict[str, Any], webhook_headers: Dict[str, Any]):
+    async def process_webhook(self, webhook_data: Dict[str, Any], webhook_headers: Dict[str, Any]):
         if self.whatsapp.util.verify_webhook_payload(
                 webhook_payload=webhook_data,
                 webhook_headers=webhook_headers
@@ -67,7 +67,7 @@ class PywceEngine:
             )
 
             # process current webhook request
-            worker.work()
+            await worker.work()
 
         else:
             self.logger.warning("Webhook payload is invalid")

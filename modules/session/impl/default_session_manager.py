@@ -57,8 +57,10 @@ class DefaultSessionManager(ISessionManager):
 
             return data
 
-    def fetch_all(self, session_id: str) -> Dict[str, Any] or None:
+    def fetch_all(self, session_id: str, is_global: bool = False) -> Dict[str, Any] or None:
         with self.lock:
+            if is_global is True:
+                return self.global_session
             return self.sessions.get(session_id)
 
     def evict(self, session_id: str, key: str) -> None:
@@ -80,6 +82,7 @@ class DefaultSessionManager(ISessionManager):
     def clear(self, session_id: str, retain_keys: List[str] = None) -> None:
         if retain_keys is None or retain_keys == []:
             self.sessions[session_id] = {}
+            return
 
         for retain_key in retain_keys:
             data = self.fetch_all(session_id)
@@ -87,6 +90,9 @@ class DefaultSessionManager(ISessionManager):
                 if k == retain_key:
                     continue
                 self.evict(session_id, k)
+
+    def clear_global(self) -> None:
+        self.global_session = {}
 
     def key_in_session(self, session_id: str, key: str, check_global: bool = True) -> bool:
         with self.lock:

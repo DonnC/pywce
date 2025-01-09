@@ -12,3 +12,6 @@ class WhatsAppConfig:
     version: str = "v21.0"
     flow_version: str = "3"
     flow_action: str = "navigate"
+
+    use_emulator: bool = False
+    emulator_url: str = "http://localhost:3000/api/hook-response"
