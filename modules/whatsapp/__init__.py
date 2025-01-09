@@ -194,6 +194,28 @@ class WhatsApp:
 
         return await self.__send_request__(message_type='Location', recipient_id=recipient_id, data=data)
 
+    async def request_location(self, recipient_id: str, message: str, message_id: str = None):
+        data = {
+            "messaging_product": "whatsapp",
+            "to": recipient_id,
+            "recipient_type": "individual",
+            "type": "interactive",
+            "interactive": {
+                "type": "location_request_message",
+                "body": {
+                    "text": message
+                },
+                "action": {
+                    "name": "send_location"
+                }
+            }
+        }
+
+        if message_id is not None:
+            data["context"] = {"message_id": message_id}
+
+        return await self.__send_request__(message_type='RequestLocation', recipient_id=recipient_id, data=data)
+
     async def send_media(
             self,
             recipient_id: str,
@@ -390,6 +412,12 @@ class WhatsApp:
             has_msg_id = response_data.get("messages")[0].get("id").startswith("wamid.")
 
             return is_whatsapp and is_same_recipient and has_msg_id
+
+        def get_response_message_id(response_data: Dict[str, Any]) -> str:
+            assert response_data.get("messaging_product") == "whatsapp"
+            msg_id = response_data.get("messages")[0].get("id").startswith("wamid.")
+
+            return msg_id
 
         def get_wa_user(self, webhook_data: Dict[Any, Any]) -> Union[WaUser, None]:
             data = self.__pre_process__(webhook_data)

@@ -12,3 +12,8 @@ class EngineConstants:
     DYNAMIC_ROUTE_KEY = "route"
     DYNAMIC_BODY_STAGE = "DYNAMIC_BODY_STAGE"
     DYNAMIC_LAST_TEMPLATE = "DTPL_LAST_STAGE"
+
+    # default buttons
+    DEFAULT_MENU_BTN_NAME = "Menu"
+    DEFAULT_RETRY_BTN_NAME = "Retry"
+    DEFAULT_REPORT_BTN_NAME = "Report"

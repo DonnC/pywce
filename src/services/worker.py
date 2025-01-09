@@ -1,6 +1,6 @@
 from datetime import datetime
 from time import time
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Tuple
 
 from engine_logger import get_engine_logger
 from modules.session import ISessionManager
@@ -8,10 +8,11 @@ from modules.whatsapp import MessageTypeEnum
 from src.constants.engine import EngineConstants
 from src.constants.session import SessionConstants
 from src.constants.template import TemplateConstants
-from src.exceptions import TemplateRenderException, UserSessionValidationException, EngineResponseException, \
-    EngineInternalException
-from src.models import WorkerJob
+from src.constants.template_type import TEMPLATE_TYPE_MAPPING, TemplateTypeConstants
+from src.exceptions import *
+from src.models import WorkerJob, WhatsAppServiceModel, QuickButtonModel
 from src.services.message_processor import MessageProcessor
+from src.services.whatsapp_service import WhatsAppService
 from src.utils.engine_util import EngineUtil
 
 
@@ -65,7 +66,7 @@ class Worker:
                 logged_in_time) is True
 
             if is_invalid:
-                raise UserSessionValidationException(
+                raise EngineSessionException(
                     message="Your session has expired. Kindly login again to access our WhatsApp Services")
 
     def __inactivity_handler__(self) -> bool:
@@ -103,7 +104,7 @@ class Worker:
         if msg_processor.IS_FIRST_TIME: return self.job.engine_config.start_template_stage
 
         if self.__inactivity_handler__():
-            raise UserSessionValidationException(
+            raise EngineSessionException(
                 message="You have been inactive for a while, to secure your account, kindly login again")
 
         # get possible next routes configured on template
@@ -131,7 +132,7 @@ class Worker:
         # at this point, user provided an invalid response then
         raise EngineResponseException(message="Invalid response, please try again", data=msg_processor.CURRENT_STAGE)
 
-    def __hook_next_template_handler__(self, msg_processor: MessageProcessor) -> None:
+    def __hook_next_template_handler__(self, msg_processor: MessageProcessor) -> Tuple[str, Dict]:
         """
         Handle next template to render to user
 
@@ -157,17 +158,63 @@ class Worker:
         # process all `next template` pre hooks
         msg_processor.process_pre_hooks(next_template)
 
-    def __processor__(self):
+        return next_template_stage, next_template
+
+    async def send_quick_btn_message(self, payload: QuickButtonModel) -> None:
+        """
+        Helper method to send a quick button to the user
+        without handling engine session logic
+        :return:
+        """
+        _client = self.job.engine_config.whatsapp
+
+        _template = {
+            "type": "button",
+            "message-id": payload.message_id,
+            "message": {
+                "title": payload.title,
+                "body": payload.message,
+                "footer": payload.footer,
+                "buttons": payload.buttons
+            }
+        }
+
+        service_model = WhatsAppServiceModel(
+            template_type=TemplateTypeConstants.BUTTON,
+            template=_template,
+            whatsapp=_client,
+            user=self.user
+        )
+
+        whatsapp_service = WhatsAppService(model=service_model, validate_template=False)
+        response = await whatsapp_service.send_message(handle_session=False, template=False)
+
+        response_msg_id = _client.util.get_response_msg_id(response)
+
+        self.logger.info("Quick button message responded with id: %s", response_msg_id)
+
+    async def __runner__(self):
         processor = MessageProcessor(data=self.job)
         processor.setup()
 
-        self.__hook_next_template_handler__(processor)
+        next_stage, next_template = self.__hook_next_template_handler__(processor)
 
-        # TODO: process payload generation and send response back to whatsapp
+        service_model = WhatsAppServiceModel(
+            template_type=TEMPLATE_TYPE_MAPPING.get(next_template.get(TemplateConstants.TEMPLATE_TYPE)),
+            template=next_template,
+            whatsapp=processor.whatsapp,
+            user=self.user,
+            next_stage=next_stage,
+            hook_arg=processor.HOOK_ARG,
+            handle_session_activity=self.job.engine_config.handle_session_inactivity
+        )
+
+        whatsapp_service = WhatsAppService(model=service_model)
+        await whatsapp_service.send_message()
 
         processor.IS_FROM_TRIGGER = False
 
-    def work(self):
+    async def work(self):
         """
         Handles every webhook request
 
@@ -201,14 +248,64 @@ class Worker:
             self.__append_message_to_queue__()
 
         try:
-            self.__processor__()
+            await self.__runner__()
 
             self.session.evict(session_id=self.session_id, key=SessionConstants.DYNAMIC_RETRY)
             self.session.save(session_id=self.session_id, key=SessionConstants.CURRENT_MSG_ID, data=self.user.msg_id)
 
         except TemplateRenderException as e:
             self.logger.error("Failed to render template: " + e.message)
-            # TODO: generate and send a button message
-            #       message: Failed to process your message
-            #       buttons: [Retry, Report]
+
+            btn = QuickButtonModel(
+                title="Message",
+                message="Failed to process message",
+                buttons=[EngineConstants.DEFAULT_RETRY_BTN_NAME, EngineConstants.DEFAULT_REPORT_BTN_NAME]
+            )
+
+            await self.send_quick_btn_message(payload=btn)
+
+            return
+
+        except EngineResponseException as e:
+            self.logger.error("Invalid response error " + e.message)
+
+            btn = QuickButtonModel(
+                title="Message",
+                message=f"{e.message}\n\n. You may click the Menu button to return to Menu",
+                buttons=[EngineConstants.DEFAULT_MENU_BTN_NAME, EngineConstants.DEFAULT_REPORT_BTN_NAME]
+            )
+
+            await self.send_quick_btn_message(payload=btn)
+
+            return
+
+        except UserSessionValidationException as e:
+            self.logger.error("Ambiguous session mismatch encountered with %s" % self.user.wa_id)
+            self.logger.error(e.message)
+
+            btn = QuickButtonModel(
+                title="Message",
+                message="Failed to understand something on my end.\n\nCould not process message.",
+                buttons=[EngineConstants.DEFAULT_MENU_BTN_NAME]
+            )
+
+            await self.send_quick_btn_message(payload=btn)
+
+            return
+
+        except EngineSessionException as e:
+            self.logger.warning("Session expired | inactive for: %s. Clearing data" % self.user.wa_id)
+
+            # clear all user session data
+            self.session.clear(session_id=self.user.wa_id)
+
+            btn = QuickButtonModel(
+                title="Security Check 🔐",
+                message=e.message,
+                footer="Session Expired",
+                buttons=[EngineConstants.DEFAULT_MENU_BTN_NAME]
+            )
+
+            await self.send_quick_btn_message(payload=btn)
+
             return

@@ -28,6 +28,7 @@ class TemplateConstants:
     MESSAGE_BODY = "body"
     MESSAGE_FOOTER = "footer"
     MESSAGE_MEDIA_ID = "id"
+    MESSAGE_MEDIA_URL = "url"
     MESSAGE_MEDIA_CAPTION = "caption"
     MESSAGE_MEDIA_FILENAME = "filename"
     MESSAGE_BUTTONS = "buttons"

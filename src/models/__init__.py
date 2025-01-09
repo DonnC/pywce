@@ -1,9 +1,10 @@
 from dataclasses import dataclass, field
-from typing import Dict, Any
+from typing import Dict, Any, List
 
 from modules.session import ISessionManager
 from modules.session.impl.default_session_manager import DefaultSessionManager
 from modules.whatsapp import ResponseStructure, WhatsApp, WaUser, MessageTypeEnum
+from src.constants.template_type import TemplateTypeConstants
 
 
 @dataclass
@@ -65,3 +66,23 @@ class HookArg:
     flow: str = None
     additional_data: Dict[str, Any] = None
     session_manager: ISessionManager = None
+
+
+@dataclass
+class WhatsAppServiceModel:
+    template_type: TemplateTypeConstants
+    template: Dict
+    whatsapp: WhatsApp
+    user: WaUser
+    hook_arg: HookArg = None
+    next_stage: str = None
+    handle_session_activity: bool = False
+
+
+@dataclass
+class QuickButtonModel:
+    message: str
+    buttons: List[str]
+    title: str = None
+    footer: str = None
+    message_id: str = None

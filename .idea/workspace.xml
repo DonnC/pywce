@@ -5,17 +5,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e700a6d4-f3fd-4ca6-8806-bc5eb9b6e49c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/resources/templates/ehailing-bot.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/templates/other-templates.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/templates/report.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/triggers/triggers.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env.sample" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/templates/ehailing-bot.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/templates/ehailing-bot.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/templates/report.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/templates/report.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/triggers/triggers.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/triggers/triggers.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modules/whatsapp/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/modules/whatsapp/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/constants/engine.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/engine.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/constants/session.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/session.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/constants/template.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/template.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/constants/template_type.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/template_type.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/hook_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/hook_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/message_processor.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/message_processor.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/services/worker.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/worker.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/utils/engine_util.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/engine_util.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/whatsapp_payload_generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/whatsapp_payload_generator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/whatsapp_payload_generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/whatsapp_service.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,26 +53,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python tests.Python tests for test_default_session_impl.TestDefaultSessionManager.test_save.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests in test_default_session_impl.py.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests in tests.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.test_v.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;Errors&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python tests.Python tests for test_default_session_impl.TestDefaultSessionManager.test_save.executor": "Run",
+    "Python tests.Python tests in test_default_session_impl.py.executor": "Run",
+    "Python tests.Python tests in tests.executor": "Run",
+    "Python.main.executor": "Run",
+    "Python.templetor.executor": "Run",
+    "Python.test_v.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "dev",
+    "last_opened_file_path": "C:/Users/DEVELOPER/Documents/Personal/Personal/Projects/python/pywce/resources",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "Errors",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\resources" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\src\services" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\resources" />
@@ -155,7 +169,8 @@
       <workItem from="1736231445546" duration="9420000" />
       <workItem from="1736243332101" duration="15998000" />
       <workItem from="1736264763270" duration="5454000" />
-      <workItem from="1736328857723" duration="13622000" />
+      <workItem from="1736328857723" duration="15545000" />
+      <workItem from="1736404509841" duration="23768000" />
     </task>
     <servers />
   </component>
@@ -163,8 +178,9 @@
     <option name="version" value="3" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/pywce$main.coverage" NAME="main Coverage Results" MODIFIED="1736266746838" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/example" />
+    <SUITE FILE_PATH="coverage/pywce$main.coverage" NAME="main Coverage Results" MODIFIED="1736415859450" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/example" />
     <SUITE FILE_PATH="coverage/pywce$.coverage" NAME=" Coverage Results" MODIFIED="1736258292096" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/modules/session" />
+    <SUITE FILE_PATH="coverage/pywce$templetor.coverage" NAME="templetor Coverage Results" MODIFIED="1736407777201" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/example" />
     <SUITE FILE_PATH="coverage/pywce$test_v.coverage" NAME="test_v Coverage Results" MODIFIED="1736092146828" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

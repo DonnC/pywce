@@ -1,19 +1,50 @@
 import re
 from datetime import datetime
+from typing import Any, Dict
 
+from jinja2 import Template
+
+from engine_logger import get_engine_logger
 from src.constants.engine import EngineConstants
+from src.exceptions import TemplateRenderException
 
 
 class EngineUtil:
     @staticmethod
-    def has_session_expired(session_dt_str:str=None) -> bool:
+    def process_template(template: Any, context: Dict) -> Any:
+        """
+        Render the template using Jinja2 after special variables are replaced.
+        """
+        logger = get_engine_logger(__name__)
+
+        try:
+            if context is None: return template
+
+            def render_with_jinja(value):
+                if isinstance(value, str):
+                    return Template(value).render(context)
+                return value
+
+            if isinstance(template, dict):
+                return {key: EngineUtil.process_template(value, context) for key, value in template.items()}
+            elif isinstance(template, list):
+                return [EngineUtil.process_template(item, context) for item in template]
+            else:
+                return render_with_jinja(template)
+
+        except Exception as e:
+            logger.error("Failed to render template with error: {}".format(str(e)))
+            raise TemplateRenderException(message="Template failed to render")
+
+    @staticmethod
+    def has_session_expired(session_dt_str: str = None) -> bool:
         if session_dt_str is None: return True
 
         passed_datetime = datetime.fromisoformat(session_dt_str)
         return datetime.now() > passed_datetime
 
     @staticmethod
-    def has_interaction_expired(last_interaction_time:str, max_interaction_in_mins:int):
+    def has_interaction_expired(last_interaction_time: str, max_interaction_in_mins: int):
         """
         Checks if the interaction has expired based on the last interaction time and max allowed duration.
 
