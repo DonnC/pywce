@@ -33,7 +33,6 @@ async def webhook_event(payload: Dict, headers: Dict, engine: pywce.PywceEngine)
     """
     logger.info("Received webhook event, processing..")
     await engine.process_webhook(webhook_data=payload, webhook_headers=headers)
-    logger.info("Webhook event processed.")
 
 
 # - API Endpoints -

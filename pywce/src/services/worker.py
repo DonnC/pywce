@@ -42,7 +42,7 @@ class Worker:
         queue.append(self.user.msg_id)
 
         if len(queue) > EngineConstants.MESSAGE_QUEUE_COUNT:
-            self.logger.warning("Message queue limit reached, applying FIFO...")
+            self.logger.debug("Message queue limit reached, applying FIFO...")
             queue = queue[-EngineConstants.MESSAGE_QUEUE_COUNT:]
 
         self.session.save(session_id=self.session_id, key=SessionConstants.MESSAGE_HISTORY, data=queue)
@@ -63,8 +63,8 @@ class Worker:
             session_wa_id = self.session.get(session_id=self.session_id, key=SessionConstants.VALID_AUTH_MSISDN)
             logged_in_time = self.session.get(session_id=self.session_id, key=SessionConstants.AUTH_EXPIRE_AT)
 
-            is_invalid = logged_in_time is None or is_auth_set is None or session_wa_id is None or EngineUtil.has_session_expired(
-                logged_in_time) is True
+            is_invalid = logged_in_time is None or is_auth_set is None or session_wa_id is None \
+                         or EngineUtil.has_session_expired(logged_in_time) is True
 
             if is_invalid:
                 raise EngineSessionException(
@@ -202,7 +202,7 @@ class Worker:
 
         response_msg_id = _client.util.get_response_message_id(response)
 
-        self.logger.info("Quick button message responded with id: %s", response_msg_id)
+        self.logger.debug("Quick button message responded with id: %s", response_msg_id)
 
     async def __runner__(self):
         processor = MessageProcessor(data=self.job)
@@ -210,7 +210,7 @@ class Worker:
 
         next_stage, next_template = self.__hook_next_template_handler__(processor)
 
-        self.logger.debug("Next stage: %s", next_stage)
+        self.logger.info("Next template stage: %s", next_stage)
 
         service_model = WhatsAppServiceModel(
             template_type=TEMPLATE_TYPE_MAPPING.get(next_template.get(TemplateConstants.TEMPLATE_TYPE)),
@@ -235,7 +235,7 @@ class Worker:
         """
 
         if self.__is_old_webhook__():
-            self.logger.info(f"Skipping webhook request. {self.payload.body} Discarding...")
+            self.logger.warning(f"Skipping old webhook request. {self.payload.body} Discarding...")
             return
 
         if self.job.payload.model == MessageTypeEnum.UNKNOWN or self.job.payload.model == MessageTypeEnum.UNSUPPORTED:
@@ -293,7 +293,7 @@ class Worker:
             return
 
         except UserSessionValidationException as e:
-            self.logger.error("Ambiguous session mismatch encountered with %s" % self.user.wa_id)
+            self.logger.critical("Ambiguous session mismatch encountered with %s" %self.user.wa_id)
             self.logger.error(e.message)
 
             btn = QuickButtonModel(
@@ -321,4 +321,8 @@ class Worker:
 
             await self.send_quick_btn_message(payload=btn)
 
+            return
+
+        except EngineInternalException as e:
+            self.logger.critical(message=e.message)
             return

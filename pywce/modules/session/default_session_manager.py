@@ -20,8 +20,6 @@ class DefaultSessionManager(ISessionManager):
         self.lock = threading.Lock()
         self.logger = get_engine_logger(__name__)
 
-        self.logger.debug("Initialized default session manager!")
-
     @property
     def prop_key(self) -> str:
         return "pywce_prop_key"

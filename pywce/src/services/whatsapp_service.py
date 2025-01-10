@@ -42,20 +42,22 @@ class WhatsAppService:
     def __process_special_vars__(self) -> Dict:
         """
         Process and replace special variables in the template ({{ s.var }} and {{ p.var }}).
+
+        Replace `s.` vars with session data
+
+        Replace `p.` vars with session props data
         """
         session = self.model.hook_arg.session_manager
         user_props = session.get_user_props(self.model.user.wa_id)
 
         def replace_special_vars(value: Any) -> Any:
             if isinstance(value, str):
-                # Replace `s.` vars with session data
                 value = re.sub(
                     r"{{\s*s\.([\w_]+)\s*}}",
                     lambda match: session.get(session_id=self.model.user.wa_id, key=match.group(1)) or match.group(0),
                     value
                 )
 
-                # Replace `p.` vars with props data
                 value = re.sub(
                     r"{{\s*p\.([\w_]+)\s*}}",
                     lambda match: user_props.get(match.group(1), match.group(0)),
@@ -334,7 +336,7 @@ class WhatsAppService:
                 session.save(session_id=session_id, key=SessionConstants.PREV_STAGE, data=current_stage)
                 session.save(session_id=session_id, key=SessionConstants.CURRENT_STAGE, data=self.model.next_stage)
 
-                self.logger.info(f"Current route set to: {self.model.next_stage}")
+                self.logger.debug(f"Current route set to: {self.model.next_stage}")
 
                 if self.model.handle_session_activity is True:
                     session.save(session_id=session_id, key=SessionConstants.LAST_ACTIVITY_AT,

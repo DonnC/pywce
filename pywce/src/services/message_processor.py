@@ -91,7 +91,7 @@ class MessageProcessor:
                     self.CURRENT_TEMPLATE = self.__get_stage_template__(_stage)
                     self.CURRENT_STAGE = _stage
                     self.IS_FROM_TRIGGER = True
-                    self.logger.warning("Template change from trigger. Stage: " + _stage)
+                    self.logger.debug("Template change from trigger. Stage: " + _stage)
                     return
 
         # TODO: check if current msg id is null, throw Ambiguous old webhook exc

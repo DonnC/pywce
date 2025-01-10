@@ -33,13 +33,13 @@
   type: request-location
   message: "Where would you like to be picked from?"
   routes:
-    "location_request": "DESTINATION-LOCATION"
+    "re:.*": "DESTINATION-LOCATION"
 
 "DESTINATION-LOCATION":
   type: request-location
   message: "Where would you like to go?"
   routes:
-    "location_request": "RIDE-OFFER"
+    "re:.*": "RIDE-OFFER"
 
 "RIDE-OFFER":
   type: button

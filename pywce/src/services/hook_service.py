@@ -5,7 +5,7 @@ from pywce.engine_logger import get_engine_logger
 from pywce.src.exceptions import EngineInternalException
 from ..models import HookArg
 
-logger = get_engine_logger(__name__)
+_logger = get_engine_logger(__name__)
 
 
 class HookService:
@@ -60,18 +60,10 @@ class HookService:
         """
 
         try:
-            logger.info("Processing hook %s", hook_dotted_path)
-            logger.info("hook_arg: %s", hook_arg)
-
-            # Load the function using the dotted path
             function = HookService.load_function_from_dotted_path(hook_dotted_path)
 
             # Call the function with the provided argument
-            call_result = function(hook_arg)
-            logger.info("Hook Call result: %s", call_result)
-
-            return call_result
-
+            return function(hook_arg)
         except Exception as e:
-            logger.error("Failed to execute hook '%s': %s", hook_dotted_path, str(e))
+            _logger.error("Hook processing failure. Hook: '%s', error: %s", hook_dotted_path, str(e))
             raise EngineInternalException(f"Failed to execute hook: {hook_dotted_path}") from e

@@ -12,6 +12,7 @@ def username(arg: HookArg) -> HookArg:
     """
     logger.info(f"Received hook arg: {arg}")
 
+    # set default username in session for retrieving later
     arg.session_manager.save(session_id=arg.user.wa_id, key="username", data=arg.user.name)
 
     # set render payload data to match the required template dynamic var

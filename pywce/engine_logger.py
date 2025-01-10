@@ -10,9 +10,8 @@ LOGGING_ENABLED = os.getenv("PYWCE_LOGGER_ENABLED", "True").lower() == "true"
 
 # Log file configuration
 LOG_FILE = "pywce_engine.log"
-MAX_LOG_SIZE = 10 * 1024 * 1024  # 10 MB max size for each log file
+MAX_LOG_SIZE = 5 * 1024 * 1024
 BACKUP_COUNT = 5
-
 
 def _get_logger(name: str = None) -> logging.Logger:
     """
@@ -26,7 +25,6 @@ def _get_logger(name: str = None) -> logging.Logger:
 
     logger.setLevel(logging.DEBUG)
 
-    # Remove all existing handlers (in case it's already configured)
     if logger.hasHandlers():
         logger.handlers.clear()
 
@@ -46,20 +44,18 @@ def _get_logger(name: str = None) -> logging.Logger:
         '%(asctime)s [%(levelname)s] [%(name)s] - {%(filename)s:%(lineno)d} %(funcName)s - %(message)s'
     )
 
-    # Stream handler for console output
     stream_handler = logging.StreamHandler()
     stream_handler.setLevel(logging.DEBUG)
     stream_handler.setFormatter(console_formatter)
     logger.addHandler(stream_handler)
 
-    # Rotating file handler
+
     file_handler = RotatingFileHandler(LOG_FILE, maxBytes=MAX_LOG_SIZE, backupCount=BACKUP_COUNT)
     file_handler.setLevel(logging.DEBUG)
     file_handler.setFormatter(file_formatter)
     logger.addHandler(file_handler)
 
     return logger
-
 
 def get_engine_logger(name: str = "pywce_logger"):
     return _get_logger(name)

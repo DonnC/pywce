@@ -57,7 +57,7 @@ class WhatsApp:
         :return:
         """
 
-        self.logger.info(f"Sending {message_type} to {recipient_id}")
+        self.logger.debug(f"Sending {message_type} to {recipient_id}")
 
         async with httpx.AsyncClient() as client:
             response = await client.post(self.url, headers=self.headers, json=data)
@@ -66,7 +66,7 @@ class WhatsApp:
             return response.json()
 
         else:
-            self.logger.error(f"{message_type.title()} not sent to: {recipient_id} | code: {response.status_code}")
+            self.logger.critical(f"{message_type.title()} not sent to: {recipient_id} | code: {response.status_code}")
             self.logger.error(f"Response: {response.text}")
             return response.json()
 
@@ -140,11 +140,10 @@ class WhatsApp:
             lang (str): Language of the template message, default is "en_US".
 
         Example:
-            >>> from test_modules.whatsapp import WhatsApp
-            >>> whatsapp = WhatsApp("token", "phone_number_id")
-            >>> whatsapp.send_template("hello_world", "5511999999999",
-            >>>     components=[{"type": "header", "parameters": [{"type": "text", "text": "Header Text"}]}],
-            >>>     lang="en_US")
+            >>> from pywce import WhatsApp
+            >>> whatsapp = WhatsApp()
+            >>> whatsapp.send_template("5511999999999", "hello_world",
+            >>>     components=[{"type": "header", "parameters": [{"type": "text", "text": "Header Text"}]}])
         """
         data = {
             "messaging_product": "whatsapp",
@@ -173,11 +172,6 @@ class WhatsApp:
             name (str): Name of the location.
             address (str): Address of the location.
             recipient_id (str): Phone number of the user with country code without +.
-
-        Example:
-            >>>  from test_modules.whatsapp import WhatsApp
-            >>> whatsapp = WhatsApp('token', 'phone_number_id')
-            >>> whatsapp.send_location("-23.564", "-46.654", "My Location", "Rua dois, 123", "5511999999999")
         """
         data = {
             "messaging_product": "whatsapp",
@@ -240,11 +234,6 @@ class WhatsApp:
             recipient_id (str): Phone number of the user with country code without +.
             recipient_type (str): Type of the recipient, either individual or group.
             link (bool): Whether to send a sticker id or a sticker link, True means that the sticker is an id, False means the sticker is a link.
-
-        Example:
-            >>>  from test_modules.whatsapp import WhatsApp
-            >>> whatsapp = WhatsApp('token', 'phone_number_id')
-            >>> whatsapp.send_media("https://link_to_sticker_image.png", "5511999999999", link=True)
         """
 
         data = {
@@ -290,23 +279,6 @@ class WhatsApp:
             contacts (List[Dict[Any, Any]]): List of contacts to send, structured according to the WhatsApp API requirements.
             recipient_id (str): Phone number of the user with country code without +.
 
-        Example:
-            >>>  from test_modules.whatsapp import WhatsApp
-            >>> whatsapp = WhatsApp()
-            >>> contacts = [{
-                "addresses": [{
-                    "street": "STREET",
-                    "city": "CITY",
-                    "state": "STATE",
-                    "zip": "ZIP",
-                    "country": "COUNTRY",
-                    "country_code": "COUNTRY_CODE",
-                    "type": "HOME"
-                    }],
-                ...
-                }]
-            >>> whatsapp.send_contacts("5511999999999", contacts)
-
         REFERENCE:
         https://developers.facebook.com/docs/whatsapp/cloud-api/reference/messages#contacts-object
         """
@@ -332,11 +304,6 @@ class WhatsApp:
 
         Returns:
             Dict[Any, Any]: Response from the API.
-
-        Example:
-            >>>  from test_modules.whatsapp import WhatsApp
-            >>> whatsapp = WhatsApp()
-            >>> whatsapp.mark_as_read("message_id")
         """
         data = {
             "messaging_product": "whatsapp",
@@ -467,17 +434,11 @@ class WhatsApp:
             Args:
                 media_path (str): Path of the media to be uploaded.
 
-            Example:
-                >>>  from test_modules.whatsapp import WhatsApp
-                >>> whatsapp = WhatsApp()
-                >>> whatsapp.util.upload_media("/path/to/media")
-
             REFERENCE:
             https://developers.facebook.com/docs/whatsapp/cloud-api/reference/media#
             """
             content_type, _ = mimetypes.guess_type(media_path)
             headers = self.parent.headers.copy()
-            self.logger.info(f"Uploading media {media_path}")
 
             try:
                 async with AsyncClient() as client, open(os.path.realpath(media_path), 'rb') as file:
@@ -494,12 +455,11 @@ class WhatsApp:
                     )
 
                 if response.status_code == 200:
-                    self.logger.info(f"Media {media_path} uploaded")
+                    self.logger.info(f"Media {media_path} uploaded!")
                     return response.json()
 
                 else:
-                    self.logger.error(f"Error uploading media {media_path}")
-                    self.logger.error(f"Status code: {response.status_code}")
+                    self.logger.critical(f"Error uploading media. Path: {media_path}, Status: {response.status_code}")
                     self.logger.error(f"Response: {response.text}")
                     return None
 
@@ -514,8 +474,6 @@ class WhatsApp:
             Args:
                 media_id (str): ID of the media to be deleted.
             """
-            self.logger.info(f"Deleting media {media_id}")
-
             async with httpx.AsyncClient() as client:
                 response = await client.delete(f"{self.parent.base_url}/{media_id}", headers=self.parent.headers)
 
@@ -523,7 +481,7 @@ class WhatsApp:
                 self.logger.info(f"Media {media_id} deleted")
                 return response.json()
             else:
-                self.logger.error(f"Error deleting media {media_id}: {response.status_code}")
+                self.logger.critical(f"Error deleting media {media_id}: {response.status_code}")
                 self.logger.error(f"Response: {response.text}")
                 return None
 
@@ -537,12 +495,7 @@ class WhatsApp:
             Returns:
                 str: Media URL, or None if not found or an error occurred.
 
-            Example:
-                >>>  from test_modules.whatsapp import WhatsApp
-                >>> whatsapp = WhatsApp()
-                >>> whatsapp.util.query_media_url("media_id")
             """
-            self.logger.info(f"Querying media URL for {media_id}")
             async with httpx.AsyncClient() as client:
                 response = await client.get(f"{self.parent.base_url}/{media_id}", headers=self.parent.headers)
 
@@ -550,7 +503,7 @@ class WhatsApp:
                 self.logger.info(f"Media URL queried for {media_id}")
                 return response.json().get("url")
             else:
-                self.logger.error(f"Media URL not queried for {media_id}: {response.status_code}")
+                self.logger.critical(f"Media URL not queried for {media_id}: {response.status_code}")
                 self.logger.error(f"Response: {response.text}")
                 return None
 
@@ -567,11 +520,6 @@ class WhatsApp:
             Returns:
                 str: Path to the downloaded file, or None if there was an error.
 
-            Example:
-                >>>  from test_modules.whatsapp import WhatsApp
-                >>> whatsapp = WhatsApp()
-                >>> whatsapp.util.download_media("https://example.com/media_url", "image/jpeg")
-                >>> whatsapp.util.download_media("https://example.com/media_url", "video/mp4", "path/to/file") #do not include the file extension
             """
 
             from random import randint
@@ -587,10 +535,10 @@ class WhatsApp:
                     os.makedirs(os.path.dirname(save_file_here), exist_ok=True)
                     with open(save_file_here, "wb") as f:
                         f.write(response.content)
-                    self.logger.info(f"Media downloaded to {save_file_here}")
+                    self.logger.debug(f"Media downloaded to {save_file_here}")
                     return save_file_here
                 else:
-                    self.logger.error(f"Failed to download media. Status code: {response.status_code}")
+                    self.logger.critical(f"Failed to download media. Status code: {response.status_code}")
                     return None
 
             except Exception as e:

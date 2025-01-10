@@ -5,16 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e700a6d4-f3fd-4ca6-8806-bc5eb9b6e49c" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/services/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/hooks/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/services/capture_ride.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/hooks/capture_ride.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/services/name_template.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/hooks/name_template.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/example/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/hooks/capture_ride.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/hooks/capture_ride.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/hooks/name_template.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/hooks/name_template.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/templates/ehailing-bot.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/templates/ehailing-bot.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/templates/ehailing-emulator-tpl.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/templates/ehailing-emulator-tpl.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/engine_logger.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/engine_logger.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/modules/session/default_session_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/session/default_session_manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/modules/whatsapp/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/whatsapp/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/src/services/hook_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/hook_service.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pywce/src/services/message_processor.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/message_processor.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pywce/src/services/whatsapp_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/whatsapp_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/src/services/worker.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/worker.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pywce/src/utils/engine_util.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/utils/engine_util.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/templates/ehailing-bot.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/templates/ehailing-bot.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -210,7 +213,7 @@
       <workItem from="1736404509841" duration="25209000" />
       <workItem from="1736438954001" duration="7044000" />
       <workItem from="1736490435185" duration="28396000" />
-      <workItem from="1736533689731" duration="2815000" />
+      <workItem from="1736533689731" duration="4477000" />
     </task>
     <servers />
   </component>

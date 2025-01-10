@@ -19,6 +19,5 @@ def capture(arg: HookArg):
         # perform further actions
         logger.info(f"Ride Type: {session.get_from_props(session_id=session_id, prop_key='ride_type')}")
         logger.info(f"Client Comments: {session.get_from_props(session_id=session_id, prop_key='ride_comments')}")
-        pass
 
     return arg

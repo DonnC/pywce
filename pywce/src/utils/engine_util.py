@@ -8,6 +8,7 @@ from pywce.engine_logger import get_engine_logger
 from pywce.src.constants.engine import EngineConstants
 from pywce.src.exceptions import TemplateRenderException
 
+_logger = get_engine_logger(__name__)
 
 class EngineUtil:
 
@@ -23,8 +24,6 @@ class EngineUtil:
         """
         Render the template using Jinja2 after special variables are replaced.
         """
-        logger = get_engine_logger(__name__)
-
         try:
             if context is None: return template
 
@@ -41,7 +40,7 @@ class EngineUtil:
                 return render_with_jinja(template)
 
         except Exception as e:
-            logger.error("Failed to render template with error: {}".format(str(e)))
+            _logger.critical("Render template failure: {}".format(str(e)))
             raise TemplateRenderException(message="Template failed to render")
 
     @staticmethod
