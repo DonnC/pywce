@@ -2,18 +2,18 @@ from datetime import datetime
 from time import time
 from typing import List, Dict, Any, Tuple
 
-from engine_logger import get_engine_logger
-from modules.session import ISessionManager
-from modules.whatsapp import MessageTypeEnum
-from src.constants.engine import EngineConstants
-from src.constants.session import SessionConstants
-from src.constants.template import TemplateConstants
-from src.constants.template_type import TEMPLATE_TYPE_MAPPING, TemplateTypeConstants
-from src.exceptions import *
-from src.models import WorkerJob, WhatsAppServiceModel, QuickButtonModel
-from src.services.message_processor import MessageProcessor
-from src.services.whatsapp_service import WhatsAppService
-from src.utils.engine_util import EngineUtil
+from pywce.engine_logger import get_engine_logger
+from pywce.modules.session import ISessionManager
+from pywce.modules.whatsapp import MessageTypeEnum
+from pywce.src.constants.engine import EngineConstants
+from pywce.src.constants.session import SessionConstants
+from pywce.src.constants.template import TemplateConstants
+from pywce.src.constants.template_type import TEMPLATE_TYPE_MAPPING, TemplateTypeConstants
+from pywce.src.exceptions import *
+from pywce.src.models import WorkerJob, WhatsAppServiceModel, QuickButtonModel
+from pywce.src.services.message_processor import MessageProcessor
+from pywce.src.services.whatsapp_service import WhatsAppService
+from pywce.src.utils.engine_util import EngineUtil
 
 
 class Worker:

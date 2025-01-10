@@ -3,15 +3,15 @@ from datetime import datetime
 from random import randint
 from typing import Dict, Any, List
 
-from engine_logger import get_engine_logger
-from modules.whatsapp import MessageTypeEnum
-from src.constants.session import SessionConstants
-from src.constants.template import TemplateConstants
-from src.constants.template_type import TemplateTypeConstants
-from src.exceptions import EngineInternalException
-from src.models import WhatsAppServiceModel
-from src.services.hook_service import HookService
-from src.utils.engine_util import EngineUtil
+from pywce.engine_logger import get_engine_logger
+from pywce.modules.whatsapp import MessageTypeEnum
+from pywce.src.constants.session import SessionConstants
+from pywce.src.constants.template import TemplateConstants
+from pywce.src.constants.template_type import TemplateTypeConstants
+from pywce.src.exceptions import EngineInternalException
+from pywce.src.models import WhatsAppServiceModel
+from pywce.src.services.hook_service import HookService
+from pywce.src.utils.engine_util import EngineUtil
 
 
 class WhatsAppService:

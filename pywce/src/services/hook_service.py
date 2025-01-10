@@ -1,4 +1,4 @@
-from src.models import HookArg
+from pywce.src.models import HookArg
 
 
 class HookService:

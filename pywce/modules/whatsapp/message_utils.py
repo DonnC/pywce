@@ -1,7 +1,7 @@
 from typing import Dict, Any
 
-from modules.whatsapp.model.message_type_enum import MessageTypeEnum
-from modules.whatsapp.model.response_structure import ResponseStructure
+from pywce.modules.whatsapp.model.message_type_enum import MessageTypeEnum
+from pywce.modules.whatsapp.model.response_structure import ResponseStructure
 
 
 class MessageUtils:

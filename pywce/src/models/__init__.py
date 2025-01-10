@@ -1,10 +1,10 @@
 from dataclasses import dataclass, field
 from typing import Dict, Any, List
 
-from modules.session import ISessionManager
-from modules.session.impl.default_session_manager import DefaultSessionManager
-from modules.whatsapp import ResponseStructure, WhatsApp, WaUser, MessageTypeEnum
-from src.constants.template_type import TemplateTypeConstants
+from pywce.modules.session import ISessionManager
+from pywce.modules.session.default_session_manager import DefaultSessionManager
+from pywce.modules.whatsapp import ResponseStructure, WhatsApp, WaUser, MessageTypeEnum
+from pywce.src.constants.template_type import TemplateTypeConstants
 
 
 @dataclass

@@ -3,10 +3,11 @@ from typing import Dict, Any
 
 import ruamel.yaml
 
-from engine_logger import get_engine_logger
-from modules.whatsapp import WhatsApp
-from src.models import PywceEngineConfig, WorkerJob
-from src.services.worker import Worker
+from pywce.engine_logger import get_engine_logger
+from pywce.modules.whatsapp import WhatsApp
+from pywce.src.models import PywceEngineConfig, WorkerJob
+from pywce.src.services.worker import Worker
+
 
 class PywceEngine:
     __TEMPLATES__: Dict = {}
@@ -45,6 +46,12 @@ class PywceEngine:
                 data = yaml.load(file)
                 if data:
                     self.__TRIGGERS__.update(data)
+
+    def get_templates(self) -> Dict:
+        return self.__TEMPLATES__
+
+    def get_triggers(self) -> Dict:
+        return self.__TRIGGERS__
 
     def verify_webhook(self, mode, challenge, token):
         return self.whatsapp.util.verify_webhook_verification_challenge(mode, challenge, token)

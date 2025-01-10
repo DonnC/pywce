@@ -5,23 +5,45 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e700a6d4-f3fd-4ca6-8806-bc5eb9b6e49c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/tests/test_engine.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/test_modules/session/test_default_session_impl.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/test_templates/test_sample.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/test_triggers/test_triggers.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pywce/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pywce/src/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pywce/src/constants/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pywce/src/services/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pywce/src/utils/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/engine_logger.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/engine_logger.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/templates/ehailing-bot.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/templates/ehailing-bot.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/triggers/triggers.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/triggers/triggers.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/session/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/modules/session/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/session/impl/default_session_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/modules/session/impl/default_session_manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/whatsapp/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/modules/whatsapp/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/whatsapp/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/modules/whatsapp/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/templates/ehailing-bot.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/templates/ehailing-bot.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/triggers/triggers.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/triggers/triggers.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/engine.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/engine.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/modules/session/test_default_session_impl.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/example/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/session/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/session/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/session/impl/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/CHANGELOG.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/session/impl/default_session_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/session/default_session_manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/whatsapp/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/whatsapp/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/whatsapp/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/whatsapp/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/whatsapp/message_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/whatsapp/message_utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/whatsapp/model/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/LICENCE" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/whatsapp/model/message_type_enum.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/whatsapp/model/message_type_enum.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/whatsapp/model/response_structure.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/whatsapp/model/response_structure.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/whatsapp/model/wa_user.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/whatsapp/model/wa_user.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/constants/engine.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/constants/engine.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/constants/session.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/constants/session.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/constants/template.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/constants/template.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/constants/template_type.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/constants/template_type.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/engine.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/engine.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/exceptions/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/exceptions/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/models/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/whatsapp/model/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/hook_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/hook_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/message_processor.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/message_processor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/whatsapp_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/whatsapp_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/worker.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/worker.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/engine_util.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/utils/engine_util.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_engine.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_engine.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_modules/session/test_default_session_impl.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_modules/session/test_default_session_impl.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_templates/test_sample.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_templates/test_sample.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_triggers/test_triggers.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_triggers/test_triggers.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,8 +53,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
         <option value="Python Unit Test" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -50,42 +72,42 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python tests.Python tests for test_default_session_impl.TestDefaultSessionManager.test_save.executor": "Run",
-    "Python tests.Python tests for test_default_session_impl.TestSessionManager.executor": "Run",
-    "Python tests.Python tests for test_default_session_impl.TestSessionManager.test_clear.executor": "Run",
-    "Python tests.Python tests for test_engine.MyTestCase.executor": "Run",
-    "Python tests.Python tests for test_engine.TestPywceEngine.executor": "Run",
-    "Python tests.Python tests in test_default_session_impl.py.executor": "Run",
-    "Python tests.Python tests in tests.executor": "Run",
-    "Python.main.executor": "Run",
-    "Python.templetor.executor": "Run",
-    "Python.test_v.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "dev",
-    "last_opened_file_path": "C:/Users/DEVELOPER/Documents/Personal/Personal/Projects/python/pywce/tests/modules/triggers",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "Errors",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python tests.Python tests for test_default_session_impl.TestDefaultSessionManager.test_save.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for test_default_session_impl.TestSessionManager.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for test_default_session_impl.TestSessionManager.test_clear.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for test_engine.MyTestCase.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for test_engine.TestPywceEngine.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in test_default_session_impl.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in tests.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.templetor.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test_v.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/DEVELOPER/Documents/Personal/Personal/Projects/python/pywce/tests/modules/triggers&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;Errors&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\tests\modules\triggers" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\resources" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\pywce\modules\session" />
+      <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\pywce" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\tests" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\src\services" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\resources" />
-      <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\modules\whatsapp\model" />
-      <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\modules" />
     </key>
   </component>
   <component name="RunManager" selected="Python tests.Python tests for test_engine.TestPywceEngine">
@@ -208,6 +230,7 @@
       <workItem from="1736328857723" duration="15545000" />
       <workItem from="1736404509841" duration="25209000" />
       <workItem from="1736438954001" duration="7044000" />
+      <workItem from="1736490435185" duration="7461000" />
     </task>
     <servers />
   </component>

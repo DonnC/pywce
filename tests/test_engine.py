@@ -1,15 +1,54 @@
 import unittest
 
-from modules.session.impl.default_session_manager import DefaultSessionManager
-from modules.whatsapp import WhatsAppConfig, WhatsApp
-from src.engine import PywceEngine
-from src.models import PywceEngineConfig
+from pywce import DefaultSessionManager, PywceEngineConfig
+from pywce.modules.whatsapp import WhatsAppConfig, WhatsApp
+from pywce.src.engine import PywceEngine
 
 
 class TestPywceEngine(unittest.TestCase):
     def setUp(self):
         session_manager = DefaultSessionManager()
-        start_menu = "START-MENU"
+        start_menu = "START_MENU"
+
+        self.webhook_payload = {
+            "object": "whatsapp_business_account",
+            "entry": [
+                {
+                    "id": "8856996819413533",
+                    "changes": [
+                        {
+                            "value": {
+                                "messaging_product": "whatsapp",
+                                "metadata": {
+                                    "display_phone_number": "16505553333",
+                                    "phone_number_id": "27681414235104944"
+                                },
+                                "contacts": [
+                                    {
+                                        "profile": {
+                                            "name": "J Doe"
+                                        },
+                                        "wa_id": "263770123456"
+                                    }
+                                ],
+                                "messages": [
+                                    {
+                                        "from": "16315551234",
+                                        "id": "wamid.ABGGFlCGg0cvAgo-sJQh43L5Pe4W",
+                                        "timestamp": "1603059201",
+                                        "text": {
+                                            "body": "Hie"
+                                        },
+                                        "type": "text"
+                                    }
+                                ]
+                            },
+                            "field": "messages"
+                        }
+                    ]
+                }
+            ]
+        }
 
         wa_config = WhatsAppConfig(
             token="TOKEN",
@@ -31,12 +70,21 @@ class TestPywceEngine(unittest.TestCase):
         self.start_menu = start_menu
         self.engine = PywceEngine(config=config)
 
-    def test_templates_loaded(self):
+    def test_resources_loaded(self):
         self.assertIn(
             self.start_menu,
-            self.engine.__TEMPLATES__,
+            self.engine.get_templates(),
             "Template not loaded properly. Configured start template menu is missing"
         )
+
+        self.assertIn(
+            self.start_menu,
+            self.engine.get_triggers(),
+            "Triggers not loaded properly. Configured start template menu is missing"
+        )
+
+    def test_message_processing(self):
+        self.engine.process_webhook(webhook_data=self.webhook_payload)
 
 
 if __name__ == '__main__':

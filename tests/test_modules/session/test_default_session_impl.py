@@ -1,6 +1,6 @@
 import unittest
 
-from modules.session.impl.default_session_manager import DefaultSessionManager
+from pywce import DefaultSessionManager
 
 
 class TestSessionManager(unittest.TestCase):

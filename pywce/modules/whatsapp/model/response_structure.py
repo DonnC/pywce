@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Any
 
-from modules.whatsapp import MessageTypeEnum
+from pywce.modules.whatsapp import MessageTypeEnum
 
 
 @dataclass

@@ -11,8 +11,8 @@ from typing import Dict, Any, List, Union
 import httpx
 from httpx import AsyncClient
 
-from engine_logger import get_engine_logger
-from modules.whatsapp.model.wa_user import WaUser
+from pywce.engine_logger import get_engine_logger
+from pywce.modules.whatsapp.model.wa_user import WaUser
 from .config import WhatsAppConfig
 from .model.message_type_enum import MessageTypeEnum
 from .model.response_structure import ResponseStructure

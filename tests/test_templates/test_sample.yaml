@@ -2,7 +2,7 @@
 # the test_templates can be separated into different files for easy management
 # stage names can be numbers or any supported YAML data type
 
-"START-MENU":
+"START_MENU":
   type: button
   message:
     title: Test
@@ -37,4 +37,4 @@
           title: JJ Doe
           description: John Jane Doe ⭐
   routes:
-    "re:.*": "START-MENU"
+    "re:.*": "START_MENU"
