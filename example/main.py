@@ -1,79 +1,81 @@
 from typing import Dict
 
-from fastapi import FastAPI, Request, Response, BackgroundTasks, Query
+from fastapi import FastAPI, Request, Response, BackgroundTasks, Query, Depends
 
 import pywce
+from example.dependencies import get_engine_instance, get_whatsapp_instance
 from pywce.engine_logger import get_engine_logger
 
+logger = get_engine_logger(__name__)
+
+# - App Metadata -
 app = FastAPI(
     name="Pywce Bot",
     description="An example chatbot using pywce engine",
     version="0.0.1",
-    author="DonnC",
-    email="donnclab@gmail.com",
-    license="MIT"
+    contact={
+        "name": "DonnC",
+        "email": "donnclab@gmail.com",
+    },
+    license_info={"name": "MIT"},
 )
 
-# - define configs & dependencies -
-logger = get_engine_logger(__name__)
-session_manager = pywce.DefaultSessionManager()
 
-start_menu = "START-MENU"
-
-wa_config = pywce.WhatsAppConfig(
-    token="TOKEN",
-    phone_number_id="PHONE_NUMBER_ID",
-    hub_verification_token="HUB_VERIFICATION_TOKEN",
-    use_emulator=True
-)
-
-whatsapp = pywce.WhatsApp(whatsapp_config=wa_config)
-
-config = pywce.PywceEngineConfig(
-    whatsapp=whatsapp,
-    templates_dir="templates",
-    trigger_dir="triggers",
-    start_template_stage=start_menu,
-    session_manager=session_manager
-)
-
-engine = pywce.PywceEngine(config=config)
-
-
-# - end -
-
-async def webhook_event(payload: Dict, headers: Dict) -> None:
+# - Utility Functions -
+async def webhook_event(payload: Dict, headers: Dict, engine: pywce.PywceEngine) -> None:
     """
-    Initiates engine processing, process webhook payload via pywce engine
+    Process webhook event in the background using pywce engine.
 
+    :param engine: Pywce engine instance
     :param payload: WhatsApp webhook payload
     :param headers: WhatsApp webhook headers
-    :return: None
     """
     logger.info("Received webhook event, processing..")
     await engine.process_webhook(webhook_data=payload, webhook_headers=headers)
     logger.info("Webhook event processed.")
 
 
+# - API Endpoints -
 @app.post("/webhook")
-async def process_webhook(request: Request, background_tasks: BackgroundTasks):
-    # Extract webhook payload and headers
+async def process_webhook(
+        request: Request,
+        background_tasks: BackgroundTasks,
+        engine: pywce.PywceEngine = Depends(get_engine_instance)
+) -> Response:
+    """
+    Handle incoming webhook events from WhatsApp and process them in the background.
+
+    :param request: FastAPI Request object containing the webhook payload
+    :param background_tasks: FastAPI BackgroundTasks object for async processing
+    :param engine: pywce.PywceEngine instance for webhook processing
+    :return: HTTP Response with "ACK" content
+    """
     payload = await request.json()
     headers = dict(request.headers)
 
-    # Publish the event in the background for engine to process
-    background_tasks.add_task(webhook_event, payload, headers)
+    # Add processing task to background
+    background_tasks.add_task(webhook_event, payload, headers, engine)
 
-    # Immediately respond with an acknowledgment to avoid receiving same webhook response
+    # Immediately respond to WhatsApp with acknowledgment
     return Response(content="ACK", status_code=200)
 
 
 @app.get("/webhook")
-async def verify_webhook(mode: str = Query(str), token: str = Query(str), challenge: str = Query(str)):
+async def verify_webhook(
+        mode: str = Query(...),
+        token: str = Query(...),
+        challenge: str = Query(...),
+        whatsapp: pywce.WhatsApp = Depends(get_whatsapp_instance)
+) -> Response:
     """
-    Verify WhatsApp webhook by checking query parameters.
+    Verify WhatsApp webhook using query parameters.
+
+    :param whatsapp: WhatsApp instance to process webhook challenge
+    :return: HTTP Response with challenge content if verification succeeds, otherwise "Forbidden"
     """
-    result = whatsapp.util.verify_webhook_verification_challenge(mode=mode, token=token, challenge=challenge)
+    result = whatsapp.util.verify_webhook_verification_challenge(
+        mode=mode, token=token, challenge=challenge
+    )
 
     if result is None:
         return Response(content="Forbidden", status_code=403)
