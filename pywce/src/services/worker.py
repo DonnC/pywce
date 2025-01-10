@@ -1,4 +1,5 @@
 from datetime import datetime
+from random import randint
 from time import time
 from typing import List, Dict, Any, Tuple
 
@@ -122,8 +123,18 @@ class Worker:
         # check for next route in configured template routes
         for _pattern, _route in current_template_routes.items():
             if EngineUtil.is_regex_input(_pattern):
-                if EngineUtil.is_regex_pattern_match(EngineUtil.extract_pattern(_pattern), msg_processor.USER_INPUT[0]):
-                    return _route
+                if msg_processor.USER_INPUT[0] is None:
+                    # received an unprocessable input e.g. location-request / media message
+                    # provide a dummy input that may match {"re:.*": "NEXT-STAGE"}
+                    # this is to avoid any proper defined route that may match accidentally
+                    _dummy_input = f"pywce.{randint(11, 1111)}"
+                    if EngineUtil.is_regex_pattern_match(EngineUtil.extract_pattern(_pattern), _dummy_input):
+                        return _route
+
+                else:
+                    if EngineUtil.is_regex_pattern_match(EngineUtil.extract_pattern(_pattern),
+                                                         msg_processor.USER_INPUT[0]):
+                        return _route
 
         # check for next route in template routes that match exact user input
         if msg_processor.USER_INPUT[0] in current_template_routes:

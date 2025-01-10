@@ -97,17 +97,41 @@ class MessageProcessor:
         # TODO: check if current msg id is null, throw Ambiguous old webhook exc
 
     def __get_message_body__(self) -> None:
+        """
+        for type that cannot be processed easily e.g.
+        MEDIA, LOCATION_REQUEST & FLOW, the raw response data will be available under
+        USER_INPUT[1] &
+        HookArg.additional_data
+        but HookArg.user_input will be None
+
+        else, the user selection or input will be available under
+        USER_INPUT[0]
+        HookArg.user_input
+
+        If the resulting USER_INPUT[0] is None -> it signifies that user message cannot be processed e.g. Image
+        In that case, bot hook should process it further on what to do with it
+        The template should just define next stage to go to in the template routes e.g
+        {"re:.*": "NEXT-STAGE"}
+
+        :return: None
+        """
+
         match self.payload.model:
             case MessageTypeEnum.TEXT:
                 self.USER_INPUT = (self.payload.body.get("body"), None)
                 self.__check_if_trigger__(self.USER_INPUT[0])
 
-            case MessageTypeEnum.BUTTON:
-                self.USER_INPUT = (self.payload.body.get("text"), None)
-                self.__check_if_trigger__(self.USER_INPUT[0])
+            case MessageTypeEnum.BUTTON | MessageTypeEnum.INTERACTIVE_BUTTON | MessageTypeEnum.INTERACTIVE_LIST:
+                if "text" in self.payload.body:
+                    self.USER_INPUT = (self.payload.body.get("text"), None)
+                    self.__check_if_trigger__(self.USER_INPUT[0])
+                else:
+                    # for interactive button & list
+                    self.USER_INPUT = (self.payload.body.get("id"), self.payload.body)
+                    self.__check_if_trigger__(self.USER_INPUT[0])
 
             case MessageTypeEnum.LOCATION:
-                self.USER_INPUT = ("location_request", self.payload.body)
+                self.USER_INPUT = (None, self.payload.body)
 
             case MessageTypeEnum.INTERACTIVE:
                 self.USER_INPUT = (None, self.payload.body)
@@ -115,7 +139,7 @@ class MessageProcessor:
             case MessageTypeEnum.IMAGE | MessageTypeEnum.STICKER | MessageTypeEnum.DOCUMENT | MessageTypeEnum.AUDIO | MessageTypeEnum.VIDEO:
                 self.USER_INPUT = (None, self.payload.body)
 
-            case MessageTypeEnum.INTERACTIVE_BUTTON | MessageTypeEnum.INTERACTIVE_FLOW | MessageTypeEnum.INTERACTIVE_LIST:
+            case MessageTypeEnum.INTERACTIVE_FLOW:
                 self.USER_INPUT = (None, self.payload.body)
 
             case _:
