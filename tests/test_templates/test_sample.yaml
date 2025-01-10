@@ -4,9 +4,10 @@
 
 "START_MENU":
   type: button
+  template: "tests.test_services.name_template.username"
   message:
     title: Test
-    body: "Hi there, I am a test message"
+    body: "Hi {{ name }}, I am a test message"
     footer: PYWCE
     buttons:
       - Proceed

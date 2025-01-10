@@ -5,10 +5,14 @@ from pywce.modules.whatsapp import WhatsAppConfig, WhatsApp
 from pywce.src.engine import PywceEngine
 
 
-class TestPywceEngine(unittest.TestCase):
+class TestPywceEngine(unittest.IsolatedAsyncioTestCase):
     def setUp(self):
         session_manager = DefaultSessionManager()
         start_menu = "START_MENU"
+
+        self.webhook_headers = {
+            'x-hub-signature-256': 'dsagsfgfsa',
+        }
 
         self.webhook_payload = {
             "object": "whatsapp_business_account",
@@ -26,7 +30,7 @@ class TestPywceEngine(unittest.TestCase):
                                 "contacts": [
                                     {
                                         "profile": {
-                                            "name": "J Doe"
+                                            "name": "PyWCE"
                                         },
                                         "wa_id": "263770123456"
                                     }
@@ -83,8 +87,10 @@ class TestPywceEngine(unittest.TestCase):
             "Triggers not loaded properly. Configured start template menu is missing"
         )
 
-    def test_message_processing(self):
-        self.engine.process_webhook(webhook_data=self.webhook_payload)
+    async def test_message_processing(self):
+        result = await self.engine.process_webhook(webhook_data=self.webhook_payload,
+                                                   webhook_headers=self.webhook_headers)
+        self.assertIsNone(result, "Webhook did not return result")
 
 
 if __name__ == '__main__':

@@ -1,15 +1,65 @@
 import logging
-import logging.config
-
+import os
 from logging.handlers import RotatingFileHandler
 
-def get_engine_logger(name):
-    _lg = logging.getLogger(name)
+import colorlog
+from pythonjsonlogger import json
 
-    _handler = RotatingFileHandler('pywce_engine.log', 'a', maxBytes=10*1024*1024, backupCount=7)
-    _formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+# Default logging enabled flag (you can change this to False for disabling)
+LOGGING_ENABLED = os.getenv("PYWCE_LOGGER_ENABLED", "True").lower() == "true"
 
-    _handler.setFormatter(_formatter)
-    _lg.addHandler(_handler)
+# Log file configuration
+LOG_FILE = "pywce_engine.log"
+MAX_LOG_SIZE = 10 * 1024 * 1024  # 10 MB max size for each log file
+BACKUP_COUNT = 5
 
-    return _lg
+
+def _get_logger(name: str = None) -> logging.Logger:
+    """
+    Configures and returns a logger with both console and file logging.
+    """
+    logger = logging.getLogger(name)
+
+    if not LOGGING_ENABLED:
+        logger.setLevel(logging.CRITICAL)
+        return logger
+
+    logger.setLevel(logging.DEBUG)
+
+    # Remove all existing handlers (in case it's already configured)
+    if logger.hasHandlers():
+        logger.handlers.clear()
+
+    console_formatter = colorlog.ColoredFormatter(
+        '%(log_color)s%(asctime)s [%(levelname)s] [%(name)s:%(lineno)d] - %(message)s',
+        datefmt='%Y-%m-%d %H:%M:%S',
+        log_colors={
+            'DEBUG': 'green',
+            'INFO': 'blue',
+            'WARNING': 'yellow',
+            'ERROR': 'red',
+            'CRITICAL': 'bold_red'
+        }
+    )
+
+    file_formatter = json.JsonFormatter(
+        '%(asctime)s [%(levelname)s] [%(name)s] - {%(filename)s:%(lineno)d} %(funcName)s - %(message)s'
+    )
+
+    # Stream handler for console output
+    stream_handler = logging.StreamHandler()
+    stream_handler.setLevel(logging.DEBUG)
+    stream_handler.setFormatter(console_formatter)
+    logger.addHandler(stream_handler)
+
+    # Rotating file handler
+    file_handler = RotatingFileHandler(LOG_FILE, maxBytes=MAX_LOG_SIZE, backupCount=BACKUP_COUNT)
+    file_handler.setLevel(logging.DEBUG)
+    file_handler.setFormatter(file_formatter)
+    logger.addHandler(file_handler)
+
+    return logger
+
+
+def get_engine_logger(name: str = "pywce_logger"):
+    return _get_logger(name)

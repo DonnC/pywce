@@ -24,7 +24,7 @@ class WhatsAppService:
         ```
     """
 
-    def __init__(self, model: WhatsAppServiceModel, validate_template:bool=True) -> None:
+    def __init__(self, model: WhatsAppServiceModel, validate_template: bool = True) -> None:
         self.model = model
         self.template = model.template
 
@@ -39,6 +39,35 @@ class WhatsAppService:
         if TemplateConstants.MESSAGE not in self.template:
             raise EngineInternalException("Template message not defined")
 
+    def _list_special_vars(self) -> Dict[str, list]:
+        """
+        List all special variables in the template.
+        """
+        special_vars = {"session_vars": [], "props_vars": []}
+
+        def extract_vars(value: Any):
+            if isinstance(value, str):
+                special_vars["session_vars"].extend(
+                    EngineUtil.extract_special_vars(value, r"{{\s*s\.([\w_]+)\s*}}")
+                )
+                special_vars["props_vars"].extend(
+                    EngineUtil.extract_special_vars(value, r"{{\s*p\.([\w_]+)\s*}}")
+                )
+            elif isinstance(value, dict):
+                for val in value.values():
+                    extract_vars(val)
+            elif isinstance(value, list):
+                for item in value:
+                    extract_vars(item)
+
+        extract_vars(self.template)
+
+        # Deduplicate the variables
+        special_vars["session_vars"] = list(set(special_vars["session_vars"]))
+        special_vars["props_vars"] = list(set(special_vars["props_vars"]))
+
+        return special_vars
+
     def __process_special_vars__(self) -> Dict:
         """
         Process and replace special variables in the template ({{ s.var }} and {{ p.var }}).
@@ -46,7 +75,7 @@ class WhatsAppService:
         session = self.model.hook_arg.session_manager
         user_props = session.get_user_props(self.model.user.wa_id)
 
-        def replace_special_vars(value):
+        def replace_special_vars(value: Any) -> Any:
             if isinstance(value, str):
                 # Replace `s.` vars with session data
                 value = re.sub(
@@ -62,12 +91,15 @@ class WhatsAppService:
                     value
                 )
 
+            elif isinstance(value, dict):
+                return {key: replace_special_vars(val) for key, val in value.items()}
+
+            elif isinstance(value, list):
+                return [replace_special_vars(item) for item in value]
+
             return value
 
-        if isinstance(self.template, dict):
-            return {key: self.__process_special_vars__() for key, value in self.template.items()}
-        else:
-            return replace_special_vars(self.template)
+        return replace_special_vars(self.template)
 
     def __process_template_hook__(self, skip: bool = False) -> None:
         """
@@ -80,10 +112,8 @@ class WhatsAppService:
         if TemplateConstants.TEMPLATE in self.template:
             self.template = self.__process_special_vars__()
 
-            response = HookService.process_hook(
-                hook_name=self.template.get(TemplateConstants.TEMPLATE_TYPE),
-                hook_arg=self.model.hook_arg
-            )
+            response = HookService.process_hook(hook_dotted_path=self.template.get(TemplateConstants.TEMPLATE),
+                                                hook_arg=self.model.hook_arg)
 
             self.template = EngineUtil.process_template(
                 template=self.template,
@@ -189,10 +219,8 @@ class WhatsAppService:
         if TemplateConstants.TEMPLATE in self.template:
             self.template = self.__process_special_vars__()
 
-            response = HookService.process_hook(
-                hook_name=self.template.get(TemplateConstants.TEMPLATE_TYPE),
-                hook_arg=self.model.hook_arg
-            )
+            response = HookService.process_hook(hook_dotted_path=self.template.get(TemplateConstants.TEMPLATE),
+                                                hook_arg=self.model.hook_arg)
 
             flow_initial_payload = response.template_body.initial_flow_payload
 

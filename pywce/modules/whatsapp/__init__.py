@@ -63,7 +63,6 @@ class WhatsApp:
             response = await client.post(self.url, headers=self.headers, json=data)
 
         if response.status_code == 200:
-            self.logger.info(f"{message_type.title()} sent to {recipient_id}")
             return response.json()
 
         else:
@@ -416,7 +415,7 @@ class WhatsApp:
 
             return is_whatsapp and is_same_recipient and has_msg_id
 
-        def get_response_message_id(response_data: Dict[str, Any]) -> str:
+        def get_response_message_id(self, response_data: Dict[str, Any]) -> str:
             assert response_data.get("messaging_product") == "whatsapp"
             msg_id = response_data.get("messages")[0].get("id").startswith("wamid.")
 

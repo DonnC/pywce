@@ -93,7 +93,7 @@ class Worker:
         dynamic_retry = self.session.get(session_id=self.session_id, key=SessionConstants.DYNAMIC_RETRY)
 
         should_reroute_to_checkpoint = EngineConstants.RETRY_NAME_KEY not in routes \
-                                       and user_input.lower() == EngineConstants.RETRY_NAME_KEY.name.lower() \
+                                       and _input.lower() == EngineConstants.RETRY_NAME_KEY.lower() \
                                        and checkpoint is not None \
                                        and dynamic_retry is not None \
                                        and is_from_trigger is False
@@ -189,7 +189,7 @@ class Worker:
         whatsapp_service = WhatsAppService(model=service_model, validate_template=False)
         response = await whatsapp_service.send_message(handle_session=False, template=False)
 
-        response_msg_id = _client.util.get_response_msg_id(response)
+        response_msg_id = _client.util.get_response_message_id(response)
 
         self.logger.info("Quick button message responded with id: %s", response_msg_id)
 
@@ -198,6 +198,8 @@ class Worker:
         processor.setup()
 
         next_stage, next_template = self.__hook_next_template_handler__(processor)
+
+        self.logger.debug("Next stage: %s", next_stage)
 
         service_model = WhatsAppServiceModel(
             template_type=TEMPLATE_TYPE_MAPPING.get(next_template.get(TemplateConstants.TEMPLATE_TYPE)),
@@ -267,7 +269,7 @@ class Worker:
             return
 
         except EngineResponseException as e:
-            self.logger.error("Invalid response error " + e.message)
+            self.logger.error("EngineResponse: " + e.message)
 
             btn = QuickButtonModel(
                 title="Message",

@@ -2,7 +2,7 @@
 # the test_templates can be separated into different files for easy management
 # stage names can be numbers or any supported YAML data type
 
-"START-MENU":
+"EM-START-MENU":
   type: button
   template: "example.services.name_template.username"
   checkpoint: true
@@ -13,9 +13,9 @@
     buttons:
       - Proceed
   routes:
-    "proceed": "PICKUP-DRIVE-MAIN-MENU"
+    "proceed": "EM-PICKUP-DRIVE-MAIN-MENU"
 
-"PICKUP-DRIVE-MAIN-MENU":
+"EM-PICKUP-DRIVE-MAIN-MENU":
   type: button
   prop: ride_type
   message:
@@ -27,21 +27,21 @@
       - Standard
       - Luxury
   routes:
-    "re:.*": "PICKUP-LOCATION"
+    "re:.*": "EM-PICKUP-LOCATION"
 
-"PICKUP-LOCATION":
-  type: request-location
+"EM-PICKUP-LOCATION":
+  type: text
   message: "Where would you like to be picked from?"
   routes:
-    "location_request": "DESTINATION-LOCATION"
+    "re:.*": "EM-DESTINATION-LOCATION"
 
-"DESTINATION-LOCATION":
-  type: request-location
+"EM-DESTINATION-LOCATION":
+  type: text
   message: "Where would you like to go?"
   routes:
-    "location_request": "RIDE-OFFER"
+    "re:.*": "EM-RIDE-OFFER"
 
-"RIDE-OFFER":
+"EM-RIDE-OFFER":
   type: button
   message:
     title: Ride Fee
@@ -51,17 +51,17 @@
       - Accept
       - Counter Offer
   routes:
-    "accept": "RIDE-COMMENT"
-    "counter offer": "RIDE-COUNTER-OFFER"
+    "accept": "EM-RIDE-COMMENT"
+    "counter offer": "EM-RIDE-COUNTER-OFFER"
 
-"RIDE-COMMENT":
+"EM-RIDE-COMMENT":
   type: text
   prop: ride_comments
   message: "Provide additional info to the driver"
   routes:
-    "re:.*": "AVAILABLE-DRIVERS"
+    "re:.*": "EM-AVAILABLE-DRIVERS"
 
-"AVAILABLE-DRIVERS":
+"EM-AVAILABLE-DRIVERS":
   type: list
   message:
     title: Available Drivers
@@ -87,9 +87,9 @@
           title: Mr Smith | $3.00
           description: Toyota Vitz, 320m - (3.2) ⭐
   routes:
-    "re:.*": "CONFIRM-OFFER"
+    "re:.*": "EM-CONFIRM-OFFER"
 
-"CONFIRM-OFFER":
+"EM-CONFIRM-OFFER":
   type: button
   on-receive: "example.services.capture_ride.capture"
   message:
@@ -106,10 +106,10 @@
       - Confirm
       - Abort
   routes:
-    "confirm": "DRIVER-COMMAND-COME"
-    "abort": "PICKUP-DRIVE"
+    "confirm": "EM-DRIVER-COMMAND-COME"
+    "abort": "EM-PICKUP-DRIVE"
 
-"DRIVER-COMMAND-COME":
+"EM-DRIVER-COMMAND-COME":
   type: button
   message:
     title: PickDrive

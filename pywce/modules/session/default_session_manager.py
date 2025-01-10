@@ -65,7 +65,8 @@ class DefaultSessionManager(ISessionManager):
 
     def evict(self, session_id: str, key: str) -> None:
         with self.lock:
-            self.sessions.get(session_id).pop(key)
+            if key in self.sessions.get(session_id, {}):
+                self.sessions.get(session_id).pop(key)
 
     def save_all(self, session_id: str, data: Dict[str, Any]) -> None:
         for k, v in data.items():

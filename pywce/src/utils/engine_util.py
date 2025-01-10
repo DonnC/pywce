@@ -10,6 +10,14 @@ from pywce.src.exceptions import TemplateRenderException
 
 
 class EngineUtil:
+
+    @staticmethod
+    def extract_special_vars(value: str, pattern: str) -> list:
+        """
+        Extract special variables based on a given regex pattern.
+        """
+        return re.findall(pattern, value)
+
     @staticmethod
     def process_template(template: Any, context: Dict) -> Any:
         """

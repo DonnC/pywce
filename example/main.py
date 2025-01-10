@@ -1,5 +1,6 @@
 from typing import Dict
 
+import uvicorn
 from fastapi import FastAPI, Request, Response, BackgroundTasks, Query, Depends
 
 import pywce
@@ -81,3 +82,6 @@ async def verify_webhook(
         return Response(content="Forbidden", status_code=403)
 
     return Response(content=result, status_code=200)
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)

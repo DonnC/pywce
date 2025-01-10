@@ -144,18 +144,13 @@ class MessageProcessor:
 
     def __process_hook__(self, stage_key: str) -> None:
         if stage_key in self.CURRENT_TEMPLATE:
-            HookService.process_hook(
-                hook_name=self.CURRENT_TEMPLATE.get(stage_key),
-                hook_arg=self.HOOK_ARG
-            )
+            HookService.process_hook(hook_dotted_path=self.CURRENT_TEMPLATE.get(stage_key), hook_arg=self.HOOK_ARG)
 
     # - start template hooks processing -
     def __on_generate__(self, next_template: Dict) -> None:
         if TemplateConstants.ON_GENERATE in next_template:
-            HookService.process_hook(
-                hook_name=next_template.get(TemplateConstants.ON_GENERATE),
-                hook_arg=self.HOOK_ARG
-            )
+            HookService.process_hook(hook_dotted_path=next_template.get(TemplateConstants.ON_GENERATE),
+                                     hook_arg=self.HOOK_ARG)
 
     def __bluetick_message__(self) -> None:
         # a fire & forget approach
@@ -191,9 +186,8 @@ class MessageProcessor:
                 self.__check_template_params__()
 
                 result = HookService.process_hook(
-                    hook_name=self.CURRENT_TEMPLATE.get(TemplateConstants.DYNAMIC_ROUTER),
-                    hook_arg=self.HOOK_ARG
-                )
+                    hook_dotted_path=self.CURRENT_TEMPLATE.get(TemplateConstants.DYNAMIC_ROUTER),
+                    hook_arg=self.HOOK_ARG)
 
                 return result.additional_data.get(EngineConstants.DYNAMIC_ROUTE_KEY)
 
