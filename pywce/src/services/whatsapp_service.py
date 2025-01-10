@@ -39,35 +39,6 @@ class WhatsAppService:
         if TemplateConstants.MESSAGE not in self.template:
             raise EngineInternalException("Template message not defined")
 
-    def _list_special_vars(self) -> Dict[str, list]:
-        """
-        List all special variables in the template.
-        """
-        special_vars = {"session_vars": [], "props_vars": []}
-
-        def extract_vars(value: Any):
-            if isinstance(value, str):
-                special_vars["session_vars"].extend(
-                    EngineUtil.extract_special_vars(value, r"{{\s*s\.([\w_]+)\s*}}")
-                )
-                special_vars["props_vars"].extend(
-                    EngineUtil.extract_special_vars(value, r"{{\s*p\.([\w_]+)\s*}}")
-                )
-            elif isinstance(value, dict):
-                for val in value.values():
-                    extract_vars(val)
-            elif isinstance(value, list):
-                for item in value:
-                    extract_vars(item)
-
-        extract_vars(self.template)
-
-        # Deduplicate the variables
-        special_vars["session_vars"] = list(set(special_vars["session_vars"]))
-        special_vars["props_vars"] = list(set(special_vars["props_vars"]))
-
-        return special_vars
-
     def __process_special_vars__(self) -> Dict:
         """
         Process and replace special variables in the template ({{ s.var }} and {{ p.var }}).
@@ -107,11 +78,11 @@ class WhatsAppService:
         and resign to self.template
         :return: None
         """
+        self.template = self.__process_special_vars__()
+
         if skip: return
 
         if TemplateConstants.TEMPLATE in self.template:
-            self.template = self.__process_special_vars__()
-
             response = HookService.process_hook(hook_dotted_path=self.template.get(TemplateConstants.TEMPLATE),
                                                 hook_arg=self.model.hook_arg)
 
@@ -184,9 +155,6 @@ class WhatsAppService:
 
         section_data = []
 
-        self.logger.debug("LIST sections payload")
-        self.logger.debug(sections)
-
         for section_title, inner_sections in sections.items():
             sec_title_data = {"title": section_title}
             sec_title_rows = []
@@ -198,15 +166,14 @@ class WhatsAppService:
                     "description": _section.get("description")
                 })
 
+            sec_title_data["rows"] = sec_title_rows
+
             section_data.append(sec_title_data)
 
         data["action"] = {
             "button": message.get("button", "Options"),
             "sections": section_data
         }
-
-        self.logger.debug("LIST payload")
-        self.logger.debug(data)
 
         return {
             "recipient_id": self.model.user.wa_id,

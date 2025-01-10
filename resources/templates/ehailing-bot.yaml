@@ -4,7 +4,7 @@
 
 "START-MENU":
   type: button
-  template: "pychatbot.services.get_default_name.get_default_name"
+  template: "pychatbot.hooks.get_default_name.get_default_name"
   message:
     title: PickDrive
     body: "Hi {{ user }}, I'm PickDrive Assistant - making your inner-city travelling a breeze.\n\nTo start, click the button below"

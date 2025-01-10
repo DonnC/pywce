@@ -127,7 +127,7 @@ class MessageProcessor:
                     self.__check_if_trigger__(self.USER_INPUT[0])
                 else:
                     # for interactive button & list
-                    self.USER_INPUT = (self.payload.body.get("id"), self.payload.body)
+                    self.USER_INPUT = (str(self.payload.body.get("id")), self.payload.body)
                     self.__check_if_trigger__(self.USER_INPUT[0])
 
             case MessageTypeEnum.LOCATION:

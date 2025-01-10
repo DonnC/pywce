@@ -88,4 +88,4 @@ class EngineUtil:
         :param text: The text to check against the regex pattern.
         :return: True if the pattern matches any part of the text, False otherwise.
         """
-        return re.search(regex_pattern, text) is not None
+        return re.search(regex_pattern, str(text)) is not None

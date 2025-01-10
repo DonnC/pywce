@@ -4,7 +4,7 @@
 
 "START-MENU":
   type: button
-  template: "example.services.name_template.username"
+  template: "example.hooks.name_template.username"
   checkpoint: true
   message:
     title: PickDrive
@@ -20,7 +20,7 @@
   prop: ride_type
   message:
     title: PickDrive
-    body: "To offer you with exclusive riding experience, select your preferred ride type"
+    body: "Good {{ s.username }}.\nTo offer you with exclusive riding experience, select your preferred ride type"
     footer: pywce
     buttons:
       - Ride
@@ -91,7 +91,7 @@
 
 "CONFIRM-OFFER":
   type: button
-  on-receive: "example.services.capture_ride.capture"
+  on-receive: "example.hooks.capture_ride.capture"
   message:
     title: PickDrive Ride
     body: |

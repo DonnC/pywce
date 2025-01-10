@@ -12,6 +12,8 @@ def username(arg: HookArg) -> HookArg:
     """
     logger.info(f"Received hook arg: {arg}")
 
+    arg.session_manager.save(session_id=arg.user.wa_id, key="username", data=arg.user.name)
+
     # set render payload data to match the required template dynamic var
     arg.template_body = TemplateDynamicBody(render_template_payload={"name": arg.user.name})
 
