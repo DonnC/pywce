@@ -8,7 +8,7 @@
   checkpoint: true
   message:
     title: PickDrive
-    body: "Hi {{ name }}, I'm you PickDrive assistant.\n\nTo start, click the button below"
+    body: "Hi {{ name }}, I'm PickDrive assistant.\n\nTo start, click the button below"
     footer: pywce
     buttons:
       - Proceed
@@ -31,12 +31,14 @@
 
 "EM-PICKUP-LOCATION":
   type: text
+  prop: pickup_point
   message: "Where would you like to be picked from?"
   routes:
     "re:.*": "EM-DESTINATION-LOCATION"
 
 "EM-DESTINATION-LOCATION":
   type: text
+  prop: destination
   message: "Where would you like to go?"
   routes:
     "re:.*": "EM-RIDE-OFFER"
@@ -87,6 +89,9 @@
           title: Mr Smith | $3.00
           description: Toyota Vitz, 320m - (3.2) ⭐
   routes:
+    "0": "EM-CONFIRM-OFFER"
+    "1": "EM-CONFIRM-OFFER"
+    # or use a match all regex
     "re:.*": "EM-CONFIRM-OFFER"
 
 "EM-CONFIRM-OFFER":
@@ -107,7 +112,7 @@
       - Abort
   routes:
     "confirm": "EM-DRIVER-COMMAND-COME"
-    "abort": "EM-PICKUP-DRIVE"
+    "abort": "EM-START-MENU"
 
 "EM-DRIVER-COMMAND-COME":
   type: button

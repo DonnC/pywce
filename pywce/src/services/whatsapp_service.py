@@ -156,7 +156,7 @@ class WhatsAppService:
             buttons_data.append({
                 "type": "reply",
                 "reply": {
-                    "id": button,
+                    "id": str(button).lower(),
                     "title": button
                 }
             })
@@ -183,6 +183,10 @@ class WhatsAppService:
             data["footer"] = {"text": message.get(TemplateConstants.MESSAGE_FOOTER)}
 
         section_data = []
+
+        self.logger.debug("LIST sections payload")
+        self.logger.debug(sections)
+
         for section_title, inner_sections in sections.items():
             sec_title_data = {"title": section_title}
             sec_title_rows = []
@@ -200,6 +204,9 @@ class WhatsAppService:
             "button": message.get("button", "Options"),
             "sections": section_data
         }
+
+        self.logger.debug("LIST payload")
+        self.logger.debug(data)
 
         return {
             "recipient_id": self.model.user.wa_id,

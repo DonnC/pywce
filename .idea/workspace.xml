@@ -6,8 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="e700a6d4-f3fd-4ca6-8806-bc5eb9b6e49c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/services/message_processor.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/message_processor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/services/worker.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/worker.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/templates/ehailing-emulator-tpl.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/templates/ehailing-emulator-tpl.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/templates/report.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/templates/report.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/triggers/triggers.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/triggers/triggers.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/src/services/whatsapp_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/whatsapp_service.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,7 +47,7 @@
     "Python tests.Python tests for test_engine.TestPywceEngine.executor": "Debug",
     "Python tests.Python tests in test_default_session_impl.py.executor": "Run",
     "Python tests.Python tests in tests.executor": "Run",
-    "Python.main.executor": "Debug",
+    "Python.main.executor": "Run",
     "Python.templetor.executor": "Run",
     "Python.test_v.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -202,36 +204,15 @@
       <workItem from="1736328857723" duration="15545000" />
       <workItem from="1736404509841" duration="25209000" />
       <workItem from="1736438954001" duration="7044000" />
-      <workItem from="1736490435185" duration="23854000" />
+      <workItem from="1736490435185" duration="28342000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/pywce/src/services/worker.py</url>
-          <line>263</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/pywce/src/services/message_processor.py</url>
-          <line>39</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/pywce/src/services/worker.py</url>
-          <line>104</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
-  </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/pywce$main.coverage" NAME="main Coverage Results" MODIFIED="1736515518309" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/example" />
+    <SUITE FILE_PATH="coverage/pywce$main.coverage" NAME="main Coverage Results" MODIFIED="1736519632984" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/example" />
     <SUITE FILE_PATH="coverage/pywce$.coverage" NAME=" Coverage Results" MODIFIED="1736501879873" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/pywce$templetor.coverage" NAME="templetor Coverage Results" MODIFIED="1736407777201" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/example" />
     <SUITE FILE_PATH="coverage/pywce$test_v.coverage" NAME="test_v Coverage Results" MODIFIED="1736092146828" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
