@@ -327,7 +327,7 @@ class WhatsAppService:
                 raise EngineInternalException(message="Failed to generate whatsapp payload",
                                               data=self.model.next_stage)
 
-        if self.model.whatsapp.util.is_request_successful(recipient_id=self.model.user.wa_id, response_data=response):
+        if self.model.whatsapp.util.was_request_successful(recipient_id=self.model.user.wa_id, response_data=response):
             if handle_session is True:
                 session = self.model.hook_arg.session_manager
                 session_id = self.model.user.wa_id

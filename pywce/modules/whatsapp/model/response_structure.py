@@ -7,4 +7,4 @@ from pywce.modules.whatsapp import MessageTypeEnum
 @dataclass
 class ResponseStructure:
     body: Any = None
-    model: MessageTypeEnum = MessageTypeEnum.UNKNOWN
+    typ: MessageTypeEnum = MessageTypeEnum.UNKNOWN

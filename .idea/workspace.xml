@@ -4,21 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e700a6d4-f3fd-4ca6-8806-bc5eb9b6e49c" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/example/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/example/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/hooks/capture_ride.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/hooks/capture_ride.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/hooks/name_template.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/hooks/name_template.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/templates/ehailing-bot.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/templates/ehailing-bot.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/engine_logger.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/engine_logger.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/modules/session/default_session_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/session/default_session_manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/modules/whatsapp/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/whatsapp/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/services/hook_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/hook_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/services/message_processor.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/message_processor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/services/whatsapp_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/whatsapp_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/services/worker.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/worker.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/utils/engine_util.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/utils/engine_util.py" afterDir="false" />
-    </list>
+    <list default="true" id="e700a6d4-f3fd-4ca6-8806-bc5eb9b6e49c" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -213,7 +199,7 @@
       <workItem from="1736404509841" duration="25209000" />
       <workItem from="1736438954001" duration="7044000" />
       <workItem from="1736490435185" duration="28396000" />
-      <workItem from="1736533689731" duration="4477000" />
+      <workItem from="1736533689731" duration="4510000" />
     </task>
     <servers />
   </component>

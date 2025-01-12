@@ -1,5 +1,5 @@
 import threading
-from typing import Any, Dict, Type, List
+from typing import Any, Dict, Type, List, Union
 
 from pywce.engine_logger import get_engine_logger
 from pywce.modules.session import ISessionManager, T
@@ -37,7 +37,7 @@ class DefaultSessionManager(ISessionManager):
             if session_id in self.sessions:
                 self.sessions[session_id][key] = data
 
-    def get(self, session_id: str, key: str, t: Type[T] = None) -> Any or T:
+    def get(self, session_id: str, key: str, t: Type[T] = None) -> Union[Any, T]:
         with self.lock:
             data = self.sessions.get(session_id).get(key)
 
@@ -46,7 +46,7 @@ class DefaultSessionManager(ISessionManager):
 
             return data
 
-    def get_global(self, key: str, t: Type[T] = None) -> Any or T:
+    def get_global(self, key: str, t: Type[T] = None) -> Union[Any, T]:
         with self.lock:
             data = self.global_session.get(key)
 
@@ -55,7 +55,7 @@ class DefaultSessionManager(ISessionManager):
 
             return data
 
-    def fetch_all(self, session_id: str, is_global: bool = False) -> Dict[str, Any] or None:
+    def fetch_all(self, session_id: str, is_global: bool = False) -> Union[Dict[str, Any], None]:
         with self.lock:
             if is_global is True:
                 return self.global_session
@@ -74,9 +74,10 @@ class DefaultSessionManager(ISessionManager):
         for k in keys:
             self.evict(session_id, k)
 
-    def evict_global(self) -> None:
+    def evict_global(self, key: str) -> None:
         with self.lock:
-            self.global_session = {}
+            if key in self.global_session:
+                self.global_session.pop(key)
 
     def clear(self, session_id: str, retain_keys: List[str] = None) -> None:
         if retain_keys is None or retain_keys == []:
@@ -115,7 +116,7 @@ class DefaultSessionManager(ISessionManager):
 
         return True
 
-    def get_from_props(self, session_id: str, prop_key: str, t: Type[T] = None) -> Any or T:
+    def get_from_props(self, session_id: str, prop_key: str, t: Type[T] = None) -> Union[Any, T]:
         props = self.get_user_props(session_id)
 
         if prop_key not in props or props.get(prop_key) is None:

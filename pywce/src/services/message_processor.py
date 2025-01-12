@@ -116,7 +116,7 @@ class MessageProcessor:
         :return: None
         """
 
-        match self.payload.model:
+        match self.payload.typ:
             case MessageTypeEnum.TEXT:
                 self.USER_INPUT = (self.payload.body.get("body"), None)
                 self.__check_if_trigger__(self.USER_INPUT[0])

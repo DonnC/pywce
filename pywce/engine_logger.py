@@ -13,6 +13,7 @@ LOG_FILE = "pywce_engine.log"
 MAX_LOG_SIZE = 5 * 1024 * 1024
 BACKUP_COUNT = 5
 
+
 def _get_logger(name: str = None) -> logging.Logger:
     """
     Configures and returns a logger with both console and file logging.
@@ -20,7 +21,7 @@ def _get_logger(name: str = None) -> logging.Logger:
     logger = logging.getLogger(name)
 
     if not LOGGING_ENABLED:
-        logger.setLevel(logging.CRITICAL)
+        logger.setLevel(logging.ERROR)
         return logger
 
     logger.setLevel(logging.DEBUG)
@@ -49,13 +50,13 @@ def _get_logger(name: str = None) -> logging.Logger:
     stream_handler.setFormatter(console_formatter)
     logger.addHandler(stream_handler)
 
-
     file_handler = RotatingFileHandler(LOG_FILE, maxBytes=MAX_LOG_SIZE, backupCount=BACKUP_COUNT)
     file_handler.setLevel(logging.DEBUG)
     file_handler.setFormatter(file_formatter)
     logger.addHandler(file_handler)
 
     return logger
+
 
 def get_engine_logger(name: str = "pywce_logger"):
     return _get_logger(name)

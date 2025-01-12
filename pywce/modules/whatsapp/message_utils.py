@@ -37,10 +37,10 @@ class MessageUtils:
         message_type = self.message_data.get("type")
 
         if "location" in self.message_data:
-            return ResponseStructure(model=MessageTypeEnum.LOCATION, body=self.message_data.get("location"))
+            return ResponseStructure(typ=MessageTypeEnum.LOCATION, body=self.message_data.get("location"))
 
         if "contacts" in self.message_data:
-            return ResponseStructure(model=MessageTypeEnum.CONTACTS, body=self.message_data.get("contacts"))
+            return ResponseStructure(typ=MessageTypeEnum.CONTACTS, body=self.message_data.get("contacts"))
 
         type_ = self.__TYPE_MAPPING__.get(message_type, MessageTypeEnum.UNKNOWN)
 
@@ -52,8 +52,8 @@ class MessageUtils:
             )
 
             if type_ is not MessageTypeEnum.INTERACTIVE:
-                return ResponseStructure(model=type_, body=self.message_data.get("interactive").get(inner_type))
+                return ResponseStructure(typ=type_, body=self.message_data.get("interactive").get(inner_type))
 
-            return ResponseStructure(model=type_, body=self.message_data.get("interactive"))
+            return ResponseStructure(typ=type_, body=self.message_data.get("interactive"))
 
-        return ResponseStructure(model=type_, body=self.message_data.get(message_type))
+        return ResponseStructure(typ=type_, body=self.message_data.get(message_type))

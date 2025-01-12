@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Any, Dict, List, TypeVar, Type
+from typing import Any, Dict, List, TypeVar, Type, Union
 
 T = TypeVar("T")
 
@@ -40,7 +40,7 @@ class ISessionManager(ABC):
         pass
 
     @abstractmethod
-    def get(self, session_id: str, key: str, t: Type[T] = None) -> Any or T:
+    def get(self, session_id: str, key: str, t: Type[T] = None) -> Union[Any, T]:
         """
          Get data by `key` for given `session_id` from session.
 
@@ -54,19 +54,19 @@ class ISessionManager(ABC):
         pass
 
     @abstractmethod
-    def get_global(self, key: str, t: Type[T] = None) -> Any or T:
+    def get_global(self, key: str, t: Type[T] = None) -> Union[Any, T]:
         pass
 
     @abstractmethod
-    def get_from_props(self, session_id: str, prop_key: str, t: Type[T] = None) -> Any or T:
+    def get_from_props(self, session_id: str, prop_key: str, t: Type[T] = None) -> Union[Any, T]:
         pass
 
     @abstractmethod
-    def get_user_props(self, session_id: str) -> Dict[str, Any] or None:
+    def get_user_props(self, session_id: str) -> Union[Dict[str, Any], None]:
         pass
 
     @abstractmethod
-    def fetch_all(self, session_id: str, is_global:bool) -> Dict[str, Any] or None:
+    def fetch_all(self, session_id: str, is_global: bool) -> Union[Dict[str, Any], None]:
         pass
 
     @abstractmethod
@@ -78,7 +78,7 @@ class ISessionManager(ABC):
         pass
 
     @abstractmethod
-    def evict_global(self) -> None:
+    def evict_global(self, key: str) -> None:
         pass
 
     @abstractmethod

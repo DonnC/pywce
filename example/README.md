@@ -1,15 +1,24 @@
-# PyWCE Chatbot
-An example chatbot using pywce engine
+# Examples
+A example chatbots using pywce library
 
-This example project uses [Fast Api](https://fastapi.tiangolo.com/)
+The example projects uses [Fast Api](https://fastapi.tiangolo.com/)
 
-# Running
-1. Install project dependencies
+## Running
+Install project dependencies
 ```bash
 pip install -r requirements.txt
 ```
-2. Navigate to `settings.py` and add config settings
-3. Run project, [read more](https://fastapi.tiangolo.com/)
-```bash
-fastapi dev main.py
-```
+
+## Structure
+This folder contains 2 folders
+
+### [Engine ChatBot](engine_chatbot)
+An example chatbot using pywce core engine.
+
+A template-driven PickDrive conceptual whatsapp chatbot for InDrive.
+You can find the conversation flow in [templates dir](engine_chatbot/templates/ehailing-bot.yaml)
+
+### [Standalone ChatBot](standalone_chatbot)
+An example chatbot using core pywce whatsapp client **without** using the core template-driven engine.
+
+This is for DIY developers who just want to use yet another WhatsApp python library and handle their own logic

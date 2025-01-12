@@ -1,7 +1,7 @@
 from fastapi import Depends
 
 import pywce
-from example.settings import Settings
+from example.engine_chatbot.settings import Settings
 from pywce.engine_logger import get_engine_logger
 
 logger = get_engine_logger(__name__)

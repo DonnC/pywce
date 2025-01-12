@@ -4,7 +4,7 @@ import uvicorn
 from fastapi import FastAPI, Request, Response, BackgroundTasks, Query, Depends
 
 import pywce
-from example.dependencies import get_engine_instance, get_whatsapp_instance
+from example.engine_chatbot.dependencies import get_engine_instance, get_whatsapp_instance
 from pywce.engine_logger import get_engine_logger
 
 logger = get_engine_logger(__name__)
@@ -12,7 +12,7 @@ logger = get_engine_logger(__name__)
 # - App Metadata -
 app = FastAPI(
     name="Pywce Bot",
-    description="An example chatbot using pywce engine",
+    description="An example chatbot using pywce core engine",
     version="0.0.1",
     contact={
         "name": "DonnC",

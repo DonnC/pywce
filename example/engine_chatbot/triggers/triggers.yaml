@@ -3,7 +3,7 @@
 
 # e.g. If a user types `start` - render the START-MENU stage template
 # defined in the /test_templates directory
-"EM-START-MENU": "re:(?i)(start)|(hi)|(hie)"
+"START-MENU": "re:(?i)(start)|(hi)|(hie)"
 
 # for reporting
 "REPORT": "re:^report$"

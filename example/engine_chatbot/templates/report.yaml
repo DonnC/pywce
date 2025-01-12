@@ -3,4 +3,4 @@
   prop: report
   message: "Provide report information"
   routes:
-    "re:.*": "EM-START-MENU"
+    "re:.*": "START-MENU"

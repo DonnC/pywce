@@ -238,7 +238,7 @@ class Worker:
             self.logger.warning(f"Skipping old webhook request. {self.payload.body} Discarding...")
             return
 
-        if self.job.payload.model == MessageTypeEnum.UNKNOWN or self.job.payload.model == MessageTypeEnum.UNSUPPORTED:
+        if self.job.payload.typ == MessageTypeEnum.UNKNOWN or self.job.payload.typ == MessageTypeEnum.UNSUPPORTED:
             self.logger.warning(f"Received unknown | unsupported message: {self.user.wa_id}")
             return
 
@@ -293,7 +293,7 @@ class Worker:
             return
 
         except UserSessionValidationException as e:
-            self.logger.critical("Ambiguous session mismatch encountered with %s" %self.user.wa_id)
+            self.logger.critical("Ambiguous session mismatch encountered with %s" % self.user.wa_id)
             self.logger.error(e.message)
 
             btn = QuickButtonModel(

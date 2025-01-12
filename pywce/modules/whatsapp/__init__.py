@@ -1,5 +1,6 @@
 """
-Cloned from https://github.com/Neurotech-HQ/heyoo
+Originally cloned from https://github.com/Neurotech-HQ/heyoo PR by
+https://github.com/oca159/heyoo/tree/main
 
 Unofficial python wrapper for the WhatsApp Cloud API.
 """
@@ -8,15 +9,15 @@ import os
 from logging import Logger
 from typing import Dict, Any, List, Union
 
-import httpx
 from httpx import AsyncClient
 
 from pywce.engine_logger import get_engine_logger
 from pywce.modules.whatsapp.model.wa_user import WaUser
 from .config import WhatsAppConfig
+from .message_utils import MessageUtils
 from .model.message_type_enum import MessageTypeEnum
 from .model.response_structure import ResponseStructure
-from .message_utils import MessageUtils
+
 
 class WhatsApp:
     """
@@ -59,7 +60,7 @@ class WhatsApp:
 
         self.logger.debug(f"Sending {message_type} to {recipient_id}")
 
-        async with httpx.AsyncClient() as client:
+        async with AsyncClient() as client:
             response = await client.post(self.url, headers=self.headers, json=data)
 
         if response.status_code == 200:
@@ -103,14 +104,6 @@ class WhatsApp:
             message_id (str): Message id for a reaction to be attached to
             recipient_id (str): Phone number of the user with country code without +
             recipient_type (str): Type of the recipient, either individual or group
-
-        Example:
-            ```python
-            from test_modules.whatsapp import WhatsApp
-
-            whatsapp = WhatsApp('token', 'phone_number_id')
-            whatsapp.send_reaction("\uD83D\uDE00", "wamid.HBgLM...", "5511999999999")
-            ```
         """
         data = {
             "messaging_product": "whatsapp",
@@ -136,14 +129,9 @@ class WhatsApp:
         Args:
             template (str): Template name to be sent to the user.
             recipient_id (str): Phone number of the user with country code without +.
+            message_id: if replying to a message, include the previous message id here
             components (list): List of components to be sent to the user.
             lang (str): Language of the template message, default is "en_US".
-
-        Example:
-            >>> from pywce import WhatsApp
-            >>> whatsapp = WhatsApp()
-            >>> whatsapp.send_template("5511999999999", "hello_world",
-            >>>     components=[{"type": "header", "parameters": [{"type": "text", "text": "Header Text"}]}])
         """
         data = {
             "messaging_product": "whatsapp",
@@ -276,8 +264,8 @@ class WhatsApp:
         Asynchronously sends a list of contacts to a WhatsApp user.
 
         Args:
-            contacts (List[Dict[Any, Any]]): List of contacts to send, structured according to the WhatsApp API requirements.
-            recipient_id (str): Phone number of the user with country code without +.
+            contacts: List of contacts to send, structured according to the WhatsApp API requirements.
+            recipient_id: Phone number of the user with country code without +.
 
         REFERENCE:
         https://developers.facebook.com/docs/whatsapp/cloud-api/reference/messages#contacts-object
@@ -372,7 +360,7 @@ class WhatsApp:
 
             return True
 
-        def is_request_successful(self, recipient_id: str, response_data: Dict[str, Any]) -> bool:
+        def was_request_successful(self, recipient_id: str, response_data: Dict[str, Any]) -> bool:
             """
             check if the response after sending to whatsapp is valid
             """
@@ -382,17 +370,20 @@ class WhatsApp:
 
             return is_whatsapp and is_same_recipient and has_msg_id
 
-        def get_response_message_id(self, response_data: Dict[str, Any]) -> str:
+        def get_response_message_id(self, response_data: Dict[str, Any]) -> Union[str, None]:
             assert response_data.get("messaging_product") == "whatsapp"
-            msg_id = response_data.get("messages")[0].get("id").startswith("wamid.")
+            msg_id = response_data.get("messages")[0].get("id")
 
-            return msg_id
+            if msg_id.startswith("wamid."):
+                return msg_id
+
+            return None
 
         def get_wa_user(self, webhook_data: Dict[Any, Any]) -> Union[WaUser, None]:
             data = self.__pre_process__(webhook_data)
 
             if not self.is_valid_webhook_message(webhook_data):
-                self.logger.error("Invalid webhook message")
+                self.logger.critical("Invalid webhook message")
                 return None
 
             user = WaUser()
@@ -427,7 +418,7 @@ class WhatsApp:
                 data = self.__pre_process__(webhook_data)
                 return MessageUtils(message_data=data.get("messages")[0]).get_structure()
 
-        async def upload_media(self, media_path: str) -> Union[Dict[Any, Any], None]:
+        async def upload_media(self, media_path: str) -> Union[str, None]:
             """
             Asynchronously uploads a media file to the cloud API and returns the ID of the media.
 
@@ -456,7 +447,7 @@ class WhatsApp:
 
                 if response.status_code == 200:
                     self.logger.info(f"Media {media_path} uploaded!")
-                    return response.json()
+                    return response.json().get("id")
 
                 else:
                     self.logger.critical(f"Error uploading media. Path: {media_path}, Status: {response.status_code}")
@@ -467,23 +458,26 @@ class WhatsApp:
                 self.logger.error(f"Exception occurred while uploading media: {str(e)}")
                 return None
 
-        async def delete_media(self, media_id: str) -> Union[Dict[Any, Any], None]:
+        async def delete_media(self, media_id: str) -> bool:
             """
             Asynchronously deletes a media from the cloud API.
 
             Args:
                 media_id (str): ID of the media to be deleted.
             """
-            async with httpx.AsyncClient() as client:
-                response = await client.delete(f"{self.parent.base_url}/{media_id}", headers=self.parent.headers)
+            async with AsyncClient() as client:
+                response = await client.delete(
+                    url=f"{self.parent.base_url}/{media_id}",
+                    headers=self.parent.headers
+                )
 
             if response.status_code == 200:
                 self.logger.info(f"Media {media_id} deleted")
-                return response.json()
+                return response.json().get("success")
             else:
                 self.logger.critical(f"Error deleting media {media_id}: {response.status_code}")
                 self.logger.error(f"Response: {response.text}")
-                return None
+                return False
 
         async def query_media_url(self, media_id: str) -> Union[str, None]:
             """
@@ -496,12 +490,16 @@ class WhatsApp:
                 str: Media URL, or None if not found or an error occurred.
 
             """
-            async with httpx.AsyncClient() as client:
-                response = await client.get(f"{self.parent.base_url}/{media_id}", headers=self.parent.headers)
+            async with AsyncClient() as client:
+                response = await client.get(
+                    url=f"{self.parent.base_url}/{media_id}",
+                    headers=self.parent.headers
+                )
 
             if response.status_code == 200:
-                self.logger.info(f"Media URL queried for {media_id}")
-                return response.json().get("url")
+                result = response.json()
+                self.logger.info(f"Media URL query result {result}")
+                return result.get("url")
             else:
                 self.logger.critical(f"Media URL not queried for {media_id}: {response.status_code}")
                 self.logger.error(f"Response: {response.text}")
@@ -514,22 +512,26 @@ class WhatsApp:
             Args:
                 media_url (str): Media URL of the media.
                 mime_type (str): Mime type of the media.
-                file_path (str): Path of the file to be downloaded to. Default is "temp".
+                file_path (str): Path of the file to be downloaded to. Default is "pywce-media-temp".
                                  Do not include the file extension. It will be added automatically.
 
             Returns:
                 str: Path to the downloaded file, or None if there was an error.
 
             """
+            if not mimetypes.guess_extension(mime_type):
+                self.logger.error(f"Invalid or unsupported MIME type: {mime_type}")
+                return None
 
             from random import randint
 
-            extension = mime_type.split("/")[1].split(";")[0].strip()
-            save_file_here = f"{file_path}.{extension}" if file_path is not None else f"pywce-media-temp-{randint(11, 999999)}.{extension}"
+            extension = mimetypes.guess_extension(mime_type)
+            save_file_here = f"{file_path}.{extension}" if file_path is not None \
+                else f"pywce-media-temp-{randint(11, 999999)}.{extension}"
 
             try:
-                async with httpx.AsyncClient() as client:
-                    response = await client.get(media_url)
+                async with AsyncClient() as client:
+                    response = await client.get(f"{self.parent.base_url}/{media_url}")
 
                 if response.status_code == 200:
                     os.makedirs(os.path.dirname(save_file_here), exist_ok=True)
