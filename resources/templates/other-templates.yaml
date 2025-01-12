@@ -1,0 +1,62 @@
+"SAMPLE_FLOW_STAGE":
+  type: flow
+  template: "pywce.accounts.fetch_accounts"
+  message:
+    id: 0123
+    draft: true
+    name: MY_SCREEN_NAME_AS_ON_WABA
+    title: "My Flow"
+    body: "Kindly fill in order details. Click Start to begin"
+    footer: Order
+    button: Start
+  params:
+    p: "MY_CUSTOM_PARAM_1"
+    pn: "MY_OTHER_CUSTOM_PARAM_2"
+  routes:
+    "re:.*": "START-MENU"
+
+
+# recommended
+"SAMPLE_MEDIA_ID":
+  type: media
+  message:
+    type: image
+    id: "media-id-123"
+    caption: "File Caption"
+  routes:
+    "re:.*": "START-MENU"
+
+"SAMPLE_MEDIA_LINK":
+  type: media
+  message:
+    type: document
+    url: "https://cloud.storage/doc/file.pdf"
+    caption: "File Caption"
+    filename: "file.pdf"
+  routes:
+    "re:.*": "START-MENU"
+
+"SAMPLE_DYNAMIC":
+  type: dynamic
+  template: "pywce.messaging.generate_dynamic_body"
+  message: "{{ body }}"
+  routes:
+    "re:.*": "START-MENU"
+
+"SAMPLE_LOCATION":
+  type: location
+  message:
+    body: "Check out our address"
+    lat: "17.49294888"
+    lon: "31.3109008"
+    name: "location name"
+    address: "our address"
+  routes:
+    "re:.*": "START-MENU"
+
+"SAMPLE_LOCATION_REQUEST":
+  type: request-location
+  message: "Share your location with us"
+  routes:
+    "location_request": "START-MENU"
+

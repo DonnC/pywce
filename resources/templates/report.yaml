@@ -1,0 +1,12 @@
+"REPORT":
+  type: text
+  prop: report
+  message: "Provide report information"
+  routes:
+    "re:.*": "START_MENU"
+
+404:
+  type: text
+  message: "An example int stage key"
+  routes:
+    "re:.*": "START_MENU"

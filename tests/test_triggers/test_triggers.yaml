@@ -1,0 +1,9 @@
+# define global commands / words / message / phrase to catch
+# in order to process a specific stage template
+
+# e.g. If a user types `start` - render the START_MENU stage template
+# defined in the /test_templates directory
+"START_MENU": "re:(?i)(start)|(hi)|(hie)"
+
+# for reporting
+"REPORT": "re:^report$"
