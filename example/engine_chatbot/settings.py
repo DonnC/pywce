@@ -12,15 +12,15 @@ class Settings:
     # see more under [WhatsAppConfig] class
     TOKEN = "account-access-token"
     PHONE_NUMBER_ID = "account-phone-number-id"
-    HUB_TOKEN = "your-hub-verification-token"
+    HUB_TOKEN = "your-webhook-hub-verification-token"
 
     # engine settings
     # see more under [PywceEngineConfig] class
     TEMPLATES_DIR = "templates"
     TRIGGERS_DIR = "triggers"
-    START_STAGE = "EM-START-MENU"  # START-MENU
+    START_STAGE = "START-MENU"
 
     # for local emulator (if you know what you are doing)
     # requires knowledge and running of the emulator project
     # set this to False
-    USE_EMULATOR = True
+    USE_EMULATOR = False

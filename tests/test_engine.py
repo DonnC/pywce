@@ -1,8 +1,6 @@
 import unittest
 
-from pywce import DefaultSessionManager, PywceEngineConfig
-from pywce.modules.whatsapp import WhatsAppConfig, WhatsApp
-from pywce.src.engine import PywceEngine
+from pywce import DefaultSessionManager, PywceEngineConfig, WhatsAppConfig, WhatsApp, PywceEngine
 
 
 class TestPywceEngine(unittest.IsolatedAsyncioTestCase):
