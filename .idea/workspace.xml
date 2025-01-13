@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e700a6d4-f3fd-4ca6-8806-bc5eb9b6e49c" name="Changes" comment="" />
+    <list default="true" id="e700a6d4-f3fd-4ca6-8806-bc5eb9b6e49c" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/engine_chatbot/hooks/name_template.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/engine_chatbot/hooks/name_template.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/engine_chatbot/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/engine_chatbot/main.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -32,43 +36,44 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python tests.Python tests for test_default_session_impl.TestDefaultSessionManager.test_save.executor": "Run",
-    "Python tests.Python tests for test_default_session_impl.TestSessionManager.executor": "Run",
-    "Python tests.Python tests for test_default_session_impl.TestSessionManager.test_clear.executor": "Run",
-    "Python tests.Python tests for test_engine.MyTestCase.executor": "Run",
-    "Python tests.Python tests for test_engine.TestPywceEngine.executor": "Debug",
-    "Python tests.Python tests in test_default_session_impl.py.executor": "Run",
-    "Python tests.Python tests in tests.executor": "Run",
-    "Python.main.executor": "Run",
-    "Python.templetor.executor": "Run",
-    "Python.test_v.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "dev",
-    "last_opened_file_path": "C:/Users/DEVELOPER/Documents/Personal/Personal/Projects/python/pywce/tests/test_services",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "Errors",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python tests.Python tests for test_default_session_impl.TestDefaultSessionManager.test_save.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for test_default_session_impl.TestSessionManager.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for test_default_session_impl.TestSessionManager.test_clear.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for test_engine.MyTestCase.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for test_engine.TestPywceEngine.executor&quot;: &quot;Debug&quot;,
+    &quot;Python tests.Python tests in test_default_session_impl.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in tests.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.templetor.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test_v.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;v0.0.1&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/DEVELOPER/Documents/Personal/Personal/Projects/python/pywce/example/standalone_chatbot&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;Errors&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\example\standalone_chatbot" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\tests\test_services" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\tests\modules\triggers" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\resources" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\example\engine_chatbot" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\pywce\modules\session" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\pywce" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\tests" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\src\services" />
-      <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\resources" />
     </key>
   </component>
   <component name="RunManager" selected="Python.main">
@@ -86,7 +91,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/example/main.py" />
+      <option name="SCRIPT_NAME" value="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\example\engine_chatbot\main.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -200,6 +205,8 @@
       <workItem from="1736438954001" duration="7044000" />
       <workItem from="1736490435185" duration="28396000" />
       <workItem from="1736533689731" duration="4510000" />
+      <workItem from="1736670909205" duration="13553000" />
+      <workItem from="1736759657542" duration="4084000" />
     </task>
     <servers />
   </component>

@@ -36,7 +36,7 @@ async def webhook_event(payload: Dict, headers: Dict, engine: pywce.PywceEngine)
 
 
 # - API Endpoints -
-@app.post("/webhook")
+@app.post("/pywce/webhook")
 async def process_webhook(
         request: Request,
         background_tasks: BackgroundTasks,
@@ -60,7 +60,7 @@ async def process_webhook(
     return Response(content="ACK", status_code=200)
 
 
-@app.get("/webhook")
+@app.get("/pywce/webhook")
 async def verify_webhook(
         mode: str = Query(...),
         token: str = Query(...),
