@@ -138,7 +138,7 @@ Once you've followed the above procedures you're ready to start your bot develop
 
 ## Documentation
 
-Visit the [official documentation](https://github.com/DonnC/pywce#readme) for a detailed guide.
+Visit the [official documentation](https://docs.page/donnc/wce) for a detailed guide.
 
 ## Contributing
 
