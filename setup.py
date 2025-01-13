@@ -15,7 +15,7 @@ setup(
     version="0.0.1",
     author="Donald Chinhuru",
     author_email="donychinhuru@gmail.com",
-    description="Python WhatsApp Cloud Engine - a template-driven engine for easily building WhatsApp chatbots",
+    description="A template-driven engine for building WhatsApp chatbots",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/DonnC/pywce",
@@ -32,14 +32,13 @@ setup(
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
         "Topic :: Software Development :: Libraries :: Python Modules",
-        "Topic :: Communications :: ChatBot :: Chat",
+        "Topic :: Communications :: Chat",
         "Operating System :: OS Independent",
     ],
     project_urls={
         "Bug Tracker": "https://github.com/DonnC/pywce/issues",
         "Source Code": "https://github.com/DonnC/pywce",
-        "Documentation": "https://github.com/DonnC/pywce#readme",
+        "Documentation": "https://docs.page/donnc/wce",
     },
-    keywords=["whatsapp", "chatbot", "yaml", "automation", "template", "hooks"],
-    test_suite="tests",
+    keywords=["whatsapp", "chatbot", "yaml", "automation", "template", "hooks"]
 )
