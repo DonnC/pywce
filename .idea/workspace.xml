@@ -5,9 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e700a6d4-f3fd-4ca6-8806-bc5eb9b6e49c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/MANIFEST.in" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/engine_chatbot/hooks/name_template.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/engine_chatbot/hooks/name_template.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/engine_chatbot/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/engine_chatbot/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/engine_chatbot/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/engine_chatbot/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/standalone_chatbot/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/standalone_chatbot/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/.gitkeep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/sample/template.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/templates/ehailing-bot.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/templates/other-templates.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/templates/report.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/triggers/triggers.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_engine.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_engine.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_modules/session/test_default_session_impl.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_default_session_manager.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,10 +81,10 @@
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\resources" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\tests" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\example\engine_chatbot" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\pywce\modules\session" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\pywce" />
-      <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\tests" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\src\services" />
     </key>
   </component>
@@ -116,6 +128,38 @@
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
+    <configuration name="Python tests for tests.test_default_session_manager.TestSessionManager" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="pywce" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/test_modules/session" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;tests.test_default_session_manager.TestSessionManager&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests for tests.test_default_session_manager.TestSessionManager.test_clear" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="pywce" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/test_modules/session" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;tests.test_default_session_manager.TestSessionManager.test_clear&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
     <configuration name="Python tests for tests.test_engine.MyTestCase" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="pywce" />
       <option name="ENV_FILES" value="" />
@@ -132,45 +176,13 @@
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for tests.test_modules.session.test_default_session_impl.TestSessionManager" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="pywce" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/test_modules/session" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;tests.test_modules.session.test_default_session_impl.TestSessionManager&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests for tests.test_modules.session.test_default_session_impl.TestSessionManager.test_clear" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="pywce" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/test_modules/session" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;tests.test_modules.session.test_default_session_impl.TestSessionManager.test_clear&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Python.main" />
         <item itemvalue="Python tests.Python tests for test_engine.TestPywceEngine" />
         <item itemvalue="Python tests.Python tests for tests.test_engine.MyTestCase" />
-        <item itemvalue="Python tests.Python tests for tests.test_modules.session.test_default_session_impl.TestSessionManager" />
-        <item itemvalue="Python tests.Python tests for tests.test_modules.session.test_default_session_impl.TestSessionManager.test_clear" />
+        <item itemvalue="Python tests.Python tests for tests.test_default_session_manager.TestSessionManager" />
+        <item itemvalue="Python tests.Python tests for tests.test_default_session_manager.TestSessionManager.test_clear" />
       </list>
     </recent_temporary>
   </component>
@@ -206,7 +218,8 @@
       <workItem from="1736490435185" duration="28396000" />
       <workItem from="1736533689731" duration="4510000" />
       <workItem from="1736670909205" duration="13553000" />
-      <workItem from="1736759657542" duration="4084000" />
+      <workItem from="1736759657542" duration="4189000" />
+      <workItem from="1736772915870" duration="3995000" />
     </task>
     <servers />
   </component>

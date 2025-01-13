@@ -12,5 +12,5 @@ class Settings:
     # see more under [WhatsAppConfig] class
     TOKEN = "account-access-token"
     PHONE_NUMBER_ID = "account-phone-number-id"
-    HUB_TOKEN = "your-hub-verification-token"
+    HUB_TOKEN = "your-webhook-hub-verification-token"
 

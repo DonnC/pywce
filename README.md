@@ -1,4 +1,4 @@
-# PyWCE - Python WhatsApp Cloud Engine
+# Python WhatsApp ChatBot Engine
 
 A package for creating WhatsApp chatbots using a template-driven approach. It decouples 
 the engine from the WhatsApp client library, allowing developers to use them independently or 
@@ -21,7 +21,7 @@ PyWCE provides a simple, Pythonic interface to interact with the WhatsApp Cloud 
 
 _**Note**: You can use pywce as a standalone whatsapp client library_
 
-_Checkout complete standalone chatbot with [Fast Api here](/example/standalone_chatbot/main.py)_
+_Checkout complete standalone chatbot with [Fast Api here](https://github.com/DonnC/pywce/blob/master/example/standalone_chatbot/main.py)_
 
 - **Send messages** (text, media, templates, interactive)
 - **Receive and process webhooks**
@@ -70,7 +70,7 @@ pip install pywce
 
 Here's a simple example template to get you started:
 
-_**Note:** Checkout complete example chatbot with [Fast Api here](/example/engine_chatbot/main.py)_
+_**Note:** Checkout complete example chatbot with [Fast Api here](https://github.com/DonnC/pywce/blob/master/example/engine_chatbot/main.py)_
 
 1. Define your YAML template:
 
@@ -142,8 +142,8 @@ Visit the [official documentation](https://docs.page/donnc/wce) for a detailed g
 
 ## Contributing
 
-We welcome contributions! Please check out the [Contributing Guide](CONTRIBUTING.md) for details.
+We welcome contributions! Please check out the [Contributing Guide](https://github.com/DonnC/pywce/blob/master/CONTRIBUTING.md) for details.
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License. See the [LICENSE](https://github.com/DonnC/pywce/blob/master/LICENCE) file for details.
