@@ -1,6 +1,6 @@
 # Python WhatsApp ChatBot Engine
 
-A package for creating WhatsApp chatbots using a template-driven approach. It decouples 
+A library for creating WhatsApp chatbots using a template-driven approach. It decouples 
 the engine from the WhatsApp client library, allowing developers to use them independently or 
 together. 
 
@@ -15,13 +15,18 @@ way.
 - Supports dynamic messages with placeholders.
 - Built-in support for WhatsApp Webhooks.
 
+
+## Installation
+```bash
+pip install pywce
+```
+
+
 ### WhatsApp Client Library
 
 PyWCE provides a simple, Pythonic interface to interact with the WhatsApp Cloud API:
 
-_**Note**: You can use pywce as a standalone whatsapp client library_
-
-_Checkout complete standalone chatbot with [Fast Api here](https://github.com/DonnC/pywce/blob/master/example/standalone_chatbot/main.py)_
+_**Note**: You can use pywce as a standalone whatsapp client library. See [FastApi Example](https://github.com/DonnC/pywce/blob/master/example/standalone_chatbot/main.py)_
 
 - **Send messages** (text, media, templates, interactive)
 - **Receive and process webhooks**
@@ -36,7 +41,7 @@ from pywce import WhatsAppConfig, WhatsApp
 config = WhatsAppConfig(
     token="your_access_token",
     phone_number_id="your_phone_number_id",
-    hub_verification_token="your_hub_verification_token"
+    hub_verification_token="your_webhook_hub_verification_token"
 )
 
 whatsapp = WhatsApp(whatsapp_config=config)
@@ -58,15 +63,7 @@ if is_sent:
     print("Request successful with msg id: ", message_id)
 ```
 
-## Installation
-
-Install PyWCE using pip:
-
-```bash
-pip install pywce
-```
-
-## Quick Start
+### Template Engine ChatBot
 
 Here's a simple example template to get you started:
 
@@ -75,6 +72,7 @@ _**Note:** Checkout complete example chatbot with [Fast Api here](https://github
 1. Define your YAML template:
 
 ```yaml
+# path/to/templates
 "START-MENU":
   type: button
   template: "example.hooks.name_template.username"
@@ -92,9 +90,9 @@ _**Note:** Checkout complete example chatbot with [Fast Api here](https://github
 
 ```python
 # example/hooks/name_template.py
-from pywce import HookArg, TemplateDynamicBody
+from pywce import hook, HookArg, TemplateDynamicBody
 
-
+@hook
 def username(arg: HookArg) -> HookArg:
     # set render payload data to match the required template dynamic var
     arg.template_body = TemplateDynamicBody(
@@ -115,26 +113,6 @@ config = PywceEngineConfig(
 )
 engine = PywceEngine(config=config)
 ```
-
-## Setting up
-
-To get started using this package, you will need **TOKEN** and **TEST WHATSAPP NUMBER** (the library works either with a
-production phone number, if you have one) which you can get from
-the [Facebook Developer Portal](https://developers.facebook.com/)
-
-Here are steps to follow for you to get started:
-
-1. [Go to your apps](https://developers.facebook.com/apps)
-2. [create an app](https://developers.facebook.com/apps/create/)
-3. Select Business >> Business
-4. It will prompt you to enter basic app informations
-5. It will ask you to add products to your app
-   a. Add WhatsApp Messenger
-6. Right there you will see a your **TOKEN** and **TEST WHATSAPP NUMBER** and its phone_number_id
-7. Lastly verify the number you will be using for testing on the **To** field.
-
-Once you've followed the above procedures you're ready to start your bot development journey.
-
 
 ## Documentation
 
