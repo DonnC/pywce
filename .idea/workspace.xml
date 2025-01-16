@@ -5,21 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e700a6d4-f3fd-4ca6-8806-bc5eb9b6e49c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/MANIFEST.in" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/engine_chatbot/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/engine_chatbot/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/standalone_chatbot/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/standalone_chatbot/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logs/.gitkeep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/sample/template.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/templates/ehailing-bot.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/templates/other-templates.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/templates/report.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/triggers/triggers.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_engine.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_engine.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_modules/session/test_default_session_impl.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_default_session_manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/standalone_chatbot/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/standalone_chatbot/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -220,6 +207,8 @@
       <workItem from="1736670909205" duration="13553000" />
       <workItem from="1736759657542" duration="4189000" />
       <workItem from="1736772915870" duration="3995000" />
+      <workItem from="1736862038376" duration="2192000" />
+      <workItem from="1736872128701" duration="116000" />
     </task>
     <servers />
   </component>
