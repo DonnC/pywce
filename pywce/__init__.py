@@ -12,27 +12,33 @@ Modules:
 - engine: Core logic for template-driven chatbot interactions.
 
 Author: Donald Chinhuru
-Version: 0.0.1
+Version: 0.0.1b2
 """
 
 from pywce.modules.session import ISessionManager
 from pywce.modules.session.default_session_manager import DefaultSessionManager
 from pywce.modules.whatsapp import WhatsApp, WhatsAppConfig
 from pywce.src.engine import PywceEngine, PywceEngineConfig
+from pywce.src.services.hook_service import HookService, hook
 from pywce.src.models import *
 
 __author__ = "Donald Chinhuru"
 __email__ = "donychinhuru@gmail.com"
-__version__ = "0.0.1"
+__version__ = "0.0.1b2"
 __license__ = "MIT"
 __name__ = "pywce"
 __all__ = [
     "ISessionManager",
     "DefaultSessionManager",
+    "WaUser",
     "WhatsApp",
     "WhatsAppConfig",
     "PywceEngine",
-    "PywceEngineConfig"
+    "PywceEngineConfig",
+    "HookArg",
+    "TemplateDynamicBody",
+    "HookService",
+    "hook",
 ]
 __doc__ = (
     "A Python package for creating chatbots using a template-driven approach. "

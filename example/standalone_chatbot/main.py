@@ -47,7 +47,7 @@ async def process_webhook(
 
             match response.typ:
                 case pywce.MessageTypeEnum.TEXT:
-                    result = whatsapp.send_message(
+                    result = await whatsapp.send_message(
                         recipient_id=_user.wa_id,
                         message=f"You said: {response.body.get('body')}"
                     )
@@ -55,7 +55,7 @@ async def process_webhook(
                 # TODO: implement other types and process them accordingly
 
                 case _:
-                    result = whatsapp.send_message(
+                    result = await whatsapp.send_message(
                         recipient_id=_user.wa_id,
                         message=f"Received whatsapp message type as: {response.typ}"
                     )

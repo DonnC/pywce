@@ -1,11 +1,13 @@
-from pywce import HookArg, TemplateDynamicBody
+from pywce import hook, HookArg, TemplateDynamicBody
 from pywce.engine_logger import get_engine_logger
 
 logger = get_engine_logger(__name__)
 
+
+@hook
 def username(arg: HookArg) -> HookArg:
     """
-    A template to det default user whatsapp username.
+    A template to get default user whatsapp username.
 
     :param arg: HookArg passed by engine
     :return: updated HookArg
