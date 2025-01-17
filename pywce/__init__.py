@@ -12,7 +12,7 @@ Modules:
 - engine: Core logic for template-driven chatbot interactions.
 
 Author: Donald Chinhuru
-Version: 0.0.1-alpha.2
+Version: 0.0.1b2
 """
 
 from pywce.modules.session import ISessionManager
@@ -24,7 +24,7 @@ from pywce.src.models import *
 
 __author__ = "Donald Chinhuru"
 __email__ = "donychinhuru@gmail.com"
-__version__ = "0.0.1-alpha.2"
+__version__ = "0.0.1b2"
 __license__ = "MIT"
 __name__ = "pywce"
 __all__ = [
