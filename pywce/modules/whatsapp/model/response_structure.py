@@ -1,8 +1,7 @@
 from dataclasses import dataclass
 from typing import Any
 
-from pywce.modules.whatsapp import MessageTypeEnum
-
+from .message_type_enum import  MessageTypeEnum
 
 @dataclass
 class ResponseStructure:

@@ -2,8 +2,9 @@ from dataclasses import dataclass, field
 from typing import Dict, Any, List
 
 from pywce.modules.session import ISessionManager
-from pywce.modules.session.default_session_manager import DefaultSessionManager
-from pywce.modules.whatsapp import ResponseStructure, WhatsApp, WaUser, MessageTypeEnum
+from pywce.modules.session.dict_session_manager import DictSessionManager
+from ...modules.whatsapp import WhatsApp
+from pywce.modules.whatsapp.model import *
 from pywce.src.constants.template_type import TemplateTypeConstants
 
 
@@ -26,7 +27,7 @@ class PywceEngineConfig:
     inactivity_timeout_min: int = 3
     debounce_timeout_ms: int = 8000
     webhook_timestamp_threshold_s: int = 10
-    session_manager: ISessionManager = DefaultSessionManager()
+    session_manager: ISessionManager = DictSessionManager()
 
 
 @dataclass
@@ -66,6 +67,18 @@ class HookArg:
     flow: str = None
     additional_data: Dict[str, Any] = None
     session_manager: ISessionManager = None
+
+    def __str__(self):
+        attrs = {
+            "user": self.user,
+            "params": self.params,
+            "template_body": self.template_body,
+            "from_trigger": self.from_trigger,
+            "user_input": self.user_input,
+            "flow": self.flow,
+            "additional_data": self.additional_data
+        }
+        return f"HookArg({attrs})"
 
 
 @dataclass

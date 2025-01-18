@@ -1,11 +1,11 @@
 import unittest
 
-from pywce import DefaultSessionManager, PywceEngineConfig, WhatsAppConfig, WhatsApp, PywceEngine
+from pywce import DictSessionManager, PywceEngineConfig, WhatsAppConfig, WhatsApp, PywceEngine
 
 
 class TestPywceEngine(unittest.IsolatedAsyncioTestCase):
     def setUp(self):
-        session_manager = DefaultSessionManager()
+        session_manager = DictSessionManager()
         start_menu = "START_MENU"
 
         self.webhook_headers = {
