@@ -21,7 +21,7 @@ def get_session_manager():
     global _session_manager_instance
     if _session_manager_instance is None:
         logger.debug("Session manager not initialized, creating a new one")
-        _session_manager_instance = pywce.DefaultSessionManager()
+        _session_manager_instance = pywce.DictSessionManager()
 
     return _session_manager_instance
 

@@ -324,5 +324,5 @@ class Worker:
             return
 
         except EngineInternalException as e:
-            self.logger.critical(message=e.message)
+            self.logger.critical(e.message)
             return
