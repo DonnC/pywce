@@ -5,7 +5,7 @@ from pywce.engine_logger import get_engine_logger
 from pywce.modules.session import ISessionManager, T
 
 
-class DefaultSessionManager(ISessionManager):
+class DictSessionManager(ISessionManager):
     """
         Default session manager
 

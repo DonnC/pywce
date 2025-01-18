@@ -35,6 +35,7 @@
 
 "DESTINATION-LOCATION":
   type: request-location
+  on-receive: "example.engine_chatbot.hooks.location.save_destination"
   message: "Where would you like to go?"
   routes:
     "re:.*": "RIDE-OFFER"

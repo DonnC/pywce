@@ -1,12 +1,12 @@
 import unittest
 
-from pywce import DefaultSessionManager
+from pywce import DictSessionManager
 
 
 class TestSessionManager(unittest.TestCase):
     def setUp(self):
         # TODO: setup your session manager implementation
-        session_manager = DefaultSessionManager()
+        session_manager = DictSessionManager()
 
         self.session_id = "pywce"
         self.session_key = "foo"

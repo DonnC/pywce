@@ -18,6 +18,7 @@ from .message_utils import MessageUtils
 from .model.message_type_enum import MessageTypeEnum
 from .model.response_structure import ResponseStructure
 
+_logger = get_engine_logger(__name__)
 
 class WhatsApp:
     """
@@ -42,15 +43,11 @@ class WhatsApp:
             "Content-Type": "application/json",
             "Authorization": f"Bearer {self.config.token}"
         }
-
-        self.logger = get_engine_logger(__name__)
         self.util = self.Utils(self)
 
     async def __send_request__(self, message_type: str, recipient_id: str, data: Dict[str, Any]):
         """
         Send a request to the official WhatsApp API
-
-        TODO: handle whatsapp known response errors.
 
         :param message_type:
         :param recipient_id:
@@ -58,7 +55,7 @@ class WhatsApp:
         :return:
         """
 
-        self.logger.debug(f"Sending {message_type} to {recipient_id}")
+        _logger.debug(f"Sending {message_type} to {recipient_id}")
 
         async with AsyncClient() as client:
             response = await client.post(self.url, headers=self.headers, json=data)
@@ -67,8 +64,7 @@ class WhatsApp:
             return response.json()
 
         else:
-            self.logger.critical(f"{message_type.title()} not sent to: {recipient_id} | code: {response.status_code}")
-            self.logger.error(f"Response: {response.text}")
+            _logger.critical(f"Code: {response.status_code} | Response: {response.text}")
             return response.json()
 
     async def send_message(self, recipient_id: str, message: str, recipient_type: str = "individual",
@@ -329,7 +325,6 @@ class WhatsApp:
 
         def __init__(self, parent) -> None:
             self.parent = parent
-            self.logger: Logger = parent.logger
 
         def __pre_process__(self, webhook_data: Dict[Any, Any]) -> Dict[Any, Any]:
             """
@@ -383,7 +378,7 @@ class WhatsApp:
             data = self.__pre_process__(webhook_data)
 
             if not self.is_valid_webhook_message(webhook_data):
-                self.logger.critical("Invalid webhook message")
+                _logger.critical("Invalid webhook message")
                 return None
 
             user = WaUser()
@@ -446,16 +441,15 @@ class WhatsApp:
                     )
 
                 if response.status_code == 200:
-                    self.logger.info(f"Media {media_path} uploaded!")
+                    _logger.info(f"Media {media_path} uploaded!")
                     return response.json().get("id")
 
                 else:
-                    self.logger.critical(f"Error uploading media. Path: {media_path}, Status: {response.status_code}")
-                    self.logger.error(f"Response: {response.text}")
+                    _logger.critical(f"Code: {response.status_code} | Response: {response.text}")
                     return None
 
             except Exception as e:
-                self.logger.error(f"Exception occurred while uploading media: {str(e)}")
+                _logger.error(f"Exception occurred while uploading media: {str(e)}")
                 return None
 
         async def delete_media(self, media_id: str) -> bool:
@@ -472,11 +466,10 @@ class WhatsApp:
                 )
 
             if response.status_code == 200:
-                self.logger.info(f"Media {media_id} deleted")
+                _logger.info(f"Media {media_id} deleted")
                 return response.json().get("success")
             else:
-                self.logger.critical(f"Error deleting media {media_id}: {response.status_code}")
-                self.logger.error(f"Response: {response.text}")
+                _logger.critical(f"Code: {response.status_code} | Response: {response.text}")
                 return False
 
         async def query_media_url(self, media_id: str) -> Union[str, None]:
@@ -498,11 +491,10 @@ class WhatsApp:
 
             if response.status_code == 200:
                 result = response.json()
-                self.logger.info(f"Media URL query result {result}")
+                _logger.info(f"Media URL query result {result}")
                 return result.get("url")
             else:
-                self.logger.critical(f"Media URL not queried for {media_id}: {response.status_code}")
-                self.logger.error(f"Response: {response.text}")
+                _logger.critical(f"Code: {response.status_code} | Response: {response.text}")
                 return None
 
         async def download_media(self, media_url: str, mime_type: str, file_path: str = None) -> Union[str, None]:
@@ -520,7 +512,7 @@ class WhatsApp:
 
             """
             if not mimetypes.guess_extension(mime_type):
-                self.logger.error(f"Invalid or unsupported MIME type: {mime_type}")
+                _logger.error(f"Invalid or unsupported MIME type: {mime_type}")
                 return None
 
             from random import randint
@@ -537,12 +529,12 @@ class WhatsApp:
                     os.makedirs(os.path.dirname(save_file_here), exist_ok=True)
                     with open(save_file_here, "wb") as f:
                         f.write(response.content)
-                    self.logger.debug(f"Media downloaded to {save_file_here}")
+                    _logger.debug(f"Media downloaded to {save_file_here}")
                     return save_file_here
                 else:
-                    self.logger.critical(f"Failed to download media. Status code: {response.status_code}")
+                    _logger.critical(f"Failed to download media. Status code: {response.status_code}")
                     return None
 
             except Exception as e:
-                self.logger.error(f"Error downloading media to {save_file_here}: {str(e)}")
+                _logger.error(f"Error downloading media to {save_file_here}: {str(e)}")
                 return None

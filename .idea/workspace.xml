@@ -5,10 +5,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e700a6d4-f3fd-4ca6-8806-bc5eb9b6e49c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/example/engine_chatbot/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/engine_chatbot/hooks/location.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pywce/modules/session/cachetool_session_manager.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/CHANGELOG.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/engine_chatbot/hooks/name_template.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/engine_chatbot/hooks/name_template.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/engine_chatbot/dependencies.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/engine_chatbot/dependencies.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/engine_chatbot/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/engine_chatbot/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/engine_chatbot/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/engine_chatbot/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/engine_chatbot/templates/ehailing-bot.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/engine_chatbot/templates/ehailing-bot.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/engine_chatbot/templates/ehailing-emulator-tpl.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/engine_chatbot/templates/em-template.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/example/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/standalone_chatbot/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/standalone_chatbot/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pywce/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/modules/session/default_session_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/session/dict_session_manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/modules/whatsapp/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/whatsapp/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/modules/whatsapp/message_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/whatsapp/message_utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/modules/whatsapp/model/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/whatsapp/model/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/modules/whatsapp/model/response_structure.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/whatsapp/model/response_structure.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/src/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/models/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/src/services/hook_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/hook_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/src/services/worker.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/worker.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_default_session_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_default_session_manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_engine.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_engine.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,31 +56,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python tests.Python tests for test_default_session_impl.TestDefaultSessionManager.test_save.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for test_default_session_impl.TestSessionManager.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for test_default_session_impl.TestSessionManager.test_clear.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for test_engine.MyTestCase.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for test_engine.TestPywceEngine.executor&quot;: &quot;Debug&quot;,
-    &quot;Python tests.Python tests in test_default_session_impl.py.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests in tests.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.templetor.executor&quot;: &quot;Run&quot;,
-    &quot;Python.test_v.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;v0.0.1&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/DEVELOPER/Documents/Personal/Personal/Projects/python/pywce/example/standalone_chatbot&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;Errors&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python tests.Python tests for test_default_session_impl.TestDefaultSessionManager.test_save.executor": "Run",
+    "Python tests.Python tests for test_default_session_impl.TestSessionManager.executor": "Run",
+    "Python tests.Python tests for test_default_session_impl.TestSessionManager.test_clear.executor": "Run",
+    "Python tests.Python tests for test_engine.MyTestCase.executor": "Run",
+    "Python tests.Python tests for test_engine.TestPywceEngine.executor": "Debug",
+    "Python tests.Python tests in test_default_session_impl.py.executor": "Run",
+    "Python tests.Python tests in tests.executor": "Run",
+    "Python.hook_service.executor": "Run",
+    "Python.main.executor": "Run",
+    "Python.response_structure.executor": "Run",
+    "Python.templetor.executor": "Run",
+    "Python.test_v.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "v0.0.1",
+    "last_opened_file_path": "C:/Users/DEVELOPER/Documents/Personal/Personal/Projects/python/pywce/example/standalone_chatbot",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "Errors",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\example\standalone_chatbot" />
@@ -87,12 +108,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/example" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/example/engine_chatbot" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\example\engine_chatbot\main.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/example/engine_chatbot/main.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -212,7 +233,9 @@
       <workItem from="1736862038376" duration="2192000" />
       <workItem from="1736872128701" duration="116000" />
       <workItem from="1737015617880" duration="7604000" />
-      <workItem from="1737095919237" duration="310000" />
+      <workItem from="1737095919237" duration="6032000" />
+      <workItem from="1737133158751" duration="1935000" />
+      <workItem from="1737217778429" duration="4956000" />
     </task>
     <servers />
   </component>
@@ -220,8 +243,10 @@
     <option name="version" value="3" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/pywce$main.coverage" NAME="main Coverage Results" MODIFIED="1736536985308" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/example" />
+    <SUITE FILE_PATH="coverage/pywce$main.coverage" NAME="main Coverage Results" MODIFIED="1737222697373" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/example/engine_chatbot" />
+    <SUITE FILE_PATH="coverage/pywce$response_structure.coverage" NAME="response_structure Coverage Results" MODIFIED="1737218227283" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/pywce/modules/whatsapp/model" />
     <SUITE FILE_PATH="coverage/pywce$.coverage" NAME=" Coverage Results" MODIFIED="1736501879873" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/pywce$hook_service.coverage" NAME="hook_service Coverage Results" MODIFIED="1737218975528" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/pywce/src/services" />
     <SUITE FILE_PATH="coverage/pywce$templetor.coverage" NAME="templetor Coverage Results" MODIFIED="1736407777201" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/example" />
     <SUITE FILE_PATH="coverage/pywce$test_v.coverage" NAME="test_v Coverage Results" MODIFIED="1736092146828" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>

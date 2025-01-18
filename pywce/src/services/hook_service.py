@@ -1,5 +1,4 @@
 import importlib
-import inspect
 from functools import wraps
 from typing import Callable
 
@@ -46,7 +45,7 @@ class HookService:
         elif dotted_path:
             _dotted_path_registry[name] = dotted_path
 
-        _logger.info("Registered hook: %s", name)
+        _logger.debug("Registered %s hook: %s", "func" if func else "path", name)
 
     @staticmethod
     def load_function_from_dotted_path(dotted_path: str) -> Callable:
@@ -88,7 +87,6 @@ class HookService:
         :param hook_arg: The argument to pass to the hook function.
         :return: The result of the hook function.
         """
-
         try:
             if hook_dotted_path in _hook_registry:
                 # Retrieve the eagerly registered hook
@@ -124,7 +122,7 @@ def hook(func: Callable) -> Callable:
         if not isinstance(arg, HookArg):
             raise HookError(f"Expected HookArg instance, got {type(arg).__name__}")
 
-        _logger.info("Invoking hook: %s", func.__name__)
+        _logger.debug("Invoking hook: %s", func.__name__)
         return func(arg)
 
     # Compute the full dotted path for the function
@@ -132,14 +130,6 @@ def hook(func: Callable) -> Callable:
 
     # Eagerly register the hook
     if full_dotted_path not in _hook_registry:
-        # Validate function signature
-        signature = inspect.signature(func)
-        parameters = list(signature.parameters.values())
-
-        if len(parameters) != 1 or parameters[0].annotation != "HookArg" \
-                or signature.return_annotation != "HookArg":
-            raise HookError(f"Hook:'{func.__name__}' must accept a single argument of type 'HookArg' and return 'HookArg'")
-
         HookService.register_hook(name=full_dotted_path, func=func)
 
     return wrapper

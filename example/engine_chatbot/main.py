@@ -31,12 +31,12 @@ async def webhook_event(payload: Dict, headers: Dict, engine: pywce.PywceEngine)
     :param payload: WhatsApp webhook payload
     :param headers: WhatsApp webhook headers
     """
-    logger.info("Received webhook event, processing..")
+    logger.debug("Received webhook event, processing..")
     await engine.process_webhook(webhook_data=payload, webhook_headers=headers)
 
 
 # - API Endpoints -
-@app.post("/pywce/webhook")
+@app.post("/chatbot/webhook")
 async def process_webhook(
         request: Request,
         background_tasks: BackgroundTasks,
@@ -60,7 +60,7 @@ async def process_webhook(
     return Response(content="ACK", status_code=200)
 
 
-@app.get("/pywce/webhook")
+@app.get("/chatbot/webhook")
 async def verify_webhook(
         mode: str = Query(...),
         token: str = Query(...),
