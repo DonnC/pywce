@@ -1,9 +1,10 @@
-## [0.0.1] - Jan 2025.
+## [1.0.0] - Jan 2025.
 * Initial release.
 
 
-## [0.0.1b2] - Jan 2025.
+## [1.0.1] - Jan 2025.
 * Support for `@hook` decorator on hooks
+* Added new default session manager implementation using `cachetool` lib
 
 Decorator enables hook caching
 
