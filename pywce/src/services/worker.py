@@ -6,15 +6,13 @@ from typing import List, Dict, Any, Tuple
 from pywce.engine_logger import get_engine_logger
 from pywce.modules.session import ISessionManager
 from pywce.modules.whatsapp import MessageTypeEnum
-from pywce.src.constants.engine import EngineConstants
-from pywce.src.constants.session import SessionConstants
-from pywce.src.constants.template import TemplateConstants
-from pywce.src.constants.template_type import TEMPLATE_TYPE_MAPPING, TemplateTypeConstants
+from pywce.src.constants import *
 from pywce.src.exceptions import *
 from pywce.src.models import WorkerJob, WhatsAppServiceModel, QuickButtonModel
-from pywce.src.services.message_processor import MessageProcessor
-from pywce.src.services.whatsapp_service import WhatsAppService
+from pywce.src.services import MessageProcessor, WhatsAppService
 from pywce.src.utils.engine_util import EngineUtil
+
+_logger = get_engine_logger(__name__)
 
 
 class Worker:
@@ -30,35 +28,33 @@ class Worker:
         self.payload = job.payload
         self.user = job.user
         self.session_id = self.user.wa_id
-
         self.session: ISessionManager = job.engine_config.session_manager.session(self.session_id)
-        self.logger = get_engine_logger(__name__)
 
-    def __get_message_queue__(self) -> List:
+    def _get_message_queue(self) -> List:
         return self.session.get(session_id=self.session_id, key=SessionConstants.MESSAGE_HISTORY) or []
 
-    def __append_message_to_queue__(self):
-        queue = self.__get_message_queue__()
+    def _append_message_to_queue(self):
+        queue = self._get_message_queue()
         queue.append(self.user.msg_id)
 
         if len(queue) > EngineConstants.MESSAGE_QUEUE_COUNT:
-            self.logger.debug("Message queue limit reached, applying FIFO...")
+            _logger.debug("Message queue limit reached, applying FIFO...")
             queue = queue[-EngineConstants.MESSAGE_QUEUE_COUNT:]
 
         self.session.save(session_id=self.session_id, key=SessionConstants.MESSAGE_HISTORY, data=queue)
 
-    def __exists_in_queue__(self) -> bool:
-        queue_history = self.__get_message_queue__()
+    def _exists_in_queue(self) -> bool:
+        queue_history = self._get_message_queue()
         return self.user.msg_id in list(set(queue_history))
 
-    def __is_old_webhook__(self) -> bool:
+    def _is_old_webhook(self) -> bool:
         webhook_time = datetime.fromtimestamp(float(self.user.timestamp))
         current_time = datetime.now()
         time_difference = abs((current_time - webhook_time).total_seconds())
         return time_difference > self.job.engine_config.webhook_timestamp_threshold_s
 
-    def __check_authentication__(self, template: Dict) -> None:
-        if TemplateConstants.AUTHENTICATED in template:
+    def _check_authentication(self, current_template: Dict) -> None:
+        if TemplateConstants.AUTHENTICATED in current_template:
             is_auth_set = self.session.get(session_id=self.session_id, key=SessionConstants.VALID_AUTH_SESSION)
             session_wa_id = self.session.get(session_id=self.session_id, key=SessionConstants.VALID_AUTH_MSISDN)
             logged_in_time = self.session.get(session_id=self.session_id, key=SessionConstants.AUTH_EXPIRE_AT)
@@ -70,7 +66,7 @@ class Worker:
                 raise EngineSessionException(
                     message="Your session has expired. Kindly login again to access our WhatsApp Services")
 
-    def __inactivity_handler__(self) -> bool:
+    def _inactivity_handler(self) -> bool:
         if self.job.engine_config.handle_session_inactivity is False: return False
 
         is_auth_set = self.session.get(session_id=self.session_id, key=SessionConstants.VALID_AUTH_SESSION)
@@ -80,8 +76,8 @@ class Worker:
             return EngineUtil.has_interaction_expired(last_active, self.job.engine_config.inactivity_timeout_min)
         return False
 
-    def __checkpoint_handler__(self, routes: Dict[str, Any], user_input: str = None,
-                               is_from_trigger: bool = False) -> bool:
+    def _checkpoint_handler(self, routes: Dict[str, Any], user_input: str = None,
+                            is_from_trigger: bool = False) -> bool:
         """
         Check if a checkpoint is available in session. If so,
 
@@ -101,10 +97,10 @@ class Worker:
 
         return should_reroute_to_checkpoint
 
-    def __next_route_handler__(self, msg_processor: MessageProcessor) -> str:
+    def _next_route_handler(self, msg_processor: MessageProcessor) -> str:
         if msg_processor.IS_FIRST_TIME: return self.job.engine_config.start_template_stage
 
-        if self.__inactivity_handler__():
+        if self._inactivity_handler():
             raise EngineSessionException(
                 message="You have been inactive for a while, to secure your account, kindly login again")
 
@@ -112,13 +108,17 @@ class Worker:
         current_template_routes: Dict[str, Any] = msg_processor.CURRENT_TEMPLATE.get(TemplateConstants.ROUTES)
 
         # check for next route in last checkpoint
-        if self.__checkpoint_handler__(current_template_routes, msg_processor.USER_INPUT[0],
-                                       msg_processor.IS_FROM_TRIGGER):
+        if self._checkpoint_handler(current_template_routes, msg_processor.USER_INPUT[0],
+                                    msg_processor.IS_FROM_TRIGGER):
             return self.session.get(session_id=self.session_id, key=SessionConstants.LATEST_CHECKPOINT)
 
         # check for next route in configured dynamic route if any
         if msg_processor.process_dynamic_route_hook() is not None:
             return msg_processor.process_dynamic_route_hook()
+
+        # if from trigger, prioritize triggered stage
+        if msg_processor.IS_FROM_TRIGGER:
+            return msg_processor.CURRENT_STAGE
 
         # check for next route in configured template routes
         for _pattern, _route in current_template_routes.items():
@@ -143,7 +143,7 @@ class Worker:
         # at this point, user provided an invalid response then
         raise EngineResponseException(message="Invalid response, please try again", data=msg_processor.CURRENT_STAGE)
 
-    def __hook_next_template_handler__(self, msg_processor: MessageProcessor) -> Tuple[str, Dict]:
+    def _hook_next_template_handler(self, msg_processor: MessageProcessor) -> Tuple[str, Dict]:
         """
         Handle next template to render to user
 
@@ -155,7 +155,7 @@ class Worker:
         if self.session.get(session_id=self.session_id, key=SessionConstants.DYNAMIC_RETRY) is None:
             msg_processor.process_post_hooks()
 
-        next_template_stage = self.__next_route_handler__(msg_processor)
+        next_template_stage = self._next_route_handler(msg_processor)
 
         if next_template_stage not in self.job.templates:
             raise EngineInternalException(
@@ -164,7 +164,7 @@ class Worker:
         next_template = self.job.templates.get(next_template_stage)
 
         # check if next template requires user to be authenticated before processing
-        self.__check_authentication__(next_template)
+        self._check_authentication(next_template)
 
         # process all `next template` pre hooks
         msg_processor.process_pre_hooks(next_template)
@@ -202,15 +202,15 @@ class Worker:
 
         response_msg_id = _client.util.get_response_message_id(response)
 
-        self.logger.debug("Quick button message responded with id: %s", response_msg_id)
+        _logger.debug("Quick button message responded with id: %s", response_msg_id)
 
-    async def __runner__(self):
+    async def _runner(self):
         processor = MessageProcessor(data=self.job)
         processor.setup()
 
-        next_stage, next_template = self.__hook_next_template_handler__(processor)
+        next_stage, next_template = self._hook_next_template_handler(processor)
 
-        self.logger.info("Next template stage: %s", next_stage)
+        _logger.info("Next template stage: %s", next_stage)
 
         service_model = WhatsAppServiceModel(
             template_type=TEMPLATE_TYPE_MAPPING.get(next_template.get(TemplateConstants.TEMPLATE_TYPE)),
@@ -234,17 +234,17 @@ class Worker:
         :return: None
         """
 
-        if self.__is_old_webhook__():
-            self.logger.warning(f"Skipping old webhook request. {self.payload.body} Discarding...")
+        if self._is_old_webhook():
+            _logger.warning(f"Skipping old webhook request. {self.payload.body} Discarding...")
             return
 
         if self.job.payload.typ == MessageTypeEnum.UNKNOWN or self.job.payload.typ == MessageTypeEnum.UNSUPPORTED:
-            self.logger.warning(f"Received unknown | unsupported message: {self.user.wa_id}")
+            _logger.warning(f"Received unknown | unsupported message: {self.user.wa_id}")
             return
 
         if self.job.engine_config.handle_session_queue:
-            if self.__exists_in_queue__():
-                self.logger.warning(f"Duplicate message found: {self.payload.body}")
+            if self._exists_in_queue():
+                _logger.warning(f"Duplicate message found: {self.payload.body}")
                 return
 
         last_debounce_timestamp = self.session.get(session_id=self.session_id, key=SessionConstants.CURRENT_DEBOUNCE)
@@ -254,20 +254,20 @@ class Worker:
             self.session.save(session_id=self.session_id, key=SessionConstants.CURRENT_DEBOUNCE, data=current_time)
 
         else:
-            self.logger.warning("Message ignored due to debounce..")
+            _logger.warning("Message ignored due to debounce..")
             return
 
         if self.job.engine_config.handle_session_queue:
-            self.__append_message_to_queue__()
+            self._append_message_to_queue()
 
         try:
-            await self.__runner__()
+            await self._runner()
 
             self.session.evict(session_id=self.session_id, key=SessionConstants.DYNAMIC_RETRY)
             self.session.save(session_id=self.session_id, key=SessionConstants.CURRENT_MSG_ID, data=self.user.msg_id)
 
         except TemplateRenderException as e:
-            self.logger.error("Failed to render template: " + e.message)
+            _logger.error("Failed to render template: " + e.message)
 
             btn = QuickButtonModel(
                 title="Message",
@@ -280,7 +280,7 @@ class Worker:
             return
 
         except EngineResponseException as e:
-            self.logger.error("EngineResponse: " + e.message)
+            _logger.error("EngineResponse: " + e.message)
 
             btn = QuickButtonModel(
                 title="Message",
@@ -293,8 +293,8 @@ class Worker:
             return
 
         except UserSessionValidationException as e:
-            self.logger.critical("Ambiguous session mismatch encountered with %s" % self.user.wa_id)
-            self.logger.error(e.message)
+            _logger.critical("Ambiguous session mismatch encountered with %s" % self.user.wa_id)
+            _logger.error(e.message)
 
             btn = QuickButtonModel(
                 title="Message",
@@ -307,7 +307,7 @@ class Worker:
             return
 
         except EngineSessionException as e:
-            self.logger.warning("Session expired | inactive for: %s. Clearing data" % self.user.wa_id)
+            _logger.warning("Session expired | inactive for: %s. Clearing data" % self.user.wa_id)
 
             # clear all user session data
             self.session.clear(session_id=self.user.wa_id)
@@ -324,5 +324,5 @@ class Worker:
             return
 
         except EngineInternalException as e:
-            self.logger.critical(e.message)
+            _logger.critical(e.message)
             return

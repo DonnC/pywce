@@ -2,16 +2,15 @@ import importlib
 from functools import wraps
 from typing import Callable
 
-from pywce.engine_logger import get_engine_logger
 from pywce.src.exceptions import HookError
-from ..models import HookArg
+from pywce.src.models import HookArg
+from pywce.engine_logger import get_engine_logger
 
 _logger = get_engine_logger(__name__)
 
 # Global registries for hooks
 _hook_registry = {}
 _dotted_path_registry = {}
-
 
 class HookService:
     """

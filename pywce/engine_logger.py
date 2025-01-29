@@ -9,10 +9,9 @@ from pythonjsonlogger import json
 LOGGING_ENABLED = os.getenv("PYWCE_LOGGER_ENABLED", "True").lower() == "true"
 
 # Log file configuration
-LOG_FILE = "pywce_engine.log"
+LOG_FILE = "pywce.log"
 MAX_LOG_SIZE = 5 * 1024 * 1024
 BACKUP_COUNT = 5
-
 
 def _get_logger(name: str = None) -> logging.Logger:
     """
@@ -58,5 +57,5 @@ def _get_logger(name: str = None) -> logging.Logger:
     return logger
 
 
-def get_engine_logger(name: str = "pywce_logger"):
+def get_engine_logger(name: str = "pywce"):
     return _get_logger(name)

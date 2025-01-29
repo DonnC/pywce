@@ -3,9 +3,9 @@ from typing import Dict, Any, List
 
 from pywce.modules.session import ISessionManager
 from pywce.modules.session.dict_session_manager import DictSessionManager
-from ...modules.whatsapp import WhatsApp
+from pywce.modules.whatsapp import WhatsApp
 from pywce.modules.whatsapp.model import *
-from pywce.src.constants.template_type import TemplateTypeConstants
+from pywce.src.constants import TemplateTypeConstants
 
 
 @dataclass

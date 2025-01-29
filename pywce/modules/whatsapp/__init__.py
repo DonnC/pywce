@@ -4,21 +4,20 @@ https://github.com/oca159/heyoo/tree/main
 
 Unofficial python wrapper for the WhatsApp Cloud API.
 """
+
 import mimetypes
 import os
-from logging import Logger
 from typing import Dict, Any, List, Union
 
 from httpx import AsyncClient
 
 from pywce.engine_logger import get_engine_logger
-from pywce.modules.whatsapp.model.wa_user import WaUser
-from .config import WhatsAppConfig
-from .message_utils import MessageUtils
-from .model.message_type_enum import MessageTypeEnum
-from .model.response_structure import ResponseStructure
+from pywce.modules.whatsapp.config import WhatsAppConfig
+from pywce.modules.whatsapp.message_utils import MessageUtils
+from pywce.modules.whatsapp.model import *
 
 _logger = get_engine_logger(__name__)
+
 
 class WhatsApp:
     """
@@ -45,7 +44,7 @@ class WhatsApp:
         }
         self.util = self.Utils(self)
 
-    async def __send_request__(self, message_type: str, recipient_id: str, data: Dict[str, Any]):
+    async def _send_request(self, message_type: str, recipient_id: str, data: Dict[str, Any]):
         """
         Send a request to the official WhatsApp API
 
@@ -89,7 +88,7 @@ class WhatsApp:
         if message_id is not None:
             data["context"] = {"message_id": message_id}
 
-        return await self.__send_request__(message_type='Message', recipient_id=recipient_id, data=data)
+        return await self._send_request(message_type='Message', recipient_id=recipient_id, data=data)
 
     async def send_reaction(self, recipient_id: str, emoji: str, message_id: str, recipient_type: str = "individual"):
         """
@@ -109,7 +108,7 @@ class WhatsApp:
             "reaction": {"message_id": message_id, "emoji": emoji},
         }
 
-        return await self.__send_request__(message_type='Reaction', recipient_id=recipient_id, data=data)
+        return await self._send_request(message_type='Reaction', recipient_id=recipient_id, data=data)
 
     async def send_template(self, recipient_id: str, template: str, components: List[Dict], message_id: str = None,
                             lang: str = "en_US"):
@@ -143,7 +142,7 @@ class WhatsApp:
         if message_id is not None:
             data["context"] = {"message_id": message_id}
 
-        return await self.__send_request__(message_type='Template', recipient_id=recipient_id, data=data)
+        return await self._send_request(message_type='Template', recipient_id=recipient_id, data=data)
 
     async def send_location(self, recipient_id: str, lat: str, lon: str, name: str = None, address: str = None,
                             message_id: str = None):
@@ -172,7 +171,7 @@ class WhatsApp:
         if message_id is not None:
             data["context"] = {"message_id": message_id}
 
-        return await self.__send_request__(message_type='Location', recipient_id=recipient_id, data=data)
+        return await self._send_request(message_type='Location', recipient_id=recipient_id, data=data)
 
     async def request_location(self, recipient_id: str, message: str, message_id: str = None):
         data = {
@@ -194,7 +193,7 @@ class WhatsApp:
         if message_id is not None:
             data["context"] = {"message_id": message_id}
 
-        return await self.__send_request__(message_type='RequestLocation', recipient_id=recipient_id, data=data)
+        return await self._send_request(message_type='RequestLocation', recipient_id=recipient_id, data=data)
 
     async def send_media(
             self,
@@ -253,7 +252,7 @@ class WhatsApp:
         if message_id is not None:
             data["context"] = {"message_id": message_id}
 
-        return await self.__send_request__(message_type=media_type.name.title(), recipient_id=recipient_id, data=data)
+        return await self._send_request(message_type=media_type.name.title(), recipient_id=recipient_id, data=data)
 
     async def send_contacts(self, recipient_id: str, contacts: List[Dict[Any, Any]], message_id: str = None):
         """
@@ -277,7 +276,7 @@ class WhatsApp:
         if message_id is not None:
             data["context"] = {"message_id": message_id}
 
-        return await self.__send_request__(message_type='Contacts', recipient_id=recipient_id, data=data)
+        return await self._send_request(message_type='Contacts', recipient_id=recipient_id, data=data)
 
     async def mark_as_read(self, message_id: str) -> Dict[Any, Any]:
         """
@@ -295,7 +294,7 @@ class WhatsApp:
             "message_id": message_id
         }
 
-        return await self.__send_request__(message_type='MarkAsRead', recipient_id=message_id, data=data)
+        return await self._send_request(message_type='MarkAsRead', recipient_id=message_id, data=data)
 
     async def send_interactive(self, recipient_id: str, payload: Dict[Any, Any], message_id: str = None):
         """
@@ -315,18 +314,18 @@ class WhatsApp:
         if message_id is not None:
             data["context"] = {"message_id": message_id}
 
-        return await self.__send_request__(message_type='Interactive', recipient_id=recipient_id, data=data)
+        return await self._send_request(message_type='Interactive', recipient_id=recipient_id, data=data)
 
     class Utils:
         """
             Utility class for WhatsApp utility methods
         """
-        __HUB_SIGNATURE_HEADER_KEY__ = "x-hub-signature-256"
+        _HUB_SIGNATURE_HEADER_KEY = "x-hub-signature-256"
 
         def __init__(self, parent) -> None:
             self.parent = parent
 
-        def __pre_process__(self, webhook_data: Dict[Any, Any]) -> Dict[Any, Any]:
+        def _pre_process(self, webhook_data: Dict[Any, Any]) -> Dict[Any, Any]:
             """
             Preprocesses the data received from the webhook.
 
@@ -340,7 +339,7 @@ class WhatsApp:
             return value_entry
 
         def is_valid_webhook_message(self, webhook_data: Dict) -> bool:
-            processed_data = self.__pre_process__(webhook_data)
+            processed_data = self._pre_process(webhook_data)
             return "messages" in processed_data
 
         def verify_webhook_verification_challenge(self, mode: str, challenge: str, token: str) -> Union[str, None]:
@@ -350,7 +349,7 @@ class WhatsApp:
 
         def verify_webhook_payload(self, webhook_payload: Dict, webhook_headers: Dict) -> bool:
             # TODO: perform request header hub signature verification
-            if self.__HUB_SIGNATURE_HEADER_KEY__ not in webhook_headers:
+            if self._HUB_SIGNATURE_HEADER_KEY not in webhook_headers:
                 raise Exception("Unsecure webhook payload received")
 
             return True
@@ -375,7 +374,7 @@ class WhatsApp:
             return None
 
         def get_wa_user(self, webhook_data: Dict[Any, Any]) -> Union[WaUser, None]:
-            data = self.__pre_process__(webhook_data)
+            data = self._pre_process(webhook_data)
 
             if not self.is_valid_webhook_message(webhook_data):
                 _logger.critical("Invalid webhook message")
@@ -399,7 +398,7 @@ class WhatsApp:
             """
             Extracts the delivery status of the message from the data received from the webhook.
             """
-            data = self.__pre_process__(webhook_data)
+            data = self._pre_process(webhook_data)
             if "statuses" in data:
                 return data["statuses"][0]["status"]
 
@@ -410,7 +409,7 @@ class WhatsApp:
             :return: ResponseStructure with response type and body
             """
             if self.is_valid_webhook_message(webhook_data):
-                data = self.__pre_process__(webhook_data)
+                data = self._pre_process(webhook_data)
                 return MessageUtils(message_data=data.get("messages")[0]).get_structure()
 
         async def upload_media(self, media_path: str) -> Union[str, None]:
