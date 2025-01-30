@@ -20,15 +20,72 @@ pip install pywce
 ```
 
 ## Why pywce
-Most "WhatsApp ChatBots" tutorials or libraries just scraps the surface, only sending a few message or handling simple logic.
+Most WhatsApp chatbot tutorials or libraries just scraps the surface, only sending a few message or handling simple logic or are client libraries only.
 
-This library gives you a full-blown framework for chatbots of any scale.
+This library gives you a full-blown framework for chatbots of any scale allowing you access to full package of whatsapp client library and chatbot development framework.
+
+### Example ChatBot
+Here's a simple example template to get you started:
+
+_**Note:** Checkout complete example chatbot with [Fast Api here](https://github.com/DonnC/pywce/blob/master/example/engine_chatbot/main.py)_
+
+1. Define YAML template (Conversation Flow💬):
+
+```yaml
+# path/to/templates
+"START-MENU":
+  type: button
+  template: "example.hooks.name_template.username"
+  message:
+    title: Welcome
+    body: "Hi {{ name }}, I'm your assistant, click below to start!"
+    footer: pywce
+    buttons:
+      - Start
+  routes:
+    "start": "NEXT-STEP"
+
+"NEXT-STEP":
+  type: text
+  message: Great, lets get you started quickly. What is your age?
+  routes:
+    "re://d{1,}": "NEXT-STEP-FURTHER"
+```
+
+2. Write your hook (Supercharge⚡):
+```python
+# example/hooks/name_template.py
+from pywce import hook, HookArg, TemplateDynamicBody
+
+@hook
+def username(arg: HookArg) -> HookArg:
+    # set render payload data to match the required template dynamic var
+    
+    # greet user by their whatsapp name 😎
+    arg.template_body = TemplateDynamicBody(
+        render_template_payload={"name": arg.user.name}
+    )
+
+    return arg
+```
+
+3. Start the engine:
+
+```python
+from pywce import PywceEngine, PywceEngineConfig
+
+config = PywceEngineConfig(
+    templates_dir="path/to/templates",
+    start_template_stage="START-MENU"
+)
+engine = PywceEngine(config=config)
+```
+
 
 ### WhatsApp Client Library
+_You can use pywce as a standalone whatsapp client library. See [FastApi Example](https://github.com/DonnC/pywce/blob/master/example/standalone_chatbot/main.py)_
 
 PyWCE provides a simple, Pythonic interface to interact with the WhatsApp Cloud API:
-
-_**Note**: You can use pywce as a standalone whatsapp client library. See [FastApi Example](https://github.com/DonnC/pywce/blob/master/example/standalone_chatbot/main.py)_
 
 - **Send messages** (text, media, templates, interactive)
 - **Receive and process webhooks**
@@ -65,56 +122,6 @@ if is_sent:
     print("Request successful with msg id: ", message_id)
 ```
 
-### Template Engine ChatBot
-
-Here's a simple example template to get you started:
-
-_**Note:** Checkout complete example chatbot with [Fast Api here](https://github.com/DonnC/pywce/blob/master/example/engine_chatbot/main.py)_
-
-1. Define your YAML template:
-
-```yaml
-# path/to/templates
-"START-MENU":
-  type: button
-  template: "example.hooks.name_template.username"
-  message:
-    title: Welcome
-    body: "Hi {{ name }}, I'm your assistant, click below to start!"
-    footer: pywce
-    buttons:
-      - Start
-  routes:
-    "start": "NEXT-STEP"
-```
-
-2. Write your hook:
-
-```python
-# example/hooks/name_template.py
-from pywce import hook, HookArg, TemplateDynamicBody
-
-@hook
-def username(arg: HookArg) -> HookArg:
-    # set render payload data to match the required template dynamic var
-    arg.template_body = TemplateDynamicBody(
-        render_template_payload={"name": arg.user.name}
-    )
-
-    return arg
-```
-
-3. Start the engine:
-
-```python
-from pywce import PywceEngine, PywceEngineConfig
-
-config = PywceEngineConfig(
-    templates_dir="path/to/templates",
-    start_template_stage="START-MENU"
-)
-engine = PywceEngine(config=config)
-```
 
 ## Documentation
 
