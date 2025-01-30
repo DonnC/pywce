@@ -62,9 +62,9 @@ async def process_webhook(
 
 @app.get("/chatbot/webhook")
 async def verify_webhook(
-        mode: str = Query(...),
-        token: str = Query(...),
-        challenge: str = Query(...),
+        mode: str = Query(..., alias="hub.mode"),
+        token: str = Query(..., alias="hub.verify_token"),
+        challenge: str = Query(..., alias="hub.challenge"),
         whatsapp: pywce.WhatsApp = Depends(get_whatsapp_instance)
 ) -> Response:
     """

@@ -1,4 +1,4 @@
-from engine import EngineConstants
-from session import SessionConstants
-from template import TemplateConstants
-from template_type import TEMPLATE_TYPE_MAPPING, TemplateTypeConstants
+from pywce.src.constants.engine import EngineConstants
+from pywce.src.constants.session import SessionConstants
+from pywce.src.constants.template import TemplateConstants
+from pywce.src.constants.template_type import TEMPLATE_TYPE_MAPPING, TemplateTypeConstants

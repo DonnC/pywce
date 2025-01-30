@@ -1,15 +1,41 @@
 "START-MENU":
   type: button
   template: "example.engine_chatbot.hooks.name_template.username"
+  message:
+    title: Greetings
+    body: |
+      Hi {{ name }}, Thank you for doing this!
+      
+      Using an easy to use template-driven framework for chatbot development.
+    footer: pywce
+    buttons:
+      - Sample Bot
+      - Developer Profile
+  routes:
+    "sample bot": "PROJECT-MENU"
+    "developer profile": "GITHUB-PROFILE"
+
+"GITHUB-PROFILE":
+  type: cta
+  message:
+    title: "Support"
+    body: "View my GitHub profile, projects and star, fork, share, contribute or donate 🙈"
+    url: "https://github.com/DonnC"
+    button: "GitHub"
+  routes:
+    "re:.*": "START-MENU"
+
+"PROJECT-MENU":
+  type: button
   checkpoint: true
   message:
     title: PickDrive
-    body: "Hi {{ name }}, I'm PickDrive assistant.\n\nTo begin, click the button below"
+    body: "Hi {{ s.username }}, I'm PickDrive assistant.\n\nTo begin, click the button below"
     footer: pywce
     buttons:
-      - Start
+      - Begin
   routes:
-    "start": "PICKUP-DRIVE-MAIN-MENU"
+    "begin": "PICKUP-DRIVE-MAIN-MENU"
 
 "PICKUP-DRIVE-MAIN-MENU":
   type: button
@@ -25,8 +51,6 @@
   routes:
     "re:.*": "PICKUP-LOCATION"
 
-
-# TODO: add on-receive hook to save user requested location
 "PICKUP-LOCATION":
   type: request-location
   message: "Where would you like to be picked from?"

@@ -1,14 +1,12 @@
 from typing import Dict, Tuple, Any, Union
 
 from pywce.engine_logger import get_engine_logger
-from pywce.modules.session import ISessionManager
-from pywce.modules.whatsapp import MessageTypeEnum
+from pywce.modules import ISessionManager, MessageTypeEnum
 from pywce.src.constants import EngineConstants, SessionConstants, TemplateConstants
 from pywce.src.exceptions import EngineInternalException, EngineResponseException
 from pywce.src.models import WorkerJob, HookArg
 from pywce.src.services import HookService
-from pywce.src.utils.engine_util import EngineUtil
-
+from pywce.src.utils import EngineUtil
 
 class MessageProcessor:
     """

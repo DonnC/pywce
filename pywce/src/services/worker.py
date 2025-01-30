@@ -4,16 +4,14 @@ from time import time
 from typing import List, Dict, Any, Tuple
 
 from pywce.engine_logger import get_engine_logger
-from pywce.modules.session import ISessionManager
-from pywce.modules.whatsapp import MessageTypeEnum
+from pywce.modules import ISessionManager, MessageTypeEnum
 from pywce.src.constants import *
 from pywce.src.exceptions import *
 from pywce.src.models import WorkerJob, WhatsAppServiceModel, QuickButtonModel
 from pywce.src.services import MessageProcessor, WhatsAppService
-from pywce.src.utils.engine_util import EngineUtil
+from pywce.src.utils import EngineUtil
 
 _logger = get_engine_logger(__name__)
-
 
 class Worker:
     """

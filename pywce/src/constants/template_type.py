@@ -4,6 +4,7 @@ from dataclasses import dataclass
 @dataclass(frozen=True)
 class TemplateTypeConstants:
     BUTTON = "button"
+    CTA = "cta"
     LIST = "list"
     TEXT = "text"
     DYNAMIC = "dynamic"
@@ -15,6 +16,7 @@ class TemplateTypeConstants:
 
 TEMPLATE_TYPE_MAPPING = {
     "button": TemplateTypeConstants.BUTTON,
+    "cta": TemplateTypeConstants.CTA,
     "list": TemplateTypeConstants.LIST,
     "text": TemplateTypeConstants.TEXT,
     "dynamic": TemplateTypeConstants.DYNAMIC,

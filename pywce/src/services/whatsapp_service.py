@@ -4,12 +4,12 @@ from random import randint
 from typing import Dict, Any, List
 
 from pywce.engine_logger import get_engine_logger
-from pywce.modules.whatsapp import MessageTypeEnum
+from pywce.modules import MessageTypeEnum
 from pywce.src.constants import SessionConstants, TemplateConstants, TemplateTypeConstants
 from pywce.src.exceptions import EngineInternalException
 from pywce.src.models import WhatsAppServiceModel
 from pywce.src.services import HookService
-from pywce.src.utils.engine_util import EngineUtil
+from pywce.src.utils import EngineUtil
 
 _logger = get_engine_logger(__name__)
 
@@ -140,6 +140,37 @@ class WhatsAppService:
             "payload": data
         }
 
+    def _cta(self) -> Dict[str, Any]:
+        """
+        Method to create a Call-To-Action button object to be used in the send_message method.
+
+        Args:
+               button[dict]: A dictionary containing the cta button data
+        """
+        data = {"type": "cta_url"}
+        message: Dict[str, Any] = self.template.get(TemplateConstants.MESSAGE)
+
+        if message.get(TemplateConstants.MESSAGE_TITLE):
+            data["header"] = {"type": "text", "text": message.get(TemplateConstants.MESSAGE_TITLE)}
+        if message.get(TemplateConstants.MESSAGE_BODY):
+            data["body"] = {"text": message.get(TemplateConstants.MESSAGE_BODY)}
+        if message.get(TemplateConstants.MESSAGE_FOOTER):
+            data["footer"] = {"text": message.get(TemplateConstants.MESSAGE_FOOTER)}
+
+        data["action"] = {
+            "name": "cta_url",
+            "parameters": {
+                "display_text": message.get("button"),
+                "url": message.get("url")
+            }
+        }
+
+        return {
+            "recipient_id": self.model.user.wa_id,
+            "message_id": self.template.get(TemplateConstants.REPLY_MESSAGE_ID),
+            "payload": data
+        }
+
     def _list(self) -> Dict[str, Any]:
         data = {"type": "list"}
 
@@ -188,7 +219,7 @@ class WhatsAppService:
         config = self.model.whatsapp.config
         data = {"type": "flow"}
 
-        flow_initial_payload: Dict = None
+        flow_initial_payload: Dict or None = None
 
         if TemplateConstants.TEMPLATE in self.template:
             self.template = self._process_special_vars()
@@ -305,6 +336,9 @@ class WhatsAppService:
 
             case TemplateTypeConstants.BUTTON:
                 response = await self.model.whatsapp.send_interactive(**self._button())
+
+            case TemplateTypeConstants.CTA:
+                response = await self.model.whatsapp.send_interactive(**self._cta())
 
             case TemplateTypeConstants.LIST:
                 response = await self.model.whatsapp.send_interactive(**self._list())

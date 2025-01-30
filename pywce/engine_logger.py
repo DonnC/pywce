@@ -1,34 +1,35 @@
-import logging
-import os
+from logging import StreamHandler, getLogger, ERROR, Logger, DEBUG
 from logging.handlers import RotatingFileHandler
+from os import getenv
 
-import colorlog
+from colorlog import ColoredFormatter
 from pythonjsonlogger import json
 
 # Default logging enabled flag (you can change this to False for disabling)
-LOGGING_ENABLED = os.getenv("PYWCE_LOGGER_ENABLED", "True").lower() == "true"
+LOGGING_ENABLED = getenv("PYWCE_LOGGER_ENABLED", "True").lower() == "true"
 
 # Log file configuration
 LOG_FILE = "pywce.log"
 MAX_LOG_SIZE = 5 * 1024 * 1024
 BACKUP_COUNT = 5
 
-def _get_logger(name: str = None) -> logging.Logger:
+
+def _get_logger(name: str = None) -> Logger:
     """
     Configures and returns a logger with both console and file logging.
     """
-    logger = logging.getLogger(name)
+    logger = getLogger(name)
 
     if not LOGGING_ENABLED:
-        logger.setLevel(logging.ERROR)
+        logger.setLevel(ERROR)
         return logger
 
-    logger.setLevel(logging.DEBUG)
+    logger.setLevel(DEBUG)
 
     if logger.hasHandlers():
         logger.handlers.clear()
 
-    console_formatter = colorlog.ColoredFormatter(
+    console_formatter = ColoredFormatter(
         '%(log_color)s%(asctime)s [%(levelname)s] [%(name)s:%(lineno)d] - %(message)s',
         datefmt='%Y-%m-%d %H:%M:%S',
         log_colors={
@@ -44,13 +45,13 @@ def _get_logger(name: str = None) -> logging.Logger:
         '%(asctime)s [%(levelname)s] [%(name)s] - {%(filename)s:%(lineno)d} %(funcName)s - %(message)s'
     )
 
-    stream_handler = logging.StreamHandler()
-    stream_handler.setLevel(logging.DEBUG)
+    stream_handler = StreamHandler()
+    stream_handler.setLevel(DEBUG)
     stream_handler.setFormatter(console_formatter)
     logger.addHandler(stream_handler)
 
     file_handler = RotatingFileHandler(LOG_FILE, maxBytes=MAX_LOG_SIZE, backupCount=BACKUP_COUNT)
-    file_handler.setLevel(logging.DEBUG)
+    file_handler.setLevel(DEBUG)
     file_handler.setFormatter(file_formatter)
     logger.addHandler(file_handler)
 

@@ -3,7 +3,9 @@ from typing import Any, Dict, Type, List, Union
 
 from cachetools import TTLCache
 from pywce.engine_logger import get_engine_logger
-from pywce.modules.session import ISessionManager, T
+from pywce.modules import ISessionManager
+
+from . import T
 
 class CachetoolSessionManager(ISessionManager):
     """

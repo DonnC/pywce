@@ -11,10 +11,10 @@ from typing import Dict, Any, List, Union
 
 from httpx import AsyncClient
 
-from pywce.engine_logger import get_engine_logger
 from pywce.modules.whatsapp.config import WhatsAppConfig
+from pywce.modules.whatsapp.model import MessageTypeEnum, WaUser, ResponseStructure
+from pywce.engine_logger import get_engine_logger
 from pywce.modules.whatsapp.message_utils import MessageUtils
-from pywce.modules.whatsapp.model import *
 
 _logger = get_engine_logger(__name__)
 
