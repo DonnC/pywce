@@ -14,12 +14,16 @@ Modules:
 Author: Donald Chinhuru
 """
 
-from pywce.src.models import *
-from pywce.modules.session import ISessionManager
-from pywce.modules.session.dict_session_manager import DictSessionManager
-from pywce.modules.whatsapp import WhatsApp, WhatsAppConfig
-from pywce.src.engine import PywceEngine, PywceEngineConfig
-from pywce.src.services.hook_service import HookService, hook
+from pywce.modules import (
+    ISessionManager,
+    DictSessionManager, CachetoolSessionManager,
+    WhatsApp, WhatsAppConfig,
+    ResponseStructure,
+    WaUser, MessageTypeEnum
+)
+from pywce.src.engine import PywceEngine
+from pywce.src.models import HookArg, TemplateDynamicBody, PywceEngineConfig
+from pywce.src.services import HookService, hook
 
 __author__ = "Donald Chinhuru"
 __email__ = "donychinhuru@gmail.com"
@@ -28,6 +32,8 @@ __name__ = "pywce"
 __all__ = [
     "ISessionManager",
     "DictSessionManager",
+    "CachetoolSessionManager",
+    "ResponseStructure",
     "WaUser",
     "WhatsApp",
     "WhatsAppConfig",

@@ -5,10 +5,11 @@ from typing import Any, Dict
 from jinja2 import Template
 
 from pywce.engine_logger import get_engine_logger
-from pywce.src.constants.engine import EngineConstants
+from pywce.src.constants import EngineConstants
 from pywce.src.exceptions import TemplateRenderException
 
 _logger = get_engine_logger(__name__)
+
 
 class EngineUtil:
 
@@ -40,7 +41,7 @@ class EngineUtil:
                 return render_with_jinja(template)
 
         except Exception as e:
-            _logger.critical("Render template failure: {}".format(str(e)))
+            _logger.error("Render template failure: {}".format(str(e)))
             raise TemplateRenderException(message="Template failed to render")
 
     @staticmethod

@@ -2,7 +2,8 @@ import threading
 from typing import Any, Dict, Type, List, Union
 
 from pywce.engine_logger import get_engine_logger
-from pywce.modules.session import ISessionManager, T
+from pywce.modules import ISessionManager
+from . import T
 
 
 class DictSessionManager(ISessionManager):

@@ -1,11 +1,10 @@
 from typing import Dict, Any
 
-from .model.message_type_enum import MessageTypeEnum
-from .model.response_structure import ResponseStructure
+from pywce.modules.whatsapp.model import MessageTypeEnum, ResponseStructure
 
 
 class MessageUtils:
-    __TYPE_MAPPING__: Dict = {
+    _TYPE_MAPPING: Dict = {
         "text": MessageTypeEnum.TEXT,
         "button": MessageTypeEnum.BUTTON,
         "image": MessageTypeEnum.IMAGE,
@@ -42,11 +41,11 @@ class MessageUtils:
         if "contacts" in self.message_data:
             return ResponseStructure(typ=MessageTypeEnum.CONTACTS, body=self.message_data.get("contacts"))
 
-        type_ = self.__TYPE_MAPPING__.get(message_type, MessageTypeEnum.UNKNOWN)
+        type_ = self._TYPE_MAPPING.get(message_type, MessageTypeEnum.UNKNOWN)
 
         if type_ == MessageTypeEnum.INTERACTIVE:
             inner_type = self.message_data.get("interactive").get("type")
-            type_ = self.__TYPE_MAPPING__.get(
+            type_ = self._TYPE_MAPPING.get(
                 inner_type,
                 MessageTypeEnum.INTERACTIVE
             )

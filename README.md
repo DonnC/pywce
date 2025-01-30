@@ -1,11 +1,9 @@
 # Python WhatsApp ChatBot Engine
 
-A library for creating WhatsApp chatbots using a template-driven approach. It decouples 
-the engine from the WhatsApp client library, allowing developers to use them independently or 
-together. 
+A framework for creating WhatsApp chatbots using a template-driven approach - 
+allowing you to define conversation flows and business logic in a clean and modular way. 
 
-Templates use YAML allowing you to define conversation flows and business logic in a clean and modular
-way.
+It decouples the engine from the WhatsApp client library, allowing developers to use them independently or together. 
 
 ## Features
 
@@ -21,6 +19,10 @@ way.
 pip install pywce
 ```
 
+## Why pywce
+Most "WhatsApp ChatBots" tutorials or libraries just scraps the surface, only sending a few message or handling simple logic.
+
+This library gives you a full-blown framework for chatbots of any scale.
 
 ### WhatsApp Client Library
 
