@@ -4,12 +4,11 @@ from typing import Any, Dict
 
 from jinja2 import Template
 
-from pywce.engine_logger import get_engine_logger
+from pywce.src.utils.engine_logger import pywce_logger
 from pywce.src.constants import EngineConstants
 from pywce.src.exceptions import TemplateRenderException
 
-_logger = get_engine_logger(__name__)
-
+_logger = pywce_logger(__name__)
 
 class EngineUtil:
 

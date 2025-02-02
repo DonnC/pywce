@@ -72,13 +72,13 @@ def username(arg: HookArg) -> HookArg:
 3. Start the engine:
 
 ```python
-from pywce import PywceEngine, PywceEngineConfig
+from pywce import Engine, EngineConfig
 
-config = PywceEngineConfig(
+config = EngineConfig(
     templates_dir="path/to/templates",
     start_template_stage="START-MENU"
 )
-engine = PywceEngine(config=config)
+engine = Engine(config=config)
 ```
 
 

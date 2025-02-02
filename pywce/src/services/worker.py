@@ -3,15 +3,16 @@ from random import randint
 from time import time
 from typing import List, Dict, Any, Tuple
 
-from pywce.engine_logger import get_engine_logger
 from pywce.modules import ISessionManager, MessageTypeEnum
 from pywce.src.constants import *
 from pywce.src.exceptions import *
 from pywce.src.models import WorkerJob, WhatsAppServiceModel, QuickButtonModel
 from pywce.src.services import MessageProcessor, WhatsAppService
 from pywce.src.utils import EngineUtil
+from pywce.src.utils.engine_logger import pywce_logger
 
-_logger = get_engine_logger(__name__)
+_logger = pywce_logger(__name__)
+
 
 class Worker:
     """
@@ -36,7 +37,6 @@ class Worker:
         queue.append(self.user.msg_id)
 
         if len(queue) > EngineConstants.MESSAGE_QUEUE_COUNT:
-            _logger.debug("Message queue limit reached, applying FIFO...")
             queue = queue[-EngineConstants.MESSAGE_QUEUE_COUNT:]
 
         self.session.save(session_id=self.session_id, key=SessionConstants.MESSAGE_HISTORY, data=queue)
@@ -217,6 +217,8 @@ class Worker:
             user=self.user,
             next_stage=next_stage,
             hook_arg=processor.HOOK_ARG,
+            tag_on_reply=self.job.engine_config.tag_on_reply,
+            read_receipts=self.job.engine_config.read_receipts,
             handle_session_activity=self.job.engine_config.handle_session_inactivity
         )
 
@@ -247,8 +249,10 @@ class Worker:
 
         last_debounce_timestamp = self.session.get(session_id=self.session_id, key=SessionConstants.CURRENT_DEBOUNCE)
         current_time = int(time() * 1000)
+        no_debounce = last_debounce_timestamp is None or \
+                      current_time - last_debounce_timestamp >= self.job.engine_config.debounce_timeout_ms
 
-        if last_debounce_timestamp is None or current_time - last_debounce_timestamp >= self.job.engine_config.debounce_timeout_ms:
+        if no_debounce is True:
             self.session.save(session_id=self.session_id, key=SessionConstants.CURRENT_DEBOUNCE, data=current_time)
 
         else:

@@ -4,9 +4,9 @@ from typing import Callable
 
 from pywce.src.exceptions import HookError
 from pywce.src.models import HookArg
-from pywce.engine_logger import get_engine_logger
+from pywce.src.utils.engine_logger import pywce_logger
 
-_logger = get_engine_logger(__name__)
+_logger = pywce_logger(__name__)
 
 # Global registries for hooks
 _hook_registry = {}

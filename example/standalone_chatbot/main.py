@@ -3,9 +3,9 @@ from fastapi import FastAPI, Request, Response, Query, Depends
 
 import pywce
 from example.standalone_chatbot.dependencies import get_whatsapp_instance
-from pywce.engine_logger import get_engine_logger
+from pywce.src.utils.engine_logger import pywce_logger
 
-logger = get_engine_logger(__name__)
+logger = pywce_logger(__name__)
 
 # - App Metadata -
 app = FastAPI(

@@ -5,20 +5,19 @@ from os import getenv
 from colorlog import ColoredFormatter
 from pythonjsonlogger import json
 
-# Default logging enabled flag (you can change this to False for disabling)
-LOGGING_ENABLED = getenv("PYWCE_LOGGER_ENABLED", "True").lower() == "true"
+# env log properties
+LOGGING_ENABLED = getenv("PYWCE_LOGGER", "True").lower() == "true"
+LOG_COUNT = int(getenv("PYWCE_LOG_COUNT", "3"))
+LOG_SIZE = int(getenv("PYWCE_LOG_SIZE", "5"))
 
-# Log file configuration
-LOG_FILE = "pywce.log"
-MAX_LOG_SIZE = 5 * 1024 * 1024
-BACKUP_COUNT = 5
-
-
-def _get_logger(name: str = None) -> Logger:
+def pywce_logger(name: str = "pywce") -> Logger:
     """
     Configures and returns a logger with both console and file logging.
     """
     logger = getLogger(name)
+
+    # Log file configuration
+    max_log_size = LOG_SIZE * 1024 * 1024
 
     if not LOGGING_ENABLED:
         logger.setLevel(ERROR)
@@ -50,13 +49,9 @@ def _get_logger(name: str = None) -> Logger:
     stream_handler.setFormatter(console_formatter)
     logger.addHandler(stream_handler)
 
-    file_handler = RotatingFileHandler(LOG_FILE, maxBytes=MAX_LOG_SIZE, backupCount=BACKUP_COUNT)
+    file_handler = RotatingFileHandler("pywce.log", maxBytes=max_log_size, backupCount=LOG_COUNT)
     file_handler.setLevel(DEBUG)
     file_handler.setFormatter(file_formatter)
     logger.addHandler(file_handler)
 
     return logger
-
-
-def get_engine_logger(name: str = "pywce"):
-    return _get_logger(name)

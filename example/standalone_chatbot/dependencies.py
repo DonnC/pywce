@@ -1,8 +1,8 @@
 import pywce
 from example.standalone_chatbot.settings import Settings
-from pywce.engine_logger import get_engine_logger
+from pywce.src.utils.engine_logger import pywce_logger
 
-logger = get_engine_logger(__name__)
+logger = pywce_logger(__name__)
 
 # Global variable to hold the singleton instance
 # ensure only 1 instance is available

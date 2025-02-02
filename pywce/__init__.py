@@ -21,9 +21,10 @@ from pywce.modules import (
     ResponseStructure,
     WaUser, MessageTypeEnum
 )
-from pywce.src.engine import PywceEngine
-from pywce.src.models import HookArg, TemplateDynamicBody, PywceEngineConfig
+from pywce.src.engine import Engine
+from pywce.src.models import HookArg, TemplateDynamicBody, EngineConfig
 from pywce.src.services import HookService, hook
+from pywce.src.utils import pywce_logger
 
 __author__ = "Donald Chinhuru"
 __email__ = "donychinhuru@gmail.com"
@@ -37,16 +38,17 @@ __all__ = [
     "WaUser",
     "WhatsApp",
     "WhatsAppConfig",
-    "PywceEngine",
-    "PywceEngineConfig",
+    "Engine",
+    "EngineConfig",
     "HookArg",
     "TemplateDynamicBody",
     "HookService",
     "MessageTypeEnum",
     "hook",
+    "pywce_logger"
 ]
 __doc__ = (
-    "A Python package for creating chatbots using a template-driven approach. "
+    "A batteries-included WhatsApp ChatBot builder framework library using a template-driven approach. "
     "Supports YAML templates and provides a modular structure for integrating "
     "with WhatsApp Cloud API."
 )

@@ -13,10 +13,10 @@ from httpx import AsyncClient
 
 from pywce.modules.whatsapp.config import WhatsAppConfig
 from pywce.modules.whatsapp.model import MessageTypeEnum, WaUser, ResponseStructure
-from pywce.engine_logger import get_engine_logger
+from pywce.src.utils.engine_logger import pywce_logger
 from pywce.modules.whatsapp.message_utils import MessageUtils
 
-_logger = get_engine_logger(__name__)
+_logger = pywce_logger(__name__)
 
 
 class WhatsApp:
