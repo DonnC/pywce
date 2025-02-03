@@ -1,5 +1,5 @@
 class ChatRole:
-    AGENT = "agent"
+    ADMIN = "admin"
     USER = "user"
 
 

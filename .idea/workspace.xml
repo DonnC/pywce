@@ -5,15 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e700a6d4-f3fd-4ca6-8806-bc5eb9b6e49c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/portal/portal/style.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/constants.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/assets/favicon.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/portal/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/portal/portal.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/requirements.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/rxconfig.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/portal/portal/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/constants.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/portal/portal/portal.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/portal.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -234,6 +229,7 @@
       <workItem from="1738244400556" duration="2133000" />
       <workItem from="1738482521916" duration="17784000" />
       <workItem from="1738516805174" duration="10606000" />
+      <workItem from="1738573860224" duration="5041000" />
     </task>
     <servers />
   </component>
