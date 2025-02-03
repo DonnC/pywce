@@ -6,9 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="e700a6d4-f3fd-4ca6-8806-bc5eb9b6e49c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/engine_chatbot/dependencies.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/engine_chatbot/dependencies.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/engine_chatbot/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/engine_chatbot/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/constants.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/assets/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/portal/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/portal/portal.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/requirements.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/rxconfig.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,11 +80,11 @@
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\resources" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\pywce\src\utils" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\tests" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\example\engine_chatbot" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\pywce\modules\session" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\pywce" />
-      <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\src\services" />
     </key>
   </component>
   <component name="RunManager" selected="Python.main">
@@ -227,6 +232,8 @@
       <workItem from="1738155074428" duration="5895000" />
       <workItem from="1738219829067" duration="13010000" />
       <workItem from="1738244400556" duration="2133000" />
+      <workItem from="1738482521916" duration="17784000" />
+      <workItem from="1738516805174" duration="10606000" />
     </task>
     <servers />
   </component>
