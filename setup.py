@@ -15,7 +15,7 @@ setup(
     version="1.0.1",
     author="Donald Chinhuru",
     author_email="donychinhuru@gmail.com",
-    description="A template-driven engine for building WhatsApp chatbots",
+    description="A template-driven framework for building WhatsApp chatbots",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/DonnC/pywce",
