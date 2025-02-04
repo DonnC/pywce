@@ -18,8 +18,12 @@ def action_bar() -> rx.Component:
         ),
         rx.button(
             rx.hstack(
-                rx.icon("send"),
+                rx.icon(
+                    "send",
+                    size=16
+                ),
                 "Send",
+                align="center",
             ),
             on_click=SupportState.send_message,
             style=button_style,
@@ -27,7 +31,6 @@ def action_bar() -> rx.Component:
         width="100%",
         padding="4",
         spacing="4",
-        # background="white",  # Optional: adds visual separation
-        border_top="1px solid",
+        align="center",
         border_color="gray.200",
-    ),
+    )

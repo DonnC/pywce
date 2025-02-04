@@ -26,6 +26,6 @@ def chat_window() -> rx.Component:
         rx.spacer(),
         action_bar(),
         spacing="4",
-        height="100%",
+        height="90%",
         align="stretch",
     )

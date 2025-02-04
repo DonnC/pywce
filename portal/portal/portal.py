@@ -1,9 +1,9 @@
 import reflex as rx
 
+from .chatbot.bot import verify_webhook, process_webhook
 from .components.chat_window import chat_window
 from .components.footer import footer
 from .components.sidebar import sidebar
-
 
 def index() -> rx.Component:
     return rx.vstack(
@@ -21,7 +21,7 @@ def index() -> rx.Component:
         footer()
     )
 
-
-# TODO: add pywce whatsapp backend endpoints
 app = rx.App()
+app.api.add_api_route("/chatbot/webhook", process_webhook, methods=["POST"])
+app.api.add_api_route("/chatbot/webhook", verify_webhook, methods=["GET"])
 app.add_page(index)

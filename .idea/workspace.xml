@@ -5,27 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e700a6d4-f3fd-4ca6-8806-bc5eb9b6e49c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/portal/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/portal/portal/components/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/portal/portal/components/action_bar.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/portal/portal/components/chat_window.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/portal/portal/components/footer.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/portal/portal/components/message_card.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/portal/portal/components/sidebar.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/portal/portal/components/sidebar_chat.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/portal/portal/data.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/portal/portal/model.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/portal/portal/pages/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/portal/portal/state.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/pywce.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/pywce.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/portal/portal/chatbot/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/portal/portal/chatbot/bot.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/portal/portal/chatbot/dependencies.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/portal/portal/chatbot/hooks/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/portal/portal/chatbot/hooks/capture_ride.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/portal/portal/chatbot/hooks/location.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/portal/portal/chatbot/hooks/name_template.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/portal/portal/chatbot/settings.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/portal/portal/chatbot/templates/ehailing-bot.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/portal/portal/chatbot/templates/report.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/portal/portal/chatbot/triggers/triggers.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/constants.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/example/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/portal/portal/components/action_bar.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/components/action_bar.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/portal/portal/components/chat_window.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/components/chat_window.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/portal/portal/portal.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/portal.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/style.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/style.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/portal/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/portal/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,38 +50,39 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python tests.Python tests for test_cachetool_session_manager.TestSessionManager.executor": "Run",
-    "Python tests.Python tests for test_cachetool_session_manager.TestSessionManager.test_prop.executor": "Debug",
-    "Python tests.Python tests for test_cachetool_session_manager.TestSessionManager.test_save.executor": "Debug",
-    "Python tests.Python tests for test_default_session_impl.TestDefaultSessionManager.test_save.executor": "Run",
-    "Python tests.Python tests for test_default_session_impl.TestSessionManager.executor": "Run",
-    "Python tests.Python tests for test_default_session_impl.TestSessionManager.test_clear.executor": "Run",
-    "Python tests.Python tests for test_engine.MyTestCase.executor": "Run",
-    "Python tests.Python tests for test_engine.TestPywceEngine.executor": "Debug",
-    "Python tests.Python tests in test_default_session_impl.py.executor": "Run",
-    "Python tests.Python tests in tests.executor": "Run",
-    "Python.hook_service.executor": "Run",
-    "Python.main.executor": "Run",
-    "Python.response_structure.executor": "Run",
-    "Python.templetor.executor": "Run",
-    "Python.test_v.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "dev",
-    "last_opened_file_path": "/home/donnc/Documents/projects/pywce",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "Errors",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python tests.Python tests for test_cachetool_session_manager.TestSessionManager.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for test_cachetool_session_manager.TestSessionManager.test_prop.executor&quot;: &quot;Debug&quot;,
+    &quot;Python tests.Python tests for test_cachetool_session_manager.TestSessionManager.test_save.executor&quot;: &quot;Debug&quot;,
+    &quot;Python tests.Python tests for test_default_session_impl.TestDefaultSessionManager.test_save.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for test_default_session_impl.TestSessionManager.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for test_default_session_impl.TestSessionManager.test_clear.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for test_engine.MyTestCase.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for test_engine.TestPywceEngine.executor&quot;: &quot;Debug&quot;,
+    &quot;Python tests.Python tests in test_default_session_impl.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in tests.executor&quot;: &quot;Run&quot;,
+    &quot;Python.hook_service.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.response_structure.executor&quot;: &quot;Run&quot;,
+    &quot;Python.templetor.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test_v.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/donnc/Documents/projects/pywce/portal/portal/chatbot&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.fonts.default&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/portal/portal/chatbot" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\example\standalone_chatbot" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\tests\test_services" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\tests\modules\triggers" />
@@ -247,7 +244,9 @@
       <workItem from="1738482521916" duration="17784000" />
       <workItem from="1738516805174" duration="10606000" />
       <workItem from="1738573860224" duration="5041000" />
-      <workItem from="1738583461994" duration="6904000" />
+      <workItem from="1738583461994" duration="7119000" />
+      <workItem from="1738623668705" duration="2667000" />
+      <workItem from="1738664078806" duration="2090000" />
     </task>
     <servers />
   </component>

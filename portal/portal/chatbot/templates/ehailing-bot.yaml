@@ -1,0 +1,144 @@
+"START-MENU":
+  type: button
+  template: "portal.chatbot.hooks.name_template.username"
+  message:
+    title: Greetings
+    body: |
+      Hi {{ name }}, Thank you for doing this!
+      
+      Using an easy to use template-driven framework for chatbot development.
+    footer: pywce
+    buttons:
+      - Sample Bot
+      - Developer Profile
+  routes:
+    "sample bot": "PROJECT-MENU"
+    "developer profile": "GITHUB-PROFILE"
+
+"GITHUB-PROFILE":
+  type: cta
+  message:
+    title: "Support"
+    body: "View my GitHub profile, projects and star, fork, share, contribute or donate 🙈"
+    url: "https://github.com/DonnC"
+    button: "GitHub"
+  routes:
+    "re:.*": "START-MENU"
+
+"PROJECT-MENU":
+  type: button
+  checkpoint: true
+  message:
+    title: PickDrive
+    body: "Hi {{ s.username }}, I'm PickDrive assistant.\n\nTo begin, click the button below"
+    footer: pywce
+    buttons:
+      - Begin
+  routes:
+    "begin": "PICKUP-DRIVE-MAIN-MENU"
+
+"PICKUP-DRIVE-MAIN-MENU":
+  type: button
+  prop: ride_type
+  message:
+    title: PickDrive
+    body: "Good {{ s.username }}.\nTo offer you with exclusive riding experience, select your preferred ride type"
+    footer: pywce
+    buttons:
+      - Ride
+      - Standard
+      - Luxury
+  routes:
+    "re:.*": "PICKUP-LOCATION"
+
+"PICKUP-LOCATION":
+  type: request-location
+  message: "Where would you like to be picked from?"
+  routes:
+    "re:.*": "DESTINATION-LOCATION"
+
+"DESTINATION-LOCATION":
+  type: request-location
+  on-receive: "portal.chatbot.hooks.location.save_destination"
+  message: "Where would you like to go?"
+  routes:
+    "re:.*": "RIDE-OFFER"
+
+"RIDE-OFFER":
+  type: button
+  message:
+    title: Ride Fee
+    body: "Your ride fee to your destination is USD $3.50\n🕑You will arrive in approx ~ 3mins"
+    footer: pywce
+    buttons:
+      - Accept
+      - Counter Offer
+  routes:
+    "accept": "RIDE-COMMENT"
+    "counter offer": "RIDE-COUNTER-OFFER"
+
+"RIDE-COMMENT":
+  type: text
+  prop: ride_comments
+  message: "Provide additional info to the driver"
+  routes:
+    "re:.*": "AVAILABLE-DRIVERS"
+
+"AVAILABLE-DRIVERS":
+  type: list
+  message:
+    title: Available Drivers
+    body: "I found rides matching your choice. Select one you like and they will be ready to pick you up"
+    footer: pywce
+    button: Rides
+    sections:
+      "Available Rides":
+        0:
+          title: Donald | $3.50
+          description: Honda Fit, 300m - (4.0) ⭐
+        1:
+          title: Pamela | $3.20
+          description: Toyota Aqua, 300m - (3.8) ⭐
+      "Other rides":
+        2:
+          title: Tanaka | $3.00
+          description: Honda Fit, 250m - (4.2) ⭐
+        3:
+          title: Constance | $4.00
+          description: Nissan Note, 100m - (2.8) ⭐
+        4:
+          title: Mr Smith | $3.00
+          description: Toyota Vitz, 320m - (3.2) ⭐
+  routes:
+    "re:.*": "CONFIRM-OFFER"
+
+"CONFIRM-OFFER":
+  type: button
+  on-receive: "portal.chatbot.hooks.capture_ride.capture"
+  message:
+    title: PickDrive Ride
+    body: |
+      Ride: {{ p.ride_type }}
+      Driver: Donald
+      Vehicle Color: Silver
+      Reg Number: QZW 0123
+      
+      Confirm to notify the driver to come pick you up now
+    footer: pywce
+    buttons:
+      - Confirm
+      - Abort
+  routes:
+    "confirm": "DRIVER-COMMAND-COME"
+    "abort": "PICKUP-DRIVE"
+
+"DRIVER-COMMAND-COME":
+  type: button
+  message:
+    title: PickDrive
+    body: "Driver is coming to your location now!"
+    footer: pywce
+    buttons:
+      - Rate
+  routes:
+    "rate": "REPORT"
