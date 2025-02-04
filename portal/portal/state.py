@@ -38,7 +38,7 @@ class SupportState(rx.State):
             ).all()
             self.chats = chats
             self.is_loading = False
-            print("Loaded chats: ", self.chats)
+            print(f"Loaded {len(self.chats)} chats!")
 
     @rx.event
     def send_message(self):
@@ -51,10 +51,12 @@ class SupportState(rx.State):
             # TODO: Send a message to the user via WhatsApp API
             with rx.session() as session:
                 chat = session.get(Chat, self.active_chat.id)
+                chat.last_active = datetime.now()
+
                 new_message = Message(
                     sender=ChatRole.ADMIN,
                     content=self.message.strip(),
-                    chat=chat
+                    chat_id=self.active_chat.id,
                 )
 
                 session.add(new_message)
@@ -76,8 +78,7 @@ class SupportState(rx.State):
                 ).all()
                 self.current_chat_messages = messages
 
-                # TODO: may give agent prompt to accept request or decline or snooze it before
-                #       changing status
+                # TODO: give admin prompt to accept request or decline or snooze it before changing status
                 # chat = session.exec(Chat.select().where(Chat.id == self.active_chat.id)).one()
                 # chat.status = 0
                 # session.add(chat)
@@ -86,7 +87,6 @@ class SupportState(rx.State):
 
     @rx.event
     def set_active_chat(self, chat: Chat):
-        """Set the active chat to display & load messages"""
         self.active_chat = chat
         self.load_current_chat_messages()
 
@@ -124,10 +124,8 @@ class SupportState(rx.State):
 
     @rx.var
     def get_chats(self) -> List[Chat]:
-        """Get a list of all active chats."""
         return [] if self.chats is None else self.chats
 
     @rx.var(cache=True)
     def get_messages(self) -> List[Message]:
-        """Get messages for the active chat."""
         return self.current_chat_messages

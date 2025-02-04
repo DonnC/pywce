@@ -46,4 +46,5 @@ def footer() -> rx.Component:
             width="100%",
         ),
         width="100%",
+        class_name="px-4"
     )

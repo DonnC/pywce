@@ -5,15 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e700a6d4-f3fd-4ca6-8806-bc5eb9b6e49c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/portal/portal/components/chat_badge.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/pywce.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/pywce.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/components/message_card.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/components/message_card.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/components/sidebar_chat.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/components/sidebar_chat.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/portal/portal/components/action_bar.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/components/action_bar.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/portal/portal/components/chat_window.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/components/chat_window.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/portal/portal/components/footer.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/components/footer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/portal/portal/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/model.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/portal/portal/portal.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/portal.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/portal/portal/state.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/state.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/portal/rxconfig.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/rxconfig.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -242,6 +241,7 @@
       <workItem from="1738659967081" duration="15062000" />
       <workItem from="1738676576200" duration="474000" />
       <workItem from="1738677391808" duration="2821000" />
+      <workItem from="1738690324903" duration="2292000" />
     </task>
     <servers />
   </component>

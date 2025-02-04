@@ -10,7 +10,7 @@ def chat_window() -> rx.Component:
         rx.heading(
             rx.cond(
                 SupportState.active_chat is not None,
-                f"Chat with {SupportState.active_chat.sender}",
+                f"User<{SupportState.active_chat.sender}>",
                 "Select a Chat"
             )
         ),

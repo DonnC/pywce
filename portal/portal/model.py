@@ -9,10 +9,7 @@ class Message(rx.Model, table=True):
     sender: str
     timestamp: datetime = Field(default_factory=datetime.now)
     chat_id: int = Field(foreign_key="chat.id")
-    chat: Optional["Chat"] = Relationship(
-        back_populates="messages",
-        sa_relationship_kwargs={"lazy": "selectin"},
-    )
+    chat: Optional["Chat"] = Relationship(back_populates="messages")
 
 
 class Chat(rx.Model, table=True):
