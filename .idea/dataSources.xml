@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="reflex" uuid="6008b9b6-3a1a-42ee-a88c-0f4483197cf4">
+    <data-source source="LOCAL" name="pywce_support" uuid="f27e3548-1089-4a71-af1e-f049aca9d8a8">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\portal\reflex.db</jdbc-url>
+      <jdbc-url>jdbc:sqlite:C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\portal\pywce_support.db</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
       <libraries>
         <library>
