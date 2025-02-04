@@ -13,6 +13,7 @@ An out-of-the-box pywce live support portal powered by [Reflex]()
 - [ ] Support multiple agents / admins
 - [ ] Support sending other supported message types e.g media or buttons
 - [ ] Support replying specific message
+- [ ] Delete persistence messages
 
 ## Setup
 `The project might have issues if running on Windows OS`
@@ -30,7 +31,12 @@ $ reflex db init
 $ reflex db makemigrations --message 'initial setup'
 $ reflex db migrate
 ```
-4. Run
+4. Seed - add few conversations to begin with
+```bash
+
+$ python seed.py
+```
+5. Run
 ```bash
 
 $ reflex run

@@ -9,8 +9,8 @@ def chat_window() -> rx.Component:
     return rx.vstack(
         rx.heading(
             rx.cond(
-                SupportState.active_chat,
-                f"Chat with {SupportState.active_chat}",
+                SupportState.active_chat is not None,
+                f"Chat with {SupportState.active_chat.sender}",
                 "Select a Chat"
             )
         ),

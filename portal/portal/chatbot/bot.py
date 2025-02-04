@@ -27,10 +27,7 @@ async def process_webhook(
     """
     Handle incoming webhook events from WhatsApp and process them in the background.
 
-    :param request: FastAPI Request object containing the webhook payload
-    :param background_tasks: FastAPI BackgroundTasks object for async processing
-    :param engine: Engine instance for webhook processing
-    :return: HTTP Response with "ACK" content
+    delegates the incoming webhook event to pywce engine for processing.
     """
     payload = await request.json()
     headers = dict(request.headers)
