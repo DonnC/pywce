@@ -5,16 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e700a6d4-f3fd-4ca6-8806-bc5eb9b6e49c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/portal/seed.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/6008b9b6-3a1a-42ee-a88c-0f4483197cf4.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/6008b9b6-3a1a-42ee-a88c-0f4483197cf4/storage_v2/_src_/schema/main.uQUzAA.meta" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/portal/portal/components/chat_badge.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/pywce.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/pywce.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/portal/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/components/chat_window.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/components/chat_window.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/portal/portal/components/message_card.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/components/message_card.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/portal/portal/components/sidebar_chat.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/components/sidebar_chat.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/constants.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/data.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/model.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/portal/portal/portal.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/portal.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/portal/portal/state.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/state.py" afterDir="false" />
     </list>
@@ -192,8 +189,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-deb605915726-JavaScript-PY-243.22562.220" />
-        <option value="bundled-python-sdk-0fc6c617c4bd-9a18a617cbe4-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-243.22562.220" />
+        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-PY-242.23339.19" />
+        <option value="bundled-python-sdk-0029f7779945-399fe30bd8c1-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-242.23339.19" />
       </set>
     </attachedChunks>
   </component>
@@ -244,6 +241,7 @@
       <workItem from="1738664078806" duration="2090000" />
       <workItem from="1738659967081" duration="15062000" />
       <workItem from="1738676576200" duration="474000" />
+      <workItem from="1738677391808" duration="2821000" />
     </task>
     <servers />
   </component>

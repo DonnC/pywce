@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import List
+from typing import List, Optional
 
 import reflex as rx
 
@@ -21,14 +21,14 @@ class WebhookState(rx.State):
 
 class SupportState(rx.State):
     message: str = ""
-    active_chat: Chat = None
+    active_chat: Optional[Chat] = None
     chats: list[Chat]
     current_chat_messages: list[Message]
     is_loading: bool = True
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.load_initial_chats()
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     self.load_initial_chats()
 
     @rx.event
     def load_initial_chats(self):
@@ -71,10 +71,18 @@ class SupportState(rx.State):
             with rx.session() as session:
                 messages = session.exec(
                     Message.select().where(
-                        Message.chat_id == self.active_chat.id
+                        Message.chat == self.active_chat
                     ).order_by(Message.timestamp)
                 ).all()
                 self.current_chat_messages = messages
+
+                # TODO: may give agent prompt to accept request or decline or snooze it before
+                #       changing status
+                # chat = session.exec(Chat.select().where(Chat.id == self.active_chat.id)).one()
+                # chat.status = 0
+                # session.add(chat)
+                # session.commit()
+                # session.refresh(chat)
 
     @rx.event
     def set_active_chat(self, chat: Chat):

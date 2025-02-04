@@ -1,12 +1,11 @@
 import reflex as rx
 
+from .chat_badge import chat_badge
 from ..model import Chat
 from ..state import SupportState
 
 
 def sidebar_chat(chat: Chat):
-    print("Current chat: ", chat)
-
     return rx.box(
         rx.vstack(
             rx.text(
@@ -17,14 +16,17 @@ def sidebar_chat(chat: Chat):
             rx.cond(
                 chat.id != SupportState.active_chat.id,
                 rx.text(
-                    chat.last_active,
+                    rx.moment(
+                        chat.last_active,
+                        from_now=True,
+                        from_now_during=100000
+                    ),
                     font_style="italic",
                     color="gray",
                     font_size="0.8em",
                 ),
             ),
-            rx.text(chat),
-            rx.badge(chat.sender),
+            chat_badge(chat.status),
             align_items="start",
             width="100%",
         ),
