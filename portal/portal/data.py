@@ -3,6 +3,7 @@ from typing import Dict, List
 from .constants import ChatRole
 from .model import Message
 
+# example chats db
 chats: Dict[str, List[Message]] = {
     "+27123456789": [
         Message(sender=ChatRole.USER, content="Hi, I need help with my account."),

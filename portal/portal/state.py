@@ -7,15 +7,29 @@ from .constants import ChatRole
 from .data import chats
 from .model import Message
 
+
+class WebhookState(rx.State):
+    """State to manage webhook data and UI updates."""
+    webhook_count: int = 0
+    last_webhook_time: str = ""
+
+    @rx.event
+    async def update_webhook_stats(self):
+        """Update webhook statistics."""
+        self.webhook_count += 1
+        self.last_webhook_time = str(datetime.now())
+
+
 class SupportState(rx.State):
     message: str = ""
     active_chat: str = ""
-    last_active: Dict[str, datetime] = {}  # Store last active times
+    last_activ = {}  # Store last active times as Dict[str, datetime]
 
     @rx.event
     def send_message(self):
-        # TODO: Send a message to the user via WhatsApp API
+        # TODO: check for termination command to end session
         if self.active_chat and self.message:
+            # TODO: Send a message to the user via WhatsApp API
             new_message = Message(sender=ChatRole.ADMIN, content=self.message.strip())
 
             if self.active_chat not in chats:
