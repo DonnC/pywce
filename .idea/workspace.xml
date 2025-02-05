@@ -5,27 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e700a6d4-f3fd-4ca6-8806-bc5eb9b6e49c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/portal/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/portal/portal/components/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/portal/portal/components/action_bar.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/portal/portal/components/chat_window.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/portal/portal/components/footer.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/portal/portal/components/message_card.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/portal/portal/components/sidebar.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/portal/portal/components/sidebar_chat.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/portal/portal/data.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/portal/portal/model.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/portal/portal/pages/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/portal/portal/state.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/pywce.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/pywce.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/portal/portal/chatbot/templates/live-support.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/constants.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/portal.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/portal.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/style.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/style.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/portal/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/engine_chatbot/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/engine_chatbot/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/engine_chatbot/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/engine_chatbot/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/standalone_chatbot/dependencies.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/standalone_chatbot/dependencies.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/standalone_chatbot/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/standalone_chatbot/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/standalone_chatbot/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/standalone_chatbot/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/chatbot/bot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/hooks/capture_ride.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/chatbot/hooks/capture_ride.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/hooks/location.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/chatbot/hooks/location.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/hooks/name_template.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/chatbot/hooks/name_template.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/templates/ehailing-bot.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/chatbot/templates/ehailing-bot.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/triggers/triggers.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/chatbot/triggers/triggers.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/portal/portal/components/webhook_stat_card.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/portal/portal/state.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/state.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,19 +68,25 @@
     "Python.test_v.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "dev",
-    "last_opened_file_path": "/home/donnc/Documents/projects/pywce",
+    "git-widget-placeholder": "feat/live-support",
+    "last_opened_file_path": "/home/donnc/Documents/projects/pywce/portal/portal/chatbot",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "Errors",
+    "settings.editor.selected.configurable": "editor.preferences.fonts.default",
     "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
+      "Markdown"
+    ]
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/portal/portal/chatbot" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\example\standalone_chatbot" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\tests\test_services" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\tests\modules\triggers" />
@@ -247,7 +248,14 @@
       <workItem from="1738482521916" duration="17784000" />
       <workItem from="1738516805174" duration="10606000" />
       <workItem from="1738573860224" duration="5041000" />
-      <workItem from="1738583461994" duration="6904000" />
+      <workItem from="1738583461994" duration="7119000" />
+      <workItem from="1738623668705" duration="2667000" />
+      <workItem from="1738664078806" duration="2090000" />
+      <workItem from="1738659967081" duration="15062000" />
+      <workItem from="1738676576200" duration="474000" />
+      <workItem from="1738677391808" duration="2821000" />
+      <workItem from="1738690324903" duration="3396000" />
+      <workItem from="1738736629479" duration="5713000" />
     </task>
     <servers />
   </component>

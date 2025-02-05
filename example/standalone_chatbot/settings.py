@@ -10,5 +10,4 @@ class Settings:
     # see more under [WhatsAppConfig] class
     TOKEN = os.getenv("ACCESS_TOKEN")
     PHONE_NUMBER_ID = os.getenv("PHONE_NUMBER_ID")
-    # webhook challenge verification token
     HUB_TOKEN = os.getenv("HUB_TOKEN")
