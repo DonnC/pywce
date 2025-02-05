@@ -7,7 +7,7 @@ from .components.sidebar import sidebar
 from .state import ChatState
 
 
-@rx.page(on_load=ChatState.load_initial_chats)
+@rx.page(on_load=ChatState.poll_new_chat_messages)
 def index() -> rx.Component:
     return rx.vstack(
         rx.heading(
@@ -24,7 +24,7 @@ def index() -> rx.Component:
                         ChatState.active_chat == None,
                         rx.vstack(
                             rx.icon(
-                                "inbox", # lucide icon
+                                "inbox",  # lucide icon
                                 size=48,
                                 color=rx.color("gray", 4)
                             ),

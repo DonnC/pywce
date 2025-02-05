@@ -88,6 +88,14 @@ class Engine:
 
         return response_msg_id
 
+    def ls_terminate(self, recipient_id: str):
+        user_session: ISessionManager = self.config.session_manager.session(session_id=recipient_id)
+
+        user_session.evict(session_id=recipient_id, key=SessionConstants.LIVE_SUPPORT)
+
+        _logger.debug("LS terminated for: %s", recipient_id)
+
+
     async def process_webhook(self, webhook_data: Dict[str, Any], webhook_headers: Dict[str, Any]):
         if self.whatsapp.util.verify_webhook_payload(
                 webhook_payload=webhook_data,

@@ -1,14 +1,17 @@
+import asyncio
 from datetime import datetime
 from typing import List, Optional
-from pywce import pywce_logger
 
 import reflex as rx
 
+from pywce import pywce_logger
+from .chatbot.dependencies import get_engine_instance
 from .constants import ChatRole, TERMINATION_COMMAND
-from .data import fetch_global
+from .data import fetch_global, clear_global_entry, evict_global
 from .model import Message, Chat
 
 logger = pywce_logger(__name__)
+
 
 class ChatState(rx.State):
     message: str = ""
@@ -32,30 +35,40 @@ class ChatState(rx.State):
             logger.info(f"Loaded {len(self.chats)} chats!")
 
     @rx.event
-    def send_message(self):
+    async def send_message(self):
+        engine_obj = get_engine_instance()
+
         if self.active_chat and self.message:
             if self.message.lower() == TERMINATION_COMMAND:
-                # TODO: implement session termination
                 logger.info("[-] Received termination command")
-                pass
+                engine_obj.ls_terminate(self.active_chat.sender)
+                evict_global(self.active_chat.sender)
+                return
 
-            # TODO: Send a message to the user via WhatsApp API
-            with rx.session() as session:
-                chat = session.get(Chat, self.active_chat.id)
-                chat.last_active = datetime.now()
+            result = await engine_obj.ls_send_message(
+                recipient_id=self.active_chat.sender,
+                message=self.message,
+            )
 
-                new_message = Message(
-                    sender=ChatRole.ADMIN,
-                    content=self.message.strip(),
-                    chat_id=self.active_chat.id,
-                )
+            logger.debug(f"Channel result: {result}")
 
-                session.add(new_message)
-                session.commit()
-                session.refresh(new_message)
+            if result:
+                with rx.session() as session:
+                    chat = session.get(Chat, self.active_chat.id)
+                    chat.last_active = datetime.now()
 
-                self.current_chat_messages.append(new_message)
-                self.message = ""
+                    new_message = Message(
+                        sender=ChatRole.ADMIN,
+                        content=self.message.strip(),
+                        chat_id=self.active_chat.id,
+                    )
+
+                    session.add(new_message)
+                    session.commit()
+                    session.refresh(new_message)
+
+                    self.current_chat_messages.append(new_message)
+                    self.message = ""
 
     @rx.event
     def load_current_chat_messages(self):
@@ -75,11 +88,12 @@ class ChatState(rx.State):
         self.load_current_chat_messages()
 
     @rx.event
-    def receive_message(self, sender: str, message: str):
+    def receive_message(self, sender: str = None, message: str = None):
         """Handle incoming webhook message"""
         logger.info(f"Received message from {sender}: {message}")
 
-        logger.info(f"Global data: {fetch_global()}")
+        if sender is None:
+            return
 
         with rx.session() as session:
             chat = session.exec(Chat.select().where(Chat.sender == sender)).first()
@@ -104,14 +118,37 @@ class ChatState(rx.State):
             session.add(new_message)
             session.commit()
 
-            if str(chat.id) == self.active_chat.id:
-                session.refresh(new_message)
-                self.current_chat_messages.insert(0, new_message)
+            if self.active_chat:
+                if str(chat.id) == self.active_chat.id:
+                    session.refresh(new_message)
+                    self.current_chat_messages.insert(0, new_message)
 
-    @rx.var
+    @rx.var(cache=False)
     def get_chats(self) -> List[Chat]:
         return [] if self.chats is None else self.chats
 
-    @rx.var(cache=True)
+    @rx.var(cache=False)
     def get_messages(self) -> List[Message]:
         return self.current_chat_messages
+
+    @rx.event(background=True)
+    async def poll_new_chat_messages(self):
+        logger.info(f"Bg, poll new chat messages")
+        async with self:
+            self.load_initial_chats()
+
+        queue = fetch_global()
+
+        while True:
+            logger.info(f"Message queue: {queue}")
+
+            # loop thru global data and pass args
+            async with self:
+                for chat_user, messages in queue.items():
+                    for msg in messages:
+                        logger.info(f"Processing msg: {chat_user} | {msg}")
+                        self.receive_message(chat_user, msg)
+
+                    clear_global_entry(chat_user)
+
+            await asyncio.sleep(5)

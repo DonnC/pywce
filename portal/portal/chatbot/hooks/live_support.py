@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from ...data import put_global
+from ...data import put_global, clear_global_entry, evict_global
 from ...state import ChatState
 from pywce import hook, HookArg, pywce_logger, SessionConstants
 
@@ -21,22 +21,15 @@ def live_support(arg: HookArg) -> HookArg:
 
         logger.info("Attempting to request LS admin")
 
-
-        put_global(arg.session_id, f"Hello, User: {arg.user.name} is waiting in the lobby!")
-
-        # send chat request event to portal
-        ChatState.receive_message(
-            arg.session_id,
-            f"Hello, User: {arg.user.name} is waiting in the lobby!"
-        )
+        put_global(arg.session_id, [f"Hello, User: {arg.user.name} is waiting in the lobby!"])
 
         logger.info(f"Live support agent notified - {arg.user.wa_id}")
-
     else:
         ls_entry = arg.session_manager.get(session_id=arg.user.wa_id, key=SessionConstants.LIVE_SUPPORT)
         logger.info(f"Terminating LS for, User: {arg.user.wa_id} | Stats: {ls_entry}")
 
         arg.session_manager.evict(session_id=arg.user.wa_id, key=SessionConstants.LIVE_SUPPORT)
+        evict_global(key=arg.user.wa_id)
         logger.warning("Live support terminated!")
 
     return arg

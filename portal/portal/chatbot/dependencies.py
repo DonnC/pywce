@@ -1,5 +1,3 @@
-from fastapi import Depends
-
 from pywce import client, ISessionManager, Engine, \
     DictSessionManager, EngineConfig, pywce_logger
 from .settings import Settings
@@ -11,6 +9,7 @@ logger = pywce_logger(__name__)
 _session_manager_instance: ISessionManager = None
 _whatsapp_instance: client.WhatsApp = None
 _engine_instance: Engine = None
+
 
 def get_session_manager():
     """
@@ -41,20 +40,17 @@ def get_whatsapp_instance():
     return _whatsapp_instance
 
 
-def get_engine_instance(
-        session_manager: ISessionManager = Depends(get_session_manager),
-        whatsapp: client.WhatsApp = Depends(get_whatsapp_instance)
-):
+def get_engine_instance():
     global _engine_instance
 
     if _engine_instance is None:
         logger.debug("Engine instance not initialized, creating a new one")
         config = EngineConfig(
-            whatsapp=whatsapp,
+            whatsapp=get_whatsapp_instance(),
             templates_dir=Settings.TEMPLATES_DIR,
             trigger_dir=Settings.TRIGGERS_DIR,
             start_template_stage=Settings.START_STAGE,
-            session_manager=session_manager,
+            session_manager=get_session_manager(),
             live_support_hook=Settings.LS_HOOK
         )
 

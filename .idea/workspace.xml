@@ -5,48 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e700a6d4-f3fd-4ca6-8806-bc5eb9b6e49c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/portal/portal/chatbot/hooks/live_support.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/portal/portal/chatbot/hooks/ls_handler.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/portal/portal/data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/pywce.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/pywce.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CONTRIBUTING.md" beforeDir="false" afterPath="$PROJECT_DIR$/CONTRIBUTING.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/engine_chatbot/dependencies.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/engine_chatbot/dependencies.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/engine_chatbot/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/engine_chatbot/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/engine_chatbot/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/engine_chatbot/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/engine_chatbot/templates/ehailing-bot.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/engine_chatbot/templates/ehailing-bot.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/engine_chatbot/templates/em-template.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/engine_chatbot/triggers/triggers-emulator.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/standalone_chatbot/dependencies.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/standalone_chatbot/dependencies.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/standalone_chatbot/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/standalone_chatbot/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/standalone_chatbot/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/standalone_chatbot/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/portal/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/chatbot/bot.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/dependencies.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/chatbot/dependencies.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/chatbot/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/templates/ehailing-bot.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/chatbot/templates/ehailing-bot.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/templates/live-support.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/chatbot/templates/live-support.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/triggers/triggers.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/chatbot/triggers/triggers.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/components/action_bar.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/components/action_bar.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/components/chat_badge.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/components/chat_window.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/components/chat_window.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/components/message_card.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/components/message_card.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/components/sidebar.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/components/sidebar.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/components/sidebar_chat.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/components/sidebar_chat.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/hooks/live_support.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/chatbot/hooks/live_support.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/hooks/ls_handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/chatbot/hooks/live_support_handler.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/portal/portal/data.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/data.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/portal/portal/portal.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/portal.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/portal/portal/state.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/state.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/portal/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/modules/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/constants/session.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/constants/session.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pywce/src/engine.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/engine.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/exceptions/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/exceptions/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/models/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/services/message_processor.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/message_processor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/services/whatsapp_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/whatsapp_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/services/worker.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/worker.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,7 +60,7 @@
     &quot;Python.test_v.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;feat/live-support&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feat/ls&quot;,
     &quot;last_opened_file_path&quot;: &quot;/home/donnc/Documents/projects/pywce/portal/portal/chatbot&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -283,6 +249,8 @@
       <workItem from="1738690324903" duration="3396000" />
       <workItem from="1738736629479" duration="5713000" />
       <workItem from="1738747385194" duration="15856000" />
+      <workItem from="1738775694329" duration="2836000" />
+      <workItem from="1738778648257" duration="4964000" />
     </task>
     <servers />
   </component>
