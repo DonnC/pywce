@@ -4,10 +4,10 @@ from .chatbot.bot import verify_webhook, process_webhook
 from .components.chat_window import chat_window
 from .components.footer import footer
 from .components.sidebar import sidebar
-from .state import SupportState
+from .state import ChatState
 
 
-@rx.page(on_load=SupportState.load_initial_chats)
+@rx.page(on_load=ChatState.load_initial_chats)
 def index() -> rx.Component:
     return rx.vstack(
         rx.heading(
@@ -15,13 +15,13 @@ def index() -> rx.Component:
             class_name="p-4"
         ),
         rx.cond(
-            SupportState.is_loading,
+            ChatState.is_loading,
             rx.center(rx.spinner()),
             rx.hstack(
                 sidebar(),
                 rx.box(
                     rx.cond(
-                        SupportState.active_chat == None,
+                        ChatState.active_chat == None,
                         rx.vstack(
                             rx.icon(
                                 "inbox", # lucide icon

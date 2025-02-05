@@ -1,7 +1,7 @@
 import uvicorn
 from fastapi import FastAPI, Request, Response, Query, Depends
 
-from pywce import MessageTypeEnum, pywce_logger, WhatsApp
+from pywce import client, pywce_logger
 from example.standalone_chatbot.dependencies import get_whatsapp_instance
 
 logger = pywce_logger(__name__)
@@ -11,7 +11,7 @@ app = FastAPI()
 @app.post("/webhook")
 async def process_webhook(
         request: Request,
-        whatsapp: WhatsApp = Depends(get_whatsapp_instance)
+        whatsapp: client.WhatsApp = Depends(get_whatsapp_instance)
 ) -> Response:
     """
     Handle incoming webhook events from WhatsApp and process them
@@ -30,7 +30,7 @@ async def process_webhook(
             logger.info(f"Webhook response structure: {response}")
 
             match response.typ:
-                case MessageTypeEnum.TEXT:
+                case client.MessageTypeEnum.TEXT:
                     result = await whatsapp.send_message(
                         recipient_id=_user.wa_id,
                         message=f"You said: {response.body.get('body')}"
@@ -55,7 +55,7 @@ async def verify_webhook(
         mode: str = Query(..., alias="hub.mode"),
         token: str = Query(..., alias="hub.verify_token"),
         challenge: str = Query(..., alias="hub.challenge"),
-        whatsapp: WhatsApp = Depends(get_whatsapp_instance)
+        whatsapp: client.WhatsApp = Depends(get_whatsapp_instance)
 ) -> Response:
     """
     Verify WhatsApp webhook callback url.

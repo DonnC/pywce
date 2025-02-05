@@ -1,13 +1,16 @@
 from datetime import datetime
 from typing import List, Optional
+from pywce import pywce_logger
 
 import reflex as rx
 
 from .constants import ChatRole, TERMINATION_COMMAND
+from .data import fetch_global
 from .model import Message, Chat
 
+logger = pywce_logger(__name__)
 
-class SupportState(rx.State):
+class ChatState(rx.State):
     message: str = ""
     active_chat: Optional[Chat] = None
     chats: list[Chat]
@@ -26,14 +29,14 @@ class SupportState(rx.State):
             ).all()
             self.chats = chats
             self.is_loading = False
-            print(f"Loaded {len(self.chats)} chats!")
+            logger.info(f"Loaded {len(self.chats)} chats!")
 
     @rx.event
     def send_message(self):
         if self.active_chat and self.message:
             if self.message.lower() == TERMINATION_COMMAND:
                 # TODO: implement session termination
-                print("[-] Received termination command")
+                logger.info("[-] Received termination command")
                 pass
 
             # TODO: Send a message to the user via WhatsApp API
@@ -74,6 +77,10 @@ class SupportState(rx.State):
     @rx.event
     def receive_message(self, sender: str, message: str):
         """Handle incoming webhook message"""
+        logger.info(f"Received message from {sender}: {message}")
+
+        logger.info(f"Global data: {fetch_global()}")
+
         with rx.session() as session:
             chat = session.exec(Chat.select().where(Chat.sender == sender)).first()
 

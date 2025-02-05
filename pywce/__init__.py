@@ -17,10 +17,12 @@ Author: Donald Chinhuru
 from pywce.modules import (
     ISessionManager,
     DictSessionManager, CachetoolSessionManager,
-    WhatsApp, WhatsAppConfig,
-    ResponseStructure,
-    WaUser, MessageTypeEnum
+    # WhatsApp, WhatsAppConfig,
+    # ResponseStructure,
+    # WaUser, MessageTypeEnum
 )
+from pywce.modules import client
+from pywce.src.constants import SessionConstants, EngineConstants
 from pywce.src.engine import Engine
 from pywce.src.models import HookArg, TemplateDynamicBody, EngineConfig
 from pywce.src.services import HookService, hook
@@ -31,21 +33,24 @@ __email__ = "donychinhuru@gmail.com"
 __license__ = "MIT"
 __name__ = "pywce"
 __all__ = [
+    "client",
     "ISessionManager",
     "DictSessionManager",
     "CachetoolSessionManager",
-    "ResponseStructure",
-    "WaUser",
-    "WhatsApp",
-    "WhatsAppConfig",
+    # "ResponseStructure",
+    # "WaUser",
+    # "WhatsApp",
+    # "WhatsAppConfig",
+    # "MessageTypeEnum",
     "Engine",
     "EngineConfig",
     "HookArg",
     "TemplateDynamicBody",
     "HookService",
-    "MessageTypeEnum",
     "hook",
-    "pywce_logger"
+    "pywce_logger",
+    "SessionConstants",
+    "EngineConstants",
 ]
 __doc__ = (
     "A batteries-included WhatsApp ChatBot builder framework library using a template-driven approach. "

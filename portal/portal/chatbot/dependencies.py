@@ -1,7 +1,7 @@
 from fastapi import Depends
 
-from pywce import ISessionManager, Engine, WhatsApp, \
-    DictSessionManager, WhatsAppConfig, EngineConfig, pywce_logger
+from pywce import client, ISessionManager, Engine, \
+    DictSessionManager, EngineConfig, pywce_logger
 from .settings import Settings
 
 logger = pywce_logger(__name__)
@@ -9,9 +9,8 @@ logger = pywce_logger(__name__)
 # Global variable to hold the singleton instance
 # ensure only 1 instance is available
 _session_manager_instance: ISessionManager = None
-_whatsapp_instance: WhatsApp = None
+_whatsapp_instance: client.WhatsApp = None
 _engine_instance: Engine = None
-
 
 def get_session_manager():
     """
@@ -31,20 +30,20 @@ def get_whatsapp_instance():
 
     if _whatsapp_instance is None:
         logger.debug("Whatsapp instance not initialized, creating a new one")
-        wa_config = WhatsAppConfig(
+        wa_config = client.WhatsAppConfig(
             token=Settings.TOKEN,
             phone_number_id=Settings.PHONE_NUMBER_ID,
             hub_verification_token=Settings.HUB_TOKEN,
             use_emulator=Settings.USE_EMULATOR,
         )
-        _whatsapp_instance = WhatsApp(whatsapp_config=wa_config)
+        _whatsapp_instance = client.WhatsApp(whatsapp_config=wa_config)
 
     return _whatsapp_instance
 
 
 def get_engine_instance(
         session_manager: ISessionManager = Depends(get_session_manager),
-        whatsapp: WhatsApp = Depends(get_whatsapp_instance)
+        whatsapp: client.WhatsApp = Depends(get_whatsapp_instance)
 ):
     global _engine_instance
 
@@ -55,7 +54,8 @@ def get_engine_instance(
             templates_dir=Settings.TEMPLATES_DIR,
             trigger_dir=Settings.TRIGGERS_DIR,
             start_template_stage=Settings.START_STAGE,
-            session_manager=session_manager
+            session_manager=session_manager,
+            live_support_hook=Settings.LS_HOOK
         )
 
         _engine_instance = Engine(config=config)

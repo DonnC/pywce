@@ -3,14 +3,14 @@ from typing import Dict
 from fastapi import Request, Response, BackgroundTasks, Query, Depends
 
 from pywce import Engine, pywce_logger
-from pywce.modules import WhatsApp
+from pywce import client
 from .dependencies import get_engine_instance, get_whatsapp_instance
 
 logger = pywce_logger(__name__)
 
 
 async def _webhook_event(payload: Dict, headers: Dict, engine: Engine) -> None:
-    logger.debug("Received webhook event, processing..")
+    logger.debug("Portal: received webhook event, processing..")
     await engine.process_webhook(webhook_data=payload, webhook_headers=headers)
 
 
@@ -38,7 +38,7 @@ async def verify_webhook(
         mode: str = Query(..., alias="hub.mode"),
         token: str = Query(..., alias="hub.verify_token"),
         challenge: str = Query(..., alias="hub.challenge"),
-        whatsapp: WhatsApp = Depends(get_whatsapp_instance)
+        whatsapp: client.WhatsApp = Depends(get_whatsapp_instance)
 ) -> Response:
     """
     Verify WhatsApp webhook callback url.

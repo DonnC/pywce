@@ -17,8 +17,9 @@ def _admin_message(message: Message) -> rx.Component:
                         from_now=True,
                         from_now_during=100000
                     ),
+                    font_style="italic",
                     font_size="xs",
-                    color="gray.500",
+                    color="gray",
                     align_self="flex-end",
                 ),
                 align_items="flex-end",
@@ -42,8 +43,9 @@ def _user_message(message: Message) -> rx.Component:
                         from_now=True,
                         from_now_during=100000
                     ),
+                    font_style="italic",
                     font_size="xs",
-                    color="gray.500",
+                    color="gray",
                     align_self="flex-start",
                 ),
                 align_items="flex-start",
