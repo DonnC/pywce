@@ -1,7 +1,7 @@
 from pywce import HookArg, TemplateDynamicBody
-from pywce.engine_logger import get_engine_logger
+from pywce.src.utils.engine_logger import pywce_logger
 
-logger = get_engine_logger(__name__)
+logger = pywce_logger(__name__)
 
 
 def username(arg: HookArg) -> HookArg:

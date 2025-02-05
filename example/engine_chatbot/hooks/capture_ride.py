@@ -1,7 +1,7 @@
 from pywce import HookArg, ISessionManager
-from pywce.engine_logger import get_engine_logger
+from pywce.src.utils.engine_logger import pywce_logger
 
-logger = get_engine_logger(__name__)
+logger = pywce_logger(__name__)
 
 
 def capture(arg: HookArg):

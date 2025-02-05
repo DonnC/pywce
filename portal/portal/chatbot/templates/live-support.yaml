@@ -1,0 +1,10 @@
+"LIVE-SUPPORT":
+  type: text
+  message: |
+    Kindly wait a moment as one of our admin will respond to you
+    
+    Type _cancel_ to return to menu
+  params:
+    request: HUMAN
+  routes:
+    "re:.*": "LIVE-SUPPORT"

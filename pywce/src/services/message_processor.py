@@ -1,12 +1,13 @@
 from typing import Dict, Tuple, Any, Union
 
-from pywce.engine_logger import get_engine_logger
 from pywce.modules import ISessionManager, MessageTypeEnum
 from pywce.src.constants import EngineConstants, SessionConstants, TemplateConstants
 from pywce.src.exceptions import EngineInternalException, EngineResponseException
 from pywce.src.models import WorkerJob, HookArg
 from pywce.src.services import HookService
 from pywce.src.utils import EngineUtil
+from pywce.src.utils.engine_logger import pywce_logger
+
 
 class MessageProcessor:
     """
@@ -15,7 +16,6 @@ class MessageProcessor:
         Processes current message against template
         Processes all template hooks
     """
-
     CURRENT_TEMPLATE: Dict
     IS_FIRST_TIME: bool = False
     IS_FROM_TRIGGER: bool = False
@@ -33,9 +33,9 @@ class MessageProcessor:
         self.payload = data.payload
 
         self.session_id = self.user.wa_id
-        self.session: ISessionManager = self.config.session_manager.session(session_id=self.user.wa_id)
+        self.session: ISessionManager = self.config.session_manager.session(session_id=self.session_id)
 
-        self.logger = get_engine_logger(__name__)
+        self.logger = pywce_logger(__name__)
 
     def _is_stage_in_repository(self, template_stage: str):
         return template_stage in self.data.templates
@@ -168,19 +168,20 @@ class MessageProcessor:
         if stage_key in self.CURRENT_TEMPLATE:
             HookService.process_hook(hook_dotted_path=self.CURRENT_TEMPLATE.get(stage_key), hook_arg=self.HOOK_ARG)
 
-    # - start template hooks processing -
     def _on_generate(self, next_template: Dict) -> None:
         if TemplateConstants.ON_GENERATE in next_template:
             HookService.process_hook(hook_dotted_path=next_template.get(TemplateConstants.ON_GENERATE),
                                      hook_arg=self.HOOK_ARG)
 
-    def _bluetick_message(self) -> None:
+    def _ack_user_message(self) -> None:
         # a fire & forget approach
-        if TemplateConstants.READ_RECEIPT in self.CURRENT_TEMPLATE:
+        mark_as_read = self.config.read_receipts is True or TemplateConstants.READ_RECEIPT in self.CURRENT_TEMPLATE
+
+        if mark_as_read is True:
             try:
                 self.whatsapp.mark_as_read(self.user.msg_id)
             except:
-                self.logger.warning("Failed to do read receipts (blue-tick) message")
+                self.logger.warning("Failed to ack user message", stack_info=True)
 
     def _save_prop(self) -> None:
         # usually applicable to TEXT message types
@@ -213,8 +214,8 @@ class MessageProcessor:
 
                 return result.additional_data.get(EngineConstants.DYNAMIC_ROUTE_KEY)
 
-            except Exception as e:
-                self.logger.error("Failed to do dynamic route hook", exc_info=True)
+            except:
+                self.logger.error("Failed to do dynamic route hook", stack_info=True)
 
         return None
 
@@ -242,7 +243,7 @@ class MessageProcessor:
 
         :return: None
         """
-        self._bluetick_message()
+        self._ack_user_message()
         self._check_template_params()
         self._process_hook(stage_key=TemplateConstants.VALIDATOR)
         self._process_hook(stage_key=TemplateConstants.ON_RECEIVE)

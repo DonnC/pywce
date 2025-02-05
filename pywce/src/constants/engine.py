@@ -3,7 +3,7 @@ from dataclasses import dataclass
 
 @dataclass(frozen=True)
 class EngineConstants:
-    MESSAGE_QUEUE_COUNT: int = 10
+    MESSAGE_QUEUE_COUNT: int = 100
     TIMEOUT_REQUEST_RETRY_COUNT = 2
     REGEX_PLACEHOLDER = "re:"
     REST_HOOK_PLACEHOLDER = "rest:"

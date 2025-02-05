@@ -1,6 +1,6 @@
 import unittest
 
-from pywce import DictSessionManager, PywceEngineConfig, WhatsAppConfig, WhatsApp, PywceEngine
+from pywce import DictSessionManager, EngineConfig, WhatsAppConfig, WhatsApp, Engine
 
 
 class TestPywceEngine(unittest.IsolatedAsyncioTestCase):
@@ -61,7 +61,7 @@ class TestPywceEngine(unittest.IsolatedAsyncioTestCase):
 
         whatsapp_obj = WhatsApp(whatsapp_config=wa_config)
 
-        config = PywceEngineConfig(
+        config = EngineConfig(
             whatsapp=whatsapp_obj,
             templates_dir="test_templates",
             trigger_dir="test_triggers",
@@ -70,7 +70,7 @@ class TestPywceEngine(unittest.IsolatedAsyncioTestCase):
         )
 
         self.start_menu = start_menu
-        self.engine = PywceEngine(config=config)
+        self.engine = Engine(config=config)
 
     def test_resources_loaded(self):
         self.assertIn(

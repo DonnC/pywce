@@ -1,17 +1,17 @@
 import re
 from datetime import datetime
 from random import randint
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Union
 
-from pywce.engine_logger import get_engine_logger
 from pywce.modules import MessageTypeEnum
 from pywce.src.constants import SessionConstants, TemplateConstants, TemplateTypeConstants
 from pywce.src.exceptions import EngineInternalException
 from pywce.src.models import WhatsAppServiceModel
 from pywce.src.services import HookService
 from pywce.src.utils import EngineUtil
+from pywce.src.utils.engine_logger import pywce_logger
 
-_logger = get_engine_logger(__name__)
+_logger = pywce_logger(__name__)
 
 
 class WhatsAppService:
@@ -30,6 +30,22 @@ class WhatsAppService:
 
         if validate_template:
             self._validate_template()
+
+    def _message_id(self) -> Union[str, None]:
+        """
+        Get message id to reply to
+        
+        :return: None or message id to reply to 
+        """
+        if self.model.tag_on_reply is True:
+            return self.model.hook_arg.user.msg_id
+
+        msg_id = self.template.get(TemplateConstants.REPLY_MESSAGE_ID, False)
+
+        if isinstance(msg_id, str):
+            return msg_id
+
+        return None if msg_id is False else self.model.hook_arg.user.msg_id
 
     def _validate_template(self) -> None:
         if TemplateConstants.TEMPLATE_TYPE not in self.template:
@@ -95,7 +111,7 @@ class WhatsAppService:
         data = {
             "recipient_id": self.model.user.wa_id,
             "message": self.template.get(TemplateConstants.MESSAGE),
-            "message_id": self.template.get(TemplateConstants.REPLY_MESSAGE_ID)
+            "message_id": self._message_id()
         }
 
         return data
@@ -136,7 +152,7 @@ class WhatsAppService:
 
         return {
             "recipient_id": self.model.user.wa_id,
-            "message_id": self.template.get(TemplateConstants.REPLY_MESSAGE_ID),
+            "message_id": self._message_id(),
             "payload": data
         }
 
@@ -167,7 +183,7 @@ class WhatsAppService:
 
         return {
             "recipient_id": self.model.user.wa_id,
-            "message_id": self.template.get(TemplateConstants.REPLY_MESSAGE_ID),
+            "message_id": self._message_id(),
             "payload": data
         }
 
@@ -208,7 +224,7 @@ class WhatsAppService:
 
         return {
             "recipient_id": self.model.user.wa_id,
-            "message_id": self.template.get(TemplateConstants.REPLY_MESSAGE_ID),
+            "message_id": self._message_id(),
             "payload": data
         }
 
@@ -263,7 +279,7 @@ class WhatsAppService:
 
         return {
             "recipient_id": self.model.user.wa_id,
-            "message_id": self.template.get(TemplateConstants.REPLY_MESSAGE_ID),
+            "message_id": self._message_id(),
             "payload": data
         }
 
@@ -288,7 +304,7 @@ class WhatsAppService:
             "media_type": MEDIA_MAPPING.get(message.get(TemplateConstants.TEMPLATE_TYPE)),
             "caption": message.get(TemplateConstants.MESSAGE_MEDIA_CAPTION),
             "filename": message.get(TemplateConstants.MESSAGE_MEDIA_FILENAME),
-            "message_id": self.template.get(TemplateConstants.REPLY_MESSAGE_ID),
+            "message_id": self._message_id(),
             "link": message.get(TemplateConstants.MESSAGE_MEDIA_URL) is not None
         }
 
@@ -303,7 +319,7 @@ class WhatsAppService:
             "lon": message.get("lon"),
             "name": message.get("name"),
             "address": message.get("address"),
-            "message_id": self.template.get(TemplateConstants.REPLY_MESSAGE_ID)
+            "message_id": self._message_id()
         }
 
         return data
@@ -312,7 +328,7 @@ class WhatsAppService:
         data = {
             "recipient_id": self.model.user.wa_id,
             "message": self.template.get(TemplateConstants.MESSAGE),
-            "message_id": self.template.get(TemplateConstants.REPLY_MESSAGE_ID)
+            "message_id": self._message_id()
         }
 
         return data

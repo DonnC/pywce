@@ -3,19 +3,19 @@ from typing import Dict, Any
 
 import ruamel.yaml
 
-from pywce.engine_logger import get_engine_logger
-from pywce.src.models import PywceEngineConfig, WorkerJob
+from pywce.src.utils import pywce_logger
+from pywce.src.models import EngineConfig, WorkerJob
 from pywce.src.services import Worker
 
-_logger = get_engine_logger(__name__)
+_logger = pywce_logger(__name__)
 
 
-class PywceEngine:
+class Engine:
     _TEMPLATES: Dict = {}
     _TRIGGERS: Dict = {}
 
-    def __init__(self, config: PywceEngineConfig):
-        self.config: PywceEngineConfig = config
+    def __init__(self, config: EngineConfig):
+        self.config: EngineConfig = config
         self.whatsapp = config.whatsapp
 
         self._load_resources()

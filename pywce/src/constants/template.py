@@ -3,11 +3,23 @@ from dataclasses import dataclass
 
 @dataclass(frozen=True)
 class TemplateConstants:
+    """
+    All supported engine template fields
+
+    :var REPLY_MESSAGE_ID: Supports str | bool. Str, the static message id to reply to. Bool, true to tag
+                           (reply to) user message when rendering this template.
+
+    :var TEMPLATE_TYPE: the supported engine template type which results in a message to render
+    :var READ_RECEIPT: bool - whether to mark user message as read or not
+    :var SESSION: bool - If set, skip engine session processing. Treat message like a quick, once-off message.
+    :var DYNAMIC_ROUTER: hook - used to determine next route to jump to and skip the configured next route
+    :var TRANSIENT: bool - If set, engine skips processing this stage for rendering.
+    """
+
     TEMPLATE_TYPE = "type"
     CHECKPOINT = "checkpoint"
     READ_RECEIPT = "ack"
 
-    # boolean: If true or set, skip session processing. Treat it like a quick message, once-off
     SESSION = "session"
     PROP = "prop"
     AUTHENTICATED = "authenticated"
@@ -22,7 +34,7 @@ class TemplateConstants:
     TEMPLATE = "template"
     PARAMS = "params"
 
-   # inner template keys
+    # inner template keys
     MESSAGE = "message"
     MESSAGE_TITLE = "title"
     MESSAGE_BODY = "body"
@@ -33,4 +45,3 @@ class TemplateConstants:
     MESSAGE_MEDIA_FILENAME = "filename"
     MESSAGE_BUTTONS = "buttons"
     MESSAGE_SECTIONS = "sections"
-

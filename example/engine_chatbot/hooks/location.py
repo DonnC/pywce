@@ -1,7 +1,7 @@
 from pywce import hook, HookArg
-from pywce.engine_logger import get_engine_logger
+from pywce.src.utils.engine_logger import pywce_logger
 
-logger = get_engine_logger(__name__)
+logger = pywce_logger(__name__)
 
 @hook
 def save_destination(arg: HookArg) -> HookArg:
