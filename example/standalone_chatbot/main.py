@@ -1,36 +1,20 @@
 import uvicorn
 from fastapi import FastAPI, Request, Response, Query, Depends
 
-import pywce
+from pywce import MessageTypeEnum, pywce_logger, WhatsApp
 from example.standalone_chatbot.dependencies import get_whatsapp_instance
-from pywce.src.utils.engine_logger import pywce_logger
 
 logger = pywce_logger(__name__)
 
-# - App Metadata -
-app = FastAPI(
-    name="Pywce WhatsApp ChatBot",
-    description="An example chatbot using pywce standalone whatsapp module",
-    version="0.0.1",
-    contact={
-        "name": "DonnC",
-        "email": "donnclab@gmail.com",
-    },
-    license_info={"name": "MIT"},
-)
+app = FastAPI()
 
-
-# - API Endpoints -
 @app.post("/webhook")
 async def process_webhook(
         request: Request,
-        whatsapp: pywce.WhatsApp = Depends(get_whatsapp_instance)
+        whatsapp: WhatsApp = Depends(get_whatsapp_instance)
 ) -> Response:
     """
     Handle incoming webhook events from WhatsApp and process them
-    :param request: FastAPI Request object containing the webhook payload
-    :param whatsapp: WhatsApp instance to process webhook challenge
-    :return: HTTP Response with "ACK" content
     """
     payload = await request.json()
     headers = dict(request.headers)
@@ -46,7 +30,7 @@ async def process_webhook(
             logger.info(f"Webhook response structure: {response}")
 
             match response.typ:
-                case pywce.MessageTypeEnum.TEXT:
+                case MessageTypeEnum.TEXT:
                     result = await whatsapp.send_message(
                         recipient_id=_user.wa_id,
                         message=f"You said: {response.body.get('body')}"
@@ -71,13 +55,10 @@ async def verify_webhook(
         mode: str = Query(..., alias="hub.mode"),
         token: str = Query(..., alias="hub.verify_token"),
         challenge: str = Query(..., alias="hub.challenge"),
-        whatsapp: pywce.WhatsApp = Depends(get_whatsapp_instance)
+        whatsapp: WhatsApp = Depends(get_whatsapp_instance)
 ) -> Response:
     """
-    Verify WhatsApp webhook using query parameters.
-
-    :param whatsapp: WhatsApp instance to process webhook challenge
-    :return: HTTP Response with challenge content if verification succeeds, otherwise "Forbidden"
+    Verify WhatsApp webhook callback url.
     """
     result = whatsapp.util.verify_webhook_verification_challenge(
         mode=mode, token=token, challenge=challenge

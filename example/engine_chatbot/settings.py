@@ -20,7 +20,7 @@ class Settings:
     HUB_TOKEN = os.getenv("HUB_TOKEN")
 
     # engine settings
-    # see more under [PywceEngineConfig] class
+    # see more under [EngineConfig] class
     TEMPLATES_DIR = os.getenv("TEMPLATES_DIR")
     TRIGGERS_DIR = os.getenv("TRIGGERS_DIR")
     START_STAGE = os.getenv("START_STAGE")

@@ -11,14 +11,10 @@ logger = pywce_logger(__name__)
 app = FastAPI()
 
 
-# - Utility Functions -
+# - Utility Function -
 async def webhook_event(payload: Dict, headers: Dict, engine: Engine) -> None:
     """
-    Process webhook event in the background using pywce engine.
-
-    :param engine: Pywce engine instance
-    :param payload: WhatsApp webhook payload
-    :param headers: WhatsApp webhook headers
+    Process webhook in the background using pywce engine.
     """
     logger.debug("Received webhook event, processing..")
     await engine.process_webhook(webhook_data=payload, webhook_headers=headers)
@@ -33,11 +29,6 @@ async def process_webhook(
 ) -> Response:
     """
     Handle incoming webhook events from WhatsApp and process them in the background.
-
-    :param request: FastAPI Request object containing the webhook payload
-    :param background_tasks: FastAPI BackgroundTasks object for async processing
-    :param engine: pywce.PywceEngine instance for webhook processing
-    :return: HTTP Response with "ACK" content
     """
     payload = await request.json()
     headers = dict(request.headers)
@@ -57,10 +48,7 @@ async def verify_webhook(
         whatsapp: WhatsApp = Depends(get_whatsapp_instance)
 ) -> Response:
     """
-    Verify WhatsApp webhook using query parameters.
-
-    :param whatsapp: WhatsApp instance to process webhook challenge
-    :return: HTTP Response with challenge content if verification succeeds, otherwise "Forbidden"
+    Verify WhatsApp webhook callback url.
     """
     result = whatsapp.util.verify_webhook_verification_challenge(
         mode=mode, token=token, challenge=challenge

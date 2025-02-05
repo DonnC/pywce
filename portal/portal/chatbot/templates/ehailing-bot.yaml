@@ -1,5 +1,5 @@
 "START-MENU":
-  type: button
+  type: list
   template: "portal.chatbot.hooks.name_template.username"
   message:
     title: Greetings
@@ -8,12 +8,22 @@
       
       Using an easy to use template-driven framework for chatbot development.
     footer: pywce
-    buttons:
-      - Sample Bot
-      - Developer Profile
+    button: Menu
+    sections:
+      "Menu Options":
+        0:
+          title: Sample Bot
+          description: Checkout example eHailing bot
+        1:
+          title: Developer Profile
+          description: Share, contribute, support developer
+        2:
+          title: Live Support
+          description: Talk to an agent online
   routes:
-    "sample bot": "PROJECT-MENU"
-    "developer profile": "GITHUB-PROFILE"
+    "0": "PROJECT-MENU"
+    "1": "GITHUB-PROFILE"
+    "2": "LIVE-SUPPORT"
 
 "GITHUB-PROFILE":
   type: cta

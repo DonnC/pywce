@@ -7,18 +7,6 @@ from .constants import ChatRole, TERMINATION_COMMAND
 from .model import Message, Chat
 
 
-class WebhookState(rx.State):
-    """State to manage webhook data and UI updates."""
-    webhook_count: int = 0
-    last_webhook_time: str = ""
-
-    @rx.event
-    async def update_webhook_stats(self):
-        """Update webhook statistics."""
-        self.webhook_count += 1
-        self.last_webhook_time = str(datetime.now())
-
-
 class SupportState(rx.State):
     message: str = ""
     active_chat: Optional[Chat] = None
@@ -78,13 +66,6 @@ class SupportState(rx.State):
                 ).all()
                 self.current_chat_messages = messages
 
-                # TODO: give admin prompt to accept request or decline or snooze it before changing status
-                # chat = session.exec(Chat.select().where(Chat.id == self.active_chat.id)).one()
-                # chat.status = 0
-                # session.add(chat)
-                # session.commit()
-                # session.refresh(chat)
-
     @rx.event
     def set_active_chat(self, chat: Chat):
         self.active_chat = chat
@@ -108,7 +89,6 @@ class SupportState(rx.State):
 
             chat.last_active = datetime.now()
 
-            # Create new message
             new_message = Message(
                 content=message.strip(),
                 sender=ChatRole.USER,
@@ -117,7 +97,6 @@ class SupportState(rx.State):
             session.add(new_message)
             session.commit()
 
-            # Update UI if this is the active chat
             if str(chat.id) == self.active_chat.id:
                 session.refresh(new_message)
                 self.current_chat_messages.insert(0, new_message)

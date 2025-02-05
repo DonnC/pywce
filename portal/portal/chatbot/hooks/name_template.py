@@ -1,5 +1,4 @@
-from pywce import hook, HookArg, TemplateDynamicBody
-from pywce.src.utils.engine_logger import pywce_logger
+from pywce import hook, HookArg, TemplateDynamicBody,  pywce_logger
 
 logger = pywce_logger(__name__)
 
@@ -17,7 +16,6 @@ def username(arg: HookArg) -> HookArg:
     # set default username in session for retrieving later
     arg.session_manager.save(session_id=arg.user.wa_id, key="username", data=arg.user.name)
 
-    # set render payload data to match the required template dynamic var
     arg.template_body = TemplateDynamicBody(render_template_payload={"name": arg.user.name})
 
     return arg
