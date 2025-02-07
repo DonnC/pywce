@@ -5,7 +5,7 @@ from fastapi import Response, Query, BackgroundTasks, Request
 from pywce import client, Engine, EngineConfig, pywce_logger
 from .settings import Settings
 
-logger = pywce_logger(__name__)
+logger = pywce_logger(__name__, False)
 
 wa_config = client.WhatsAppConfig(
     token=Settings.TOKEN,

@@ -3,24 +3,22 @@ import json
 from contextlib import asynccontextmanager
 
 import reflex as rx
-from fastapi import BackgroundTasks
 
 from pywce import pywce_logger
-from .chatbot.bot import ep_process_webhook, ep_verify_webhook
+from .chatbot.bot import ep_process_webhook, ep_verify_webhook, engine
 from .components.chat_window import chat_window
 from .components.footer import footer
 from .components.sidebar import sidebar
-from .constants import PubSubChannel
+from .constants import PubSubChannel, TERMINATION_COMMAND
 from .redis_manager import RedisManager
 from .state import ChatState
 
-logger = pywce_logger(__name__)
-background_tasks = BackgroundTasks()
+logger = pywce_logger(__name__, False)
 
 
 @asynccontextmanager
 async def setup_redis():
-    logger.debug("[Portal] Setting up pub/sub listener..")
+    logger.debug("Setting up UI pub/sub listener..")
 
     redis_manager = RedisManager()
     r = redis_manager.get_instance()
@@ -29,33 +27,37 @@ async def setup_redis():
         async with r.pubsub() as pubsub:
             while True:
                 try:
-                    await pubsub.psubscribe(PubSubChannel.CHANNEL)
-                    logger.debug("[Portal] Pub sub listener set up")
+                    await pubsub.psubscribe(PubSubChannel.OUTGOING)
 
                     wh_msg = await pubsub.get_message(ignore_subscribe_messages=True, timeout=None)
 
-                    logger.debug(f"[Portal] Got message: {wh_msg}")
-
                     if wh_msg is not None:
-                        logger.debug(f"[Portal] WH pub/sub message: {wh_msg}")
-
-                        channel = wh_msg["channel"].decode()
                         message = wh_msg["data"].decode()
+                        msg_data = json.loads(message)
+                        logger.info(f"New outgoing Agent msg: {msg_data}")
 
-                        if channel == PubSubChannel.OUTGOING:
-                            msg_data = json.loads(message)
-                            logger.info(f"[Portal] Received agent msg: {msg_data}")
-                            # TODO: sent msg to channel
+                        if msg_data.get('type', 'MESSAGE')  == TERMINATION_COMMAND:
+                            engine.ls_terminate(recipient_id=msg_data['recipient_id'])
 
-                except Exception as e:
-                    logger.error(f"[Portal] Listen channel unexpected error", exc_info=True)
+                        else:
+                            await engine.ls_send_message(recipient_id=msg_data['recipient_id'], message=msg_data['message'])
 
-                await asyncio.sleep(3)
+                except:
+                    logger.error(f"Agent message listener unexpected error", exc_info=True)
 
-    background_tasks.add_task(listen_to_channel)
+                await asyncio.sleep(0.3)
 
-    await background_tasks()
-    yield
+    task = asyncio.create_task(listen_to_channel())
+
+    try:
+        yield
+    finally:
+        task.cancel()
+        try:
+            await task
+        except asyncio.CancelledError:
+            pass
+        logger.debug("Task cancelled")
 
 
 @rx.page(on_load=ChatState.load_chats_subscribe_webhooks)
@@ -101,7 +103,10 @@ def index() -> rx.Component:
 
 
 app = rx.App()
+
+app.register_lifespan_task(setup_redis)
+
 app.api.add_api_route("/chatbot/webhook", ep_process_webhook, methods=["POST"])
 app.api.add_api_route("/chatbot/webhook", ep_verify_webhook, methods=["GET"])
+
 app.add_page(index)
-app.register_lifespan_task(setup_redis)

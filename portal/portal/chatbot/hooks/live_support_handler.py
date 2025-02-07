@@ -4,7 +4,7 @@ from pywce import hook, HookArg, pywce_logger
 from ...constants import PubSubChannel
 from ...redis_manager import RedisManager
 
-logger = pywce_logger(__name__)
+logger = pywce_logger(__name__, False)
 redis_manager = RedisManager()
 
 

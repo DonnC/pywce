@@ -66,35 +66,41 @@ class Engine:
         """
         Send a quick message to user from Live support portal
         """
-        _template = {
-            "type": "text",
-            "message-id": reply_msg_id,
-            "message": message
-        }
+        user_session: ISessionManager = self.config.session_manager.session(session_id=recipient_id)
+        has_ls_session = user_session.get(session_id=recipient_id, key=SessionConstants.LIVE_SUPPORT)
 
-        service_model = WhatsAppServiceModel(
-            template_type=TemplateTypeConstants.TEXT,
-            template=_template,
-            whatsapp=self.whatsapp,
-            user=client.WaUser(wa_id=recipient_id)
-        )
+        if has_ls_session is not None:
+            _template = {
+                "type": "text",
+                "message-id": reply_msg_id,
+                "message": message
+            }
 
-        whatsapp_service = WhatsAppService(model=service_model, validate_template=False)
-        response = await whatsapp_service.send_message(handle_session=False, template=False)
+            service_model = WhatsAppServiceModel(
+                template_type=TemplateTypeConstants.TEXT,
+                template=_template,
+                whatsapp=self.whatsapp,
+                user=client.WaUser(wa_id=recipient_id)
+            )
 
-        response_msg_id = self.whatsapp.util.get_response_message_id(response)
+            whatsapp_service = WhatsAppService(model=service_model, validate_template=False)
+            response = await whatsapp_service.send_message(handle_session=False, template=False)
 
-        _logger.debug("LS message responded with id: %s", response_msg_id)
+            response_msg_id = self.whatsapp.util.get_response_message_id(response)
 
-        return response_msg_id
+            _logger.debug("LS message responded with id: %s", response_msg_id)
+
+            return response_msg_id
+
+        raise LiveSupportHookError(message="No active LiveSupport session for user!")
 
     def ls_terminate(self, recipient_id: str):
         user_session: ISessionManager = self.config.session_manager.session(session_id=recipient_id)
+        has_ls_session = user_session.get(session_id=recipient_id, key=SessionConstants.LIVE_SUPPORT)
 
-        user_session.evict(session_id=recipient_id, key=SessionConstants.LIVE_SUPPORT)
-
-        _logger.debug("LS terminated for: %s", recipient_id)
-
+        if has_ls_session is not None:
+            user_session.evict(session_id=recipient_id, key=SessionConstants.LIVE_SUPPORT)
+            _logger.debug("LS session terminated for: %s", recipient_id)
 
     async def process_webhook(self, webhook_data: Dict[str, Any], webhook_headers: Dict[str, Any]):
         if self.whatsapp.util.verify_webhook_payload(

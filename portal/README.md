@@ -3,7 +3,6 @@ An ehailing WhatsApp chatbot with live support portal powered by [Reflex]()
 
 > This is a basic live-support project
 
-
 ## Features
 - [x] Request live support from chatbot 
 - [x] Message persistence (conversations are saved in default sqlite3 db)
@@ -20,7 +19,9 @@ An ehailing WhatsApp chatbot with live support portal powered by [Reflex]()
 ## Setup
 > Checkout [chatbot setup guide](https://github.com/DonnC/pywce?tab=readme-ov-file#setup) for credentials setup
 
-`The portal project might misbehave on Windows, try any other OS`
+`The portal project might misbehave on Windows, try any unix OS`
+
+> Ensure you have redis setup and running
 
 1. Clone this repository
 2. cd into `portal` and install dependencies
@@ -49,6 +50,14 @@ $ python seed.py
 
 $ reflex run
 ```
+
+## Result
+Backend endpoints
+![image](media/endpoints-1.png)
+
+Basic Portal
+![portal](media/portal-5.png)
+
 
 ## Support
 Thank you, if you like or find my work helpful to you.

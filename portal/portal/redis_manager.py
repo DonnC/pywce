@@ -5,7 +5,7 @@ import redis.asyncio as redis
 
 from pywce import pywce_logger
 
-logger = pywce_logger(__name__)
+logger = pywce_logger(__name__, False)
 
 REDIS_URL = "redis://localhost"
 

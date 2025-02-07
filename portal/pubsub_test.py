@@ -41,7 +41,7 @@ async def main():
                 "webhook:incoming",
                 json.dumps({
                     "recipient_id": "263770123456",
-                    "message": f"Hi, User<jdoe> is waiting in the lobby!",
+                    "message": f"Im here waiting for support",
                 })
             )
 
