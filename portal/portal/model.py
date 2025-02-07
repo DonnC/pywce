@@ -4,6 +4,9 @@ from typing import List, Optional
 import reflex as rx
 from sqlmodel import Field, Relationship
 
+from .constants import RequestChatState
+
+
 class Message(rx.Model, table=True):
     content: str
     sender: str
@@ -18,14 +21,11 @@ class Chat(rx.Model, table=True):
 
         :var sender: client phone number > wa_id
         :var status: show chat state
-                    1   - requesting live support
-                    0   - acquired communication link
-                   -1   - no agent available
         :var last_active: last interaction message received
         :var messages: conversation messages with admin / agent
 
     """
     sender: str
-    status: int = -1
+    status: int = RequestChatState.OFFLINE
     last_active: datetime = Field(default_factory=datetime.now)
     messages: List[Message] = Relationship(back_populates="chat")

@@ -1,21 +1,28 @@
+import json
+
 from pywce import hook, HookArg, pywce_logger
-from ...data import fetch_global, put_global
+from ...constants import PubSubChannel
+from ...redis_manager import RedisManager
 
 logger = pywce_logger(__name__)
+redis_manager = RedisManager()
 
 
 @hook
 def live_support_handler(arg: HookArg) -> HookArg:
     """
-        On new hook event, update portal state on user message
+        On new hook event, publish to pub/sub channel
+        to be processed by agent on portal
     """
     logger.info(f"Received LS handler hook arg: {arg}")
 
-    queue: list[str] = fetch_global(key=arg.session_id)
-
-    queue.append(arg.user_input)
-
-    put_global(arg.session_id, queue)
+    redis_manager.get_instance().publish(
+        channel=PubSubChannel.INCOMING,
+        message=json.dumps({
+            "recipient_id": arg.user.wa_id,
+            "message": arg.user_input,
+        })
+    )
 
     logger.debug("Chat message event sent to portal agent")
 

@@ -5,14 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e700a6d4-f3fd-4ca6-8806-bc5eb9b6e49c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/portal/portal/redis_manager.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/portal/pubsub_test.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/dependencies.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/chatbot/dependencies.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/chatbot/bot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/dependencies.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/hooks/live_support.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/chatbot/hooks/live_support.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/hooks/ls_handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/chatbot/hooks/live_support_handler.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/data.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/hooks/live_support_handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/chatbot/hooks/live_support_handler.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/portal/portal/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/constants.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/portal/portal/data.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/portal/portal/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/model.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/portal/portal/portal.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/portal.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/portal/portal/state.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/state.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/engine.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/engine.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/portal/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/portal/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/src/utils/engine_logger.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/utils/engine_logger.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,6 +63,7 @@
     &quot;Python.hook_service.executor&quot;: &quot;Run&quot;,
     &quot;Python.main.executor&quot;: &quot;Run&quot;,
     &quot;Python.response_structure.executor&quot;: &quot;Run&quot;,
+    &quot;Python.scratch.executor&quot;: &quot;Run&quot;,
     &quot;Python.templetor.executor&quot;: &quot;Run&quot;,
     &quot;Python.test_v.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
@@ -92,7 +100,7 @@
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\pywce" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.main">
+  <component name="RunManager">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="pywce" />
       <option name="ENV_FILES" value="" />
@@ -251,6 +259,10 @@
       <workItem from="1738747385194" duration="15856000" />
       <workItem from="1738775694329" duration="2836000" />
       <workItem from="1738778648257" duration="4964000" />
+      <workItem from="1738839829865" duration="5654000" />
+      <workItem from="1738864191101" duration="3233000" />
+      <workItem from="1738911557837" duration="16077000" />
+      <workItem from="1738929288375" duration="356000" />
     </task>
     <servers />
   </component>
@@ -260,6 +272,7 @@
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/pywce$main.coverage" NAME="main Coverage Results" MODIFIED="1738758740256" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/example/engine_chatbot" />
     <SUITE FILE_PATH="coverage/pywce$response_structure.coverage" NAME="response_structure Coverage Results" MODIFIED="1737218227283" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/pywce/modules/whatsapp/model" />
+    <SUITE FILE_PATH="coverage/pywce$scratch.coverage" NAME="scratch Coverage Results" MODIFIED="1738929427889" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$APPLICATION_CONFIG_DIR$/scratches" />
     <SUITE FILE_PATH="coverage/pywce$.coverage" NAME=" Coverage Results" MODIFIED="1737924789160" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/pywce$hook_service.coverage" NAME="hook_service Coverage Results" MODIFIED="1737218975528" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/pywce/src/services" />
     <SUITE FILE_PATH="coverage/pywce$templetor.coverage" NAME="templetor Coverage Results" MODIFIED="1736407777201" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/example" />

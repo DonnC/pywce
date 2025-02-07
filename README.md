@@ -135,7 +135,8 @@ async def webhook_event(payload: Dict, headers: Dict) -> None:
     Process webhook event in the background using pywce engine.
     """
     print("Received webhook event, processing..")
-    await engine_instance.process_webhook(webhook_data=payload, webhook_headers=headers)
+    await engine_instance.ep_process_webhook(webhook_data=payload, webhook_headers=headers)
+
 
 @app.post("/chatbot/webhook")
 async def process_webhook(request: Request, background_tasks: BackgroundTasks):

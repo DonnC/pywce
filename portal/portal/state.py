@@ -1,16 +1,19 @@
 import asyncio
+import json
+import sys
 from datetime import datetime
 from typing import List, Optional
 
 import reflex as rx
 
 from pywce import pywce_logger
-from .chatbot.dependencies import get_engine_instance
-from .constants import ChatRole, TERMINATION_COMMAND
-from .data import fetch_global, clear_global_entry, evict_global
+from .constants import ChatRole, TERMINATION_COMMAND, PubSubChannel, RequestChatState
 from .model import Message, Chat
+from .redis_manager import RedisManager
 
 logger = pywce_logger(__name__)
+
+redis_manager = RedisManager()
 
 
 class ChatState(rx.State):
@@ -19,10 +22,6 @@ class ChatState(rx.State):
     chats: list[Chat]
     current_chat_messages: list[Message]
     is_loading: bool = True
-
-    # def __init__(self, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
-    #     self.load_initial_chats()
 
     @rx.event
     def load_initial_chats(self):
@@ -36,43 +35,52 @@ class ChatState(rx.State):
 
     @rx.event
     async def send_message(self):
-        engine_obj = get_engine_instance()
-
         if self.active_chat and self.message:
             if self.message.lower() == TERMINATION_COMMAND:
                 logger.info("[-] Received termination command")
-                engine_obj.ls_terminate(self.active_chat.sender)
-                evict_global(self.active_chat.sender)
-                return
+                await redis_manager.get_instance().publish(
+                    channel=PubSubChannel.OUTGOING,
+                    message=json.dumps({"type": "TERMINATE"})
+                )
 
-            result = await engine_obj.ls_send_message(
-                recipient_id=self.active_chat.sender,
-                message=self.message,
-            )
+            else:
+                await redis_manager.get_instance().publish(
+                    channel=PubSubChannel.OUTGOING,
+                    message=json.dumps({
+                        "type": "MESSAGE",
+                        "recipient_id": self.active_chat.sender,
+                        "message": self.message
+                    })
+                )
 
-            logger.debug(f"Channel result: {result}")
+            logger.debug(f"Published message to channel")
 
-            if result:
-                with rx.session() as session:
-                    chat = session.get(Chat, self.active_chat.id)
-                    chat.last_active = datetime.now()
+            with rx.session() as session:
+                chat = session.get(Chat, self.active_chat.id)
+                chat.last_active = datetime.now()
 
-                    new_message = Message(
-                        sender=ChatRole.ADMIN,
-                        content=self.message.strip(),
-                        chat_id=self.active_chat.id,
-                    )
+                if self.message.lower() == TERMINATION_COMMAND:
+                    chat.status = RequestChatState.CLOSED
 
-                    session.add(new_message)
-                    session.commit()
-                    session.refresh(new_message)
+                new_message = Message(
+                    sender=ChatRole.ADMIN,
+                    content=self.message.strip(),
+                    chat_id=self.active_chat.id,
+                )
 
-                    self.current_chat_messages.append(new_message)
-                    self.message = ""
+                session.add(new_message)
+                session.commit()
+                session.refresh(new_message)
+
+                self.current_chat_messages.append(new_message)
+                self.message = ""
+                self.active_chat = chat
 
     @rx.event
     def load_current_chat_messages(self):
-        """Load messages for current chat"""
+        """
+            Load messages for current chat
+        """
         if self.active_chat:
             with rx.session() as session:
                 messages = session.exec(
@@ -84,6 +92,7 @@ class ChatState(rx.State):
 
     @rx.event
     def set_active_chat(self, chat: Chat):
+        # TODO: change chat state to OPEN
         self.active_chat = chat
         self.load_current_chat_messages()
 
@@ -101,7 +110,7 @@ class ChatState(rx.State):
             if not chat:
                 chat = Chat(
                     sender=sender,
-                    status=1
+                    status=RequestChatState.NEW
                 )
                 session.add(chat)
                 session.commit()
@@ -119,7 +128,7 @@ class ChatState(rx.State):
             session.commit()
 
             if self.active_chat:
-                if str(chat.id) == self.active_chat.id:
+                if chat.id == self.active_chat.id:
                     session.refresh(new_message)
                     self.current_chat_messages.insert(0, new_message)
 
@@ -132,23 +141,37 @@ class ChatState(rx.State):
         return self.current_chat_messages
 
     @rx.event(background=True)
-    async def poll_new_chat_messages(self):
-        logger.info(f"Bg, poll new chat messages")
+    async def load_chats_subscribe_webhooks(self):
+        logger.info(f"Bg, subscribe to pub/sub")
         async with self:
             self.load_initial_chats()
 
-        queue = fetch_global()
+        async with redis_manager.get_instance().pubsub() as pubsub:
+            logger.debug("[State] Listening to pub/sub..")
 
-        while True:
-            logger.info(f"Message queue: {queue}")
+            while True:
+                try:
+                    await pubsub.psubscribe(PubSubChannel.CHANNEL)
+                    logger.debug("Pub sub listener set up")
 
-            # loop thru global data and pass args
-            async with self:
-                for chat_user, messages in queue.items():
-                    for msg in messages:
-                        logger.info(f"Processing msg: {chat_user} | {msg}")
-                        self.receive_message(chat_user, msg)
+                    wh_msg = await pubsub.get_message(ignore_subscribe_messages=True, timeout=None)
 
-                    clear_global_entry(chat_user)
+                    logger.debug(f"[State] Received message: {wh_msg}")
 
-            await asyncio.sleep(5)
+                    if wh_msg is not None:
+                        logger.debug(f"[State] WH pub/sub message: {wh_msg}")
+
+                        async with self:
+                            message = wh_msg.get("data").decode()
+
+                            msg_data = json.loads(message)
+                            logger.info(f"[State] Processing msg: {msg_data}")
+                            self.receive_message(
+                                msg_data.get("recipient_id"),
+                                msg_data.get("message")
+                            )
+
+                except Exception as e:
+                    logger.error(f"[State] Load redis chats unexpected error: {sys.exc_info()[0]}")
+
+                await asyncio.sleep(2)
