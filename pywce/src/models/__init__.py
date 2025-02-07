@@ -2,6 +2,7 @@ from dataclasses import dataclass, field
 from typing import Dict, Any, List
 
 from pywce.modules import *
+from pywce.modules import client
 from pywce.src.constants import TemplateTypeConstants
 
 
@@ -20,11 +21,14 @@ class EngineConfig:
         :var debounce_timeout_ms: reasonable time difference to process new message
         :var tag_on_reply: if enabled, engine will tag (reply) every message as it responds to it
         :var read_receipts: If enabled, engine will mark every message received as read.
+        :var live_support_hook: path to hook that handles live support. If message is received and LS is active,
+                                call this hook to handle live support requests
     """
-    whatsapp: WhatsApp
+    whatsapp: client.WhatsApp
     templates_dir: str
     trigger_dir: str
     start_template_stage: str
+    live_support_hook: str = None
     handle_session_queue: bool = True
     handle_session_inactivity: bool = True
     tag_on_reply: bool = False
@@ -39,10 +43,11 @@ class EngineConfig:
 @dataclass
 class WorkerJob:
     engine_config: EngineConfig
-    payload: ResponseStructure
-    user: WaUser
+    payload: client.ResponseStructure
+    user: client.WaUser
     templates: Dict
     triggers: Dict
+    session_manager: ISessionManager
 
 
 @dataclass
@@ -57,7 +62,7 @@ class TemplateDynamicBody:
         :var render_template_payload: `for dynamic templates` -> the dynamic message template body
                                         `for template templates` -> the template dynamic variables to prefill
     """
-    typ: MessageTypeEnum = None
+    typ: client.MessageTypeEnum = None
     initial_flow_payload: Dict[str, Any] = None
     render_template_payload: Dict[str, Any] = None
 
@@ -74,21 +79,24 @@ class HookArg:
         :var additional_data: data from interactive & unprocessable message type responses. E.g a list, location, flow etc response
         :var flow: for flow message type, name of flow from the template
         :var params: configured static template params
+        :var session_id: current session id
         :var user_input: the raw user input, usually a str if message was a button or text
         :var session_manager: session instance of the current user -> WaUser
     """
-    user: WaUser
+    user: client.WaUser
     params: Dict[str, Any] = field(default_factory=dict)
     template_body: TemplateDynamicBody = None
     from_trigger: bool = False
     user_input: str = None
     flow: str = None
     additional_data: Dict[str, Any] = None
+    session_id: str = None
     session_manager: ISessionManager = None
 
     def __str__(self):
         attrs = {
             "user": self.user,
+            "session_id": self.session_id,
             "params": self.params,
             "template_body": self.template_body,
             "from_trigger": self.from_trigger,
@@ -103,8 +111,8 @@ class HookArg:
 class WhatsAppServiceModel:
     template_type: TemplateTypeConstants
     template: Dict
-    whatsapp: WhatsApp
-    user: WaUser
+    whatsapp: client.WhatsApp
+    user: client.WaUser
     hook_arg: HookArg = None
     next_stage: str = None
     handle_session_activity: bool = False

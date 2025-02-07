@@ -3,7 +3,7 @@ from datetime import datetime
 from random import randint
 from typing import Dict, Any, List, Union
 
-from pywce.modules import MessageTypeEnum
+from pywce.modules import client
 from pywce.src.constants import SessionConstants, TemplateConstants, TemplateTypeConstants
 from pywce.src.exceptions import EngineInternalException
 from pywce.src.models import WhatsAppServiceModel
@@ -289,11 +289,11 @@ class WhatsAppService:
         """
 
         MEDIA_MAPPING = {
-            "image": MessageTypeEnum.IMAGE,
-            "video": MessageTypeEnum.VIDEO,
-            "audio": MessageTypeEnum.AUDIO,
-            "document": MessageTypeEnum.DOCUMENT,
-            "sticker": MessageTypeEnum.STICKER
+            "image": client.MessageTypeEnum.IMAGE,
+            "video": client.MessageTypeEnum.VIDEO,
+            "audio": client.MessageTypeEnum.AUDIO,
+            "document": client.MessageTypeEnum.DOCUMENT,
+            "sticker": client.MessageTypeEnum.STICKER
         }
 
         message: Dict[str, Any] = self.template.get(TemplateConstants.MESSAGE)
@@ -339,12 +339,11 @@ class WhatsAppService:
         :param template: process as engine template message else, bypass engine logic
         :return:
         """
-        self._process_template_hook(
-            skip=self.model.template_type == TemplateTypeConstants.FLOW or \
-                 self.model.template_type == TemplateTypeConstants.DYNAMIC
-        )
-
-        response: Dict = {}
+        if template is True:
+            self._process_template_hook(
+                skip=self.model.template_type == TemplateTypeConstants.FLOW or \
+                     self.model.template_type == TemplateTypeConstants.DYNAMIC
+            )
 
         match self.model.template_type:
             case TemplateTypeConstants.TEXT:
@@ -375,7 +374,9 @@ class WhatsAppService:
                 raise EngineInternalException(message="Failed to generate whatsapp payload",
                                               data=self.model.next_stage)
 
-        if self.model.whatsapp.util.was_request_successful(recipient_id=self.model.user.wa_id, response_data=response):
+        if template is True or \
+                self.model.whatsapp.util.was_request_successful(recipient_id=self.model.user.wa_id,
+                                                                response_data=response):
             if handle_session is True:
                 session = self.model.hook_arg.session_manager
                 session_id = self.model.user.wa_id

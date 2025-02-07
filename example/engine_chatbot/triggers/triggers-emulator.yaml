@@ -1,9 +1,0 @@
-# ~ ONLY IF YOU KNOW HOW TO USE THE LOCAL EMULATOR ~
-# ~ OTHERWISE YOU CAN DELETE THIS FILE AND THE OTHER FILE IN TEMPLATES FOLDER
-# WITH emulator IN ITS NAME
-
-# this is only when using a local emulator while developing and local testing
-"EM-START-MENU": "re:emulator"
-
-# for reporting
-"REPORT": "re:^report$"

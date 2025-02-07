@@ -1,10 +1,26 @@
 "LIVE-SUPPORT":
   type: text
+  on-generate: "portal.chatbot.hooks.live_support.live_support"
   message: |
-    Kindly wait a moment as one of our admin will respond to you
+    🕑 Kindly wait a moment as we connect you to the admin.
+    Our team will respond to you.
     
-    Type _cancel_ to return to menu
+    ℹ️ Type _ls stop_ to terminate session
   params:
-    request: HUMAN
+    type: REQUEST
   routes:
-    "re:.*": "LIVE-SUPPORT"
+    "re:.*": "START-MENU"
+
+"TERMINATE-LIVE-SUPPORT":
+  type: button
+  on-generate: "portal.chatbot.hooks.live_support.live_support"
+  message:
+    title: "Live Support"
+    body: "Thank you for contacting our Live Support team. Click button to return to menu"
+    footer: pywce
+    buttons:
+      - Menu
+  params:
+    type: TERMINATE
+  routes:
+    "re:.*": "START-MENU"

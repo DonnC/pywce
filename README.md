@@ -1,4 +1,4 @@
-# Python WhatsApp ChatBot Engine
+# WhatsApp ChatBot Engine
 
 A framework for creating WhatsApp chatbots of any scale using a template-driven approach - 
 allowing you to define conversation flows and business logic in a clean and modular way. 
@@ -56,17 +56,17 @@ You can either use `.env` or add your credentials directly to the WhatsAppConfig
 ```python
 import os
 from dotenv import load_dotenv
-from pywce import WhatsAppConfig, WhatsApp, Engine, EngineConfig
+from pywce import client, Engine, EngineConfig
 
 load_dotenv()
 
-whatsapp_config = WhatsAppConfig(
+whatsapp_config = client.WhatsAppConfig(
     token=os.getenv("ACCESS_TOKEN"),
     phone_number_id=os.getenv("PHONE_NUMBER_ID"),
     hub_verification_token=os.getenv("WEBHOOK_HUB_TOKEN")
 )
 
-whatsapp = WhatsApp(whatsapp_config=whatsapp_config)
+whatsapp = client.WhatsApp(whatsapp_config=whatsapp_config)
 
 engine_config = EngineConfig(
     whatsapp=whatsapp,
@@ -135,7 +135,8 @@ async def webhook_event(payload: Dict, headers: Dict) -> None:
     Process webhook event in the background using pywce engine.
     """
     print("Received webhook event, processing..")
-    await engine_instance.process_webhook(webhook_data=payload, webhook_headers=headers)
+    await engine_instance.ep_process_webhook(webhook_data=payload, webhook_headers=headers)
+
 
 @app.post("/chatbot/webhook")
 async def process_webhook(request: Request, background_tasks: BackgroundTasks):
@@ -178,15 +179,15 @@ PyWCE provides a simple, Pythonic interface to interact with the WhatsApp Cloud 
 Example usage:
 
 ```python
-from pywce import WhatsAppConfig, WhatsApp
+from pywce import client
 
-config = WhatsAppConfig(
+config = client.WhatsAppConfig(
     token="your_access_token",
     phone_number_id="your_phone_number_id",
     hub_verification_token="your_webhook_hub_verification_token"
 )
 
-whatsapp = WhatsApp(whatsapp_config=config)
+whatsapp = client.WhatsApp(whatsapp_config=config)
 
 # Sending a text message
 response = whatsapp.send_message(

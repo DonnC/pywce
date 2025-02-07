@@ -2,21 +2,21 @@ import reflex as rx
 
 from .action_bar import action_bar
 from .message_card import message_card
-from ..state import SupportState
+from ..state import ChatState
 
 
 def chat_window() -> rx.Component:
     return rx.vstack(
         rx.heading(
             rx.cond(
-                SupportState.active_chat is not None,
-                f"User<{SupportState.active_chat.sender}>",
+                ChatState.active_chat is not None,
+                f"User<{ChatState.active_chat.sender}>",
                 "Select a Chat"
             )
         ),
         rx.box(
             rx.foreach(
-                SupportState.get_messages,
+                ChatState.get_messages,
                 message_card
             ),
             padding="1em",
