@@ -1,6 +1,6 @@
 import reflex as rx
 
-from ..state import SupportState
+from ..state import ChatState
 from ..style import input_style, button_style
 
 
@@ -8,8 +8,8 @@ def action_bar() -> rx.Component:
     return rx.hstack(
         rx.text_area(
             placeholder="Type a reply...\n\ntype /stop to terminate session",
-            value=SupportState.message,
-            on_change=SupportState.set_message,
+            value=ChatState.message,
+            on_change=ChatState.set_message,
             style=input_style,
             min_height="100px",
             max_height="400px",
@@ -25,7 +25,7 @@ def action_bar() -> rx.Component:
                 "Send",
                 align="center",
             ),
-            on_click=SupportState.send_message,
+            on_click=ChatState.send_message,
             style=button_style,
         ),
         width="100%",

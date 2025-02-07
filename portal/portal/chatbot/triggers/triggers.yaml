@@ -3,10 +3,13 @@
 
 # e.g. If a user types `start` - render the START-MENU stage template
 # defined in the /test_templates directory
-"START-MENU": "re:(?i)(hi)|(hie)|(cancel)"
+"START-MENU": "re:(?i)(hi)|(hie)"
 
 # for reporting
 "REPORT": "re:^report$"
 
 # command to invoke live support
-"LIVE-SUPPORT": "re:^human$"
+"LIVE-SUPPORT": "re:(?i)^human$"
+
+# command to terminate live support
+"TERMINATE-LIVE-SUPPORT": "re:(?i)^ls stop$"

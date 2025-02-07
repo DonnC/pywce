@@ -4,9 +4,9 @@
   message:
     title: Greetings
     body: |
-      Hi {{ name }}, Thank you for doing this!
+      Hi {{ name }}, Enjoy an innovative template-driven framework for chatbot development.
       
-      Using an easy to use template-driven framework for chatbot development.
+      Select your next action!
     footer: pywce
     buttons:
       - Sample Bot
@@ -19,7 +19,7 @@
   type: cta
   message:
     title: "Support"
-    body: "View my GitHub profile, projects and star, fork, share, contribute or donate 🙈"
+    body: "View my GitHub profile, projects and star, fork, share, contribute or support 🙈"
     url: "https://github.com/DonnC"
     button: "GitHub"
   routes:

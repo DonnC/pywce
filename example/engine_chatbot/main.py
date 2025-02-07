@@ -4,7 +4,7 @@ import uvicorn
 from fastapi import FastAPI, Request, Response, BackgroundTasks, Query, Depends
 
 from example.engine_chatbot.dependencies import get_engine_instance, get_whatsapp_instance
-from pywce import Engine, pywce_logger, WhatsApp
+from pywce import Engine, pywce_logger, client
 
 logger = pywce_logger(__name__)
 
@@ -45,7 +45,7 @@ async def verify_webhook(
         mode: str = Query(..., alias="hub.mode"),
         token: str = Query(..., alias="hub.verify_token"),
         challenge: str = Query(..., alias="hub.challenge"),
-        whatsapp: WhatsApp = Depends(get_whatsapp_instance)
+        whatsapp: client.WhatsApp = Depends(get_whatsapp_instance)
 ) -> Response:
     """
     Verify WhatsApp webhook callback url.

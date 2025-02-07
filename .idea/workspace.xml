@@ -5,22 +5,36 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e700a6d4-f3fd-4ca6-8806-bc5eb9b6e49c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/portal/portal/chatbot/templates/live-support.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/pywce.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/pywce.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/CHANGELOG.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/engine_chatbot/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/engine_chatbot/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/engine_chatbot/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/engine_chatbot/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/standalone_chatbot/dependencies.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/standalone_chatbot/dependencies.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/standalone_chatbot/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/standalone_chatbot/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/standalone_chatbot/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/standalone_chatbot/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/endpoints-1.png" beforeDir="false" afterPath="$PROJECT_DIR$/portal/media/endpoints-1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/portal-1.png" beforeDir="false" afterPath="$PROJECT_DIR$/portal/media/portal-1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/portal-2.png" beforeDir="false" afterPath="$PROJECT_DIR$/portal/media/portal-2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/portal-3.png" beforeDir="false" afterPath="$PROJECT_DIR$/portal/media/portal-3.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/portal-4.png" beforeDir="false" afterPath="$PROJECT_DIR$/portal/media/portal-4.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/portal-5.png" beforeDir="false" afterPath="$PROJECT_DIR$/portal/media/portal-5.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/portal/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/portal/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/chatbot/bot.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/hooks/capture_ride.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/chatbot/hooks/capture_ride.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/hooks/live_support.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/chatbot/hooks/live_support.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/hooks/live_support_handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/chatbot/hooks/live_support_handler.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/hooks/location.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/chatbot/hooks/location.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/hooks/name_template.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/chatbot/hooks/name_template.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/templates/ehailing-bot.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/chatbot/templates/ehailing-bot.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/triggers/triggers.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/chatbot/triggers/triggers.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/components/webhook_stat_card.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/portal/portal/pages/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/portal/portal/portal.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/portal.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/portal/portal/redis_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/redis_manager.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/portal/portal/state.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/state.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/portal/pubsub_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/pubsub_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/portal/pywce.log.1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/portal/rxconfig.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/rxconfig.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/src/engine.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/engine.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/src/utils/engine_logger.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/utils/engine_logger.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,12 +77,14 @@
     "Python tests.Python tests in tests.executor": "Run",
     "Python.hook_service.executor": "Run",
     "Python.main.executor": "Run",
+    "Python.pubsub_test.executor": "Run",
     "Python.response_structure.executor": "Run",
+    "Python.scratch.executor": "Run",
     "Python.templetor.executor": "Run",
     "Python.test_v.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "feat/live-support",
+    "git-widget-placeholder": "feat/ls",
     "last_opened_file_path": "/home/donnc/Documents/projects/pywce/portal/portal/chatbot",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -79,6 +95,9 @@
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "sqlite"
+    ],
     "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
       "Markdown"
     ]
@@ -93,14 +112,14 @@
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\resources" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/portal" />
+      <recent name="$PROJECT_DIR$/portal/portal/chatbot" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\pywce\src\utils" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\tests" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\example\engine_chatbot" />
-      <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\pywce\modules\session" />
-      <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\pywce" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.main">
+  <component name="RunManager" selected="Python.pubsub_test">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="pywce" />
       <option name="ENV_FILES" value="" />
@@ -116,6 +135,29 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/example/engine_chatbot/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="pubsub_test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="pywce" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/portal" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/portal/pubsub_test.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -172,29 +214,13 @@
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for test_engine.TestPywceEngine" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="pywce" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;test_engine.TestPywceEngine&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.pubsub_test" />
         <item itemvalue="Python.main" />
         <item itemvalue="Python tests.Python tests for test_cachetool_session_manager.TestSessionManager.test_prop" />
         <item itemvalue="Python tests.Python tests for test_cachetool_session_manager.TestSessionManager.test_save" />
         <item itemvalue="Python tests.Python tests for test_cachetool_session_manager.TestSessionManager" />
-        <item itemvalue="Python tests.Python tests for test_engine.TestPywceEngine" />
       </list>
     </recent_temporary>
   </component>
@@ -256,6 +282,14 @@
       <workItem from="1738677391808" duration="2821000" />
       <workItem from="1738690324903" duration="3396000" />
       <workItem from="1738736629479" duration="5713000" />
+      <workItem from="1738747385194" duration="15856000" />
+      <workItem from="1738775694329" duration="2836000" />
+      <workItem from="1738778648257" duration="4964000" />
+      <workItem from="1738839829865" duration="5654000" />
+      <workItem from="1738864191101" duration="3233000" />
+      <workItem from="1738911557837" duration="16077000" />
+      <workItem from="1738929288375" duration="356000" />
+      <workItem from="1738930680669" duration="6732000" />
     </task>
     <servers />
   </component>
@@ -263,11 +297,13 @@
     <option name="version" value="3" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/pywce$main.coverage" NAME="main Coverage Results" MODIFIED="1738247256812" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/example/engine_chatbot" />
+    <SUITE FILE_PATH="coverage/pywce$test_v.coverage" NAME="test_v Coverage Results" MODIFIED="1736092146828" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/pywce$templetor.coverage" NAME="templetor Coverage Results" MODIFIED="1736407777201" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/example" />
+    <SUITE FILE_PATH="coverage/pywce$main.coverage" NAME="main Coverage Results" MODIFIED="1738758740256" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/example/engine_chatbot" />
+    <SUITE FILE_PATH="coverage/pywce$scratch.coverage" NAME="scratch Coverage Results" MODIFIED="1738929427889" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$APPLICATION_CONFIG_DIR$/scratches" />
+    <SUITE FILE_PATH="coverage/pywce$hook_service.coverage" NAME="hook_service Coverage Results" MODIFIED="1737218975528" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/pywce/src/services" />
+    <SUITE FILE_PATH="coverage/pywce$pubsub_test.coverage" NAME="pubsub_test Coverage Results" MODIFIED="1738936009261" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/portal" />
     <SUITE FILE_PATH="coverage/pywce$response_structure.coverage" NAME="response_structure Coverage Results" MODIFIED="1737218227283" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/pywce/modules/whatsapp/model" />
     <SUITE FILE_PATH="coverage/pywce$.coverage" NAME=" Coverage Results" MODIFIED="1737924789160" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
-    <SUITE FILE_PATH="coverage/pywce$hook_service.coverage" NAME="hook_service Coverage Results" MODIFIED="1737218975528" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/pywce/src/services" />
-    <SUITE FILE_PATH="coverage/pywce$templetor.coverage" NAME="templetor Coverage Results" MODIFIED="1736407777201" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/example" />
-    <SUITE FILE_PATH="coverage/pywce$test_v.coverage" NAME="test_v Coverage Results" MODIFIED="1736092146828" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

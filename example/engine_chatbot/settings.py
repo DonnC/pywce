@@ -17,7 +17,7 @@ class Settings:
     # see more under [WhatsAppConfig] class
     TOKEN = os.getenv("ACCESS_TOKEN")
     PHONE_NUMBER_ID = os.getenv("PHONE_NUMBER_ID")
-    HUB_TOKEN = os.getenv("HUB_TOKEN")
+    HUB_TOKEN = os.getenv("WEBHOOK_HUB_TOKEN")
 
     # engine settings
     # see more under [EngineConfig] class
@@ -27,5 +27,5 @@ class Settings:
 
     # for local emulator (if you know what you are doing)
     # requires knowledge and running of the emulator project
-    # set this to False
-    USE_EMULATOR = False
+    # set this to 1
+    USE_EMULATOR = int(os.getenv("USE_EMULATOR", 0)) == 1

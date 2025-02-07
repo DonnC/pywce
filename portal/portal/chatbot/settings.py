@@ -25,7 +25,10 @@ class Settings:
     TRIGGERS_DIR = os.getenv("TRIGGERS_DIR")
     START_STAGE = os.getenv("START_STAGE")
 
+    # live support hook
+    LS_HOOK = os.getenv("LIVE_SUPPORT_HOOK")
+
     # for local emulator (if you know what you are doing)
     # requires knowledge and running of the emulator project
-    # set this to False
-    USE_EMULATOR = False
+    # set this to 1
+    USE_EMULATOR = int(os.getenv("USE_EMULATOR", 0)) == 1

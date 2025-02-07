@@ -31,3 +31,6 @@ class SessionConstants:
     # if its an error message with retry btn, set this & clear it after processing
     DYNAMIC_RETRY = "k_pywce_dynamic_retry"
     MESSAGE_HISTORY = "k_pywce_message_history"
+
+    # set this to enable user live session
+    LIVE_SUPPORT = "k_live_support"

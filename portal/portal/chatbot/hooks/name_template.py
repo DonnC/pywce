@@ -1,6 +1,6 @@
 from pywce import hook, HookArg, TemplateDynamicBody,  pywce_logger
 
-logger = pywce_logger(__name__)
+logger = pywce_logger(__name__, False)
 
 
 @hook

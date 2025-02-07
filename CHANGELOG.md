@@ -35,3 +35,7 @@ def username(arg: HookArg) -> HookArg:
 * Added global config for toggling `read_receipts` property
 * Added global config for toggling `tag_on_reply` property to enable disable reply to message
 * CTA buttons now supported
+
+## [1.0.3] - Feb 2025
+* Added basic live support portal
+* added flag to pywce logger to toggle file handler

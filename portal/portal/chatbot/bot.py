@@ -1,48 +1,48 @@
 from typing import Dict
 
-from fastapi import Request, Response, BackgroundTasks, Query, Depends
+from fastapi import Response, Query, BackgroundTasks, Request
 
-from pywce import Engine, pywce_logger
-from pywce.modules import WhatsApp
-from .dependencies import get_engine_instance, get_whatsapp_instance
+from pywce import client, Engine, EngineConfig, pywce_logger
+from .settings import Settings
 
-logger = pywce_logger(__name__)
+logger = pywce_logger(__name__, False)
 
+wa_config = client.WhatsAppConfig(
+    token=Settings.TOKEN,
+    phone_number_id=Settings.PHONE_NUMBER_ID,
+    hub_verification_token=Settings.HUB_TOKEN,
+    use_emulator=Settings.USE_EMULATOR,
+)
 
-async def _webhook_event(payload: Dict, headers: Dict, engine: Engine) -> None:
-    logger.debug("Received webhook event, processing..")
+whatsapp = client.WhatsApp(whatsapp_config=wa_config)
+
+engine_config = EngineConfig(
+    whatsapp=whatsapp,
+    templates_dir=Settings.TEMPLATES_DIR,
+    trigger_dir=Settings.TRIGGERS_DIR,
+    start_template_stage=Settings.START_STAGE,
+    live_support_hook=Settings.LS_HOOK
+)
+
+engine = Engine(config=engine_config)
+
+# -  endpoint utilities -
+async def _bg_webhook_event(payload: Dict, headers: Dict) -> None:
+    logger.debug("Portal: received webhook event, processing..")
     await engine.process_webhook(webhook_data=payload, webhook_headers=headers)
 
 
-async def process_webhook(
-        request: Request,
-        background_tasks: BackgroundTasks,
-        engine: Engine = Depends(get_engine_instance)
-) -> Response:
-    """
-    Handle incoming webhook events from WhatsApp and process them in the background.
-
-    delegates the incoming webhook event to pywce engine in the background for processing.
-    """
+async def ep_process_webhook(request: Request, background_tasks: BackgroundTasks) -> Response:
     payload = await request.json()
-    headers = dict(request.headers)
-
-    # Add processing task to background
-    background_tasks.add_task(_webhook_event, payload, headers, engine)
-
-    # Immediately respond to WhatsApp with acknowledgment
+    background_tasks.add_task(_bg_webhook_event, payload, dict(request.headers))
     return Response(content="ACK", status_code=200)
 
 
-async def verify_webhook(
+def ep_verify_webhook(
         mode: str = Query(..., alias="hub.mode"),
         token: str = Query(..., alias="hub.verify_token"),
-        challenge: str = Query(..., alias="hub.challenge"),
-        whatsapp: WhatsApp = Depends(get_whatsapp_instance)
+        challenge: str = Query(..., alias="hub.challenge")
 ) -> Response:
-    """
-    Verify WhatsApp webhook callback url.
-    """
     result = whatsapp.util.verify_webhook_verification_challenge(
         mode=mode, token=token, challenge=challenge
     )

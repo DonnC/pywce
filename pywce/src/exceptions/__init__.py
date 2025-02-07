@@ -24,6 +24,10 @@ class HookError(EngineInternalException):
     def __init__(self, message, data=None):
         super().__init__(message, data)
 
+class LiveSupportHookError(EngineInternalException):
+    def __init__(self, message, data=None):
+        super().__init__(message, data)
+
 
 class TemplateRenderException(PywceException):
     def __init__(self, message):
