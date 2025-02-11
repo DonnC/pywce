@@ -103,10 +103,7 @@ class ChatState(rx.State):
             chat = session.exec(Chat.select().where(Chat.sender == sender)).first()
 
             if not chat:
-                chat = Chat(
-                    sender=sender,
-                    status=RequestChatState.NEW
-                )
+                chat = Chat(sender=sender)
                 session.add(chat)
                 session.commit()
                 session.refresh(chat)

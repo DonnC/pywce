@@ -14,14 +14,8 @@ Modules:
 Author: Donald Chinhuru
 """
 
-from pywce.modules import (
-    ISessionManager,
-    DictSessionManager, CachetoolSessionManager,
-    # WhatsApp, WhatsAppConfig,
-    # ResponseStructure,
-    # WaUser, MessageTypeEnum
-)
-from pywce.modules import client
+from pywce.modules import client, DefaultSessionManager
+from pywce.modules.session import ISessionManager
 from pywce.src.constants import SessionConstants, EngineConstants
 from pywce.src.engine import Engine
 from pywce.src.models import HookArg, TemplateDynamicBody, EngineConfig
@@ -33,22 +27,25 @@ __email__ = "donychinhuru@gmail.com"
 __license__ = "MIT"
 __name__ = "pywce"
 __all__ = [
+    # modules
     "client",
     "ISessionManager",
-    "DictSessionManager",
-    "CachetoolSessionManager",
-    # "ResponseStructure",
-    # "WaUser",
-    # "WhatsApp",
-    # "WhatsAppConfig",
-    # "MessageTypeEnum",
+    "DefaultSessionManager",
+
+    # engine
     "Engine",
     "EngineConfig",
+
+    # hook
     "HookArg",
     "TemplateDynamicBody",
     "HookService",
     "hook",
+
+    # util
     "pywce_logger",
+
+    # constants
     "SessionConstants",
     "EngineConstants",
 ]

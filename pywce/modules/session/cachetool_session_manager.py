@@ -2,8 +2,8 @@ import threading
 from typing import Any, Dict, Type, List, Union
 
 from cachetools import TTLCache
-from pywce.src.utils.engine_logger import pywce_logger
-from pywce.modules import ISessionManager
+from pywce.modules.session import ISessionManager
+from pywce.src.utils import pywce_logger
 
 from . import T
 
@@ -47,7 +47,7 @@ class CachetoolSessionManager(ISessionManager):
             return self.user_caches[session_id]
 
 
-    def session(self, session_id: str):
+    def session(self, session_id: str) -> ISessionManager:
         self._get_user_cache(session_id)
         return self
 

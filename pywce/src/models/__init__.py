@@ -20,6 +20,7 @@ class EngineConfig:
                                           reroutes user back to `start_template_stage` if inactive
         :var debounce_timeout_ms: reasonable time difference to process new message
         :var tag_on_reply: if enabled, engine will tag (reply) every message as it responds to it
+        :var log_invalid_webhooks: if enabled, engine will log (WARN) all detailed invalid webhooks
         :var read_receipts: If enabled, engine will mark every message received as read.
         :var live_support_hook: path to hook that handles live support. If message is received and LS is active,
                                 call this hook to handle live support requests
@@ -33,11 +34,12 @@ class EngineConfig:
     handle_session_inactivity: bool = True
     tag_on_reply: bool = False
     read_receipts: bool = False
+    log_invalid_webhooks: bool = False
     session_ttl_min: int = 30
     inactivity_timeout_min: int = 3
     debounce_timeout_ms: int = 8000
     webhook_timestamp_threshold_s: int = 10
-    session_manager: ISessionManager = DictSessionManager()
+    session_manager: ISessionManager = DefaultSessionManager()
 
 
 @dataclass

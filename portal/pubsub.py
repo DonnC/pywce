@@ -1,9 +1,21 @@
+"""
+A test script for the redis pub/sub
+
+You can use this after running the live support portal
+to simulate message requests from engine
+"""
+
 import asyncio
 import json
+from random import shuffle, randint
 
 import redis.asyncio as redis
 
+CHATS = ["263778060126", "2637790123456", "263770123456"]
+
+REDIS_URL = "redis://localhost"
 STOPWORD = "STOP"
+
 
 async def reader(channel: redis.client.PubSub):
     while True:
@@ -24,13 +36,17 @@ async def reader(channel: redis.client.PubSub):
             # Log any other errors
             print(f"(Reader) Error: {e}")
 
+
 async def main():
     try:
         # Connect to Redis
-        r = redis.from_url("redis://localhost")
+        r = redis.from_url(REDIS_URL)
 
         # Set up pub/sub
         async with r.pubsub() as pubsub:
+            shuffle(CHATS)
+            chat = CHATS[randint(0, len(CHATS) - 1)]
+
             await pubsub.psubscribe("webhook:*")
 
             # Start the reader task
@@ -40,7 +56,7 @@ async def main():
             await r.publish(
                 "webhook:incoming",
                 json.dumps({
-                    "recipient_id": "263770123456",
+                    "recipient_id": chat,
                     "message": f"Im here waiting for support",
                 })
             )
@@ -48,7 +64,7 @@ async def main():
             await r.publish(
                 "webhook:outgoing",
                 json.dumps({
-                    "recipient_id": "263770123456",
+                    "recipient_id": chat,
                     "type": "MESSAGE",
                     "message": "Hi, this is a test outgoing"
                 })
