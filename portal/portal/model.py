@@ -26,6 +26,6 @@ class Chat(rx.Model, table=True):
 
     """
     sender: str
-    status: int = RequestChatState.OFFLINE
+    status: str = RequestChatState.NEW
     last_active: datetime = Field(default_factory=datetime.now)
     messages: List[Message] = Relationship(back_populates="chat")

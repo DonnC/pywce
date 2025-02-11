@@ -3,6 +3,7 @@ from random import randint
 from time import time
 from typing import List, Dict, Any, Tuple
 
+from pywce import HookArg
 from pywce.modules import ISessionManager, client
 from pywce.src.constants import *
 from pywce.src.exceptions import *
@@ -188,11 +189,14 @@ class Worker:
             }
         }
 
+        _logger.warning("Sending quick button to user..")
+
         service_model = WhatsAppServiceModel(
             template_type=TemplateTypeConstants.BUTTON,
             template=_template,
             whatsapp=_client,
-            user=self.user
+            user=self.user,
+            hook_arg=HookArg(user=self.user)
         )
 
         whatsapp_service = WhatsAppService(model=service_model, validate_template=False)

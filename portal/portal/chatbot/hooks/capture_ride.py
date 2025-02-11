@@ -1,8 +1,8 @@
-from pywce import HookArg, ISessionManager, pywce_logger
+from pywce import HookArg, pywce_logger, hook
 
 logger = pywce_logger(__name__, False)
 
-
+@hook
 def capture(arg: HookArg):
     """
     Capture ride business logic implementation
@@ -13,7 +13,7 @@ def capture(arg: HookArg):
     logger.debug(f"Capture ride hook: {arg}")
 
     session_id = arg.user.wa_id
-    session: ISessionManager = arg.session_manager
+    session = arg.session_manager
 
     if arg.user_input == 'confirm':
         # TODO: implement business logic

@@ -1,8 +1,7 @@
 import threading
 from typing import Any, Dict, Type, List, Union
 
-from pywce.src.utils.engine_logger import pywce_logger
-from pywce.modules import ISessionManager
+from pywce import ISessionManager, pywce_logger
 from . import T
 
 
@@ -25,7 +24,7 @@ class DictSessionManager(ISessionManager):
     def prop_key(self) -> str:
         return "pywce_prop_key"
 
-    def session(self, session_id: str):
+    def session(self, session_id: str) -> ISessionManager:
         with self.lock:
             if session_id not in self.sessions:
                 self.sessions[session_id] = {}

@@ -7,3 +7,6 @@
 
 # for reporting
 "REPORT": "re:^report$"
+
+# local dev only
+"SAMPLE-TEMPLATES": "re:(?i)^sample$"

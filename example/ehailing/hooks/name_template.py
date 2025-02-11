@@ -1,5 +1,4 @@
-from pywce import hook, HookArg, TemplateDynamicBody
-from pywce.src.utils.engine_logger import pywce_logger
+from pywce import hook, HookArg, TemplateDynamicBody, pywce_logger
 
 logger = pywce_logger(__name__)
 

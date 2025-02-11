@@ -1,6 +1,6 @@
 "START-MENU":
   type: button
-  template: "example.engine_chatbot.hooks.name_template.username"
+  template: "example.ehailing.hooks.name_template.username"
   message:
     title: Greetings
     body: |
@@ -9,10 +9,10 @@
       Select your next action!
     footer: pywce
     buttons:
-      - Sample Bot
+      - eHailing Bot
       - Developer Profile
   routes:
-    "sample bot": "PROJECT-MENU"
+    "ehailing bot": "PROJECT-MENU"
     "developer profile": "GITHUB-PROFILE"
 
 "GITHUB-PROFILE":
@@ -29,8 +29,8 @@
   type: button
   checkpoint: true
   message:
-    title: PickDrive
-    body: "Hi {{ s.username }}, I'm PickDrive assistant.\n\nTo begin, click the button below"
+    title: eHailing Chatbot
+    body: "Hi {{ s.username }}, I'm a PoC eHailing PickDrive assistant.\n\nTo begin, click the button below"
     footer: pywce
     buttons:
       - Begin
@@ -59,7 +59,7 @@
 
 "DESTINATION-LOCATION":
   type: request-location
-  on-receive: "example.engine_chatbot.hooks.location.save_destination"
+  on-receive: "example.ehailing.hooks.location.save_destination"
   message: "Where would you like to go?"
   routes:
     "re:.*": "RIDE-OFFER"
@@ -114,7 +114,7 @@
 
 "CONFIRM-OFFER":
   type: button
-  on-receive: "example.engine_chatbot.hooks.capture_ride.capture"
+  on-receive: "example.ehailing.hooks.capture_ride.capture"
   message:
     title: PickDrive Ride
     body: |

@@ -44,8 +44,8 @@ PHONE_NUMBER_ID     = <your-number-phone-id>
 WEBHOOK_HUB_TOKEN   = <your-webhook-verification-token>
 
 # path to your templates & triggers folders
-TEMPLATES_DIR       = portal/portal/chatbot/templates
-TRIGGERS_DIR        = portal/portal/chatbot/triggers
+TEMPLATES_DIR       = portal/chatbot/templates
+TRIGGERS_DIR        = portal/chatbot/triggers
 
 # your templates initial or start stage
 START_STAGE         = START-MENU
@@ -81,7 +81,7 @@ engine_instance = Engine(config=engine_config)
 ## Example ChatBot
 Here's a simple example template to get you started:
 
-_Checkout complete [example chatbot](https://github.com/DonnC/pywce/blob/master/example/engine_chatbot/main.py)_
+_Checkout complete example of [e-hailing chatbot](https://github.com/DonnC/pywce/blob/master/example/engine_chatbot/main.py)_
 
 1. Define YAML template (Conversation Flow💬):
 
@@ -210,6 +210,10 @@ if is_sent:
 ## Documentation
 
 Visit the [official documentation](https://docs.page/donnc/wce) for a detailed guide.
+
+## Changelog
+
+Visit the [changelog list](https://github.com/DonnC/pywce/blob/master/CHANGELOG.md)  for a full list of changes.
 
 ## Contributing
 

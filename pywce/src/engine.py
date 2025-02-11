@@ -53,6 +53,8 @@ class Engine:
                 if data:
                     self._TRIGGERS.update(data)
 
+        # _logger.warning("Templates: %s", self._TEMPLATES)
+
     def get_templates(self) -> Dict:
         return self._TEMPLATES
 
@@ -108,7 +110,12 @@ class Engine:
                 webhook_headers=webhook_headers
         ):
             if not self.whatsapp.util.is_valid_webhook_message(webhook_data):
-                _logger.warning("Invalid webhook message, skipping..")
+                if self.config.log_invalid_webhooks is True:
+                    _logger.warning("Invalid webhook message: %s", webhook_data)
+
+                else:
+                    _logger.warning("Invalid webhook message, skipping..")
+
                 return
 
             wa_user = self.whatsapp.util.get_wa_user(webhook_data)

@@ -1,5 +1,5 @@
 # Pywce LiveSupport Portal
-An ehailing WhatsApp chatbot with live support portal powered by [Reflex]()
+An ehailing WhatsApp chatbot with live support portal powered by [Reflex](https://reflex.dev)
 
 > This is a basic live-support project
 
@@ -21,7 +21,7 @@ An ehailing WhatsApp chatbot with live support portal powered by [Reflex]()
 
 `The portal project might misbehave on Windows, try any unix OS`
 
-> Ensure you have redis setup and running
+> Ensure you have **Redis** setup and running
 
 1. Clone this repository
 2. cd into `portal` and install dependencies
@@ -50,6 +50,9 @@ $ python seed.py
 
 $ reflex run
 ```
+
+## Live Support
+To invoke live support after everything runs well, type `human` in the chat.
 
 ## Result
 Backend endpoints

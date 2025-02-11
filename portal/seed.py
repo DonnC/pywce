@@ -1,15 +1,21 @@
+"""
+A script to add few conversation chats in the db
+"""
+
 from datetime import datetime, timedelta
+from random import randint
 
 import reflex as rx
 
-from portal.constants import ChatRole
+from portal.constants import ChatRole, RequestChatState
 from portal.model import Chat, Message
+
 
 def seed_database():
     with rx.session() as session:
         chats = [
-            Chat(sender="263778060126"),
-            Chat(sender="2637790123456"),
+            Chat(sender="263778060126", status=RequestChatState.OPEN),
+            Chat(sender="2637790123456", status=RequestChatState.CLOSED),
             Chat(sender="263770123456")
         ]
 
@@ -43,14 +49,14 @@ def seed_database():
 
         # Add messages with timestamps
         for chat, conversation in zip(chats, conversations):
-            base_time = datetime.now() - timedelta(hours=2)
+            base_time = datetime.now() - timedelta(hours=randint(1, 5))
 
             for i, (sender, content) in enumerate(conversation):
                 message = Message(
                     sender=sender,
                     content=content,
                     chat_id=chat.id,
-                    timestamp=base_time + timedelta(minutes=i * 5)
+                    timestamp=base_time + timedelta(minutes=i * randint(2, 5))
                 )
                 session.add(message)
 
