@@ -1,21 +1,42 @@
+"""
+@author: DonnC
+@project: pywce:chatbot
+@file: main.py
+@updated: 02-2025
+
+This is an example standalone chatbot. Standalone in the sense that it uses pywce as
+a WhatsApp Client Library only, without the engine template-driven superpower.
+"""
+
+import os
+
 import uvicorn
-from fastapi import FastAPI, Request, Response, Query, Depends
+from dotenv import load_dotenv
+from fastapi import FastAPI, Request, Response, Query
 
-from pywce import MessageTypeEnum, pywce_logger, WhatsApp
-from example.standalone_chatbot.dependencies import get_whatsapp_instance
+from pywce import client, pywce_logger
 
-logger = pywce_logger(__name__)
+load_dotenv()
 
 app = FastAPI()
 
+logger = pywce_logger(__name__)
+
+# create a .env and set the appropriate keys
+config = client.WhatsAppConfig(
+    token=os.getenv("ACCESS_TOKEN"),
+    phone_number_id=os.getenv("PHONE_NUMBER_ID"),
+    hub_verification_token=os.getenv("WEBHOOK_HUB_TOKEN")
+)
+whatsapp = client.WhatsApp(config)
+
+
 @app.post("/webhook")
-async def process_webhook(
-        request: Request,
-        whatsapp: WhatsApp = Depends(get_whatsapp_instance)
-) -> Response:
+async def handler(request: Request) -> Response:
     """
-    Handle incoming webhook events from WhatsApp and process them
+        Handle incoming webhook events from WhatsApp and process them
     """
+
     payload = await request.json()
     headers = dict(request.headers)
 
@@ -29,14 +50,13 @@ async def process_webhook(
             response = whatsapp.util.get_response_structure(payload)
             logger.info(f"Webhook response structure: {response}")
 
+            # TODO: implement other types and process them accordingly
             match response.typ:
-                case MessageTypeEnum.TEXT:
+                case client.MessageTypeEnum.TEXT:
                     result = await whatsapp.send_message(
                         recipient_id=_user.wa_id,
                         message=f"You said: {response.body.get('body')}"
                     )
-
-                # TODO: implement other types and process them accordingly
 
                 case _:
                     result = await whatsapp.send_message(
@@ -51,14 +71,13 @@ async def process_webhook(
 
 
 @app.get("/webhook")
-async def verify_webhook(
+async def verifier(
         mode: str = Query(..., alias="hub.mode"),
         token: str = Query(..., alias="hub.verify_token"),
-        challenge: str = Query(..., alias="hub.challenge"),
-        whatsapp: WhatsApp = Depends(get_whatsapp_instance)
+        challenge: str = Query(..., alias="hub.challenge")
 ) -> Response:
     """
-    Verify WhatsApp webhook callback url.
+        Verify WhatsApp webhook callback url challenge.
     """
     result = whatsapp.util.verify_webhook_verification_challenge(
         mode=mode, token=token, challenge=challenge

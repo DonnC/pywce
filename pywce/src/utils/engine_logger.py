@@ -10,7 +10,7 @@ LOGGING_ENABLED = getenv("PYWCE_LOGGER", "True").lower() == "true"
 LOG_COUNT = int(getenv("PYWCE_LOG_COUNT", "3"))
 LOG_SIZE = int(getenv("PYWCE_LOG_SIZE", "5"))
 
-def pywce_logger(name: str = "pywce") -> Logger:
+def pywce_logger(name: str = "pywce", file: bool =True) -> Logger:
     """
     Configures and returns a logger with both console and file logging.
     """
@@ -40,18 +40,19 @@ def pywce_logger(name: str = "pywce") -> Logger:
         }
     )
 
-    file_formatter = json.JsonFormatter(
-        '%(asctime)s [%(levelname)s] [%(name)s] - {%(filename)s:%(lineno)d} %(funcName)s - %(message)s'
-    )
-
     stream_handler = StreamHandler()
     stream_handler.setLevel(DEBUG)
     stream_handler.setFormatter(console_formatter)
     logger.addHandler(stream_handler)
 
-    file_handler = RotatingFileHandler("pywce.log", maxBytes=max_log_size, backupCount=LOG_COUNT)
-    file_handler.setLevel(DEBUG)
-    file_handler.setFormatter(file_formatter)
-    logger.addHandler(file_handler)
+    if file is True:
+        file_formatter = json.JsonFormatter(
+            '%(asctime)s [%(levelname)s] [%(name)s] - {%(filename)s:%(lineno)d} %(funcName)s - %(message)s'
+        )
+
+        file_handler = RotatingFileHandler("pywce.log", maxBytes=max_log_size, backupCount=LOG_COUNT)
+        file_handler.setLevel(DEBUG)
+        file_handler.setFormatter(file_formatter)
+        logger.addHandler(file_handler)
 
     return logger

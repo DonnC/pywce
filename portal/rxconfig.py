@@ -7,7 +7,7 @@ class AppConfig(rx.Config):
 
 config = AppConfig(
     app_name="portal",
-    db_url="sqlite:///pywce_support.db",
+    db_url="sqlite:///pywce.db",
     env=rx.Env.DEV,
     tailwind={
         "theme": {

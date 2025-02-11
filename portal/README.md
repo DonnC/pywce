@@ -1,5 +1,7 @@
 # Pywce LiveSupport Portal
-An out-of-the-box pywce live support portal powered by [Reflex]()
+An ehailing WhatsApp chatbot with live support portal powered by [Reflex](https://reflex.dev)
+
+> This is a basic live-support project
 
 ## Features
 - [x] Request live support from chatbot 
@@ -11,18 +13,25 @@ An out-of-the-box pywce live support portal powered by [Reflex]()
 - [ ] Revamp portal / chat interface
 - [ ] Agent / Admin login
 - [ ] Support multiple agents / admins
-- [ ] Support sending other supported message types e.g media or buttons
+- [ ] Support sending other supported message types e.g. media or buttons
 - [ ] Support replying specific message
-- [ ] Delete persistence messages
 
 ## Setup
-`The project might have issues if running on Windows OS`
+> Checkout [chatbot setup guide](https://github.com/DonnC/pywce?tab=readme-ov-file#setup) for credentials setup
+
+`The portal project might misbehave on Windows, try any unix OS`
+
+> Ensure you have **Redis** setup and running
 
 1. Clone this repository
 2. cd into `portal` and install dependencies
 ```bash
-
 $ pip install -r requirements.txt
+```
+To install the engine, `cd` back to root folder with `setup.py` and do
+```bash
+
+$ pip install -e .
 ```
 3. Initialize db and create migrations
 ```bash
@@ -41,6 +50,17 @@ $ python seed.py
 
 $ reflex run
 ```
+
+## Live Support
+To invoke live support after everything runs well, type `human` in the chat.
+
+## Result
+Backend endpoints
+![image](media/endpoints-1.png)
+
+Basic Portal
+![portal](media/portal-5.png)
+
 
 ## Support
 Thank you, if you like or find my work helpful to you.

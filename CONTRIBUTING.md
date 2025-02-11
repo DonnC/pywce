@@ -1,8 +1,8 @@
-# Contributing to PyWCE
+# Contributing to pywce
 
-Thank you for considering contributing to PyWCE! 
+Thank you for considering contributing to pywce! 
 
-By contributing, you're helping improve a robust tool designed for building WhatsApp chatbots and using WhatsApp Cloud APIs effortlessly.
+By contributing, you're helping improve a robust tool designed for building WhatsApp chatbots of any scale effortlessly.
 
 ---
 
@@ -28,14 +28,18 @@ Ensure you have the following installed before contributing:
    ```
 4. Install dependencies:
    ```bash
-   # engine dependencies
+   # framework dependencies
    pip install -r requirements.txt
    
    # example dependencies
    cd example
    pip install -r requirements.txt
+   
+   # live-support portal dependencies
+   cd portal
+   pip install -r requirements.txt
    ```
-
+    
 5. (Optional) Run tests to ensure your environment is working:
    ```bash
    pytest
@@ -49,16 +53,17 @@ Ensure you have the following installed before contributing:
 If you encounter any bugs, feature requests, or documentation issues, please [open an issue](https://github.com/DonnC/pywce/issues).
 
 ### 2. Suggesting Features
-Feel free to suggest new features or improvements to both:
+Feel free to suggest new features or improvements to:
 - The **WhatsApp client library** (`pywce.whatsapp`) for direct interaction with the API.
-- The **engine** for building chatbots using YAML-defined templates.
+- The **Engine** for the main project building chatbots.
+- The **Portal** for the live-support web
 
 ### 3. Making Changes
 - Before you start coding, create a new branch for your changes:
   ```bash
   git checkout -b feature/my-new-feature
   ```
-- Keep your changes modular and adhere to the existing coding style. 
+- Keep your changes modular and adhere to or improve the existing coding style. 
 - Ensure you add comments where necessary.
 
 ### 4. Running Tests
@@ -106,8 +111,12 @@ The `pywce.whatsapp` module provides direct API integration. If you'd like to ad
 ### Adding New Engine Features
 The engine processes chatbot logic via YAML templates. When adding new engine capabilities:
 - Add corresponding engine logic in corresponding folder under `pywce/src/`.
-- Document new template options or hooks clearly in `README`.
+- Document new template options or hooks clearly in `CHANGELOG` and or `README`.
 
+### Adding New Portal Features
+The live support portal is developed using Reflex. When adding new or revamping the portal:
+- Follow or improve on the existing project structure under `pywce/portal/portal`.
+- Document new features or updates clearly in the `README`.
 ---
 
 ## Getting Help

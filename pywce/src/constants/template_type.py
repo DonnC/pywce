@@ -7,16 +7,26 @@ class TemplateTypeConstants:
     CTA = "cta"
     LIST = "list"
     TEXT = "text"
+    TEMPLATE = "template"
     DYNAMIC = "dynamic"
     MEDIA = "media"
     FLOW = "flow"
     LOCATION = "location"
     REQUEST_LOCATION = "request-location"
 
+    # catalog / products
+    CATALOG = "catalog"
+    SINGLE_PRODUCT = "product"
+    MULTI_PRODUCT = "products"
+
 
 TEMPLATE_TYPE_MAPPING = {
     "button": TemplateTypeConstants.BUTTON,
     "cta": TemplateTypeConstants.CTA,
+    "catalog": TemplateTypeConstants.CATALOG,
+    "product": TemplateTypeConstants.SINGLE_PRODUCT,
+    "products": TemplateTypeConstants.MULTI_PRODUCT,
+    "template": TemplateTypeConstants.TEMPLATE,
     "list": TemplateTypeConstants.LIST,
     "text": TemplateTypeConstants.TEXT,
     "dynamic": TemplateTypeConstants.DYNAMIC,

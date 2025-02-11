@@ -3,9 +3,12 @@ from typing import Dict, Any
 
 import ruamel.yaml
 
+from pywce.modules import client, ISessionManager
+from pywce.src.constants import TemplateTypeConstants, SessionConstants
+from pywce.src.exceptions import LiveSupportHookError, HookError
+from pywce.src.models import EngineConfig, WorkerJob, WhatsAppServiceModel, HookArg
+from pywce.src.services import Worker, WhatsAppService, HookService
 from pywce.src.utils import pywce_logger
-from pywce.src.models import EngineConfig, WorkerJob
-from pywce.src.services import Worker
 
 _logger = pywce_logger(__name__)
 
@@ -50,6 +53,8 @@ class Engine:
                 if data:
                     self._TRIGGERS.update(data)
 
+        # _logger.warning("Templates: %s", self._TEMPLATES)
+
     def get_templates(self) -> Dict:
         return self._TEMPLATES
 
@@ -59,27 +64,103 @@ class Engine:
     def verify_webhook(self, mode, challenge, token):
         return self.whatsapp.util.verify_webhook_verification_challenge(mode, challenge, token)
 
+    async def ls_send_message(self, recipient_id: str, message: str, reply_msg_id: str = None):
+        """
+        Send a quick message to user from Live support portal
+        """
+        user_session: ISessionManager = self.config.session_manager.session(session_id=recipient_id)
+        has_ls_session = user_session.get(session_id=recipient_id, key=SessionConstants.LIVE_SUPPORT)
+
+        if has_ls_session is not None:
+            _template = {
+                "type": "text",
+                "message-id": reply_msg_id,
+                "message": message
+            }
+
+            service_model = WhatsAppServiceModel(
+                template_type=TemplateTypeConstants.TEXT,
+                template=_template,
+                whatsapp=self.whatsapp,
+                user=client.WaUser(wa_id=recipient_id)
+            )
+
+            whatsapp_service = WhatsAppService(model=service_model, validate_template=False)
+            response = await whatsapp_service.send_message(handle_session=False, template=False)
+
+            response_msg_id = self.whatsapp.util.get_response_message_id(response)
+
+            _logger.debug("LS message responded with id: %s", response_msg_id)
+
+            return response_msg_id
+
+        raise LiveSupportHookError(message="No active LiveSupport session for user!")
+
+    def ls_terminate(self, recipient_id: str):
+        user_session: ISessionManager = self.config.session_manager.session(session_id=recipient_id)
+        has_ls_session = user_session.get(session_id=recipient_id, key=SessionConstants.LIVE_SUPPORT)
+
+        if has_ls_session is not None:
+            user_session.evict(session_id=recipient_id, key=SessionConstants.LIVE_SUPPORT)
+            _logger.debug("LS session terminated for: %s", recipient_id)
+
     async def process_webhook(self, webhook_data: Dict[str, Any], webhook_headers: Dict[str, Any]):
         if self.whatsapp.util.verify_webhook_payload(
                 webhook_payload=webhook_data,
                 webhook_headers=webhook_headers
         ):
             if not self.whatsapp.util.is_valid_webhook_message(webhook_data):
-                _logger.warning("Invalid webhook message, skipping..")
+                if self.config.log_invalid_webhooks is True:
+                    _logger.warning("Invalid webhook message: %s", webhook_data)
+
+                else:
+                    _logger.warning("Invalid webhook message, skipping..")
+
                 return
 
-            worker = Worker(
-                job=WorkerJob(
-                    engine_config=self.config,
-                    payload=self.whatsapp.util.get_response_structure(webhook_data),
-                    user=self.whatsapp.util.get_wa_user(webhook_data),
-                    templates=self._TEMPLATES,
-                    triggers=self._TRIGGERS
-                )
-            )
+            wa_user = self.whatsapp.util.get_wa_user(webhook_data)
+            user_session: ISessionManager = self.config.session_manager.session(session_id=wa_user.wa_id)
+            response_model = self.whatsapp.util.get_response_structure(webhook_data)
 
-            # process current webhook request
-            await worker.work()
+            # check if user has running LS session
+            has_ls_session = user_session.get(session_id=wa_user.wa_id, key=SessionConstants.LIVE_SUPPORT)
+
+            if has_ls_session is None:
+                worker = Worker(
+                    job=WorkerJob(
+                        engine_config=self.config,
+                        payload=response_model,
+                        user=wa_user,
+                        templates=self._TEMPLATES,
+                        triggers=self._TRIGGERS,
+                        session_manager=user_session
+                    )
+                )
+                await worker.work()
+
+            else:
+                if self.config.live_support_hook is not None:
+                    try:
+                        # TEXT messages only supported
+                        _arg = HookArg(
+                            session_id=wa_user.wa_id,
+                            session_manager=user_session,
+                            user=wa_user,
+                            user_input=response_model.body.get("body"),
+                            additional_data={}
+                        )
+
+                        HookService.process_hook(
+                            hook_dotted_path=self.config.live_support_hook,
+                            hook_arg=_arg
+                        )
+                        return
+                    except HookError as e:
+                        _logger.critical("Error processing LS hook", exc_info=True)
+                        raise LiveSupportHookError(message=e.message)
+
+                else:
+                    _logger.warning("No LS hook provided, skipping..")
 
         else:
             _logger.warning("Invalid webhook payload")

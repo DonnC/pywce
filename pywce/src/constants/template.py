@@ -40,8 +40,12 @@ class TemplateConstants:
     MESSAGE_BODY = "body"
     MESSAGE_FOOTER = "footer"
     MESSAGE_MEDIA_ID = "id"
-    MESSAGE_MEDIA_URL = "url"
+    MESSAGE_URL = "url"
     MESSAGE_MEDIA_CAPTION = "caption"
     MESSAGE_MEDIA_FILENAME = "filename"
     MESSAGE_BUTTONS = "buttons"
     MESSAGE_SECTIONS = "sections"
+
+    # inner, catalog / product keys
+    MESSAGE_CATALOG_PRODUCT_ID = "product-id"
+    MESSAGE_CATALOG_ID = "catalog-id"

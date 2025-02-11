@@ -3,7 +3,7 @@ from datetime import datetime
 from random import randint
 from typing import Dict, Any, List, Union
 
-from pywce.modules import MessageTypeEnum
+from pywce.modules import client
 from pywce.src.constants import SessionConstants, TemplateConstants, TemplateTypeConstants
 from pywce.src.exceptions import EngineInternalException
 from pywce.src.models import WhatsAppServiceModel
@@ -177,9 +177,122 @@ class WhatsAppService:
             "name": "cta_url",
             "parameters": {
                 "display_text": message.get("button"),
-                "url": message.get("url")
+                "url": message.get(TemplateConstants.MESSAGE_URL)
             }
         }
+
+        return {
+            "recipient_id": self.model.user.wa_id,
+            "message_id": self._message_id(),
+            "payload": data
+        }
+
+    def _single_product_item(self) -> Dict[str, Any]:
+        """
+        Method to create a single product message
+
+        Args:
+               button[dict]: A dictionary containing the product data
+        """
+        data = {"type": "product"}
+
+        assert self.template.get(TemplateConstants.MESSAGE) is not None, "template message is missing"
+
+        message: Dict[str, Any] = self.template.get(TemplateConstants.MESSAGE)
+
+        if message.get(TemplateConstants.MESSAGE_TITLE):
+            data["header"] = {"type": "text", "text": message.get(TemplateConstants.MESSAGE_TITLE)}
+        if message.get(TemplateConstants.MESSAGE_BODY):
+            data["body"] = {"text": message.get(TemplateConstants.MESSAGE_BODY)}
+        if message.get(TemplateConstants.MESSAGE_FOOTER):
+            data["footer"] = {"text": message.get(TemplateConstants.MESSAGE_FOOTER)}
+
+        assert message.get(TemplateConstants.MESSAGE_CATALOG_PRODUCT_ID) is not None, "product id is missing"
+        assert message.get(TemplateConstants.MESSAGE_CATALOG_ID) is not None, "catalog id is missing"
+
+        data["action"] = {
+            "product_retailer_id": message.get(TemplateConstants.MESSAGE_CATALOG_PRODUCT_ID),
+            "catalog_id": message.get(TemplateConstants.MESSAGE_CATALOG_ID)
+        }
+
+        return {
+            "recipient_id": self.model.user.wa_id,
+            "message_id": self._message_id(),
+            "payload": data
+        }
+
+    def _multi_product_item(self) -> Dict[str, Any]:
+        """
+        Method to create a multi product message
+
+        Args:
+               button[dict]: A dictionary containing the product data
+        """
+        data = {"type": "product_list"}
+
+        assert self.template.get(TemplateConstants.MESSAGE) is not None, "template message is missing"
+
+        message: Dict[str, Any] = self.template.get(TemplateConstants.MESSAGE)
+        sections: Dict[str, Dict[str, Dict]] = message.get(TemplateConstants.MESSAGE_SECTIONS)
+
+        if message.get(TemplateConstants.MESSAGE_TITLE):
+            data["header"] = {"type": "text", "text": message.get(TemplateConstants.MESSAGE_TITLE)}
+        if message.get(TemplateConstants.MESSAGE_BODY):
+            data["body"] = {"text": message.get(TemplateConstants.MESSAGE_BODY)}
+        if message.get(TemplateConstants.MESSAGE_FOOTER):
+            data["footer"] = {"text": message.get(TemplateConstants.MESSAGE_FOOTER)}
+
+        assert message.get(TemplateConstants.MESSAGE_CATALOG_ID) is not None, "catalog id is missing"
+
+        action_data = {"catalog_id": message.get(TemplateConstants.MESSAGE_CATALOG_ID)}
+
+        section_data = []
+
+        for section_title, item_list in sections.items():
+            sec_title_data = {"title": section_title}
+            sec_title_items = []
+
+            for item in item_list:
+                sec_title_items.append({"product_retailer_id": item})
+
+            sec_title_data["product_items"] = sec_title_items
+
+            section_data.append(sec_title_data)
+
+        action_data["sections"] = section_data
+        data["action"] = action_data
+
+        return {
+            "recipient_id": self.model.user.wa_id,
+            "message_id": self._message_id(),
+            "payload": data
+        }
+
+    def _catalog(self) -> Dict[str, Any]:
+        """
+        Method to create a View Catalog message
+
+        Args:
+               button[dict]: A dictionary containing the catalog data
+        """
+        data = {"type": "catalog_message"}
+        message: Dict[str, Any] = self.template.get(TemplateConstants.MESSAGE)
+
+        if message.get(TemplateConstants.MESSAGE_TITLE):
+            data["header"] = {"type": "text", "text": message.get(TemplateConstants.MESSAGE_TITLE)}
+        if message.get(TemplateConstants.MESSAGE_BODY):
+            data["body"] = {"text": message.get(TemplateConstants.MESSAGE_BODY)}
+        if message.get(TemplateConstants.MESSAGE_FOOTER):
+            data["footer"] = {"text": message.get(TemplateConstants.MESSAGE_FOOTER)}
+
+        action_data = {"name": "catalog_message"}
+
+        if message.get(TemplateConstants.MESSAGE_CATALOG_PRODUCT_ID):
+            action_data["parameters"] = {
+                "thumbnail_product_retailer_id": message.get(TemplateConstants.MESSAGE_CATALOG_PRODUCT_ID)
+            }
+
+        data["action"] = action_data
 
         return {
             "recipient_id": self.model.user.wa_id,
@@ -191,7 +304,7 @@ class WhatsAppService:
         data = {"type": "list"}
 
         message: Dict[str, Any] = self.template.get(TemplateConstants.MESSAGE)
-        sections: Dict[str, Dict[str, Dict]] = message.get("sections")
+        sections: Dict[str, Dict[str, Dict]] = message.get(TemplateConstants.MESSAGE_SECTIONS)
 
         if message.get(TemplateConstants.MESSAGE_TITLE):
             data["header"] = {"type": "text", "text": message.get(TemplateConstants.MESSAGE_TITLE)}
@@ -289,23 +402,23 @@ class WhatsAppService:
         """
 
         MEDIA_MAPPING = {
-            "image": MessageTypeEnum.IMAGE,
-            "video": MessageTypeEnum.VIDEO,
-            "audio": MessageTypeEnum.AUDIO,
-            "document": MessageTypeEnum.DOCUMENT,
-            "sticker": MessageTypeEnum.STICKER
+            "image": client.MessageTypeEnum.IMAGE,
+            "video": client.MessageTypeEnum.VIDEO,
+            "audio": client.MessageTypeEnum.AUDIO,
+            "document": client.MessageTypeEnum.DOCUMENT,
+            "sticker": client.MessageTypeEnum.STICKER
         }
 
         message: Dict[str, Any] = self.template.get(TemplateConstants.MESSAGE)
 
         data = {
             "recipient_id": self.model.user.wa_id,
-            "media": message.get(TemplateConstants.MESSAGE_MEDIA_ID, message.get(TemplateConstants.MESSAGE_MEDIA_URL)),
+            "media": message.get(TemplateConstants.MESSAGE_MEDIA_ID, message.get(TemplateConstants.MESSAGE_URL)),
             "media_type": MEDIA_MAPPING.get(message.get(TemplateConstants.TEMPLATE_TYPE)),
             "caption": message.get(TemplateConstants.MESSAGE_MEDIA_CAPTION),
             "filename": message.get(TemplateConstants.MESSAGE_MEDIA_FILENAME),
             "message_id": self._message_id(),
-            "link": message.get(TemplateConstants.MESSAGE_MEDIA_URL) is not None
+            "link": message.get(TemplateConstants.MESSAGE_URL) is not None
         }
 
         return data
@@ -333,18 +446,38 @@ class WhatsAppService:
 
         return data
 
+    def _dynamic(self):
+        """
+        Call template hook and expect template message in hook.template_body.render_template_payload
+
+        Given the dynamic body type in hook.template_body.typ
+
+        The dynamic method must process the payload and sent it
+        """
+        assert self.template.get(TemplateConstants.TEMPLATE), "template hook is missing"
+
+        response = HookService.process_hook(hook_dotted_path=self.template.get(TemplateConstants.TEMPLATE),
+                                            hook_arg=self.model.hook_arg)
+
+        _logger.debug("Dynamic template response: %s", response)
+
+        # TODO: implement dynamic
+
+        match response.template_body.typ:
+            case client.MessageTypeEnum.TEXT:
+                pass
+
     async def send_message(self, handle_session: bool = True, template: bool = True) -> Dict[str, Any]:
         """
         :param handle_session:
         :param template: process as engine template message else, bypass engine logic
         :return:
         """
-        self._process_template_hook(
-            skip=self.model.template_type == TemplateTypeConstants.FLOW or \
-                 self.model.template_type == TemplateTypeConstants.DYNAMIC
-        )
-
-        response: Dict = {}
+        if template is True:
+            self._process_template_hook(
+                skip=self.model.template_type == TemplateTypeConstants.FLOW or \
+                     self.model.template_type == TemplateTypeConstants.DYNAMIC
+            )
 
         match self.model.template_type:
             case TemplateTypeConstants.TEXT:
@@ -355,6 +488,15 @@ class WhatsAppService:
 
             case TemplateTypeConstants.CTA:
                 response = await self.model.whatsapp.send_interactive(**self._cta())
+
+            case TemplateTypeConstants.CATALOG:
+                response = await self.model.whatsapp.send_interactive(**self._catalog())
+
+            case TemplateTypeConstants.SINGLE_PRODUCT:
+                response = await self.model.whatsapp.send_interactive(**self._single_product_item())
+
+            case TemplateTypeConstants.MULTI_PRODUCT:
+                response = await self.model.whatsapp.send_interactive(**self._multi_product_item())
 
             case TemplateTypeConstants.LIST:
                 response = await self.model.whatsapp.send_interactive(**self._list())
@@ -375,7 +517,9 @@ class WhatsAppService:
                 raise EngineInternalException(message="Failed to generate whatsapp payload",
                                               data=self.model.next_stage)
 
-        if self.model.whatsapp.util.was_request_successful(recipient_id=self.model.user.wa_id, response_data=response):
+        if template is True or \
+                self.model.whatsapp.util.was_request_successful(recipient_id=self.model.user.wa_id,
+                                                                response_data=response):
             if handle_session is True:
                 session = self.model.hook_arg.session_manager
                 session_id = self.model.user.wa_id

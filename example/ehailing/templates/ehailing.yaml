@@ -1,34 +1,43 @@
-# an example chatbot stage test_templates
-# the test_templates can be separated into different files for easy management
-# stage names can be numbers or any supported YAML data type
-
-"EM-START-MENU":
+"START-MENU":
   type: button
-  checkpoint: true
+  template: "example.ehailing.hooks.name_template.username"
   message:
-    title: PyWCE
+    title: Greetings
     body: |
-      Welcome to Pywce local emulator test templates
-      Lets get going 😀
-    buttons:
-      - Start
-  routes:
-    "proceed": "EM-GREETING-STAGE"
-
-"EM-GREETING-STAGE":
-  type: button
-  template: "example.engine_chatbot.hooks.name_template.username"
-  checkpoint: true
-  message:
-    title: PickDrive
-    body: "Hi {{ name }}, I'm PickDrive assistant.\n\nTo start, click the button below"
+      Hi {{ name }}, Enjoy an innovative template-driven framework for chatbot development.
+      
+      Select your next action!
     footer: pywce
     buttons:
-      - Proceed
+      - eHailing Bot
+      - Developer Profile
   routes:
-    "proceed": "EM-PICKUP-DRIVE-MAIN-MENU"
+    "ehailing bot": "PROJECT-MENU"
+    "developer profile": "GITHUB-PROFILE"
 
-"EM-PICKUP-DRIVE-MAIN-MENU":
+"GITHUB-PROFILE":
+  type: cta
+  message:
+    title: "Support"
+    body: "View my GitHub profile, projects and star, fork, share, contribute or support 🙈"
+    url: "https://github.com/DonnC"
+    button: "GitHub"
+  routes:
+    "re:.*": "START-MENU"
+
+"PROJECT-MENU":
+  type: button
+  checkpoint: true
+  message:
+    title: eHailing Chatbot
+    body: "Hi {{ s.username }}, I'm a PoC eHailing PickDrive assistant.\n\nTo begin, click the button below"
+    footer: pywce
+    buttons:
+      - Begin
+  routes:
+    "begin": "PICKUP-DRIVE-MAIN-MENU"
+
+"PICKUP-DRIVE-MAIN-MENU":
   type: button
   prop: ride_type
   message:
@@ -40,43 +49,42 @@
       - Standard
       - Luxury
   routes:
-    "re:.*": "EM-PICKUP-LOCATION"
+    "re:.*": "PICKUP-LOCATION"
 
-"EM-PICKUP-LOCATION":
-  type: text
-  prop: pickup_point
+"PICKUP-LOCATION":
+  type: request-location
   message: "Where would you like to be picked from?"
   routes:
-    "re:.*": "EM-DESTINATION-LOCATION"
+    "re:.*": "DESTINATION-LOCATION"
 
-"EM-DESTINATION-LOCATION":
-  type: text
-  prop: destination
+"DESTINATION-LOCATION":
+  type: request-location
+  on-receive: "example.ehailing.hooks.location.save_destination"
   message: "Where would you like to go?"
   routes:
-    "re:.*": "EM-RIDE-OFFER"
+    "re:.*": "RIDE-OFFER"
 
-"EM-RIDE-OFFER":
+"RIDE-OFFER":
   type: button
   message:
     title: Ride Fee
-    body: "Your ride fee to your destination is USD $3.50\nYou will arrive in approx ~ 8mins"
+    body: "Your ride fee to your destination is USD $3.50\n🕑You will arrive in approx ~ 3mins"
     footer: pywce
     buttons:
       - Accept
       - Counter Offer
   routes:
-    "accept": "EM-RIDE-COMMENT"
-    "counter offer": "EM-RIDE-COUNTER-OFFER"
+    "accept": "RIDE-COMMENT"
+    "counter offer": "RIDE-COUNTER-OFFER"
 
-"EM-RIDE-COMMENT":
+"RIDE-COMMENT":
   type: text
   prop: ride_comments
   message: "Provide additional info to the driver"
   routes:
-    "re:.*": "EM-AVAILABLE-DRIVERS"
+    "re:.*": "AVAILABLE-DRIVERS"
 
-"EM-AVAILABLE-DRIVERS":
+"AVAILABLE-DRIVERS":
   type: list
   message:
     title: Available Drivers
@@ -102,14 +110,11 @@
           title: Mr Smith | $3.00
           description: Toyota Vitz, 320m - (3.2) ⭐
   routes:
-    "0": "EM-CONFIRM-OFFER"
-    "1": "EM-CONFIRM-OFFER"
-    # or use a match all regex
-    "re:.*": "EM-CONFIRM-OFFER"
+    "re:.*": "CONFIRM-OFFER"
 
-"EM-CONFIRM-OFFER":
+"CONFIRM-OFFER":
   type: button
-  on-receive: "example.engine_chatbot.hooks.capture_ride.capture"
+  on-receive: "example.ehailing.hooks.capture_ride.capture"
   message:
     title: PickDrive Ride
     body: |
@@ -124,16 +129,16 @@
       - Confirm
       - Abort
   routes:
-    "confirm": "EM-DRIVER-COMMAND-COME"
-    "abort": "EM-START-MENU"
+    "confirm": "DRIVER-COMMAND-COME"
+    "abort": "PICKUP-DRIVE"
 
-"EM-DRIVER-COMMAND-COME":
+"DRIVER-COMMAND-COME":
   type: button
   message:
     title: PickDrive
     body: "Driver is coming to your location now!"
     footer: pywce
     buttons:
-      - Done
+      - Rate
   routes:
-    "rate": "EM-START-MENU"
+    "rate": "REPORT"

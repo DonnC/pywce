@@ -3,7 +3,8 @@ from random import randint
 from time import time
 from typing import List, Dict, Any, Tuple
 
-from pywce.modules import ISessionManager, MessageTypeEnum
+from pywce import HookArg
+from pywce.modules import ISessionManager, client
 from pywce.src.constants import *
 from pywce.src.exceptions import *
 from pywce.src.models import WorkerJob, WhatsAppServiceModel, QuickButtonModel
@@ -27,7 +28,7 @@ class Worker:
         self.payload = job.payload
         self.user = job.user
         self.session_id = self.user.wa_id
-        self.session: ISessionManager = job.engine_config.session_manager.session(self.session_id)
+        self.session: ISessionManager = self.job.session_manager
 
     def _get_message_queue(self) -> List:
         return self.session.get(session_id=self.session_id, key=SessionConstants.MESSAGE_HISTORY) or []
@@ -188,11 +189,14 @@ class Worker:
             }
         }
 
+        _logger.warning("Sending quick button to user..")
+
         service_model = WhatsAppServiceModel(
             template_type=TemplateTypeConstants.BUTTON,
             template=_template,
             whatsapp=_client,
-            user=self.user
+            user=self.user,
+            hook_arg=HookArg(user=self.user)
         )
 
         whatsapp_service = WhatsAppService(model=service_model, validate_template=False)
@@ -238,7 +242,7 @@ class Worker:
             _logger.warning(f"Skipping old webhook request. {self.payload.body} Discarding...")
             return
 
-        if self.job.payload.typ == MessageTypeEnum.UNKNOWN or self.job.payload.typ == MessageTypeEnum.UNSUPPORTED:
+        if self.job.payload.typ == client.MessageTypeEnum.UNKNOWN or self.job.payload.typ == client.MessageTypeEnum.UNSUPPORTED:
             _logger.warning(f"Received unknown | unsupported message: {self.user.wa_id}")
             return
 

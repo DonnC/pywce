@@ -1,6 +1,6 @@
 from typing import Dict, Tuple, Any, Union
 
-from pywce.modules import ISessionManager, MessageTypeEnum
+from pywce.modules import ISessionManager, client
 from pywce.src.constants import EngineConstants, SessionConstants, TemplateConstants
 from pywce.src.exceptions import EngineInternalException, EngineResponseException
 from pywce.src.models import WorkerJob, HookArg
@@ -115,11 +115,11 @@ class MessageProcessor:
         """
 
         match self.payload.typ:
-            case MessageTypeEnum.TEXT:
+            case client.MessageTypeEnum.TEXT:
                 self.USER_INPUT = (self.payload.body.get("body"), None)
                 self._check_if_trigger(self.USER_INPUT[0])
 
-            case MessageTypeEnum.BUTTON | MessageTypeEnum.INTERACTIVE_BUTTON | MessageTypeEnum.INTERACTIVE_LIST:
+            case client.MessageTypeEnum.BUTTON | client.MessageTypeEnum.INTERACTIVE_BUTTON | client.MessageTypeEnum.INTERACTIVE_LIST:
                 if "text" in self.payload.body:
                     self.USER_INPUT = (self.payload.body.get("text"), None)
                     self._check_if_trigger(self.USER_INPUT[0])
@@ -128,16 +128,16 @@ class MessageProcessor:
                     self.USER_INPUT = (str(self.payload.body.get("id")), self.payload.body)
                     self._check_if_trigger(self.USER_INPUT[0])
 
-            case MessageTypeEnum.LOCATION:
+            case client.MessageTypeEnum.LOCATION:
                 self.USER_INPUT = (None, self.payload.body)
 
-            case MessageTypeEnum.INTERACTIVE:
+            case client.MessageTypeEnum.INTERACTIVE:
                 self.USER_INPUT = (None, self.payload.body)
 
-            case MessageTypeEnum.IMAGE | MessageTypeEnum.STICKER | MessageTypeEnum.DOCUMENT | MessageTypeEnum.AUDIO | MessageTypeEnum.VIDEO:
+            case client.MessageTypeEnum.IMAGE | client.MessageTypeEnum.STICKER | client.MessageTypeEnum.DOCUMENT | client.MessageTypeEnum.AUDIO | client.MessageTypeEnum.VIDEO:
                 self.USER_INPUT = (None, self.payload.body)
 
-            case MessageTypeEnum.INTERACTIVE_FLOW:
+            case client.MessageTypeEnum.INTERACTIVE_FLOW:
                 self.USER_INPUT = (None, self.payload.body)
 
             case _:
@@ -266,6 +266,7 @@ class MessageProcessor:
         self._check_save_checkpoint()
 
         self.HOOK_ARG = HookArg(
+            session_id=self.session_id,
             session_manager=self.session,
             user=self.user,
             user_input=self.USER_INPUT[0],

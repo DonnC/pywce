@@ -12,9 +12,10 @@ from typing import Dict, Any, List, Union
 from httpx import AsyncClient
 
 from pywce.modules.whatsapp.config import WhatsAppConfig
-from pywce.modules.whatsapp.model import MessageTypeEnum, WaUser, ResponseStructure
-from pywce.src.utils.engine_logger import pywce_logger
 from pywce.modules.whatsapp.message_utils import MessageUtils
+from pywce.modules.whatsapp.model import MessageTypeEnum, WaUser, ResponseStructure
+from pywce.src.exceptions import PywceException
+from pywce.src.utils.engine_logger import pywce_logger
 
 _logger = pywce_logger(__name__)
 
@@ -111,7 +112,7 @@ class WhatsApp:
         return await self._send_request(message_type='Reaction', recipient_id=recipient_id, data=data)
 
     async def send_template(self, recipient_id: str, template: str, components: List[Dict], message_id: str = None,
-                            lang: str = "en_US"):
+                            category: str = None, lang: str = "en_US"):
         """
         Asynchronously sends a template message to a WhatsApp user. Templates can be:
             1. Text template
@@ -132,12 +133,18 @@ class WhatsApp:
             "messaging_product": "whatsapp",
             "to": recipient_id,
             "type": "template",
-            "template": {
-                "name": template,
-                "language": {"code": lang},
-                "components": components,
-            },
         }
+
+        template_data = {
+            "name": template,
+            "language": {"code": lang},
+            "components": components,
+        }
+
+        if category is not None:
+            template_data["category"] = category
+
+        data["template"] = template_data
 
         if message_id is not None:
             data["context"] = {"message_id": message_id}
@@ -350,7 +357,7 @@ class WhatsApp:
         def verify_webhook_payload(self, webhook_payload: Dict, webhook_headers: Dict) -> bool:
             # TODO: perform request header hub signature verification
             if self._HUB_SIGNATURE_HEADER_KEY not in webhook_headers:
-                raise Exception("Unsecure webhook payload received")
+                raise PywceException("Unsecure webhook payload received")
 
             return True
 
