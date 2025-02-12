@@ -3,7 +3,9 @@
 A framework for creating WhatsApp chatbots of any scale using a template-driven approach - 
 allowing you to define conversation flows and business logic in a clean and modular way. 
 
-It decouples the engine from the WhatsApp client library, allowing developers to use them independently or together. 
+> [!NOTE]
+> Template engine and WhatsApp client library are decoupled - allowing you to use them independently or together. 
+
 
 ## Features
 
@@ -17,13 +19,19 @@ It decouples the engine from the WhatsApp client library, allowing developers to
 
 ## Installation
 ```bash
+
 pip install pywce
 ```
+
+
+---
 
 ## Why pywce
 Most WhatsApp chatbot tutorials or libraries just scraps the surface, only sending a few message or handling simple logic or are client libraries only.
 
 This library gives you a full-blown framework for chatbots of any scale allowing you access to full package of whatsapp client library and chatbot development framework.
+
+---
 
 ## Setup
 ### WhatsApp
@@ -32,7 +40,7 @@ Follow the complete step by step WhatsApp Cloud API guide below.
 [![WhatsApp Cloud API Complete Setup Guide](https://img.youtube.com/vi/Y8kihPdCI_U/0.jpg)](https://www.youtube.com/watch?v=Y8kihPdCI_U)
 
 Important settings needed for this framework
-1. Phone number ID (be it test number or live number) - 
+1. Phone number ID (be it test number or live number)
 2. Access Token (Temporary or permanent)
 3. Webhook callback verification token of your choice
 
@@ -81,7 +89,9 @@ engine_instance = Engine(config=engine_config)
 ## Example ChatBot
 Here's a simple example template to get you started:
 
-_Checkout complete example of [e-hailing chatbot](https://github.com/DonnC/pywce/blob/master/example/engine_chatbot/main.py)_
+> [!NOTE]
+> _Checkout complete working example of [e-hailing chatbot](https://github.com/DonnC/pywce/blob/master/example/engine_chatbot/main.py)_
+
 
 1. Define YAML template (Conversation Flow💬):
 
@@ -134,9 +144,7 @@ async def webhook_event(payload: Dict, headers: Dict) -> None:
     """
     Process webhook event in the background using pywce engine.
     """
-    print("Received webhook event, processing..")
-    await engine_instance.ep_process_webhook(webhook_data=payload, webhook_headers=headers)
-
+    await engine_instance.process_webhook(payload, headers)
 
 @app.post("/chatbot/webhook")
 async def process_webhook(request: Request, background_tasks: BackgroundTasks):
@@ -155,19 +163,20 @@ async def process_webhook(request: Request, background_tasks: BackgroundTasks):
 ```
 
 ### Run ChatBot
-If you run your or the example projects successfully, your webhook url will be available on `your-backend-url/chatbot/webhook`.
+If you run your project or the example projects successfully, your webhook url will be available on `localhost:port/chatbot/webhook`.
 
 _You can use `ngrok` or any service to tunnel your local service_
 
 You can then configure the endpoint in Webhook section on  Meta developer portal.
 
 ## Live Support 
-Engine comes with default live support /  human interaction portal out-of-the-box powered by [Reflex](https://reflex.dev/)
+Engine comes with a default basic live support /  human interaction portal out-of-the-box powered by [Reflex](https://reflex.dev/)
 
 Check out [Live Support Portal](https://github.com/DonnC/pywce/tree/feat/live-support/portal)
 
 ## WhatsApp Client Library
-_You can use pywce as a standalone whatsapp client library. See [Example](https://github.com/DonnC/pywce/blob/master/example/standalone_chatbot/main.py)_
+> [!NOTE]
+> _You can use pywce as a standalone whatsapp client library. See [Example](https://github.com/DonnC/pywce/blob/master/example/standalone_chatbot/main.py)_
 
 PyWCE provides a simple, Pythonic interface to interact with the WhatsApp Cloud API:
 

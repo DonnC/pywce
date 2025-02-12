@@ -5,7 +5,7 @@ import ruamel.yaml
 
 from pywce.modules import client, ISessionManager
 from pywce.src.constants import TemplateTypeConstants, SessionConstants
-from pywce.src.exceptions import LiveSupportHookError, HookError
+from pywce.src.exceptions import LiveSupportHookError, HookError, EngineException
 from pywce.src.models import EngineConfig, WorkerJob, WhatsAppServiceModel, HookArg
 from pywce.src.services import Worker, WhatsAppService, HookService
 from pywce.src.utils import pywce_logger
@@ -24,9 +24,6 @@ class Engine:
         self._load_resources()
 
     def _load_resources(self):
-        """
-        Load all YAML files once from a directory and merge them into a single dictionary.
-        """
         self._TEMPLATES.clear()
         self._TRIGGERS.clear()
 
@@ -36,7 +33,7 @@ class Engine:
         trigger_path = Path(self.config.trigger_dir)
 
         if not template_path.is_dir() or not trigger_path.is_dir():
-            raise ValueError(f"Template or trigger dir provided is not a valid directory")
+            raise EngineException("Template or trigger dir provided is not a valid directory")
 
         _logger.debug(f"Loading templates from dir: {template_path}")
 
@@ -53,8 +50,6 @@ class Engine:
                 if data:
                     self._TRIGGERS.update(data)
 
-        # _logger.warning("Templates: %s", self._TEMPLATES)
-
     def get_templates(self) -> Dict:
         return self._TEMPLATES
 
@@ -63,6 +58,14 @@ class Engine:
 
     def verify_webhook(self, mode, challenge, token):
         return self.whatsapp.util.verify_webhook_verification_challenge(mode, challenge, token)
+
+    def ls_terminate(self, recipient_id: str):
+        user_session: ISessionManager = self.config.session_manager.session(session_id=recipient_id)
+        has_ls_session = user_session.get(session_id=recipient_id, key=SessionConstants.LIVE_SUPPORT)
+
+        if has_ls_session is not None:
+            user_session.evict(session_id=recipient_id, key=SessionConstants.LIVE_SUPPORT)
+            _logger.debug("LS session terminated for: %s", recipient_id)
 
     async def ls_send_message(self, recipient_id: str, message: str, reply_msg_id: str = None):
         """
@@ -82,7 +85,8 @@ class Engine:
                 template_type=TemplateTypeConstants.TEXT,
                 template=_template,
                 whatsapp=self.whatsapp,
-                user=client.WaUser(wa_id=recipient_id)
+                user=client.WaUser(wa_id=recipient_id),
+                hook_arg=HookArg(user=client.WaUser(wa_id=recipient_id))
             )
 
             whatsapp_service = WhatsAppService(model=service_model, validate_template=False)
@@ -96,13 +100,6 @@ class Engine:
 
         raise LiveSupportHookError(message="No active LiveSupport session for user!")
 
-    def ls_terminate(self, recipient_id: str):
-        user_session: ISessionManager = self.config.session_manager.session(session_id=recipient_id)
-        has_ls_session = user_session.get(session_id=recipient_id, key=SessionConstants.LIVE_SUPPORT)
-
-        if has_ls_session is not None:
-            user_session.evict(session_id=recipient_id, key=SessionConstants.LIVE_SUPPORT)
-            _logger.debug("LS session terminated for: %s", recipient_id)
 
     async def process_webhook(self, webhook_data: Dict[str, Any], webhook_headers: Dict[str, Any]):
         if self.whatsapp.util.verify_webhook_payload(

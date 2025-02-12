@@ -1,3 +1,5 @@
+from pywce import HookArg
+
 ## [1.0.0] - Jan 2025.
 
 * Initial release.
@@ -9,7 +11,7 @@
 
 Decorator enables hook caching
 
-This enhance developer productivity and provides future support like hook metrics and performance
+This enhances developer productivity and provides future support like hook metrics and performance
 
 ```python
 from pywce import hook, HookArg, TemplateDynamicBody
@@ -53,18 +55,6 @@ def username(arg: HookArg) -> HookArg:
 
 ## [1.0.4] - Feb 2025
 * Simplify example projects
-* [WhatsApp template messages](https://developers.facebook.com/docs/whatsapp/business-management-api/message-templates) now supported - `template` hook is required to set whatsapp template message
-
-Note that `template` hook is required for template message types
-```yaml
-"WHATSAPP-TEMPLATE-MESSAGE":
-  type: template
-  template: "dotted.path.to.template.hook"
-  message: "{{ body }}"
-  routes:
-    "re:.*": "NEXT-ROUTE"
-```
-
 * Support for [catalog, single and multi product](https://developers.facebook.com/docs/whatsapp/cloud-api/guides/sell-products-and-services/share-products) messages
 ```yaml
 # catalog message
@@ -103,5 +93,82 @@ Note that `template` hook is required for template message types
         - "product-id-4"
   routes:
     "re:.*": "START-MENU"
+```
+
+## [1.0.5] - Feb 2025
+* [WhatsApp template messages](https://developers.facebook.com/docs/whatsapp/business-management-api/message-templates) now supported - `template` hook is required to set whatsapp template message
+
+Note that `template` hook is required for template message types
+
+It should return template list of components e.g.
+
+```python
+# dotted.path.to.template.hook.py
+from pywce import hook, HookArg, EngineConstants, TemplateDynamicBody
+
+@hook
+def whatsapp_template_hook(arg: HookArg):
+    # TODO: handle business logic
+
+    # add your list of dict entries matching your template
+    template_components = []
+
+    arg.template_body = TemplateDynamicBody(render_template_payload={EngineConstants.WHATSAPP_TEMPLATE_KEY: template_components})
+
+    return arg
+```
+
+```yaml
+"WHATSAPP-TEMPLATE-MESSAGE":
+  type: template
+  template: "dotted.path.to.template.hook.whatsapp_template_hook"
+  message:
+    name: "<your-template-name>"
+    language: "your-template-lang"    # default to en_US
+  routes:
+    "re:.*": "NEXT-ROUTE"
+```
+
+* Added support for dynamic message processing
+
+Note that `template` hook is required for dynamic message types.
+
+Dynamic template can render any supported pywce message type.
+
+> [!NOTE]
+> Hook should return a dict that matches any supported message, message attribute structure
+
+```python
+# dotted.path.to.template.hook.py
+from pywce import hook, HookArg, TemplateTypeConstants, TemplateDynamicBody
+
+
+@hook
+def dynamic_message(arg: HookArg):
+    # TODO: handle business logic
+
+    # an example dynamic CTA button message
+    cta_btn_message = dict(
+        title="Developer Profile",
+        body="Check out my updated github profile",
+        url="https://github.com/DonnC",
+        button="GitHub"
+    )
+
+    arg.template_body = TemplateDynamicBody(
+        typ=TemplateTypeConstants.CTA,
+        render_template_payload=cta_btn_message
+    )
+
+    return arg
+```
+
+```yaml
+"DYNAMIC-MESSAGE":
+  type: dynamic
+  template: "dotted.path.to.template.hook.dynamic_message"
+  message: "{{ body }}"
+  routes:
+    "re:.*": "NEXT-ROUTE"
 ```
 

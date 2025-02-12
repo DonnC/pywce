@@ -1,7 +1,8 @@
 # Pywce LiveSupport Portal
 An ehailing WhatsApp chatbot with live support portal powered by [Reflex](https://reflex.dev)
 
-> This is a basic live-support project
+> [!WARNING]
+> This is a WIP, basic live-support portal.
 
 ## Features
 - [x] Request live support from chatbot 
@@ -17,6 +18,7 @@ An ehailing WhatsApp chatbot with live support portal powered by [Reflex](https:
 - [ ] Support replying specific message
 
 ## Setup
+> [!IMPORTANT]  
 > Checkout [chatbot setup guide](https://github.com/DonnC/pywce?tab=readme-ov-file#setup) for credentials setup
 
 `The portal project might misbehave on Windows, try any unix OS`

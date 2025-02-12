@@ -20,7 +20,7 @@ class EngineUtil:
         return re.findall(pattern, value)
 
     @staticmethod
-    def process_template(template: Any, context: Dict) -> Any:
+    def render_template(template: Any, context: Dict) -> Any:
         """
         Render the template using Jinja2 after special variables are replaced.
         """
@@ -33,9 +33,9 @@ class EngineUtil:
                 return value
 
             if isinstance(template, dict):
-                return {key: EngineUtil.process_template(value, context) for key, value in template.items()}
+                return {key: EngineUtil.render_template(value, context) for key, value in template.items()}
             elif isinstance(template, list):
-                return [EngineUtil.process_template(item, context) for item in template]
+                return [EngineUtil.render_template(item, context) for item in template]
             else:
                 return render_with_jinja(template)
 

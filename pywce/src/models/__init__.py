@@ -64,7 +64,7 @@ class TemplateDynamicBody:
         :var render_template_payload: `for dynamic templates` -> the dynamic message template body
                                         `for template templates` -> the template dynamic variables to prefill
     """
-    typ: client.MessageTypeEnum = None
+    typ: TemplateTypeConstants = None
     initial_flow_payload: Dict[str, Any] = None
     render_template_payload: Dict[str, Any] = None
 
