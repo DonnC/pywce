@@ -6,7 +6,7 @@ Engine custom exceptions
 """
 
 
-class PywceException(Exception):
+class EngineException(Exception):
     def __init__(self, message, data=None):
         super().__init__(message)
         self.message = message
@@ -16,7 +16,7 @@ class PywceException(Exception):
         return f"[{self.__class__.__str__}] Message: {self.message} | Data: {self.data}"
 
 
-class EngineInternalException(PywceException):
+class EngineInternalException(EngineException):
     def __init__(self, message, data=None):
         super().__init__(message, data)
 
@@ -29,17 +29,17 @@ class LiveSupportHookError(EngineInternalException):
         super().__init__(message, data)
 
 
-class TemplateRenderException(PywceException):
+class TemplateRenderException(EngineException):
     def __init__(self, message):
         super().__init__(message)
 
 
-class EngineResponseException(PywceException):
+class EngineResponseException(EngineException):
     def __init__(self, message, data=None):
         super().__init__(message, data)
 
 
-class EngineSessionException(PywceException):
+class EngineSessionException(EngineException):
     def __init__(self, message):
         super().__init__(message)
 

@@ -9,8 +9,7 @@ from pywce.src.constants import *
 from pywce.src.exceptions import *
 from pywce.src.models import WorkerJob, WhatsAppServiceModel, QuickButtonModel
 from pywce.src.services import MessageProcessor, WhatsAppService
-from pywce.src.utils import EngineUtil
-from pywce.src.utils.engine_logger import pywce_logger
+from pywce.src.utils import EngineUtil, pywce_logger
 
 _logger = pywce_logger(__name__)
 
@@ -170,7 +169,7 @@ class Worker:
 
         return next_template_stage, next_template
 
-    async def send_quick_btn_message(self, payload: QuickButtonModel) -> None:
+    async def send_quick_btn_message(self, payload: QuickButtonModel):
         """
         Helper method to send a quick button to the user
         without handling engine session logic
@@ -205,6 +204,8 @@ class Worker:
         response_msg_id = _client.util.get_response_message_id(response)
 
         _logger.debug("Quick button message responded with id: %s", response_msg_id)
+
+        return response_msg_id
 
     async def _runner(self):
         processor = MessageProcessor(data=self.job)
@@ -242,7 +243,8 @@ class Worker:
             _logger.warning(f"Skipping old webhook request. {self.payload.body} Discarding...")
             return
 
-        if self.job.payload.typ == client.MessageTypeEnum.UNKNOWN or self.job.payload.typ == client.MessageTypeEnum.UNSUPPORTED:
+        if self.job.payload.typ == client.MessageTypeEnum.UNKNOWN or \
+                self.job.payload.typ == client.MessageTypeEnum.UNSUPPORTED:
             _logger.warning(f"Received unknown | unsupported message: {self.user.wa_id}")
             return
 

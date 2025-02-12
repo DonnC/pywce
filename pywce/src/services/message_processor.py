@@ -17,10 +17,10 @@ class MessageProcessor:
         Processes all template hooks
     """
     CURRENT_TEMPLATE: Dict
-    IS_FIRST_TIME: bool = False
-    IS_FROM_TRIGGER: bool = False
     CURRENT_STAGE: str
     HOOK_ARG: HookArg
+    IS_FIRST_TIME: bool = False
+    IS_FROM_TRIGGER: bool = False
 
     # (input: str, data: dict)
     USER_INPUT: Tuple[Any, Any]
@@ -80,7 +80,7 @@ class MessageProcessor:
                 if EngineUtil.is_regex_pattern_match(EngineUtil.extract_pattern(_pattern), possible_trigger_input):
                     if self._is_stage_in_repository(_stage) is False:
                         raise EngineInternalException(
-                            message="Template stage not found in template context map",
+                            message="Triggered template stage not found in template context map",
                             data=_stage
                         )
 
@@ -96,22 +96,18 @@ class MessageProcessor:
 
     def _get_message_body(self) -> None:
         """
-        for type that cannot be processed easily e.g.
-        MEDIA, LOCATION_REQUEST & FLOW, the raw response data will be available under
-        USER_INPUT[1] &
-        HookArg.additional_data
-        but HookArg.user_input will be None
+        Extracts message body from webhook
 
-        else, the user selection or input will be available under
-        USER_INPUT[0]
-        HookArg.user_input
+        For type that cannot be processed easily e.g. MEDIA, LOCATION_REQUEST & FLOW
+        the raw response data will be available under `USER_INPUT[1]` & `HookArg.additional_data` in hooks.
 
-        If the resulting USER_INPUT[0] is None -> it signifies that user message cannot be processed e.g. Image
-        In that case, bot hook should process it further on what to do with it
-        The template should just define next stage to go to in the template routes e.g
-        {"re:.*": "NEXT-STAGE"}
+        For normal text messages & or buttons - the user selection or input will be available in `USER_INPUT[0]` &
+        `HookArg.user_input` in hooks.
 
-        :return: None
+        If the resulting `USER_INPUT[0]` is None -> it signifies that user message cannot be processed e.g. Image
+
+        Returns:
+            None
         """
 
         match self.payload.typ:
@@ -119,7 +115,8 @@ class MessageProcessor:
                 self.USER_INPUT = (self.payload.body.get("body"), None)
                 self._check_if_trigger(self.USER_INPUT[0])
 
-            case client.MessageTypeEnum.BUTTON | client.MessageTypeEnum.INTERACTIVE_BUTTON | client.MessageTypeEnum.INTERACTIVE_LIST:
+            case client.MessageTypeEnum.BUTTON | client.MessageTypeEnum.INTERACTIVE_BUTTON | \
+                 client.MessageTypeEnum.INTERACTIVE_LIST:
                 if "text" in self.payload.body:
                     self.USER_INPUT = (self.payload.body.get("text"), None)
                     self._check_if_trigger(self.USER_INPUT[0])
@@ -134,7 +131,8 @@ class MessageProcessor:
             case client.MessageTypeEnum.INTERACTIVE:
                 self.USER_INPUT = (None, self.payload.body)
 
-            case client.MessageTypeEnum.IMAGE | client.MessageTypeEnum.STICKER | client.MessageTypeEnum.DOCUMENT | client.MessageTypeEnum.AUDIO | client.MessageTypeEnum.VIDEO:
+            case client.MessageTypeEnum.IMAGE | client.MessageTypeEnum.STICKER | \
+                 client.MessageTypeEnum.DOCUMENT | client.MessageTypeEnum.AUDIO | client.MessageTypeEnum.VIDEO:
                 self.USER_INPUT = (None, self.payload.body)
 
             case client.MessageTypeEnum.INTERACTIVE_FLOW:
@@ -194,12 +192,10 @@ class MessageProcessor:
 
     def process_dynamic_route_hook(self) -> Union[str, None]:
         """
-        Check if current template has a `router` hook specified
+        Router hook is used to check next-route flow, instead of using template-level defined routes, it
+        reroutes / redirects / jumps to the response of the `router` hook.
 
-        Router hook is used to check next-route flow, instead of using routes defined, it
-        reroutes to the response of the `router` hook.
-
-        Router hook should return route stage inside the additional_data with key [EngineConstants.DYNAMIC_ROUTE_KEY]
+        Router hook should return route stage inside the additional_data with key **EngineConstants.DYNAMIC_ROUTE_KEY**
 
         :return: str or None
         """
@@ -221,7 +217,7 @@ class MessageProcessor:
 
     def process_pre_hooks(self, next_stage_template: Dict = None) -> None:
         """
-        Process all hooks before message response is generated
+        Process all template hooks before message response is generated
         and send back to user
 
         :param next_stage_template: for processing next stage template else use current stage template
@@ -237,11 +233,16 @@ class MessageProcessor:
         This processes the previous message which was processed & generated for sending
         to user
 
-        e.g. Generate stage A template, process all A's pre-hooks and send to user.
-        User respond message of stage A. Engine processes all post-hooks of stage A template
-        before processing any next stage template.
+        ---
 
-        :return: None
+        e.g. Generate stage A template -> process all A's pre-hooks -> send to user.
+
+        User responds to A message -> Engine processes A post-hooks.
+
+        ---
+
+        Return:
+             None
         """
         self._ack_user_message()
         self._check_template_params()
@@ -250,8 +251,6 @@ class MessageProcessor:
         self._process_hook(stage_key=TemplateConstants.MIDDLEWARE)
         self._save_prop()
 
-        # - end template hooks -
-
     def setup(self) -> None:
         """
             Should be called before any other methods are called.
@@ -259,7 +258,7 @@ class MessageProcessor:
             Called after object instantiation.
 
             :return: None
-            """
+        """
         self._get_current_template()
         self._get_message_body()
         self._check_for_session_bypass()

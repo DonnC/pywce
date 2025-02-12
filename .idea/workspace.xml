@@ -5,58 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e700a6d4-f3fd-4ca6-8806-bc5eb9b6e49c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/example/ehailing/templates/sample.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/pywce.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/pywce.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pywce/src/services/template_message_processor.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/CHANGELOG.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/example/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/engine_chatbot/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/example/ehailing/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/engine_chatbot/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/ehailing/hooks/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/engine_chatbot/dependencies.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/engine_chatbot/hooks/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/engine_chatbot/hooks/capture_ride.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/ehailing/hooks/capture_ride.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/engine_chatbot/hooks/location.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/ehailing/hooks/location.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/engine_chatbot/hooks/name_template.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/ehailing/hooks/name_template.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/engine_chatbot/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/ehailing/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/engine_chatbot/settings.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/engine_chatbot/templates/ehailing-bot.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ehailing/templates/ehailing.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/engine_chatbot/templates/report.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ehailing/templates/report.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/engine_chatbot/triggers/triggers.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ehailing/triggers/triggers.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/example/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/standalone_chatbot/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/standalone_chatbot/dependencies.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/standalone_chatbot/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/chatbot/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/standalone_chatbot/settings.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/portal/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/portal/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/alembic.ini" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/alembic/README" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/alembic/env.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/alembic/script.py.mako" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/alembic/versions/fca4638126c5_.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/chatbot/bot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/hooks/capture_ride.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/chatbot/hooks/capture_ride.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/settings.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/constants.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/redis_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/redis_manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/state.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/state.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/pubsub_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/pubsub.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/seed.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/seed.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pywce/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/modules/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/modules/session/cachetool_session_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/session/cachetool_session_manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/modules/session/dict_session_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/session/dict_session_manager.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pywce/modules/whatsapp/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/whatsapp/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/src/constants/engine.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/constants/engine.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/src/constants/session.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/constants/session.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pywce/src/constants/template.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/constants/template.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/constants/template_type.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/constants/template_type.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pywce/src/engine.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/engine.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/src/exceptions/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/exceptions/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pywce/src/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/models/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/src/services/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/src/services/message_processor.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/message_processor.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pywce/src/services/whatsapp_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/whatsapp_service.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pywce/src/services/worker.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/worker.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/src/utils/engine_util.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/utils/engine_util.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -86,46 +52,46 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python tests.Python tests for test_cachetool_session_manager.TestSessionManager.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for test_cachetool_session_manager.TestSessionManager.test_prop.executor&quot;: &quot;Debug&quot;,
-    &quot;Python tests.Python tests for test_cachetool_session_manager.TestSessionManager.test_save.executor&quot;: &quot;Debug&quot;,
-    &quot;Python tests.Python tests for test_default_session_impl.TestDefaultSessionManager.test_save.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for test_default_session_impl.TestSessionManager.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for test_default_session_impl.TestSessionManager.test_clear.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for test_engine.MyTestCase.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for test_engine.TestPywceEngine.executor&quot;: &quot;Debug&quot;,
-    &quot;Python tests.Python tests in test_default_session_impl.py.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests in tests.executor&quot;: &quot;Run&quot;,
-    &quot;Python.hook_service.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.pubsub_test.executor&quot;: &quot;Run&quot;,
-    &quot;Python.response_structure.executor&quot;: &quot;Run&quot;,
-    &quot;Python.scratch.executor&quot;: &quot;Run&quot;,
-    &quot;Python.templetor.executor&quot;: &quot;Run&quot;,
-    &quot;Python.test_v.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;feat/live-support&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/donnc/Documents/projects/pywce/portal/portal/chatbot&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.fonts.default&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python tests.Python tests for test_cachetool_session_manager.TestSessionManager.executor": "Run",
+    "Python tests.Python tests for test_cachetool_session_manager.TestSessionManager.test_prop.executor": "Debug",
+    "Python tests.Python tests for test_cachetool_session_manager.TestSessionManager.test_save.executor": "Debug",
+    "Python tests.Python tests for test_default_session_impl.TestDefaultSessionManager.test_save.executor": "Run",
+    "Python tests.Python tests for test_default_session_impl.TestSessionManager.executor": "Run",
+    "Python tests.Python tests for test_default_session_impl.TestSessionManager.test_clear.executor": "Run",
+    "Python tests.Python tests for test_engine.MyTestCase.executor": "Run",
+    "Python tests.Python tests for test_engine.TestPywceEngine.executor": "Debug",
+    "Python tests.Python tests in test_default_session_impl.py.executor": "Run",
+    "Python tests.Python tests in tests.executor": "Run",
+    "Python.hook_service.executor": "Run",
+    "Python.main.executor": "Run",
+    "Python.pubsub_test.executor": "Run",
+    "Python.response_structure.executor": "Run",
+    "Python.scratch.executor": "Run",
+    "Python.templetor.executor": "Run",
+    "Python.test_v.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "dev",
+    "last_opened_file_path": "/home/donnc/Documents/projects/pywce/portal/portal/chatbot",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "editing.templates",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;sqlite&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "sqlite"
     ],
-    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
-      &quot;Markdown&quot;
+    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
+      "Markdown"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/portal/portal/chatbot" />
@@ -318,6 +284,7 @@
       <workItem from="1739256916095" duration="12898000" />
       <workItem from="1739300231462" duration="2094000" />
       <workItem from="1739302347973" duration="24000" />
+      <workItem from="1739344317478" duration="18396000" />
     </task>
     <servers />
   </component>

@@ -14,7 +14,7 @@ from httpx import AsyncClient
 from pywce.modules.whatsapp.config import WhatsAppConfig
 from pywce.modules.whatsapp.message_utils import MessageUtils
 from pywce.modules.whatsapp.model import MessageTypeEnum, WaUser, ResponseStructure
-from pywce.src.exceptions import PywceException
+from pywce.src.exceptions import EngineException
 from pywce.src.utils.engine_logger import pywce_logger
 
 _logger = pywce_logger(__name__)
@@ -43,7 +43,7 @@ class WhatsApp:
             "Content-Type": "application/json",
             "Authorization": f"Bearer {self.config.token}"
         }
-        self.util = self.Utils(self)
+        self.util = self._Utils(self)
 
     async def _send_request(self, message_type: str, recipient_id: str, data: Dict[str, Any]):
         """
@@ -112,7 +112,7 @@ class WhatsApp:
         return await self._send_request(message_type='Reaction', recipient_id=recipient_id, data=data)
 
     async def send_template(self, recipient_id: str, template: str, components: List[Dict], message_id: str = None,
-                            category: str = None, lang: str = "en_US"):
+                            lang: str = "en_US"):
         """
         Asynchronously sends a template message to a WhatsApp user. Templates can be:
             1. Text template
@@ -129,6 +129,9 @@ class WhatsApp:
             components (list): List of components to be sent to the user.
             lang (str): Language of the template message, default is "en_US".
         """
+
+        assert len(components) <= 0, "Template components list cannot be empty"
+
         data = {
             "messaging_product": "whatsapp",
             "to": recipient_id,
@@ -140,9 +143,6 @@ class WhatsApp:
             "language": {"code": lang},
             "components": components,
         }
-
-        if category is not None:
-            template_data["category"] = category
 
         data["template"] = template_data
 
@@ -323,7 +323,7 @@ class WhatsApp:
 
         return await self._send_request(message_type='Interactive', recipient_id=recipient_id, data=data)
 
-    class Utils:
+    class _Utils:
         """
             Utility class for WhatsApp utility methods
         """
@@ -357,7 +357,7 @@ class WhatsApp:
         def verify_webhook_payload(self, webhook_payload: Dict, webhook_headers: Dict) -> bool:
             # TODO: perform request header hub signature verification
             if self._HUB_SIGNATURE_HEADER_KEY not in webhook_headers:
-                raise PywceException("Unsecure webhook payload received")
+                raise EngineException("Unsecure webhook payload received")
 
             return True
 
