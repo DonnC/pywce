@@ -37,7 +37,7 @@ class EngineConfig:
     log_invalid_webhooks: bool = False
     session_ttl_min: int = 30
     inactivity_timeout_min: int = 3
-    debounce_timeout_ms: int = 8000
+    debounce_timeout_ms: int = 6000
     webhook_timestamp_threshold_s: int = 10
     session_manager: ISessionManager = DefaultSessionManager()
 

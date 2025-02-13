@@ -136,7 +136,7 @@ class MessageProcessor:
                 self.USER_INPUT = (None, self.payload.body)
 
             case client.MessageTypeEnum.INTERACTIVE_FLOW:
-                self.USER_INPUT = (None, self.payload.body)
+                self.USER_INPUT = (self.payload.body.get("screen"), self.payload.body)
 
             case _:
                 raise EngineResponseException(message="Unsupported response, kindly provide a valid response",

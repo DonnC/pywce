@@ -4,7 +4,7 @@ from typing import Dict, Any
 from pywce.src.constants import SessionConstants, TemplateTypeConstants
 from pywce.src.exceptions import EngineInternalException
 from pywce.src.models import WhatsAppServiceModel
-from pywce.src.services import TemplateMessageProcessor
+from pywce.src.services.template_message_processor import TemplateMessageProcessor
 from pywce.src.utils import pywce_logger
 
 _logger = pywce_logger(__name__)

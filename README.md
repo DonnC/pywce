@@ -11,6 +11,7 @@ allowing you to define conversation flows and business logic in a clean and modu
 
 - **Template-Driven Design**: Use YAML templates for conversational flows.
 - **Hooks for Business Logic**: Attach Python functions to process messages or actions.
+- Focus on your conversation flow and business logic.
 - Easy-to-use API for WhatsApp Cloud.
 - Supports dynamic messages with placeholders.
 - Built-in support for WhatsApp Webhooks.
@@ -90,7 +91,7 @@ engine_instance = Engine(config=engine_config)
 Here's a simple example template to get you started:
 
 > [!NOTE]
-> _Checkout complete working example of [e-hailing chatbot](https://github.com/DonnC/pywce/blob/master/example/engine_chatbot/main.py)_
+> _Checkout complete working examples in the [example folder](https://github.com/DonnC/pywce/blob/master/example)_
 
 
 1. Define YAML template (Conversation Flow💬):
@@ -118,7 +119,7 @@ Here's a simple example template to get you started:
 
 2. Write your hook (Supercharge⚡):
 ```python
-# example/hooks/name_template.py
+# example/hooks/name.py
 from pywce import hook, HookArg, TemplateDynamicBody
 
 @hook
@@ -176,7 +177,7 @@ Check out [Live Support Portal](https://github.com/DonnC/pywce/tree/feat/live-su
 
 ## WhatsApp Client Library
 > [!NOTE]
-> _You can use pywce as a standalone whatsapp client library. See [Example](https://github.com/DonnC/pywce/blob/master/example/standalone_chatbot/main.py)_
+> _You can use pywce as a standalone whatsapp client library. See [Example](https://github.com/DonnC/pywce/blob/master/example/chatbot)_
 
 PyWCE provides a simple, Pythonic interface to interact with the WhatsApp Cloud API:
 

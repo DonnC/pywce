@@ -5,25 +5,37 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e700a6d4-f3fd-4ca6-8806-bc5eb9b6e49c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/pywce/src/services/template_message_processor.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/car_rental/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/car_rental/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/car_rental/flows/flow-rent-car.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/car_rental/hooks/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/car_rental/hooks/name.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/car_rental/hooks/payment.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/car_rental/hooks/rent.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/car_rental/hooks/report.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/car_rental/main.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/car_rental/service/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/car_rental/service/data.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/car_rental/service/rental_service.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/car_rental/templates/coming_soon.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/car_rental/templates/enquiry.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/car_rental/templates/help.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/car_rental/templates/menu.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/car_rental/templates/rent.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/car_rental/templates/rentals.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/car_rental/templates/report.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/car_rental/triggers/triggers.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ehailing/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/CHANGELOG.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/portal/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/modules/whatsapp/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/whatsapp/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/constants/engine.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/constants/engine.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/constants/session.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/constants/session.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/constants/template.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/constants/template.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/engine.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/engine.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/exceptions/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/exceptions/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/example/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/car_rental/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ehailing/templates/ehailing.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ehailing/templates/ehailing.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/modules/whatsapp/message_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/whatsapp/message_utils.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pywce/src/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/models/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/services/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pywce/src/services/message_processor.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/message_processor.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pywce/src/services/whatsapp_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/whatsapp_service.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pywce/src/services/worker.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/worker.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/utils/engine_util.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/utils/engine_util.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,7 +86,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "dev",
-    "last_opened_file_path": "/home/donnc/Documents/projects/pywce/portal/portal/chatbot",
+    "last_opened_file_path": "C:/Users/DEVELOPER/Documents/Personal/Personal/Projects/python/pywce/example/demo",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -88,24 +100,25 @@
       "sqlite"
     ],
     "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
+      "JSON",
       "Markdown"
     ]
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\example\demo" />
+      <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\example" />
       <recent name="$PROJECT_DIR$/portal/portal/chatbot" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\example\standalone_chatbot" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\tests\test_services" />
-      <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\tests\modules\triggers" />
-      <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\resources" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\example\ehailing" />
       <recent name="$PROJECT_DIR$/portal" />
       <recent name="$PROJECT_DIR$/portal/portal/chatbot" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\pywce\src\utils" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\tests" />
-      <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\example\engine_chatbot" />
     </key>
   </component>
   <component name="RunManager" selected="Python.main">
@@ -285,6 +298,9 @@
       <workItem from="1739300231462" duration="2094000" />
       <workItem from="1739302347973" duration="24000" />
       <workItem from="1739344317478" duration="18396000" />
+      <workItem from="1739380427499" duration="6317000" />
+      <workItem from="1739427689277" duration="18320000" />
+      <workItem from="1739446895445" duration="3949000" />
     </task>
     <servers />
   </component>

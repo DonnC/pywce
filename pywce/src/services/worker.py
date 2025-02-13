@@ -3,7 +3,7 @@ from random import randint
 from time import time
 from typing import List, Dict, Any, Tuple
 
-from pywce import HookArg
+from pywce.src.models import HookArg
 from pywce.modules import ISessionManager, client
 from pywce.src.constants import *
 from pywce.src.exceptions import *
@@ -292,7 +292,7 @@ class Worker:
 
             btn = QuickButtonModel(
                 title="Message",
-                message=f"{e.message}\n\n. You may click the Menu button to return to Menu",
+                message=f"{e.message}\n\nYou may click the Menu button to return to Menu",
                 buttons=[EngineConstants.DEFAULT_MENU_BTN_NAME, EngineConstants.DEFAULT_REPORT_BTN_NAME]
             )
 
