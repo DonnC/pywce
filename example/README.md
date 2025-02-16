@@ -13,6 +13,9 @@ pip install -r requirements.txt
 ```
 
 ## ChatBots
+### Demos
+Check out demo videos in [demo folder](demo)
+
 ### [Nikk's Car Rental ChatBot](car_rental)
 
 <video src="demo/rental.mp4" width="320" height="240" controls></video>
