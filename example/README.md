@@ -20,12 +20,10 @@ Check out demo videos in [demo folder](demo)
 
 <video src="demo/rental.mp4" width="320" height="240" controls></video>
 
-An example chatbot using pywce core engine.
-
 A car rental chatbot using WhatsApp Flows and showcasing the powerful features of pywce. 
 
 > [!NOTE]
-> For the purpose of demo, some implementation have been mocked 😎
+> For the purpose of demo, some implementation have been mocked 
 
 Features
 1. Rent a car
@@ -37,12 +35,26 @@ _and more_
 
 You can find the conversation flow in [templates dir](car_rental/templates)
 
+### [AI FAQ, Car rental ChatBot](ai_agents)
+A template-driven chatbot with AI agent invocation. User can invoke AI agent to chat with by invoking it.
+
+The engine will be aware of AI session and auto-template session.
+
+> [!NOTE]
+> Experience with & having OpenAI keys required
+
+This example is built on top of Nikk's Car Rental ChatBot
+
+Features
+1. Rent a car
+2. Chat with AI agent
+
+_and more_
+
 
 ### [eHailing ChatBot](ehailing)
 
 <video src="demo/ehailing.mp4" width="320" height="240" controls></video>
-
-An example chatbot using pywce core engine.
 
 An e-hailing **PickDrive** conceptual whatsapp chatbot for _(inspired by **InDrive**)_.
 You can find the conversation flow in [templates dir](ehailing/templates/ehailing.yaml)

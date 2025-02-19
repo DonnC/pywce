@@ -5,8 +5,39 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e700a6d4-f3fd-4ca6-8806-bc5eb9b6e49c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/example/ai_agents/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ai_agents/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ai_agents/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ai_agents/assets/ai-banner-1.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ai_agents/assets/ai-banner.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ai_agents/assets/aqua toyota.JPG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ai_agents/assets/flow.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ai_agents/assets/honda-fit.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ai_agents/assets/logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ai_agents/assets/nissan note.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ai_agents/flows/flow-rent-car.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ai_agents/hooks/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ai_agents/hooks/name.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ai_agents/hooks/payment.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ai_agents/hooks/rent.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ai_agents/hooks/report.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ai_agents/main.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ai_agents/service/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ai_agents/service/data.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ai_agents/service/rental_service.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ai_agents/templates/coming_soon.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ai_agents/templates/enquiry.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ai_agents/templates/help.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ai_agents/templates/menu.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ai_agents/templates/rent.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ai_agents/templates/rentals.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ai_agents/templates/report.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ai_agents/triggers/triggers.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/example/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/src/constants/session.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/constants/session.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,7 +88,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/DEVELOPER/Documents/Personal/Personal/Projects/python/pywce/example/demo&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/DEVELOPER/Documents/Personal/Personal/Projects/python/pywce/example&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -78,8 +109,8 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\example\demo" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\example" />
+      <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\example\demo" />
       <recent name="$PROJECT_DIR$/portal/portal/chatbot" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\example\standalone_chatbot" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\tests\test_services" />
@@ -199,8 +230,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-deb605915726-JavaScript-PY-243.22562.220" />
-        <option value="bundled-python-sdk-0fc6c617c4bd-9a18a617cbe4-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-243.22562.220" />
+        <option value="bundled-js-predefined-d6986cc7102b-76f8388c3a79-JavaScript-PY-243.24978.54" />
+        <option value="bundled-python-sdk-91e3b7efe1d4-466328ff949b-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-243.24978.54" />
       </set>
     </attachedChunks>
   </component>
@@ -273,6 +304,9 @@
       <workItem from="1739427689277" duration="18320000" />
       <workItem from="1739446895445" duration="5045000" />
       <workItem from="1739701561028" duration="245000" />
+      <workItem from="1739724712923" duration="1092000" />
+      <workItem from="1739880149082" duration="2219000" />
+      <workItem from="1739955815872" duration="251000" />
     </task>
     <servers />
   </component>

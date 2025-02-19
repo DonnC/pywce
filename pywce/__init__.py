@@ -12,6 +12,11 @@ Modules:
 - engine: Core logic for template-driven chatbot interactions.
 
 Author: Donald Chinhuru
+
+TODO: AI agents
+    : Save conversation history to file
+    : Create a function to create agent prompt with pre-appended prompt
+    : Handle agent response and process supported message types.
 """
 
 from pywce.modules import client, DefaultSessionManager
