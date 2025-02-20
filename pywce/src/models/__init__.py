@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
 
 from pywce.modules import *
 from pywce.modules import client
@@ -22,14 +22,14 @@ class EngineConfig:
         :var tag_on_reply: if enabled, engine will tag (reply) every message as it responds to it
         :var log_invalid_webhooks: if enabled, engine will log (WARN) all detailed invalid webhooks
         :var read_receipts: If enabled, engine will mark every message received as read.
-        :var live_support_hook: path to hook that handles live support. If message is received and LS is active,
-                                call this hook to handle live support requests
+        :var ext_handler_hook: path to external chat handler hook. If message is received and ext_handler is active,
+                                call this hook to handle requests
     """
     whatsapp: client.WhatsApp
     templates_dir: str
     trigger_dir: str
     start_template_stage: str
-    live_support_hook: str = None
+    ext_handler_hook: str = None
     handle_session_queue: bool = True
     handle_session_inactivity: bool = True
     tag_on_reply: bool = False
@@ -129,3 +129,26 @@ class QuickButtonModel:
     title: str = None
     footer: str = None
     message_id: str = None
+
+
+@dataclass
+class ExternalHandlerResponse:
+    """
+    Model for external chat handler
+
+    Example use case:
+        1. Live Support
+        2. AI Agent
+
+
+    :var typ (TemplateTypeConstants): type of the chat template to render to user
+    :var recipient_id (str): whatsapp user wa id to respond to
+    :var message (str): the message body to render to user
+    :var options (list): if typ is button / list - the list of options to render
+    :var reply_message_id (str): which message to reply to
+    """
+    typ: TemplateTypeConstants
+    recipient_id: str
+    message: str
+    options: List
+    reply_message_id: Optional[str]

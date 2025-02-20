@@ -5,39 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e700a6d4-f3fd-4ca6-8806-bc5eb9b6e49c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/example/ai_agents/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ai_agents/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ai_agents/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ai_agents/assets/ai-banner-1.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ai_agents/assets/ai-banner.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ai_agents/assets/aqua toyota.JPG" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ai_agents/assets/flow.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ai_agents/assets/honda-fit.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ai_agents/assets/logo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ai_agents/assets/nissan note.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ai_agents/flows/flow-rent-car.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ai_agents/hooks/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ai_agents/hooks/name.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ai_agents/hooks/payment.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ai_agents/hooks/rent.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ai_agents/hooks/report.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ai_agents/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ai_agents/service/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ai_agents/service/data.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ai_agents/service/rental_service.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ai_agents/templates/coming_soon.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ai_agents/templates/enquiry.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ai_agents/templates/help.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ai_agents/templates/menu.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ai_agents/templates/rent.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ai_agents/templates/rentals.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ai_agents/templates/report.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/ai_agents/triggers/triggers.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ai_agents/tools/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ai_agents/tools/policy_enquiry.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ai_agents/tools/tell_date.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pywce/src/services/ai_service.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/example/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/example/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/chatbot/bot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/hooks/live_support.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/chatbot/hooks/live_support.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/portal/portal/portal.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/portal.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pywce/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pywce/src/constants/session.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/constants/session.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/src/engine.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/engine.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/src/exceptions/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/exceptions/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/src/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/models/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/src/services/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -116,11 +100,11 @@
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\tests\test_services" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\pywce\src\services" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\example\ehailing" />
       <recent name="$PROJECT_DIR$/portal" />
       <recent name="$PROJECT_DIR$/portal/portal/chatbot" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\pywce\src\utils" />
-      <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\tests" />
     </key>
   </component>
   <component name="RunManager" selected="Python.main">
@@ -307,6 +291,10 @@
       <workItem from="1739724712923" duration="1092000" />
       <workItem from="1739880149082" duration="2219000" />
       <workItem from="1739955815872" duration="251000" />
+      <workItem from="1739973740389" duration="1759000" />
+      <workItem from="1739988765981" duration="2418000" />
+      <workItem from="1740056299679" duration="9355000" />
+      <workItem from="1740075330190" duration="1437000" />
     </task>
     <servers />
   </component>

@@ -21,7 +21,7 @@ engine_config = EngineConfig(
     templates_dir=os.getenv("TEMPLATES_DIR"),
     trigger_dir=os.getenv("TRIGGERS_DIR"),
     start_template_stage=os.getenv("START_STAGE"),
-    live_support_hook=os.getenv("LIVE_SUPPORT_HOOK")
+    ext_handler_hook=os.getenv("LIVE_SUPPORT_HOOK")
 )
 
 engine = Engine(config=engine_config)

@@ -32,6 +32,9 @@ setup(
     packages=find_packages(include=["pywce*"]),
     python_requires=">=3.9",
     install_requires=install_requires,
+    extras_require={
+        "ai": ["openai", "docstring-parser"]
+    },
     classifiers=[
         "Development Status :: 4 - Beta",
         "Intended Audience :: Developers",

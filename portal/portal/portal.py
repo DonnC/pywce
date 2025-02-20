@@ -37,10 +37,10 @@ async def setup_redis():
                         logger.info(f"New outgoing Agent msg: {msg_data}")
 
                         if msg_data.get('type', 'MESSAGE')  == TERMINATION_COMMAND:
-                            engine.ls_terminate(recipient_id=msg_data['recipient_id'])
+                            engine.terminate_external_handler(recipient_id=msg_data['recipient_id'])
 
                         else:
-                            await engine.ls_send_message(recipient_id=msg_data['recipient_id'], message=msg_data['message'])
+                            await engine.ext_handler_respond(recipient_id=msg_data['recipient_id'], message=msg_data['message'])
 
                 except:
                     logger.error(f"Agent message listener unexpected error", exc_info=True)

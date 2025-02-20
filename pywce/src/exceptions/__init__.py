@@ -24,7 +24,7 @@ class HookError(EngineInternalException):
     def __init__(self, message, data=None):
         super().__init__(message, data)
 
-class LiveSupportHookError(EngineInternalException):
+class ExtHandlerHookError(EngineInternalException):
     def __init__(self, message, data=None):
         super().__init__(message, data)
 

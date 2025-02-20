@@ -5,8 +5,8 @@ import ruamel.yaml
 
 from pywce.modules import client, ISessionManager
 from pywce.src.constants import TemplateTypeConstants, SessionConstants
-from pywce.src.exceptions import LiveSupportHookError, HookError, EngineException
-from pywce.src.models import EngineConfig, WorkerJob, WhatsAppServiceModel, HookArg
+from pywce.src.exceptions import ExtHandlerHookError, HookError, EngineException
+from pywce.src.models import EngineConfig, WorkerJob, WhatsAppServiceModel, HookArg, ExternalHandlerResponse
 from pywce.src.services import Worker, WhatsAppService, HookService
 from pywce.src.utils import pywce_logger
 
@@ -59,34 +59,35 @@ class Engine:
     def verify_webhook(self, mode, challenge, token):
         return self.whatsapp.util.verify_webhook_verification_challenge(mode, challenge, token)
 
-    def ls_terminate(self, recipient_id: str):
+    def terminate_external_handler(self, recipient_id: str):
         user_session: ISessionManager = self.config.session_manager.session(session_id=recipient_id)
-        has_ls_session = user_session.get(session_id=recipient_id, key=SessionConstants.LIVE_SUPPORT)
+        has_ls_session = user_session.get(session_id=recipient_id, key=SessionConstants.EXTERNAL_CHAT_HANDLER)
 
         if has_ls_session is not None:
-            user_session.evict(session_id=recipient_id, key=SessionConstants.LIVE_SUPPORT)
+            user_session.evict(session_id=recipient_id, key=SessionConstants.EXTERNAL_CHAT_HANDLER)
             _logger.debug("LS session terminated for: %s", recipient_id)
 
-    async def ls_send_message(self, recipient_id: str, message: str, reply_msg_id: str = None):
+    async def ext_handler_respond(self, response: ExternalHandlerResponse):
         """
-        Send a quick message to user from Live support portal
+            Respond to user
         """
-        user_session: ISessionManager = self.config.session_manager.session(session_id=recipient_id)
-        has_ls_session = user_session.get(session_id=recipient_id, key=SessionConstants.LIVE_SUPPORT)
+        user_session: ISessionManager = self.config.session_manager.session(session_id=response.recipient_id)
+        has_ls_session = user_session.get(session_id=response.recipient_id, key=SessionConstants.EXTERNAL_CHAT_HANDLER)
 
         if has_ls_session is not None:
+            # TODO: create template messages
             _template = {
                 "type": "text",
-                "message-id": reply_msg_id,
-                "message": message
+                "message-id": response.reply_message_id,
+                "message": response.message
             }
 
             service_model = WhatsAppServiceModel(
                 template_type=TemplateTypeConstants.TEXT,
                 template=_template,
                 whatsapp=self.whatsapp,
-                user=client.WaUser(wa_id=recipient_id),
-                hook_arg=HookArg(user=client.WaUser(wa_id=recipient_id))
+                user=client.WaUser(wa_id=response.recipient_id),
+                hook_arg=HookArg(user=client.WaUser(wa_id=response.recipient_id)),
             )
 
             whatsapp_service = WhatsAppService(model=service_model, validate_template=False)
@@ -98,8 +99,7 @@ class Engine:
 
             return response_msg_id
 
-        raise LiveSupportHookError(message="No active LiveSupport session for user!")
-
+        raise ExtHandlerHookError(message="No active ExternalHandler session for user!")
 
     async def process_webhook(self, webhook_data: Dict[str, Any], webhook_headers: Dict[str, Any]):
         if self.whatsapp.util.verify_webhook_payload(
@@ -119,10 +119,10 @@ class Engine:
             user_session: ISessionManager = self.config.session_manager.session(session_id=wa_user.wa_id)
             response_model = self.whatsapp.util.get_response_structure(webhook_data)
 
-            # check if user has running LS session
-            has_ls_session = user_session.get(session_id=wa_user.wa_id, key=SessionConstants.LIVE_SUPPORT)
+            # check if user has running external handler
+            has_ext_session = user_session.get(session_id=wa_user.wa_id, key=SessionConstants.EXTERNAL_CHAT_HANDLER)
 
-            if has_ls_session is None:
+            if has_ext_session is None:
                 worker = Worker(
                     job=WorkerJob(
                         engine_config=self.config,
@@ -136,7 +136,7 @@ class Engine:
                 await worker.work()
 
             else:
-                if self.config.live_support_hook is not None:
+                if self.config.ext_handler_hook is not None:
                     try:
                         # TEXT messages only supported
                         _arg = HookArg(
@@ -148,16 +148,16 @@ class Engine:
                         )
 
                         HookService.process_hook(
-                            hook_dotted_path=self.config.live_support_hook,
+                            hook_dotted_path=self.config.ext_handler_hook,
                             hook_arg=_arg
                         )
                         return
                     except HookError as e:
-                        _logger.critical("Error processing LS hook", exc_info=True)
-                        raise LiveSupportHookError(message=e.message)
+                        _logger.critical("Error processing external handler hook", exc_info=True)
+                        raise ExtHandlerHookError(message=e.message)
 
                 else:
-                    _logger.warning("No LS hook provided, skipping..")
+                    _logger.warning("No external handler hook provided, skipping..")
 
         else:
             _logger.warning("Invalid webhook payload")

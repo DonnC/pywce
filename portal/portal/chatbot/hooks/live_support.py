@@ -21,7 +21,7 @@ def live_support(arg: HookArg) -> HookArg:
     if arg.params.get("type", "TERMINATE") == "REQUEST":
         ls_data = datetime.now().isoformat()
 
-        arg.session_manager.save(session_id=arg.user.wa_id, key=SessionConstants.LIVE_SUPPORT, data=ls_data)
+        arg.session_manager.save(session_id=arg.user.wa_id, key=SessionConstants.EXTERNAL_CHAT_HANDLER, data=ls_data)
 
         logger.info("Attempting to request LS admin")
 
@@ -35,10 +35,10 @@ def live_support(arg: HookArg) -> HookArg:
 
         logger.info(f"Live support agent notified - {arg.user.wa_id}")
     else:
-        ls_entry = arg.session_manager.get(session_id=arg.user.wa_id, key=SessionConstants.LIVE_SUPPORT)
+        ls_entry = arg.session_manager.get(session_id=arg.user.wa_id, key=SessionConstants.EXTERNAL_CHAT_HANDLER)
         logger.info(f"Terminating LS for, User: {arg.user.wa_id} | Stats: {ls_entry}")
 
-        arg.session_manager.evict(session_id=arg.user.wa_id, key=SessionConstants.LIVE_SUPPORT)
+        arg.session_manager.evict(session_id=arg.user.wa_id, key=SessionConstants.EXTERNAL_CHAT_HANDLER)
         logger.warning("Live support terminated!")
 
         redis_manager.get_instance().publish(

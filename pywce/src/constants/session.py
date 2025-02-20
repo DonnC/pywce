@@ -32,5 +32,5 @@ class SessionConstants:
     DYNAMIC_RETRY = "kdynamic_retry"
     MESSAGE_HISTORY = "kmessage_history"
 
-    # set this to enable user live session
-    LIVE_SUPPORT = "k_live_support"
+    # set this to enable user external handlers e.g live support / ai agent etc
+    EXTERNAL_CHAT_HANDLER = "k_ext_handler"

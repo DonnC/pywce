@@ -23,8 +23,8 @@ from pywce.modules import client, DefaultSessionManager
 from pywce.modules.session import ISessionManager
 from pywce.src.constants import SessionConstants, EngineConstants, TemplateTypeConstants
 from pywce.src.engine import Engine
-from pywce.src.models import HookArg, TemplateDynamicBody, EngineConfig
-from pywce.src.services import HookService, hook
+from pywce.src.models import HookArg, TemplateDynamicBody, EngineConfig, ExternalHandlerResponse
+from pywce.src.services import HookService, hook, AiService
 from pywce.src.utils import pywce_logger
 
 __author__ = "Donald Chinhuru"
@@ -40,6 +40,10 @@ __all__ = [
     # engine
     "Engine",
     "EngineConfig",
+    "ExternalHandlerResponse",
+
+    # ai
+    "AiService",
 
     # hook
     "HookArg",
