@@ -16,6 +16,14 @@ class EngineException(Exception):
         return f"[{self.__class__.__str__}] Message: {self.message} | Data: {self.data}"
 
 
+class AiException(EngineException):
+    def __init__(self, message, data=None):
+        super().__init__(message, data)
+
+class EngineClientException(EngineException):
+    def __init__(self, message, data=None):
+        super().__init__(message, data)
+
 class EngineInternalException(EngineException):
     def __init__(self, message, data=None):
         super().__init__(message, data)

@@ -1,5 +1,9 @@
 # https://github.com/panda-zw/fastapi-whatsapp-openai/blob/main/services/openai.py
+# https://github.com/jeanmaried/openai-assistant-blog/blob/main/agent.py
+
+
 import asyncio
+import json
 import os
 import shelve
 import time
@@ -8,19 +12,23 @@ from typing import Optional, Union, Dict, List, Literal, Callable
 from dotenv import load_dotenv
 from pydantic import BaseModel
 
+from pywce.src.exceptions import AiException
 from pywce.src.utils import pywce_logger
 
 try:
     import openai
     from openai import OpenAI, APIConnectionError
-    from openai.types.beta import Assistant
     import docstring_parser
 except ImportError:
     openai = None
     docstring_parser = None
 
 load_dotenv()
+
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+OPENAI_MODEL = os.getenv("OPENAI_MODEL")
+BASE_URL = os.getenv("OPENAI_BASE_URL", None)
+RUN_TIMEOUT_IN_SECONDS = int(os.getenv("OPENAI_RUN_TIMEOUT_IN_SECONDS", "120"))
 
 _logger = pywce_logger(__name__)
 
@@ -40,13 +48,14 @@ class AiService:
         1. you are a customer support ai agent for a local bank. The bank has omnichannel digital platforms for its clients.
         2.
 
+        Gemini baseUrl: "https://generativelanguage.googleapis.com/v1beta/"
+
+
 
 
     """
     _history_folder = "ai_history"
     _threads_db: str = "ai_threads_db"
-
-    _tool_belt: Dict[str, Callable]
 
     _prompt: str = """WhatsApp supports different message types, including `text`, `button`, and `list`.
 
@@ -128,21 +137,20 @@ class AiService:
         ```
         """
 
-    def __init__(self, agent_name: str, instructions: str, api_key: str, model: str):
+    def __init__(self, agent_name: str, instructions: str, tools: Dict[str, Callable]):
         self._verify_dependencies()
 
-        self.client = OpenAI(api_key=api_key)
+        self.client = OpenAI(api_key=OPENAI_API_KEY, base_url=BASE_URL)
         self.name = agent_name
-        self.model = model
         self.instructions = f"{instructions}\n\n{self._prompt}"
         self.assistant_files: List[str] = []
-        self.tools: Union[List[Dict], None] = None
+        self.tool_belt = tools
 
-        self.assistant = self.create_assistant()
+        self.assistant = self.get_assistant()
 
     def _verify_dependencies(self):
         if openai is None or docstring_parser is None:
-            raise RuntimeError(
+            raise AiException(
                 "AI functionality requires additional dependencies. Install using `pip install pywce[ai]`.")
 
     def _get_tools_in_open_ai_format(self):
@@ -179,7 +187,7 @@ class AiService:
                     }
                 }
             }
-            for tool in self._tool_belt.values()
+            for tool in self.tool_belt.values()
         ]
 
     def _clean_agent_name(self):
@@ -189,24 +197,25 @@ class AiService:
     def _create_thread_db_id(self, wa_id):
         return f"{wa_id}_{self._clean_agent_name()}"
 
-    def add_file(self, file_path: str, purpose: str = 'assistants'):
+    def add_file(self, file_path: str):
         """Uploads a file and stores its ID for assistant use."""
         with open(file_path, 'rb') as file:
-            response = self.client.files.create(file=file, purpose=purpose)
+            response = self.client.files.create(file=file, purpose='assistants')
             self.assistant_files.append(response.id)
 
-    def register_tool(self, tool_name: str, tool_function: Dict):
-        """Registers a tool by name and function."""
-        self.tools.append({'name': tool_name, 'function': tool_function})
+    def get_assistant(self):
+        # assistants = self.client.beta.assistants.list()
+        #
+        # for assistant in assistants.data:
+        #     if assistant.name == self.name:
+        #         _logger.info("Assistant already exists.")
+        #         return assistant
 
-    def create_assistant(self) -> Assistant:
-        _logger.info("Creating assistant..")
+        _logger.info("No assistant found, creating..")
+
         assistant = self.client.beta.assistants.create(
-            model=self.model,
-            name=self.name,
-            instructions=self.instructions,
-            tools=self.tools or [{"type": "retrieval"}]
-        )
+            model=OPENAI_MODEL,
+            name=self.name)
 
         return assistant
 
@@ -222,7 +231,6 @@ class AiService:
         """
         Wait for any active run associated with the thread to complete.
         """
-        timeout_in_seconds = 60
         start_time = time.time()
 
         while True:
@@ -232,50 +240,77 @@ class AiService:
             if not active_runs:
                 break
 
-            if time.time() - start_time > timeout_in_seconds:
-                raise TimeoutError("Waiting for run to complete timed out")
+            elapsed_time = time.time() - start_time
+            if elapsed_time > RUN_TIMEOUT_IN_SECONDS:
+                raise AiException("Waiting for run to complete timed out")
 
             await asyncio.sleep(1)
 
-    async def run_assistant(self, thread):
-        try:
-            _logger.debug("Running assistant: %s", self.assistant)
-            assistant = self.client.beta.assistants.retrieve(self.assistant.id)
-            _logger.debug("Assistant retrieved")
+    def _cancel_run(self, run_id, thread_id):
+        self.client.beta.threads.runs.cancel(
+            run_id=run_id,
+            thread_id=thread_id
+        )
 
-            # Wait for any active run to complete
+    async def _get_thread(self, wa_id:str):
+        thread_id = await self._check_if_thread_exists(wa_id)
+
+        if thread_id is None:
+            _logger.info(f"Creating new thread for agent: {self.name} with user: {wa_id}")
+            thread = self.client.beta.threads.create()
+            await self._store_thread(wa_id, thread.id)
+        else:
+            _logger.info(f"Retrieving existing thread for agent: {self.name} with user: {wa_id}")
+            thread = self.client.beta.threads.retrieve(thread_id)
+
+        return thread
+
+    def _create_run(self, thread_id):
+        run = self.client.beta.threads.runs.create(
+            thread_id=thread_id,
+            assistant_id=self.assistant.id,
+            # response_format=AiResponse,
+            instructions=self.instructions,
+            tools=self._get_tools_in_open_ai_format() or [{"type": "retrieval"}]
+        )
+
+        return run
+
+    def _retrieve_run(self, run_id, thread_id):
+        return self.client.beta.threads.runs.retrieve(thread_id=thread_id, run_id=run_id)
+
+
+    async def _run_assistant(self, thread, run):
+        try:
             await self._wait_for_run_completion(thread)
 
-            run = self.client.beta.threads.runs.create(
-                thread_id=thread.id,
-                assistant_id=assistant.id,
-                response_format=AiResponse
-                # tool_resources=self.assistant_files
-            )
+            status = run.status
 
-            _logger.debug(f"Initial run status: {run.status}")
+            _logger.debug(f"Initial run status: {status}")
 
-            timeout_in_seconds = 60
             start_time = time.time()
 
-            while run.status != "completed":
-                if time.time() - start_time > timeout_in_seconds:
-                    raise TimeoutError("Assistant run timed out")
+            _logger.debug("Starting poll run..")
 
-                await asyncio.sleep(0.5)
-                run = self.client.beta.threads.runs.retrieve(thread_id=thread.id, run_id=run.id)
-                _logger.debug(f"Run status: {run.status}")
+            while status != "completed":
+                if status == 'failed':
+                    raise AiException(f"Run failed with error: {run.last_error}")
 
-            if run.status == "failed":
-                raise RuntimeError("Assistant run failed")
+                if status == 'expired':
+                    raise AiException("Run expired")
 
-            messages = self.client.beta.threads.messages.list(thread_id=thread.id)
+                if status == 'requires_action':
+                    self._call_tools(run.id, thread.id, run.required_action.submit_tool_outputs.tool_calls)
 
-            _logger.debug("Messages retrieved: %s", messages.data[0].content[0])
+                await asyncio.sleep(2)
 
-            new_message = messages.data[0].content[0].text.value
-            _logger.info(f"Generated message: {new_message}")
-            return new_message
+                run = self._retrieve_run(run.id, thread.id)
+                status = run.status
+
+                elapsed_time = time.time() - start_time
+                if elapsed_time > RUN_TIMEOUT_IN_SECONDS:
+                    self._cancel_run(run.id, thread.id)
+                    raise AiException("Assistant run timed out")
 
         except APIConnectionError as e:
             _logger.error(f"API Connection Error: {e}")
@@ -284,30 +319,53 @@ class AiService:
             _logger.error(f"An unexpected error occurred: {e}")
             raise e
 
-    async def generate_response(self, message: str, wa_id: str):
-        _logger.info("Generating response..")
-        thread_id = await self._check_if_thread_exists(wa_id)
+    def _call_tools(self, run_id, thread_id, tool_calls: list[dict]):
+        tool_outputs = []
 
-        if thread_id is None:
-            _logger.info(f"Creating new thread for agent: {self.name} with user: {wa_id}")
-            thread = self.client.beta.threads.create()
-            await self._store_thread(wa_id, thread.id)
-            thread_id = thread.id
-        else:
-            _logger.info(f"Retrieving existing thread for agent: {self.name} with user: {wa_id}")
-            thread = self.client.beta.threads.retrieve(thread_id)
+        for tool_call in tool_calls:
+            function = tool_call.function
+            function_args = json.loads(function.arguments)
+            function_to_call = self.tool_belt[function.name]
+            function_response = function_to_call(**function_args)
+            tool_outputs.append({"tool_call_id": tool_call.id, "output": function_response})
 
-        # Ensure no active runs before adding a new message
-        await self._wait_for_run_completion(thread)
+        self.client.beta.threads.runs.submit_tool_outputs(
+            thread_id=thread_id,
+            run_id=run_id,
+            tool_outputs=tool_outputs
+        )
 
-        message_response = self.client.beta.threads.messages.create(
+    def _add_message(self, thread_id, message:str):
+        self.client.beta.threads.messages.create(
             thread_id=thread_id,
             role="user",
             content=message
         )
 
-        _logger.debug("AI message response: %s", message_response.content)
+    def _get_last_message(self, thread_id):
+        content = self.client.beta.threads.messages.list(
+            thread_id=thread_id,
+        ).data[0].content[0]
 
-        new_message = await self.run_assistant(thread)
+        _logger.debug(f"Retrieved last message content: {content}")
 
-        return new_message
+        return content.text.value
+
+    async def generate_response(self, message: str, wa_id: str):
+        _logger.info("Generating agent response..")
+
+        thread = await self._get_thread(wa_id)
+
+        await self._wait_for_run_completion(thread)
+
+        self._add_message(thread.id, message)
+
+        run = self._create_run(thread.id)
+
+        await self._run_assistant(thread, run)
+
+        agent_response = self._get_last_message(thread.id)
+
+        _logger.info(f"Agent response: {agent_response}")
+
+        return agent_response

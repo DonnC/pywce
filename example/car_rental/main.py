@@ -2,9 +2,9 @@ import os
 from typing import Dict
 
 from dotenv import load_dotenv
-from fastapi import FastAPI, Request, Response, BackgroundTasks, Query
+from fastapi import FastAPI, Request, Response, BackgroundTasks, HTTPException
 
-from pywce import Engine, client, EngineConfig
+from pywce import Engine, client, EngineConfig, pywce_logger
 
 load_dotenv()
 
@@ -15,6 +15,7 @@ wa_config = client.WhatsAppConfig(
     token=os.getenv("ACCESS_TOKEN"),
     phone_number_id=os.getenv("PHONE_NUMBER_ID"),
     hub_verification_token=os.getenv("WEBHOOK_HUB_TOKEN"),
+    app_secret=os.getenv("APP_SECRET"),
     use_emulator=int(os.getenv("USE_EMULATOR", 0)) == 1
 )
 
@@ -29,6 +30,8 @@ eng_config = EngineConfig(
 
 engine = Engine(config=eng_config)
 
+logger = pywce_logger(__name__)
+
 
 async def task(payload: Dict, headers: Dict) -> None:
     await engine.process_webhook(webhook_data=payload, webhook_headers=headers)
@@ -36,11 +39,13 @@ async def task(payload: Dict, headers: Dict) -> None:
 
 # - API Endpoints -
 @app.post("/chatbot/webhook")
+@whatsapp.util.signature_required
 async def handler(request: Request, background_tasks: BackgroundTasks) -> Response:
     """
         Handle incoming webhook events from WhatsApp and process them in the background.
     """
-    payload = await request.json()
+    payload_bytes = await request.body()
+    payload = whatsapp.util.bytes_to_dict(payload_bytes)
 
     # Add processing task to background
     background_tasks.add_task(task, payload, dict(request.headers))
@@ -50,17 +55,11 @@ async def handler(request: Request, background_tasks: BackgroundTasks) -> Respon
 
 
 @app.get("/chatbot/webhook")
-async def verifier(
-        mode: str = Query(..., alias="hub.mode"),
-        token: str = Query(..., alias="hub.verify_token"),
-        challenge: str = Query(..., alias="hub.challenge")
-) -> Response:
-    """
-        Verify WhatsApp webhook callback url challenge.
-    """
-    result = whatsapp.util.verify_webhook_verification_challenge(
-        mode=mode, token=token, challenge=challenge
-    )
+async def verifier(request: Request) -> str:
+    """Verify WhatsApp webhook callback URL challenge."""
+    params = request.query_params
+    mode, token, challenge = params.get("hub.mode"), params.get("hub.verify_token"), params.get("hub.challenge")
 
-    return Response(content="Forbidden", status_code=403) if result is None \
-        else Response(content=result, status_code=200)
+    if whatsapp.util.verify_webhook_verification_challenge(mode, token, challenge):
+        return challenge
+    raise HTTPException(status_code=403, detail="Forbidden")

@@ -10,7 +10,6 @@ service = CarRentalService()
 
 TEMP_DATA_SESSION_KEY = "temp_data"
 
-
 def extract_cost(metadata: str):
     match = re.search(r"\d+\.\d+", metadata)
     return float(match.group()) if match else 0
@@ -35,7 +34,7 @@ def init_rental(arg: HookArg):
     flow_data = {
         "min_date": min_date,
         "max_date": max_date,
-        "packages": service.packages()
+        # "packages": service.packages()
     }
 
     arg.template_body = TemplateDynamicBody(initial_flow_payload=flow_data)

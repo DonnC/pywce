@@ -172,3 +172,22 @@ def dynamic_message(arg: HookArg):
     "re:.*": "NEXT-ROUTE"
 ```
 
+## [1.0.6] Feb 2025
+* Support download media files
+* Fixed verifying webhook payload
+* Added a helper fastapi decorator for secure payload verification
+* Support download media uploaded via flows
+```python
+# you receive files in hook additional_data flow message
+
+hook_files =  [{'id': '1571385113..', 'mime_type': 'image/jpeg', 'sha256': 'lV..', 'file_name': '5d70f3e...jpg'}]
+
+# you can download files by passing to utility method
+files = []
+for file in hook_files:
+    f = await whatsapp.util.download_flow_media(file)
+    files.append(f)
+
+print("downloaded files: ", files)
+```
+* Added initial support for custom AI agent
