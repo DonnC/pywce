@@ -162,13 +162,13 @@ class MessageProcessor:
         if TemplateConstants.PARAMS in tpl:
             self.HOOK_ARG.params.update(tpl.get(TemplateConstants.PARAMS))
 
-    def _process_hook(self, stage_key: str) -> None:
+    async def _process_hook(self, stage_key: str) -> None:
         if stage_key in self.CURRENT_TEMPLATE:
-            HookService.process_hook(hook_dotted_path=self.CURRENT_TEMPLATE.get(stage_key), hook_arg=self.HOOK_ARG)
+            await HookService.process_hook(hook_dotted_path=self.CURRENT_TEMPLATE.get(stage_key), hook_arg=self.HOOK_ARG)
 
-    def _on_generate(self, next_template: Dict) -> None:
+    async def _on_generate(self, next_template: Dict) -> None:
         if TemplateConstants.ON_GENERATE in next_template:
-            HookService.process_hook(hook_dotted_path=next_template.get(TemplateConstants.ON_GENERATE),
+            await HookService.process_hook(hook_dotted_path=next_template.get(TemplateConstants.ON_GENERATE),
                                      hook_arg=self.HOOK_ARG)
 
     def _ack_user_message(self) -> None:
@@ -190,9 +190,9 @@ class MessageProcessor:
                 data=self.USER_INPUT[0]
             )
 
-    def process_dynamic_route_hook(self) -> Union[str, None]:
+    async def process_dynamic_route_hook(self) -> Union[str, None]:
         """
-        Router hook is used to check next-route flow, instead of using template-level defined routes, it
+        Router hook is used to check next-route flow, instead of using template-level defined common, it
         reroutes / redirects / jumps to the response of the `router` hook.
 
         Router hook should return route stage inside the additional_data with key **EngineConstants.DYNAMIC_ROUTE_KEY**
@@ -204,7 +204,7 @@ class MessageProcessor:
             try:
                 self._check_template_params()
 
-                result = HookService.process_hook(
+                result = await HookService.process_hook(
                     hook_dotted_path=self.CURRENT_TEMPLATE.get(TemplateConstants.DYNAMIC_ROUTER),
                     hook_arg=self.HOOK_ARG)
 
@@ -215,7 +215,7 @@ class MessageProcessor:
 
         return None
 
-    def process_pre_hooks(self, next_stage_template: Dict = None) -> None:
+    async def process_pre_hooks(self, next_stage_template: Dict = None) -> None:
         """
         Process all template hooks before message response is generated
         and send back to user
@@ -223,10 +223,12 @@ class MessageProcessor:
         :param next_stage_template: for processing next stage template else use current stage template
         :return: None
         """
-        self._check_template_params(next_stage_template)
-        self._on_generate(next_stage_template)
+        await HookService.process_global_hooks("pre", self.HOOK_ARG)
 
-    def process_post_hooks(self) -> None:
+        self._check_template_params(next_stage_template)
+        await self._on_generate(next_stage_template)
+
+    async def process_post_hooks(self) -> None:
         """
         Process all hooks soon after receiving message from user.
 
@@ -244,11 +246,13 @@ class MessageProcessor:
         Return:
              None
         """
+        await HookService.process_global_hooks("post", self.HOOK_ARG)
+
         self._ack_user_message()
         self._check_template_params()
-        self._process_hook(stage_key=TemplateConstants.VALIDATOR)
-        self._process_hook(stage_key=TemplateConstants.ON_RECEIVE)
-        self._process_hook(stage_key=TemplateConstants.MIDDLEWARE)
+        await self._process_hook(stage_key=TemplateConstants.VALIDATOR)
+        await self._process_hook(stage_key=TemplateConstants.ON_RECEIVE)
+        await self._process_hook(stage_key=TemplateConstants.MIDDLEWARE)
         self._save_prop()
 
     def setup(self) -> None:

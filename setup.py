@@ -52,5 +52,5 @@ setup(
         "Source Code": "https://github.com/DonnC/pywce",
         "Documentation": "https://docs.page/donnc/wce",
     },
-    keywords=["whatsapp", "chatbot", "yaml", "automation", "template", "hooks"]
+    keywords=["whatsapp", "chatbot", "ai", "yaml", "automation", "template", "hooks"]
 )

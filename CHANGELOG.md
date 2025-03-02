@@ -191,3 +191,4 @@ for file in hook_files:
 print("downloaded files: ", files)
 ```
 * Added initial support for custom AI agent
+* Can now define global pre & post hooks

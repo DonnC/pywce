@@ -6,7 +6,7 @@ from colorlog import ColoredFormatter
 from pythonjsonlogger import json
 
 # env log properties
-LOGGING_ENABLED = getenv("PYWCE_LOGGER", "True").lower() == "true"
+LOGGING_ENABLED = int(getenv("PYWCE_LOGGER", "1")) == 1
 LOG_COUNT = int(getenv("PYWCE_LOG_COUNT", "3"))
 LOG_SIZE = int(getenv("PYWCE_LOG_SIZE", "5"))
 

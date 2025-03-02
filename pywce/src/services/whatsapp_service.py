@@ -40,7 +40,7 @@ class WhatsAppService:
         :param template: process as engine template message else, bypass engine logic
         :return:
         """
-        payload: Dict[str, Any] = self._processor.payload(template)
+        payload: Dict[str, Any] = await self._processor.payload(template)
 
         match self.model.template_type:
             case TemplateTypeConstants.TEXT:

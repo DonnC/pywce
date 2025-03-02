@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any, List, Optional, Callable
 
 from pywce.modules import *
 from pywce.modules import client
@@ -40,6 +40,8 @@ class EngineConfig:
     debounce_timeout_ms: int = 6000
     webhook_timestamp_threshold_s: int = 10
     session_manager: ISessionManager = DefaultSessionManager()
+    global_pre_hooks: list[Callable] = field(default_factory=list)
+    global_post_hooks: list[Callable] = field(default_factory=list)
 
 
 @dataclass

@@ -1,0 +1,79 @@
+{
+  "version": "6.3",
+  "screens": [
+    {
+      "terminal": true,
+      "title": "Register Road🆘 Services",
+      "id": "FLOW_REGISTER",
+      "layout": {
+        "type": "SingleColumnLayout",
+        "children": [
+          {
+            "name": "register_sos",
+            "type": "Form",
+            "children": [
+              {
+                "type": "TextSubheading",
+                "text": "Let's set you up"
+              },
+              {
+                "input-type": "phone",
+                "label": "Mobile Number",
+                "name": "mobile",
+                "required": true,
+                "type": "TextInput"
+              },
+              {
+                "input-type": "text",
+                "label": "First Name",
+                "name": "fname",
+                "required": true,
+                "type": "TextInput"
+              },
+              {
+                "input-type": "text",
+                "label": "Last Name",
+                "name": "lname",
+                "required": true,
+                "type": "TextInput"
+              },
+              {
+                "input-type": "text",
+                "label": "License Number",
+                "name": "license",
+                "required": true,
+                "type": "TextInput",
+                "helper-text": "international / gvt issued license no."
+              },
+              {
+                "type": "PhotoPicker",
+                "name": "media",
+                "label": "Proof of License",
+                "description": "Please attach back & front images of your license",
+                "photo-source": "camera_gallery",
+                "min-uploaded-photos": 2,
+                "max-uploaded-photos": 3,
+                "max-file-size-kb": 10240
+              },
+              {
+                "type": "Footer",
+                "label": "Submit",
+                "on-click-action": {
+                  "name": "complete",
+                  "payload": {
+                    "screen": "FLOW_REGISTER",
+                    "mobile": "${form.mobile}",
+                    "license": "${form.license}",
+                    "first_name": "${form.fname}",
+                    "last_name": "${form.lname}",
+                    "media": "${form.media}"
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

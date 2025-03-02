@@ -46,13 +46,8 @@ class AiService:
 
         instructions:
         1. you are a customer support ai agent for a local bank. The bank has omnichannel digital platforms for its clients.
-        2.
 
         Gemini baseUrl: "https://generativelanguage.googleapis.com/v1beta/"
-
-
-
-
     """
     _history_folder = "ai_history"
     _threads_db: str = "ai_threads_db"
@@ -204,17 +199,18 @@ class AiService:
             self.assistant_files.append(response.id)
 
     def get_assistant(self):
-        # assistants = self.client.beta.assistants.list()
-        #
-        # for assistant in assistants.data:
-        #     if assistant.name == self.name:
-        #         _logger.info("Assistant already exists.")
-        #         return assistant
+        assistants = self.client.beta.assistants.list()
+
+        for assistant in assistants.data:
+            if assistant.name == self.name:
+                _logger.info("Assistant already exists.")
+                return assistant
 
         _logger.info("No assistant found, creating..")
 
         assistant = self.client.beta.assistants.create(
             model=OPENAI_MODEL,
+            # response_format=AiResponse,
             name=self.name)
 
         return assistant
@@ -269,9 +265,8 @@ class AiService:
         run = self.client.beta.threads.runs.create(
             thread_id=thread_id,
             assistant_id=self.assistant.id,
-            # response_format=AiResponse,
             instructions=self.instructions,
-            tools=self._get_tools_in_open_ai_format() or [{"type": "retrieval"}]
+            tools=self._get_tools_in_open_ai_format() or None
         )
 
         return run

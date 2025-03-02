@@ -22,6 +22,7 @@ class Engine:
         self.whatsapp = config.whatsapp
 
         self._load_resources()
+        HookService.register_callable_global_hooks(self.config.global_pre_hooks, self.config.global_post_hooks)
 
     def _load_resources(self):
         self._TEMPLATES.clear()
@@ -57,7 +58,7 @@ class Engine:
         return self._TRIGGERS
 
     def verify_webhook(self, mode, challenge, token):
-        return self.whatsapp.util.verify_webhook_verification_challenge(mode, challenge, token)
+        return self.whatsapp.util.webhook_challenge(mode, challenge, token)
 
     def terminate_external_handler(self, recipient_id: str):
         user_session: ISessionManager = self.config.session_manager.session(session_id=recipient_id)
@@ -145,7 +146,7 @@ class Engine:
                         additional_data={}
                     )
 
-                    HookService.process_hook(
+                    await HookService.process_hook(
                         hook_dotted_path=self.config.ext_handler_hook,
                         hook_arg=_arg
                     )

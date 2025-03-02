@@ -1,0 +1,34 @@
+"START-MENU":
+  type: list
+  message:
+    title: Road🆘
+    body: |
+      Your all-in-one road assistant on the go.
+      
+      Click button for menu
+    footer: powered by pywce
+    button: Menu🚘
+    sections:
+      "Menu":
+        0:
+          title: Register Account 🆕
+          description: Register your vehicle & self
+        1:
+          title: Report Accident 🚨
+          description: Put together all accident details
+        2:
+          title: Road Angel 👨🏼‍🔧
+          description: Stuck on road? Request us, we have your back!
+        3:
+          title: Emergency Contacts 🆘
+          description: Need help? Get in touch via toll-free numbers.
+        4:
+          title: Report ⚠️
+          description: Report our services.
+  routes:
+    "0": "RENT-A-CAR"
+    "1": "RENTALS"
+    "2": "ENQUIRY"
+    "3": "REPORT"
+    "4": "HELP"
+

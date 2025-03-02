@@ -8,7 +8,7 @@ class CarRentalService:
           Car Rental Service.
 
           This class can also use a db or connect to external service.
-          Json was used for demo purposes.
+          Json was used for videos purposes.
 
           Primary functions:
 

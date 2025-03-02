@@ -44,7 +44,7 @@ def ep_verify_webhook(
         token: str = Query(..., alias="hub.verify_token"),
         challenge: str = Query(..., alias="hub.challenge")
 ) -> Response:
-    result = whatsapp.util.verify_webhook_verification_challenge(
+    result = whatsapp.util.webhook_challenge(
         mode=mode, token=token, challenge=challenge
     )
 

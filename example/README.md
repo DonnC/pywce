@@ -12,9 +12,14 @@ Install project dependencies
 pip install -r requirements.txt
 ```
 
+## Setup
+The examples have all have the same structure in [common directory](common)
+
+To run the bots, each example should have its own `.env` file (view the example [.env.example](.env.example) file)
+
 ## ChatBots
 ### Demos
-Check out demo videos in [demo folder](demo)
+Check out demo videos in [demo folder](videos)
 
 ### [Nikk's Car Rental ChatBot](car_rental)
 

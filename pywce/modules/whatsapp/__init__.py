@@ -353,7 +353,7 @@ class WhatsApp:
             processed_data = self._pre_process(webhook_data)
             return "messages" in processed_data
 
-        def verify_webhook_verification_challenge(self, mode: str, challenge: str, token: str) -> Union[str, None]:
+        def webhook_challenge(self, mode: str, challenge: str, token: str) -> Union[str, None]:
             if mode == "subscribe" and token == self.parent.config.hub_verification_token:
                 return challenge
             return None
