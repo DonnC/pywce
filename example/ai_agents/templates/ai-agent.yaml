@@ -1,0 +1,27 @@
+"INVOKE-AI-AGENT":
+  type: text
+  on-generate: "ai_agents.hooks.ai_hook.toggle_agent_state"
+  message: |
+    🕑 Kindly wait a moment as I connect you to your AI Agent 🤖.
+    
+    ⚠️ _AI responses may be incorrect, verify info_
+    
+    ℹ️ Type _*terminate*_ to terminate AI agent
+  params:
+    type: INVOKE
+  routes:
+    "re:.*": "START-MENU"
+
+"TERMINATE-AI-AGENT":
+  type: button
+  on-generate: "ai_agents.hooks.ai_hook.agent_processor"
+  message:
+    title: "AI Agent"
+    body: "Thank you for your time. Click button to return to menu"
+    footer: pywce
+    buttons:
+      - Menu
+  params:
+    type: TERMINATE
+  routes:
+    "re:.*": "START-MENU"

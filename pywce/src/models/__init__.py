@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Dict, Any, List, Optional, Callable
+from typing import Dict, Any, List, Optional, Callable, Union
 
 from pywce.modules import *
 from pywce.modules import client
@@ -88,14 +88,14 @@ class HookArg:
         :var session_manager: session instance of the current user -> WaUser
     """
     user: client.WaUser
-    params: Dict[str, Any] = field(default_factory=dict)
-    template_body: TemplateDynamicBody = None
+    user_input: Optional[Any]
+    session_id: Optional[str]
+    session_manager: Optional[ISessionManager]
+    template_body: Optional[TemplateDynamicBody]=None
     from_trigger: bool = False
-    user_input: str = None
-    flow: str = None
-    additional_data: Dict[str, Any] = None
-    session_id: str = None
-    session_manager: ISessionManager = None
+    flow: Optional[str] = None
+    additional_data: Optional[Dict[str, Any]] = None
+    params: Dict[str, Any] = field(default_factory=dict)
 
     def __str__(self):
         attrs = {
@@ -152,5 +152,87 @@ class ExternalHandlerResponse:
     typ: TemplateTypeConstants
     recipient_id: str
     message: str
-    options: List
-    reply_message_id: Optional[str]
+    options: Optional[List] = None
+    title: Optional[str] = None
+    reply_message_id: Optional[str] = None
+
+
+# === template dto ===
+# TODO: WIP
+@dataclass
+class SectionBaseDto:
+    pass
+
+
+@dataclass
+class ListSectionRowDto:
+    """
+        0:
+          title: Rent A Car 🚗
+          description: View current available cars
+        1:
+          title: My Rentals
+          description: View current rented cars
+    """
+    id: Union[str, int]
+    title: str
+    description: Optional[str] = None
+
+
+@dataclass
+class ListSectionDto(SectionBaseDto):
+    """
+      "Menu":
+        0:
+          title: Rent A Car 🚗
+          description: View current available cars
+        1:
+          title: My Rentals
+          description: View current rented cars
+    """
+    title: str
+    rows: List[ListSectionRowDto]
+
+
+@dataclass
+class CatalogSectionDto(SectionBaseDto):
+    """
+        "Burgers":
+            - "product-id-3"
+            - "product-id-4"
+    """
+    title: str
+    products: List[str]
+
+
+@dataclass
+class RouteDto:
+    id: Union[str, int]
+    route: str
+
+
+@dataclass
+class MessageDto:
+    catalog_id: Optional[str] = field(metadata={"required": False, "yaml_name": "catalog-id"})
+    product_id: Optional[str] = field(metadata={"required": False, "yaml_name": "product-id"})
+    title: Optional[str] = None
+    body: Optional[str] = None
+    footer: Optional[str] = None
+    button: Optional[str] = None
+    url: Optional[str] = None
+    name: Optional[str] = None
+    language: Optional[str] = None
+    sections: Optional[List[SectionBaseDto]] = None
+
+
+@dataclass
+class TemplateDto:
+    """
+    Main template model
+
+    represents the yaml template general DTO
+    """
+    typ: str = field(metadata={"required": True, "yaml_name": "type"})
+    message: Union[str, MessageDto]
+    routes: List[RouteDto]
+    template: Optional[str] = None

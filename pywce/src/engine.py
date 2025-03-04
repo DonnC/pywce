@@ -5,7 +5,7 @@ import ruamel.yaml
 
 from pywce.modules import client, ISessionManager
 from pywce.src.constants import TemplateTypeConstants, SessionConstants
-from pywce.src.exceptions import ExtHandlerHookError, HookError, EngineException
+from pywce.src.exceptions import ExtHandlerHookError, HookError, EngineException, EngineInternalException
 from pywce.src.models import EngineConfig, WorkerJob, WhatsAppServiceModel, HookArg, ExternalHandlerResponse
 from pywce.src.services import Worker, WhatsAppService, HookService
 from pywce.src.utils import pywce_logger
@@ -73,18 +73,55 @@ class Engine:
             Respond to user
         """
         user_session: ISessionManager = self.config.session_manager.session(session_id=response.recipient_id)
-        has_ls_session = user_session.get(session_id=response.recipient_id, key=SessionConstants.EXTERNAL_CHAT_HANDLER)
+        has_ext_handler_session = user_session.get(session_id=response.recipient_id,
+                                                   key=SessionConstants.EXTERNAL_CHAT_HANDLER)
 
-        if has_ls_session is not None:
-            # TODO: create template messages
-            _template = {
-                "type": "text",
-                "message-id": response.reply_message_id,
-                "message": response.message
-            }
+        if has_ext_handler_session is not None:
+            match response.typ:
+                case TemplateTypeConstants.TEXT:
+                    _template = {
+                        "type": "text",
+                        "message-id": response.reply_message_id,
+                        "message": response.message
+                    }
+
+                case TemplateTypeConstants.BUTTON:
+                    _template = {
+                        "type": "button",
+                        "message-id": response.reply_message_id,
+                        "message": {
+                            "title": response.title,
+                            "body": response.message,
+                            "buttons": response.options
+                        }
+                    }
+
+                case TemplateTypeConstants.LIST:
+                    _sections = {}
+
+                    for option in response.options:
+                        _sections[option["id"]] = {
+                            "title": option["id"],
+                            "description": option["description"]
+                        }
+
+                    _template = {
+                        "type": "list",
+                        "message-id": response.reply_message_id,
+                        "message": {
+                            "title": response.title,
+                            "body": response.message,
+                            "sections": {
+                                response.title: _sections
+                            }
+                        }
+                    }
+
+                case _:
+                    raise EngineInternalException("Type not supported for external handler")
 
             service_model = WhatsAppServiceModel(
-                template_type=TemplateTypeConstants.TEXT,
+                template_type=response.typ,
                 template=_template,
                 whatsapp=self.whatsapp,
                 user=client.WaUser(wa_id=response.recipient_id),
@@ -137,12 +174,11 @@ class Engine:
         else:
             if self.config.ext_handler_hook is not None:
                 try:
-                    # TEXT messages only supported
                     _arg = HookArg(
                         session_id=wa_user.wa_id,
                         session_manager=user_session,
                         user=wa_user,
-                        user_input=response_model.body.get("body"),
+                        user_input=response_model,
                         additional_data={}
                     )
 

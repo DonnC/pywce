@@ -5,69 +5,54 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e700a6d4-f3fd-4ca6-8806-bc5eb9b6e49c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/example/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/common/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/common/config.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/common/global_hooks.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/common/tasks.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/road_sos/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/road_sos/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/road_sos/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/road_sos/flows/flow-register.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/road_sos/flows/sample.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/road_sos/hooks/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/road_sos/hooks/report.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/road_sos/service/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/road_sos/service/data.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/road_sos/service/rental_service.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/road_sos/templates/coming_soon.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/road_sos/templates/enquiry.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/road_sos/templates/help.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/road_sos/templates/menu.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/road_sos/templates/rent.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/road_sos/templates/rentals.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/road_sos/templates/report.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/road_sos/triggers/triggers.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ai_agents/flows/create_agent.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ai_agents/hooks/ai_hook.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/ai_agents/templates/ai-agent.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/CHANGELOG.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/.env.example" beforeDir="false" afterPath="$PROJECT_DIR$/example/.env.example" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/example/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ai_agents/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/example/ai_agents/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ai_agents/assets/ai-banner-1.webp" beforeDir="false" afterPath="$PROJECT_DIR$/example/road_sos/assets/ai-banner-1.webp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ai_agents/assets/ai-banner.webp" beforeDir="false" afterPath="$PROJECT_DIR$/example/road_sos/assets/ai-banner.webp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ai_agents/assets/aqua toyota.JPG" beforeDir="false" afterPath="$PROJECT_DIR$/example/road_sos/assets/aqua toyota.JPG" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ai_agents/assets/flow.png" beforeDir="false" afterPath="$PROJECT_DIR$/example/road_sos/assets/flow.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ai_agents/assets/honda-fit.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/example/road_sos/assets/honda-fit.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ai_agents/assets/logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/example/road_sos/assets/logo.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ai_agents/assets/nissan note.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/example/road_sos/assets/nissan note.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ai_agents/flows/flow-rent-car.json" beforeDir="false" afterPath="$PROJECT_DIR$/example/road_sos/flows/flow-accident.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ai_agents/hooks/payment.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/road_sos/hooks/payment.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ai_agents/hooks/rent.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/road_sos/hooks/rent.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ai_agents/main.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ai_agents/service/rental_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/ai_agents/service/rental_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/car_rental/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/common/routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/car_rental/service/rental_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/car_rental/service/rental_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/chatbot/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/chatbot/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/demo/ehailing.mp4" beforeDir="false" afterPath="$PROJECT_DIR$/example/videos/ehailing.mp4" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/demo/rental.mp4" beforeDir="false" afterPath="$PROJECT_DIR$/example/videos/rental.mp4" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ehailing/main.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/chatbot/bot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/modules/whatsapp/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/whatsapp/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/constants/engine.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/constants/engine.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/constants/template.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/constants/template.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ai_agents/hooks/name.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ai_agents/hooks/report.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ai_agents/service/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/ai_agents/.env.example" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ai_agents/service/data.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ai_agents/service/rental_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/ai_agents/service/ai_agents.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ai_agents/templates/enquiry.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ai_agents/templates/manage-agents.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ai_agents/templates/menu.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ai_agents/templates/menu.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ai_agents/templates/rent.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ai_agents/templates/create-agent.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ai_agents/templates/rentals.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ai_agents/templates/report.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ai_agents/templates/report.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ai_agents/triggers/triggers.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ai_agents/triggers/triggers.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/road_sos/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/road_sos/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/road_sos/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/ai_agents/hooks/manage_agents.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/road_sos/assets/ai-banner-1.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/road_sos/assets/ai-banner.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/road_sos/assets/aqua toyota.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/road_sos/assets/flow.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/road_sos/assets/honda-fit.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/road_sos/assets/logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/road_sos/assets/nissan note.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/road_sos/flows/flow-accident.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/road_sos/flows/flow-register.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/road_sos/flows/sample.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/road_sos/hooks/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/portal/portal/chatbot/templates/about.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/road_sos/hooks/payment.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/road_sos/hooks/rent.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/road_sos/hooks/report.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/road_sos/service/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/road_sos/service/data.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/road_sos/service/rental_service.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/road_sos/templates/coming_soon.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/road_sos/templates/enquiry.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/road_sos/templates/help.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/road_sos/templates/menu.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/road_sos/templates/rent.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/road_sos/templates/rentals.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/road_sos/templates/report.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/road_sos/triggers/triggers.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pywce/src/engine.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/engine.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pywce/src/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/models/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pywce/src/services/ai_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/ai_service.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pywce/src/services/hook_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/hook_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/services/message_processor.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/message_processor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/services/template_message_processor.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/template_message_processor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/services/whatsapp_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/whatsapp_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/services/worker.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/worker.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/utils/engine_logger.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/utils/engine_logger.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test_ai.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_ai.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -122,7 +107,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;feat/openai&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/DEVELOPER/Documents/Personal/Personal/Projects/python/pywce/example&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/DEVELOPER/Documents/Personal/Personal/Projects/python/pywce/example/ai_agents/templates&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -143,11 +128,11 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\example\ai_agents\templates" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\example" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\example\demo" />
       <recent name="$PROJECT_DIR$/portal/portal/chatbot" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\example\standalone_chatbot" />
-      <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\tests\test_services" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce" />
@@ -323,6 +308,10 @@
       <workItem from="1740591020762" duration="3362000" />
       <workItem from="1740735440839" duration="2546000" />
       <workItem from="1740932176985" duration="4411000" />
+      <workItem from="1741000906556" duration="5082000" />
+      <workItem from="1741022275640" duration="5325000" />
+      <workItem from="1741074733340" duration="7773000" />
+      <workItem from="1741108594572" duration="4902000" />
     </task>
     <servers />
   </component>
@@ -333,7 +322,7 @@
     <SUITE FILE_PATH="coverage/pywce$main.coverage" NAME="main Coverage Results" MODIFIED="1739284387965" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/example/ehailing" />
     <SUITE FILE_PATH="coverage/pywce$response_structure.coverage" NAME="response_structure Coverage Results" MODIFIED="1737218227283" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/pywce/modules/whatsapp/model" />
     <SUITE FILE_PATH="coverage/pywce$scratch.coverage" NAME="scratch Coverage Results" MODIFIED="1738929427889" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$APPLICATION_CONFIG_DIR$/scratches" />
-    <SUITE FILE_PATH="coverage/pywce$test_ai.coverage" NAME="test_ai Coverage Results" MODIFIED="1740938251084" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/pywce$test_ai.coverage" NAME="test_ai Coverage Results" MODIFIED="1741087570299" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/pywce$.coverage" NAME=" Coverage Results" MODIFIED="1737924789160" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/pywce$hook_service.coverage" NAME="hook_service Coverage Results" MODIFIED="1737218975528" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/pywce/src/services" />
     <SUITE FILE_PATH="coverage/pywce$templetor.coverage" NAME="templetor Coverage Results" MODIFIED="1736407777201" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/example" />

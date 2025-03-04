@@ -2,7 +2,6 @@
 # https://github.com/jeanmaried/openai-assistant-blog/blob/main/agent.py
 
 
-import asyncio
 import json
 import os
 import shelve
@@ -35,6 +34,7 @@ _logger = pywce_logger(__name__)
 
 class AiResponse(BaseModel):
     typ: Literal["text", "button", "list"]
+    recipient_id: str
     message: str
     title: Optional[str]
     options: List[Union[str, Dict]]
@@ -196,6 +196,7 @@ class AiService:
         """Uploads a file and stores its ID for assistant use."""
         with open(file_path, 'rb') as file:
             response = self.client.files.create(file=file, purpose='assistants')
+            _logger.debug("Added assistant file with id: %s", response.id)
             self.assistant_files.append(response.id)
 
     def get_assistant(self):
@@ -215,15 +216,15 @@ class AiService:
 
         return assistant
 
-    async def _store_thread(self, wa_id, thread_id):
+    def _store_thread(self, wa_id, thread_id):
         with shelve.open(self._threads_db, writeback=True) as threads_shelf:
             threads_shelf[self._create_thread_db_id(wa_id)] = thread_id
 
-    async def _check_if_thread_exists(self, wa_id):
+    def _check_if_thread_exists(self, wa_id):
         with shelve.open(self._threads_db, writeback=True) as threads_shelf:
             return threads_shelf.get(self._create_thread_db_id(wa_id), None)
 
-    async def _wait_for_run_completion(self, thread):
+    def _wait_for_run_completion(self, thread):
         """
         Wait for any active run associated with the thread to complete.
         """
@@ -240,7 +241,7 @@ class AiService:
             if elapsed_time > RUN_TIMEOUT_IN_SECONDS:
                 raise AiException("Waiting for run to complete timed out")
 
-            await asyncio.sleep(1)
+            time.sleep(1)
 
     def _cancel_run(self, run_id, thread_id):
         self.client.beta.threads.runs.cancel(
@@ -248,13 +249,13 @@ class AiService:
             thread_id=thread_id
         )
 
-    async def _get_thread(self, wa_id:str):
-        thread_id = await self._check_if_thread_exists(wa_id)
+    def _get_thread(self, wa_id: str):
+        thread_id = self._check_if_thread_exists(wa_id)
 
         if thread_id is None:
             _logger.info(f"Creating new thread for agent: {self.name} with user: {wa_id}")
             thread = self.client.beta.threads.create()
-            await self._store_thread(wa_id, thread.id)
+            self._store_thread(wa_id, thread.id)
         else:
             _logger.info(f"Retrieving existing thread for agent: {self.name} with user: {wa_id}")
             thread = self.client.beta.threads.retrieve(thread_id)
@@ -274,10 +275,9 @@ class AiService:
     def _retrieve_run(self, run_id, thread_id):
         return self.client.beta.threads.runs.retrieve(thread_id=thread_id, run_id=run_id)
 
-
-    async def _run_assistant(self, thread, run):
+    def _run_assistant(self, thread, run):
         try:
-            await self._wait_for_run_completion(thread)
+            self._wait_for_run_completion(thread)
 
             status = run.status
 
@@ -297,7 +297,7 @@ class AiService:
                 if status == 'requires_action':
                     self._call_tools(run.id, thread.id, run.required_action.submit_tool_outputs.tool_calls)
 
-                await asyncio.sleep(2)
+                time.sleep(2)
 
                 run = self._retrieve_run(run.id, thread.id)
                 status = run.status
@@ -330,7 +330,7 @@ class AiService:
             tool_outputs=tool_outputs
         )
 
-    def _add_message(self, thread_id, message:str):
+    def _add_message(self, thread_id, message: str):
         self.client.beta.threads.messages.create(
             thread_id=thread_id,
             role="user",
@@ -346,18 +346,20 @@ class AiService:
 
         return content.text.value
 
-    async def generate_response(self, message: str, wa_id: str):
+    def generate_response(self, message: str, wa_id: str):
+        assert len(message) > 0, "Message must not be empty"
+
         _logger.info("Generating agent response..")
 
-        thread = await self._get_thread(wa_id)
+        thread = self._get_thread(wa_id)
 
-        await self._wait_for_run_completion(thread)
+        self._wait_for_run_completion(thread)
 
         self._add_message(thread.id, message)
 
         run = self._create_run(thread.id)
 
-        await self._run_assistant(thread, run)
+        self._run_assistant(thread, run)
 
         agent_response = self._get_last_message(thread.id)
 

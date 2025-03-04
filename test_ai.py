@@ -1,9 +1,7 @@
-import asyncio
-
-from pywce import AiService
+from pywce import ai
 
 
-async def main():
+def main():
     wa_id = "crm_nikk"
     agent = "CRM Niki"
     instructions = """You are a seasoned CRM expert for a local bank in Zimbabwe
@@ -16,15 +14,15 @@ async def main():
     You are a polite, patient and professional expert in your conduct.
     """
 
-    ai = AiService(agent, instructions, {})
+    ai_agent = ai.AiService(agent, instructions, {})
 
     print("[Ai] Hi I'm CRM Niki, how can I help you today?\n")
 
     while True:
         user = input("[User] ")
-        response = await ai.generate_response(user, wa_id)
+        response = ai_agent.generate_response(user, wa_id)
         print(f"[Ai] {response}")
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    main()
