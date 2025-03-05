@@ -36,7 +36,7 @@ class HookService:
         return _dotted_path_registry
 
     @staticmethod
-    def map_ai_handler_response(ai_response: AiResponse) -> ExternalHandlerResponse:
+    def map_ai_handler_response(recipient:str, ai_response: AiResponse, agent_name:str="🤖") -> ExternalHandlerResponse:
         # TODO: map all supported ai responses
         if ai_response.typ == "button":
             _type = TemplateTypeConstants.BUTTON
@@ -50,9 +50,9 @@ class HookService:
         return ExternalHandlerResponse(
             typ=_type,
             title=ai_response.title,
-            message=ai_response.message,
+            message=f"{agent_name}\n{ai_response.message}",
             options=ai_response.options,
-            recipient_id=ai_response.recipient_id
+            recipient_id=recipient
         )
 
     @staticmethod

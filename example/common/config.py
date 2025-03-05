@@ -25,7 +25,8 @@ _eng_config = EngineConfig(
     templates_dir=os.getenv("TEMPLATES_DIR"),
     trigger_dir=os.getenv("TRIGGERS_DIR"),
     start_template_stage=os.getenv("START_STAGE"),
-    global_pre_hooks=[log_incoming_message]
+    global_pre_hooks=[log_incoming_message],
+    ext_handler_hook="example.ai_agents.hooks.ai_hook.agent_processor"
 )
 
 engine = Engine(config=_eng_config)

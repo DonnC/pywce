@@ -51,6 +51,8 @@ class Engine:
                 if data:
                     self._TRIGGERS.update(data)
 
+        assert len(self._TEMPLATES) != 0, "No valid templates found"
+
     def get_templates(self) -> Dict:
         return self._TEMPLATES
 
@@ -125,7 +127,11 @@ class Engine:
                 template=_template,
                 whatsapp=self.whatsapp,
                 user=client.WaUser(wa_id=response.recipient_id),
-                hook_arg=HookArg(user=client.WaUser(wa_id=response.recipient_id)),
+                hook_arg=HookArg(
+                    user=client.WaUser(wa_id=response.recipient_id),
+                    session_id=response.recipient_id,
+                    session_manager=user_session
+                ),
             )
 
             whatsapp_service = WhatsAppService(model=service_model, validate_template=False)

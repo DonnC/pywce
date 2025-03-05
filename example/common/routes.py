@@ -1,9 +1,12 @@
-from fastapi import APIRouter, Request, BackgroundTasks, HTTPException
+from fastapi import APIRouter, Request, BackgroundTasks, HTTPException, Response
 
+from pywce import pywce_logger
 from .config import whatsapp
 from .tasks import engine_bg_task
 
 router = APIRouter()
+
+logger = pywce_logger(__name__)
 
 @router.post("/chatbot/webhook")
 @whatsapp.util.signature_required
@@ -19,12 +22,12 @@ async def handler(request: Request, background_tasks: BackgroundTasks):
 
 
 @router.get("/chatbot/webhook")
-async def verifier(request: Request) -> str:
+def verifier(request: Request) -> Response:
     """Verify WhatsApp webhook callback URL challenge."""
     params = request.query_params
     mode, token, challenge = params.get("hub.mode"), params.get("hub.verify_token"), params.get("hub.challenge")
 
-    if whatsapp.util.webhook_challenge(mode, token, challenge):
-        return challenge
+    if whatsapp.util.webhook_challenge(mode, challenge, token):
+        return Response(content=challenge, status_code=200)
 
     raise HTTPException(status_code=403, detail="Forbidden")

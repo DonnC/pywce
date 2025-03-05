@@ -28,7 +28,7 @@ class TemplateConstants:
     ON_GENERATE = "on-generate"
     VALIDATOR = "validator"
     TRANSIENT = "transient"
-    ROUTES = "common"
+    ROUTES = "routes"
     DYNAMIC_ROUTER = "router"
     MIDDLEWARE = "middleware"
     TEMPLATE = "template"

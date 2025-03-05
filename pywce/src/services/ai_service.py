@@ -34,10 +34,9 @@ _logger = pywce_logger(__name__)
 
 class AiResponse(BaseModel):
     typ: Literal["text", "button", "list"]
-    recipient_id: str
     message: str
-    title: Optional[str]
-    options: List[Union[str, Dict]]
+    title: Optional[str] = None
+    options: Optional[List[Union[str, Dict]]] = None
 
 
 class AiService:
@@ -57,7 +56,8 @@ class AiService:
         When generating responses, consider the following message type limitations:  
         - **`text`**: A text message best for open-ended responses. The message body supports up to 4096 characters.
         - **`button`**: Up to 3 options, each ≤ 20 characters (exact limit: 3 buttons max). Suitable for short choices like 'Check Balance' or 'Contact Support.'
-            A button must have a single `title`: A short label describing the list (≤ 60 chars) — used as the button header.  
+            - A button must have a single `title`: A short label describing the list (≤ 60 chars) — used as the button header.  
+            - Each option must adhere to char limit minimum 1 upto 20 characters.
         - **`list`**: Up to **10 options**, each with:  
           - `id`: Max **200 characters** (required, unique identifier)  
           - `description`: Max **72 characters** (always include when possible for clarity; omit only if not applicable). 
@@ -257,7 +257,6 @@ class AiService:
             thread = self.client.beta.threads.create()
             self._store_thread(wa_id, thread.id)
         else:
-            _logger.info(f"Retrieving existing thread for agent: {self.name} with user: {wa_id}")
             thread = self.client.beta.threads.retrieve(thread_id)
 
         return thread
@@ -280,8 +279,6 @@ class AiService:
             self._wait_for_run_completion(thread)
 
             status = run.status
-
-            _logger.debug(f"Initial run status: {status}")
 
             start_time = time.time()
 
@@ -315,6 +312,8 @@ class AiService:
             raise e
 
     def _call_tools(self, run_id, thread_id, tool_calls: list[dict]):
+        _logger.debug("Calling %d found tools, thread id: %s", len(tool_calls), thread_id)
+
         tool_outputs = []
 
         for tool_call in tool_calls:
@@ -342,14 +341,26 @@ class AiService:
             thread_id=thread_id,
         ).data[0].content[0]
 
-        _logger.debug(f"Retrieved last message content: {content}")
-
         return content.text.value
 
-    def generate_response(self, message: str, wa_id: str):
+    def _parse_response(self, yaml_text_response: str) -> AiResponse:
+        """
+        _parse_response(yaml_text_response)
+
+        Args:
+            _parse_response (str): ai generated response as yaml json
+
+        Returns:
+            AiResponse: the parse ai response as an object
+        """
+
+        json_data = yaml_text_response.strip("```json\n").strip("```")
+        return AiResponse(**json.loads(json_data))
+
+    def generate_response(self, message: str, wa_id: str) -> AiResponse:
         assert len(message) > 0, "Message must not be empty"
 
-        _logger.info("Generating agent response..")
+        _logger.debug("Generating AI agent response..")
 
         thread = self._get_thread(wa_id)
 
@@ -363,6 +374,6 @@ class AiService:
 
         agent_response = self._get_last_message(thread.id)
 
-        _logger.info(f"Agent response: {agent_response}")
+        _logger.info(f"Raw agent response: {agent_response}")
 
-        return agent_response
+        return self._parse_response(agent_response)

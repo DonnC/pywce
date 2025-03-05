@@ -3,10 +3,10 @@ from random import randint
 from time import time
 from typing import List, Dict, Any, Tuple
 
-from pywce.src.models import HookArg
 from pywce.modules import ISessionManager, client
 from pywce.src.constants import *
 from pywce.src.exceptions import *
+from pywce.src.models import HookArg
 from pywce.src.models import WorkerJob, WhatsAppServiceModel, QuickButtonModel
 from pywce.src.services import MessageProcessor, WhatsAppService
 from pywce.src.utils import EngineUtil, pywce_logger
@@ -196,7 +196,7 @@ class Worker:
             template=_template,
             whatsapp=_client,
             user=self.user,
-            hook_arg=HookArg(user=self.user)
+            hook_arg=HookArg(user=self.user, session_id=self.user.wa_id, user_input=None)
         )
 
         whatsapp_service = WhatsAppService(model=service_model, validate_template=False)
@@ -289,7 +289,7 @@ class Worker:
             return
 
         except EngineResponseException as e:
-            _logger.error("EngineResponse: " + e.message)
+            _logger.error("EngineResponse exc, message: %s, data: %s" , e.message, e.data)
 
             btn = QuickButtonModel(
                 title="Message",
@@ -333,5 +333,5 @@ class Worker:
             return
 
         except EngineInternalException as e:
-            _logger.critical(e.message)
+            _logger.critical(f"Message: %s, data: %s", e.message, e.data)
             return

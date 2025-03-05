@@ -1,7 +1,7 @@
 "NEW-AGENT-STAGE":
   type: flow
   message:
-    id: 1542160659833214
+    id: 1039619734882452
     draft: true
     name: CREATE_AGENT
     title: "AI Agent 🤖"
@@ -12,7 +12,7 @@
 
 "CREATE-AGENT-STAGE":
   type: button
-  on-generate: "ai_agents.hooks.manage_agents.create"
+  on-generate: "example.ai_agents.hooks.manage_agents.create"
   message:
     title: AI Agent
     body: AI Agent created successfully, you can now view or chat with your AI agent on WhatsApp.

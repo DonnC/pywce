@@ -88,9 +88,9 @@ class HookArg:
         :var session_manager: session instance of the current user -> WaUser
     """
     user: client.WaUser
-    user_input: Optional[Any]
-    session_id: Optional[str]
-    session_manager: Optional[ISessionManager]
+    session_id: str
+    user_input: Optional[Any] = None
+    session_manager: Optional[ISessionManager]=None
     template_body: Optional[TemplateDynamicBody]=None
     from_trigger: bool = False
     flow: Optional[str] = None

@@ -1,12 +1,13 @@
 "INVOKE-AI-AGENT":
   type: text
-  on-generate: "ai_agents.hooks.ai_hook.toggle_agent_state"
+  on-generate: "example.ai_agents.hooks.ai_hook.toggle_agent_state"
   message: |
-    🕑 Kindly wait a moment as I connect you to your AI Agent 🤖.
+    🤖 Hi, how can i help you today?.
     
-    ⚠️ _AI responses may be incorrect, verify info_
+    _⚠️ I can make mistakes, check important info_
     
-    ℹ️ Type _*terminate*_ to terminate AI agent
+    
+    ℹ️ Type _terminate_ to cancel AI agent anytime
   params:
     type: INVOKE
   routes:
@@ -14,7 +15,7 @@
 
 "TERMINATE-AI-AGENT":
   type: button
-  on-generate: "ai_agents.hooks.ai_hook.agent_processor"
+  on-generate: "example.ai_agents.hooks.ai_hook.agent_processor"
   message:
     title: "AI Agent"
     body: "Thank you for your time. Click button to return to menu"

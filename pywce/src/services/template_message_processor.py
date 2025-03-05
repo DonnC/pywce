@@ -431,8 +431,6 @@ class TemplateMessageProcessor:
         response = await HookService.process_hook(hook_dotted_path=self.template.get(TemplateConstants.TEMPLATE),
                                                   hook_arg=self.hook)
 
-        _logger.debug("Dynamic template response: %s", response)
-
         self.template_type = response.template_body.typ
         self._message = response.template_body.render_template_payload
 
@@ -452,8 +450,6 @@ class TemplateMessageProcessor:
 
         response = await HookService.process_hook(hook_dotted_path=self.template.get(TemplateConstants.TEMPLATE),
                                                   hook_arg=self.hook)
-
-        _logger.debug("WhatsApp Template, template response: %s", response)
 
         components: List = response.template_body.render_template_payload.get(EngineConstants.WHATSAPP_TEMPLATE_KEY, [])
 
@@ -523,7 +519,10 @@ class TemplateMessageProcessor:
             :param template: process as engine template message else, bypass engine logic
             :return:
         """
+        override_template = template
+
         if self.template_type == TemplateTypeConstants.DYNAMIC:
+            override_template = False
             await self._dynamic()
 
-        return await self._generate_payload(template=template)
+        return await self._generate_payload(template=override_template)
