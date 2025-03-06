@@ -26,7 +26,7 @@ class AiAgentService:
 
     def _get_last_index(self) -> int:
         """Returns the next unique ID for a new agent."""
-        return max(_agents.keys(), default=-1) + 1
+        return max((int(k) for k in _agents.keys()), default=-1) + 1
 
     @staticmethod
     def truncate_text(text: str, max_length: int = 72) -> str:

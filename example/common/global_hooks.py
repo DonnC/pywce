@@ -15,6 +15,6 @@ def log_incoming_message(arg: HookArg) -> None:
     Returns:
         None: global hooks have no need to return anything
     """
-    logger.debug(f"{'*' * 10} New incoming request {'*' * 10}")
+    logger.debug(f"{'*' * 10} New incoming request arg {'*' * 10}")
     logger.warning(arg)
     logger.debug(f"{'*' * 30}")

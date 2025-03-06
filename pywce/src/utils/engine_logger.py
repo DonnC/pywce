@@ -10,7 +10,7 @@ LOGGING_ENABLED = int(getenv("PYWCE_LOGGER", "1")) == 1
 LOG_COUNT = int(getenv("PYWCE_LOG_COUNT", "3"))
 LOG_SIZE = int(getenv("PYWCE_LOG_SIZE", "5"))
 
-def pywce_logger(name: str = "pywce", file: bool =True) -> Logger:
+def pywce_logger(name: str = "pywce", file: bool =False) -> Logger:
     """
     Configures and returns a logger with both console and file logging.
     """

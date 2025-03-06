@@ -1,3 +1,26 @@
+"NEW-AGENT-STAGE":
+  type: flow
+  message:
+    id: 1039619734882452
+    draft: true
+    name: CREATE_AGENT
+    title: "AI Agent 🤖"
+    body: "Have your customized ChatGPT on your fingertips.\nCreate your own personalized AI Agent that you can chat with 🙂"
+    button: Create
+  routes:
+    "re:.*": "CREATE-AGENT"
+
+"CREATE-AGENT":
+  type: button
+  on-generate: "example.ai_agents.hooks.manage_agents.create"
+  message:
+    title: AI Agent
+    body: AI Agent created successfully, you can now view or chat with your AI agent on WhatsApp.
+    buttons:
+      - Menu
+  routes:
+    "menu": "START-MENU"
+
 "LIST-AGENTS-FOR-CHAT":
   type: dynamic
   prop: selected_agent

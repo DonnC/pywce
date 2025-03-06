@@ -5,28 +5,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e700a6d4-f3fd-4ca6-8806-bc5eb9b6e49c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/example/agents.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ai_agents/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/example/ai_agents/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/.env.example" beforeDir="false" afterPath="$PROJECT_DIR$/example/.env.example" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/agents.json" beforeDir="false" afterPath="$PROJECT_DIR$/example/agents.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ai_agents/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ai_agents/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/example/ai_agents/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/ai_agents/hooks/ai_hook.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/ai_agents/hooks/ai_hook.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ai_agents/hooks/manage_agents.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/ai_agents/hooks/manage_agents.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/ai_agents/service/ai_agents.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/ai_agents/service/ai_agents.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ai_agents/templates/ai-agent.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ai_agents/templates/ai-agent.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ai_agents/templates/create-agent.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ai_agents/templates/create-agent.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ai_agents/templates/ai-agent.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ai_agents/templates/start-ai-agent.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ai_agents/templates/coming_soon.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ai_agents/templates/create-agent.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ai_agents/templates/help.yaml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/example/ai_agents/templates/manage-agents.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ai_agents/templates/manage-agents.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ai_agents/templates/menu.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ai_agents/templates/menu.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ai_agents/triggers/triggers.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ai_agents/triggers/triggers.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/car_rental/.gitignore" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/example/common/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/common/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/common/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/common/routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/example/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/templates/about.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ai_agents/templates/about.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/constants/template.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/constants/template.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/common/global_hooks.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/common/global_hooks.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ehailing/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/example/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pywce/src/engine.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/engine.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/models/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pywce/src/services/ai_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/ai_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/services/hook_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/hook_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/services/template_message_processor.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/template_message_processor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/services/whatsapp_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/whatsapp_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/services/worker.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/worker.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/src/utils/engine_logger.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/utils/engine_logger.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_ai.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -286,6 +285,8 @@
       <workItem from="1741074733340" duration="7773000" />
       <workItem from="1741108594572" duration="4902000" />
       <workItem from="1741155090527" duration="20732000" />
+      <workItem from="1741192526699" duration="4926000" />
+      <workItem from="1741242638403" duration="2306000" />
     </task>
     <servers />
   </component>

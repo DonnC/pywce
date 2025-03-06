@@ -3,6 +3,3 @@
 
 # for reporting
 "REPORT": "re:^report$"
-
-# command to terminate external handler
-"TERMINATE-AI-AGENT": "re:(?i)^terminate$"

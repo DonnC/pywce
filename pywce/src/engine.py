@@ -63,16 +63,21 @@ class Engine:
         return self.whatsapp.util.webhook_challenge(mode, challenge, token)
 
     def terminate_external_handler(self, recipient_id: str):
-        user_session: ISessionManager = self.config.session_manager.session(session_id=recipient_id)
-        has_ls_session = user_session.get(session_id=recipient_id, key=SessionConstants.EXTERNAL_CHAT_HANDLER)
+        """
+            terminate external handler session for given recipient_id
 
-        if has_ls_session is not None:
+            after termination, user messages will be handled by the normal template-driven approach
+        """
+        user_session: ISessionManager = self.config.session_manager.session(session_id=recipient_id)
+        has_ext_handler_session = user_session.get(session_id=recipient_id, key=SessionConstants.EXTERNAL_CHAT_HANDLER)
+
+        if has_ext_handler_session is not None:
             user_session.evict(session_id=recipient_id, key=SessionConstants.EXTERNAL_CHAT_HANDLER)
-            _logger.debug("LS session terminated for: %s", recipient_id)
+            _logger.debug("External handler session terminated for: %s", recipient_id)
 
     async def ext_handler_respond(self, response: ExternalHandlerResponse):
         """
-            Respond to user
+            helper method for external handler to send back response to user
         """
         user_session: ISessionManager = self.config.session_manager.session(session_id=response.recipient_id)
         has_ext_handler_session = user_session.get(session_id=response.recipient_id,

@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from pywce import client, hook, HookArg, pywce_logger, SessionConstants, HookService
+from pywce import client, hook, HookArg, pywce_logger, SessionConstants, HookService, ai
 from ..service.ai_agents import AiAgentService
 from ...common.config import engine
 
@@ -8,13 +8,15 @@ _logger = pywce_logger(__name__)
 
 _service = AiAgentService()
 
+TERMINATION_COMMAND = "terminate"
+
 
 @hook
-def toggle_agent_state(arg: HookArg) -> HookArg:
+def invoke_ai_agent(arg: HookArg) -> HookArg:
     """
-    toggle_agent_state(arg)
+    invoke_ai_agent(arg)
 
-    Initiate external session handler or terminate it
+    Initiate external session handler
 
     Args:
         arg (HookArg): pass hook argument from engine
@@ -24,23 +26,12 @@ def toggle_agent_state(arg: HookArg) -> HookArg:
     """
     agent_id = arg.session_manager.get_from_props(arg.session_id, "selected_agent")
 
-    _logger.debug("Selected agent id : %s", agent_id)
-
-    if arg.params.get("type", "TERMINATE") == "INVOKE":
-        session_data = {
-            "start": datetime.now().isoformat(),
-            "agent_id": agent_id
-        }
-        arg.session_manager.save(session_id=arg.session_id, key=SessionConstants.EXTERNAL_CHAT_HANDLER,
-                                 data=session_data)
-
-        _logger.info(f"AI 🤖 agent with id {arg.user_input} - chatting with user begin!")
-    else:
-        session_data = arg.session_manager.get(session_id=arg.user.wa_id, key=SessionConstants.EXTERNAL_CHAT_HANDLER)
-        _logger.info(f"Terminating LS for, User: {arg.user.wa_id} | Data: {session_data}")
-
-        arg.session_manager.evict(session_id=arg.user.wa_id, key=SessionConstants.EXTERNAL_CHAT_HANDLER)
-        _logger.info(f"AI 🤖 agent with id {arg.user_input} - chat with user terminated!")
+    session_data = {
+        "start": datetime.now().isoformat(),
+        "agent_id": agent_id
+    }
+    arg.session_manager.save(session_id=arg.session_id, key=SessionConstants.EXTERNAL_CHAT_HANDLER,
+                             data=session_data)
 
     return arg
 
@@ -51,7 +42,7 @@ async def agent_processor(arg: HookArg) -> None:
 
     Return ai response to user as a computed whatsapp message
 
-    TODO: support other user input message types
+    If user provides a termination command, end handler session
     """
     _logger.warning("User input message: %s", arg.user_input)
 
@@ -64,6 +55,20 @@ async def agent_processor(arg: HookArg) -> None:
         user_input = arg.user_input.body.get("id")
 
     _logger.warning("User input: %s", user_input)
+
+    if user_input.lower() == TERMINATION_COMMAND.lower():
+        _logger.debug("User consent to terminate, killing session..")
+        kill_payload = ai.AiResponse(
+            typ="button",
+            message="You have terminated your conversation with an AI Agent.\nThank you, click the button to go to menu",
+            title="Session Termination",
+            options=["Menu"]
+        )
+        terminate_response = HookService.map_ai_handler_response(arg.session_id, kill_payload)
+        await engine.ext_handler_respond(terminate_response)
+
+        engine.terminate_external_handler(arg.session_id)
+        return
 
     agent_name, response = _service.response(agent_id, arg.session_id, user_input)
 

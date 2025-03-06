@@ -214,6 +214,7 @@ class AiService:
             # response_format=AiResponse,
             name=self.name)
 
+        _logger.info("New assistant created!")
         return assistant
 
     def _store_thread(self, wa_id, thread_id):
@@ -266,6 +267,7 @@ class AiService:
             thread_id=thread_id,
             assistant_id=self.assistant.id,
             instructions=self.instructions,
+            # response_format=AiResponse,
             tools=self._get_tools_in_open_ai_format() or None
         )
 
