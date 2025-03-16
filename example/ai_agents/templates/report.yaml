@@ -1,0 +1,5 @@
+"REPORT":
+  type: text
+  message: "Kindly provide your issue below"
+  routes:
+    "re:.*": "START-MENU"

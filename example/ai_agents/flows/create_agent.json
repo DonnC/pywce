@@ -1,0 +1,125 @@
+{
+    "version": "6.3",
+    "screens": [
+        {
+            "id": "CREATE_AGENT",
+            "title": "Create AI Agent",
+            "terminal": true,
+            "success": true,
+            "data": {},
+            "layout": {
+                "type": "SingleColumnLayout",
+                "children": [
+                    {
+                        "type": "TextInput",
+                        "required": true,
+                        "label": "Agent Name",
+                        "helper-text": "can be your agent role e.g CustomerSupportBot",
+                        "name": "name"
+                    },
+                    {
+                        "type": "TextInput",
+                        "label": "Agent Alias Name",
+                        "name": "alias"
+                    },
+                    {
+                        "type": "TextArea",
+                        "required": true,
+                        "label": "Agent Persona",
+                        "helper-text": "describe AI agent role, behaviour & responsibilities",
+                        "name": "instructions"
+                    },
+                    {
+                        "type": "DocumentPicker",
+                        "name": "files",
+                        "label": "Agent Knowledge",
+                        "description": "Attach custom knowledge base .PDF files for agent to use",
+                        "min-uploaded-documents": 1,
+                        "max-uploaded-documents": 3,
+                        "max-file-size-kb": 5120,
+                        "allowed-mime-types": [
+                            "application/pdf"
+                        ]
+                    },
+                    {
+                        "type": "EmbeddedLink",
+                        "text": "View create AI Agent guide",
+                        "on-click-action": {
+                            "name": "navigate",
+                            "next": {
+                                "type": "screen",
+                                "name": "GUIDE"
+                            },
+                            "payload": {}
+                        }
+                    },
+                    {
+                        "type": "Footer",
+                        "label": "Submit",
+                        "on-click-action": {
+                            "name": "complete",
+                            "payload": {
+                                "name": "${form.name}",
+                                "alias": "${form.alias}",
+                                "instructions": "${form.instructions}",
+                                "files": "${form.files}"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "id": "GUIDE",
+            "title": "AI Agent Guide",
+            "layout": {
+                "type": "SingleColumnLayout",
+                "children": [
+                    {
+                        "type": "RichText",
+                        "text": [
+                            "# Create Your Own AI Agent via WhatsApp",
+                            "======================================",
+                            "Welcome to our WhatsApp-based AI agent creation tool! This guide will walk you through the process of creating your own AI agent.",
+                            "*An AI agent is a computer program that uses artificial intelligence to have conversations, answer questions, and provide helpful responses on a specific topic or domain.*",
+
+                            "## Step 1: Agent Name",
+                            "* Enter a unique name for your AI agent.",
+                            "* This name will be used to identify your agent.",
+                            "Example: *CustomerSupportBot* or *VirtualAssistant*",
+                            "## Step 2: Agent Alias",
+                            "* Enter a short alias for your AI agent.",
+                            "* This alias will be used as a shortcut to access your agent.",
+                            "Example: *CS* for CustomerSupportBot or *VA* for VirtualAssistant",
+                            "## Step 3: Agent Instructions",
+                            "* Provide instructions on the role or domain you want your AI agent to assume.",
+                            "* Be specific and clear about the context and tone you want your agent to convey.",
+                            "### Provide Context for Your AI Agent",
+                            "* Use specific language and tone to help the agent understand the context and role.",
+                            "* Provide enough detail to help the agent generate accurate and relevant responses.",
+                            "### Example Instructions",
+                            "- *You are a customer support representative for a tech company. Respond to inquiries about our products and services in a friendly and helpful tone.*",
+                            "- *You are a virtual tour guide for a museum. Provide detailed descriptions of the exhibits and answer questions from visitors in an engaging and informative way.*",
+                            "### Tips for Effective Instructions",
+                            "* Use Specific Language and Tone: Use specific language and tone to help the agent understand the context and role.",
+                            "* Provide Enough Detail: Provide enough detail to help the agent generate accurate and relevant responses.",
+                            "* Keep it Concise: Keep the instructions concise and focused on the main role or domain.",
+                            "* Use Examples or Scenarios: Use examples or scenarios to help illustrate the desired behavior and tone.",
+                            "## Step 4: Agent Files (Optional)",
+                            "* If you have any files (e.g. PDFs) that you want to associate with your AI agent and act as your knowledge base, upload them here.",
+                            "* Example: A pdf files with your FAQs",
+                            "## Need Help or Want to Learn More?",
+                            "* Visit framework [documentation](https://docs.page/donnc/wce)",
+                            "* Check out GitHub: [github](https://github.com/DonnC)",
+                            "* Email me: [donnclab@gmail.com](mailto:donnclab@gmail.com)",
+                            "## About Me",
+                            "* My mission is to make chatbot development easier",
+                            "* I provide innovative solutions for businesses and individuals.",
+                            "* For chatbot, mobile and software services: [contact via email](mailto:donnclab@gmail.com)"
+                        ]
+                    }
+                ]
+            }
+        }
+    ]
+}

@@ -103,7 +103,7 @@ class TemplateMessageProcessor:
 
         return replace_special_vars(self.template)
 
-    def _process_template_hook(self, skip: bool = False) -> None:
+    async def _process_template_hook(self, skip: bool = False) -> None:
         """
         If template has the `template` hook specified, process it
         and resign to self.template
@@ -115,8 +115,8 @@ class TemplateMessageProcessor:
         if skip: return
 
         if TemplateConstants.TEMPLATE in self.template:
-            response = HookService.process_hook(hook_dotted_path=self.template.get(TemplateConstants.TEMPLATE),
-                                                hook_arg=self.hook)
+            response = await HookService.process_hook(hook_dotted_path=self.template.get(TemplateConstants.TEMPLATE),
+                                                      hook_arg=self.hook)
 
             self.template = EngineUtil.render_template(
                 template=self.template,
@@ -325,7 +325,7 @@ class TemplateMessageProcessor:
             "payload": data
         }
 
-    def _flow(self) -> Dict[str, Any]:
+    async def _flow(self) -> Dict[str, Any]:
         """
         Flow template may require initial flow data to be passed, it is handled here
         """
@@ -334,8 +334,8 @@ class TemplateMessageProcessor:
         flow_initial_payload: Optional[Dict] = None
 
         if TemplateConstants.TEMPLATE in self.template:
-            response = HookService.process_hook(hook_dotted_path=self.template.get(TemplateConstants.TEMPLATE),
-                                                hook_arg=self.hook)
+            response = await HookService.process_hook(hook_dotted_path=self.template.get(TemplateConstants.TEMPLATE),
+                                                      hook_arg=self.hook)
 
             flow_initial_payload = response.template_body.initial_flow_payload
 
@@ -416,7 +416,7 @@ class TemplateMessageProcessor:
 
         return data
 
-    def _dynamic(self):
+    async def _dynamic(self):
         """
         Call template hook and expect template message in hook.template_body.render_template_payload
 
@@ -428,15 +428,13 @@ class TemplateMessageProcessor:
         """
         assert self.template.get(TemplateConstants.TEMPLATE), "template hook is missing"
 
-        response = HookService.process_hook(hook_dotted_path=self.template.get(TemplateConstants.TEMPLATE),
-                                            hook_arg=self.hook)
-
-        _logger.debug("Dynamic template response: %s", response)
+        response = await HookService.process_hook(hook_dotted_path=self.template.get(TemplateConstants.TEMPLATE),
+                                                  hook_arg=self.hook)
 
         self.template_type = response.template_body.typ
         self._message = response.template_body.render_template_payload
 
-    def _whatsapp_template(self):
+    async def _whatsapp_template(self):
         """
         Call template hook and expect whatsapp template body in hook.template_body.render_template_payload
 
@@ -450,10 +448,8 @@ class TemplateMessageProcessor:
         assert self.template.get(TemplateConstants.TEMPLATE), "template hook is missing"
         assert self._message.get(TemplateConstants.MESSAGE_NAME) is not None, "template name is missing"
 
-        response = HookService.process_hook(hook_dotted_path=self.template.get(TemplateConstants.TEMPLATE),
-                                            hook_arg=self.hook)
-
-        _logger.debug("WhatsApp Template, template response: %s", response)
+        response = await HookService.process_hook(hook_dotted_path=self.template.get(TemplateConstants.TEMPLATE),
+                                                  hook_arg=self.hook)
 
         components: List = response.template_body.render_template_payload.get(EngineConstants.WHATSAPP_TEMPLATE_KEY, [])
 
@@ -465,13 +461,13 @@ class TemplateMessageProcessor:
             "components": components
         }
 
-    def _generate_payload(self, template: bool = True) -> Dict[str, Any]:
+    async def _generate_payload(self, template: bool = True) -> Dict[str, Any]:
         """
         :param template: process as engine template message else, bypass engine logic
         :return:
         """
         if template is True:
-            self._process_template_hook(
+            await self._process_template_hook(
                 skip=self.template_type == TemplateTypeConstants.FLOW or \
                      self.template_type == TemplateTypeConstants.DYNAMIC or \
                      self.template_type == TemplateTypeConstants.TEMPLATE
@@ -482,7 +478,7 @@ class TemplateMessageProcessor:
                 return self._text()
 
             case TemplateTypeConstants.TEMPLATE:
-                return self._whatsapp_template()
+                return await self._whatsapp_template()
 
             case TemplateTypeConstants.BUTTON:
                 return self._button()
@@ -503,7 +499,7 @@ class TemplateMessageProcessor:
                 return self._list()
 
             case TemplateTypeConstants.FLOW:
-                return self._flow()
+                return await self._flow()
 
             case TemplateTypeConstants.MEDIA:
                 return self._media()
@@ -518,12 +514,15 @@ class TemplateMessageProcessor:
                 raise EngineInternalException(
                     message=f"Type not supported for payload generation: {self.template_type}")
 
-    def payload(self, template: bool = True) -> Dict[str, Any]:
+    async def payload(self, template: bool = True) -> Dict[str, Any]:
         """
             :param template: process as engine template message else, bypass engine logic
             :return:
         """
-        if self.template_type == TemplateTypeConstants.DYNAMIC:
-            self._dynamic()
+        override_template = template
 
-        return self._generate_payload(template=template)
+        if self.template_type == TemplateTypeConstants.DYNAMIC:
+            override_template = False
+            await self._dynamic()
+
+        return await self._generate_payload(template=override_template)

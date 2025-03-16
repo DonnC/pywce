@@ -1,0 +1,5 @@
+# start chat commands
+"START-MENU": "re:(?i)(^start$)|(^hi$)|(^hie$)"
+
+# for reporting
+"REPORT": "re:^report$"

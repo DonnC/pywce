@@ -3,10 +3,10 @@ from random import randint
 from time import time
 from typing import List, Dict, Any, Tuple
 
-from pywce import HookArg
 from pywce.modules import ISessionManager, client
 from pywce.src.constants import *
 from pywce.src.exceptions import *
+from pywce.src.models import HookArg
 from pywce.src.models import WorkerJob, WhatsAppServiceModel, QuickButtonModel
 from pywce.src.services import MessageProcessor, WhatsAppService
 from pywce.src.utils import EngineUtil, pywce_logger
@@ -95,14 +95,14 @@ class Worker:
 
         return should_reroute_to_checkpoint
 
-    def _next_route_handler(self, msg_processor: MessageProcessor) -> str:
+    async def _next_route_handler(self, msg_processor: MessageProcessor) -> str:
         if msg_processor.IS_FIRST_TIME: return self.job.engine_config.start_template_stage
 
         if self._inactivity_handler():
             raise EngineSessionException(
                 message="You have been inactive for a while, to secure your account, kindly login again")
 
-        # get possible next routes configured on template
+        # get possible next common configured on template
         current_template_routes: Dict[str, Any] = msg_processor.CURRENT_TEMPLATE.get(TemplateConstants.ROUTES)
 
         # check for next route in last checkpoint
@@ -111,14 +111,15 @@ class Worker:
             return self.session.get(session_id=self.session_id, key=SessionConstants.LATEST_CHECKPOINT)
 
         # check for next route in configured dynamic route if any
-        if msg_processor.process_dynamic_route_hook() is not None:
-            return msg_processor.process_dynamic_route_hook()
+        _has_dynamic_route = await msg_processor.process_dynamic_route_hook()
+        if _has_dynamic_route is not None:
+            return _has_dynamic_route
 
         # if from trigger, prioritize triggered stage
         if msg_processor.IS_FROM_TRIGGER:
             return msg_processor.CURRENT_STAGE
 
-        # check for next route in configured template routes
+        # check for next route in configured template common
         for _pattern, _route in current_template_routes.items():
             if EngineUtil.is_regex_input(_pattern):
                 if msg_processor.USER_INPUT[0] is None:
@@ -134,14 +135,14 @@ class Worker:
                                                          msg_processor.USER_INPUT[0]):
                         return _route
 
-        # check for next route in template routes that match exact user input
+        # check for next route in template common that match exact user input
         if msg_processor.USER_INPUT[0] in current_template_routes:
             return current_template_routes[msg_processor.USER_INPUT[0]]
 
         # at this point, user provided an invalid response then
         raise EngineResponseException(message="Invalid response, please try again", data=msg_processor.CURRENT_STAGE)
 
-    def _hook_next_template_handler(self, msg_processor: MessageProcessor) -> Tuple[str, Dict]:
+    async def _hook_next_template_handler(self, msg_processor: MessageProcessor) -> Tuple[str, Dict]:
         """
         Handle next template to render to user
 
@@ -151,21 +152,17 @@ class Worker:
         :return:
         """
         if self.session.get(session_id=self.session_id, key=SessionConstants.DYNAMIC_RETRY) is None:
-            msg_processor.process_post_hooks()
+            await msg_processor.process_post_hooks()
 
-        next_template_stage = self._next_route_handler(msg_processor)
+        next_template_stage = await self._next_route_handler(msg_processor)
 
-        if next_template_stage not in self.job.templates:
-            raise EngineInternalException(
-                message=f"Next stage route: {next_template_stage} not found in templates context map")
-
-        next_template = self.job.templates.get(next_template_stage)
+        next_template = self.job.storage.get(next_template_stage)
 
         # check if next template requires user to be authenticated before processing
         self._check_authentication(next_template)
 
         # process all `next template` pre hooks
-        msg_processor.process_pre_hooks(next_template)
+        await msg_processor.process_pre_hooks(next_template)
 
         return next_template_stage, next_template
 
@@ -195,7 +192,7 @@ class Worker:
             template=_template,
             whatsapp=_client,
             user=self.user,
-            hook_arg=HookArg(user=self.user)
+            hook_arg=HookArg(user=self.user, session_id=self.user.wa_id, user_input=None)
         )
 
         whatsapp_service = WhatsAppService(model=service_model, validate_template=False)
@@ -211,7 +208,7 @@ class Worker:
         processor = MessageProcessor(data=self.job)
         processor.setup()
 
-        next_stage, next_template = self._hook_next_template_handler(processor)
+        next_stage, next_template = await self._hook_next_template_handler(processor)
 
         _logger.info("Next template stage: %s", next_stage)
 
@@ -288,11 +285,11 @@ class Worker:
             return
 
         except EngineResponseException as e:
-            _logger.error("EngineResponse: " + e.message)
+            _logger.error("EngineResponse exc, message: %s, data: %s" , e.message, e.data)
 
             btn = QuickButtonModel(
                 title="Message",
-                message=f"{e.message}\n\n. You may click the Menu button to return to Menu",
+                message=f"{e.message}\n\nYou may click the Menu button to return to Menu",
                 buttons=[EngineConstants.DEFAULT_MENU_BTN_NAME, EngineConstants.DEFAULT_REPORT_BTN_NAME]
             )
 
@@ -332,5 +329,5 @@ class Worker:
             return
 
         except EngineInternalException as e:
-            _logger.critical(e.message)
+            _logger.critical(f"Message: %s, data: %s", e.message, e.data)
             return

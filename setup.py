@@ -21,7 +21,7 @@ with open("requirements.txt", "r", encoding="utf-8") as fh:
 
 setup(
     name="pywce",
-    version="1.0.5",
+    version="1.0.7",
     author="Donald Chinhuru",
     author_email="donychinhuru@gmail.com",
     description="A template-driven framework for building WhatsApp chatbots",
@@ -32,6 +32,9 @@ setup(
     packages=find_packages(include=["pywce*"]),
     python_requires=">=3.9",
     install_requires=install_requires,
+    extras_require={
+        "ai": ["openai", "docstring-parser"]
+    },
     classifiers=[
         "Development Status :: 4 - Beta",
         "Intended Audience :: Developers",
@@ -49,5 +52,5 @@ setup(
         "Source Code": "https://github.com/DonnC/pywce",
         "Documentation": "https://docs.page/donnc/wce",
     },
-    keywords=["whatsapp", "chatbot", "yaml", "automation", "template", "hooks"]
+    keywords=["whatsapp", "chatbot", "ai", "yaml", "automation", "template", "hooks"]
 )

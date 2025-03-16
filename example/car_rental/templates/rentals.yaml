@@ -1,0 +1,6 @@
+"RENTALS":
+  type: text
+  template: "car_rental.hooks.rent.customer_rentals"
+  message: "{{ body }}"
+  routes:
+    "re:.*": "START-MENU"

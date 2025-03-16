@@ -4,9 +4,12 @@ https://github.com/oca159/heyoo/tree/main
 
 Unofficial python wrapper for the WhatsApp Cloud API.
 """
-
+import hashlib
+import hmac
+import json
 import mimetypes
 import os
+from functools import wraps
 from typing import Dict, Any, List, Union
 
 from httpx import AsyncClient
@@ -14,7 +17,7 @@ from httpx import AsyncClient
 from pywce.modules.whatsapp.config import WhatsAppConfig
 from pywce.modules.whatsapp.message_utils import MessageUtils
 from pywce.modules.whatsapp.model import MessageTypeEnum, WaUser, ResponseStructure
-from pywce.src.exceptions import EngineException
+from pywce.src.exceptions import EngineException, EngineClientException
 from pywce.src.utils.engine_logger import pywce_logger
 
 _logger = pywce_logger(__name__)
@@ -328,6 +331,7 @@ class WhatsApp:
             Utility class for WhatsApp utility methods
         """
         _HUB_SIGNATURE_HEADER_KEY = "x-hub-signature-256"
+        _MEDIA_DIR = "pywce_downloads"
 
         def __init__(self, parent) -> None:
             self.parent = parent
@@ -349,17 +353,51 @@ class WhatsApp:
             processed_data = self._pre_process(webhook_data)
             return "messages" in processed_data
 
-        def verify_webhook_verification_challenge(self, mode: str, challenge: str, token: str) -> Union[str, None]:
+        def webhook_challenge(self, mode: str, challenge: str, token: str) -> Union[str, None]:
             if mode == "subscribe" and token == self.parent.config.hub_verification_token:
                 return challenge
             return None
 
-        def verify_webhook_payload(self, webhook_payload: Dict, webhook_headers: Dict) -> bool:
-            # TODO: perform request header hub signature verification
+        def bytes_to_dict(self, payload: bytes) -> dict:
+            payload_str = payload.decode("utf-8")
+            return json.loads(payload_str)
+
+        def _generate_expected_signature(self, payload: str) -> str:
+            """Generate the HMAC signature from the payload."""
+            return hmac.new(
+                bytes(self.parent.config.app_secret, "latin-1"),
+                msg=payload.encode("utf-8"),
+                digestmod=hashlib.sha256
+            ).hexdigest()
+
+        def verify_webhook_payload(self, webhook_payload: str, webhook_headers: Dict) -> bool:
             if self._HUB_SIGNATURE_HEADER_KEY not in webhook_headers:
                 raise EngineException("Unsecure webhook payload received")
 
-            return True
+            signature = webhook_headers.get(self._HUB_SIGNATURE_HEADER_KEY, "")[7:]
+            expected_signature = self._generate_expected_signature(webhook_payload)
+
+            return hmac.compare_digest(expected_signature, signature)
+
+        def signature_required(self, f):
+            """
+                [FastApi] Decorator to enforce signature verification.
+            """
+
+            from starlette.requests import Request
+
+            @wraps(f)
+            async def decorated_function(request: Request, *args, **kwargs):
+                payload = await request.body()
+                headers = dict(request.headers)
+
+                if self.verify_webhook_payload(payload.decode("utf-8"), headers) is False:
+                    _logger.critical("Webhook payload signature verification failed")
+                    raise EngineException("Webhook payload verification failed")
+
+                return await f(request, *args, **kwargs)
+
+            return decorated_function
 
         def was_request_successful(self, recipient_id: str, response_data: Dict[str, Any]) -> bool:
             """
@@ -497,42 +535,41 @@ class WhatsApp:
 
             if response.status_code == 200:
                 result = response.json()
-                _logger.info(f"Media URL query result {result}")
+                _logger.debug(f"Media URL query result {result}")
                 return result.get("url")
             else:
                 _logger.critical(f"Code: {response.status_code} | Response: {response.text}")
                 return None
 
-        async def download_media(self, media_url: str, mime_type: str, file_path: str = None) -> Union[str, None]:
+        async def download_media(self, media_url: str, filename: str, download_dir: str = None) -> Union[str, None]:
             """
             Asynchronously download media from a media URL obtained either by manually uploading media or received media.
 
             Args:
                 media_url (str): Media URL of the media.
-                mime_type (str): Mime type of the media.
-                file_path (str): Path of the file to be downloaded to. Default is "pywce-media-temp".
-                                 Do not include the file extension. It will be added automatically.
-
+                filename (str): Media filename with ext e.g file.png
+                download_dir (str): Path of the file to be downloaded to. Default is "pywce-media-temp".
             Returns:
                 str: Path to the downloaded file, or None if there was an error.
-
             """
-            if not mimetypes.guess_extension(mime_type):
-                _logger.error(f"Invalid or unsupported MIME type: {mime_type}")
-                return None
-
             from random import randint
+            folder = self._MEDIA_DIR if download_dir is None else download_dir
+            save_file_here = os.path.join(folder, filename)
 
-            extension = mimetypes.guess_extension(mime_type)
-            save_file_here = f"{file_path}.{extension}" if file_path is not None \
-                else f"pywce-media-temp-{randint(11, 999999)}.{extension}"
+            if os.path.isfile(save_file_here):
+                filename = f"dup_rand{randint(11, 99)}_{filename}"
+                save_file_here = os.path.join(folder, filename)
 
             try:
                 async with AsyncClient() as client:
-                    response = await client.get(f"{self.parent.base_url}/{media_url}")
+                    response = await client.get(
+                        url=media_url,
+                        headers=self.parent.headers
+                    )
 
                 if response.status_code == 200:
-                    os.makedirs(os.path.dirname(save_file_here), exist_ok=True)
+                    os.makedirs(folder, exist_ok=True)
+
                     with open(save_file_here, "wb") as f:
                         f.write(response.content)
                     _logger.debug(f"Media downloaded to {save_file_here}")
@@ -544,3 +581,31 @@ class WhatsApp:
             except Exception as e:
                 _logger.error(f"Error downloading media to {save_file_here}: {str(e)}")
                 return None
+
+        async def download_flow_media(self, flow_media_payload: Dict, download_dir: str = None):
+            """
+            Download media files uploaded on WhatsApp flows
+            [
+                {'id': 5868146111.., 'mime_type': 'image/jpeg', 'sha256': 'CiXteED..', 'file_name': '4c631dab-...jpg'},
+                {'id': 1571385113.., 'mime_type': 'image/jpeg', 'sha256': 'lV..', 'file_name': '5d70f3e...jpg'}
+            ]
+
+            Args:
+                flow_media_payload (dict): A single dict entry of uploaded media
+                download_dir (str): Path of the file to be downloaded to. Default is "pywce_downloads".
+
+            Returns:
+                str: path of the downloaded file, or None if there was an error.
+            """
+
+            media_url = await self.query_media_url(flow_media_payload.get("id"))
+
+            if media_url is None:
+                raise EngineClientException(f"Failed to query media file url")
+
+            downloaded_path = await self.download_media(media_url, flow_media_payload.get("file_name"), download_dir)
+
+            if downloaded_path is None:
+                raise EngineClientException(f"Failed to download file for media id: {flow_media_payload.get('id')}")
+
+            return downloaded_path

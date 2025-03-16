@@ -1,3 +1,4 @@
+import json
 from typing import Dict, Any
 
 from pywce.modules.whatsapp.model import MessageTypeEnum, ResponseStructure
@@ -51,6 +52,10 @@ class MessageUtils:
             )
 
             if type_ is not MessageTypeEnum.INTERACTIVE:
+                if inner_type == "nfm_reply":
+                    response: Dict = self.message_data.get("interactive").get(inner_type)
+                    return ResponseStructure(typ=type_, body=json.loads(response.get("response_json")))
+
                 return ResponseStructure(typ=type_, body=self.message_data.get("interactive").get(inner_type))
 
             return ResponseStructure(typ=type_, body=self.message_data.get("interactive"))
