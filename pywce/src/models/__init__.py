@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 from typing import Dict, Any, List, Optional, Callable, Union
 
 from pywce.modules import *
-from pywce.modules import client
+from pywce.modules import client, storage
 from pywce.src.constants import TemplateTypeConstants
 
 
@@ -11,7 +11,6 @@ class EngineConfig:
     """
         holds pywce engine configuration
 
-        :var templates_dir: Directory path where (templates) YAML files are located
         :var start_template_stage: The first template to render when user initiates a chat
         :var session_manager: Implementation of ISessionManager
         :var handle_session_queue: if enabled, engine will internally track history of
@@ -26,9 +25,8 @@ class EngineConfig:
                                 call this hook to handle requests
     """
     whatsapp: client.WhatsApp
-    templates_dir: str
-    trigger_dir: str
     start_template_stage: str
+    storage_manager: storage.IStorageManager
     ext_handler_hook: str = None
     handle_session_queue: bool = True
     handle_session_inactivity: bool = True
@@ -49,8 +47,7 @@ class WorkerJob:
     engine_config: EngineConfig
     payload: client.ResponseStructure
     user: client.WaUser
-    templates: Dict
-    triggers: Dict
+    storage: storage.IStorageManager
     session_manager: ISessionManager
 
 
@@ -90,8 +87,8 @@ class HookArg:
     user: client.WaUser
     session_id: str
     user_input: Optional[Any] = None
-    session_manager: Optional[ISessionManager]=None
-    template_body: Optional[TemplateDynamicBody]=None
+    session_manager: Optional[ISessionManager] = None
+    template_body: Optional[TemplateDynamicBody] = None
     from_trigger: bool = False
     flow: Optional[str] = None
     additional_data: Optional[Dict[str, Any]] = None

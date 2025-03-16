@@ -156,11 +156,7 @@ class Worker:
 
         next_template_stage = await self._next_route_handler(msg_processor)
 
-        if next_template_stage not in self.job.templates:
-            raise EngineInternalException(
-                message=f"Next stage route: {next_template_stage} not found in templates context map")
-
-        next_template = self.job.templates.get(next_template_stage)
+        next_template = self.job.storage.get(next_template_stage)
 
         # check if next template requires user to be authenticated before processing
         self._check_authentication(next_template)

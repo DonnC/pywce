@@ -1,11 +1,8 @@
-from pathlib import Path
 from typing import Dict, Any
-
-import ruamel.yaml
 
 from pywce.modules import client, ISessionManager
 from pywce.src.constants import TemplateTypeConstants, SessionConstants
-from pywce.src.exceptions import ExtHandlerHookError, HookError, EngineException, EngineInternalException
+from pywce.src.exceptions import ExtHandlerHookError, HookError, EngineInternalException
 from pywce.src.models import EngineConfig, WorkerJob, WhatsAppServiceModel, HookArg, ExternalHandlerResponse
 from pywce.src.services import Worker, WhatsAppService, HookService
 from pywce.src.utils import pywce_logger
@@ -14,50 +11,11 @@ _logger = pywce_logger(__name__)
 
 
 class Engine:
-    _TEMPLATES: Dict = {}
-    _TRIGGERS: Dict = {}
-
     def __init__(self, config: EngineConfig):
         self.config: EngineConfig = config
         self.whatsapp = config.whatsapp
 
-        self._load_resources()
         HookService.register_callable_global_hooks(self.config.global_pre_hooks, self.config.global_post_hooks)
-
-    def _load_resources(self):
-        self._TEMPLATES.clear()
-        self._TRIGGERS.clear()
-
-        yaml = ruamel.yaml.YAML()
-
-        template_path = Path(self.config.templates_dir)
-        trigger_path = Path(self.config.trigger_dir)
-
-        if not template_path.is_dir() or not trigger_path.is_dir():
-            raise EngineException("Template or trigger dir provided is not a valid directory")
-
-        _logger.debug(f"Loading templates from dir: {template_path}")
-
-        for template_file in template_path.glob("*.yaml"):
-            with template_file.open("r", encoding="utf-8") as file:
-                data = yaml.load(file)
-                if data:
-                    self._TEMPLATES.update(data)
-
-        _logger.debug(f"Loading triggers from dir: {trigger_path}")
-        for trigger_file in trigger_path.glob("*.yaml"):
-            with trigger_file.open("r", encoding="utf-8") as file:
-                data = yaml.load(file)
-                if data:
-                    self._TRIGGERS.update(data)
-
-        assert len(self._TEMPLATES) != 0, "No valid templates found"
-
-    def get_templates(self) -> Dict:
-        return self._TEMPLATES
-
-    def get_triggers(self) -> Dict:
-        return self._TRIGGERS
 
     def verify_webhook(self, mode, challenge, token):
         return self.whatsapp.util.webhook_challenge(mode, challenge, token)
@@ -175,8 +133,7 @@ class Engine:
                     engine_config=self.config,
                     payload=response_model,
                     user=wa_user,
-                    templates=self._TEMPLATES,
-                    triggers=self._TRIGGERS,
+                    storage=self.config.storage_manager,
                     session_manager=user_session
                 )
             )

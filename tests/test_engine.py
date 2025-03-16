@@ -72,19 +72,6 @@ class TestPywceEngine(unittest.IsolatedAsyncioTestCase):
         self.start_menu = start_menu
         self.engine = Engine(config=config)
 
-    def test_resources_loaded(self):
-        self.assertIn(
-            self.start_menu,
-            self.engine.get_templates(),
-            "Template not loaded properly. Configured start template menu is missing"
-        )
-
-        self.assertIn(
-            self.start_menu,
-            self.engine.get_triggers(),
-            "Triggers not loaded properly. Configured start template menu is missing"
-        )
-
     async def test_message_processing(self):
         result = await self.engine.process_webhook(webhook_data=self.webhook_payload,
                                                    webhook_headers=self.webhook_headers)

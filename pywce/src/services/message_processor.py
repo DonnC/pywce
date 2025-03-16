@@ -37,11 +37,8 @@ class MessageProcessor:
 
         self.logger = pywce_logger(__name__)
 
-    def _is_stage_in_repository(self, template_stage: str):
-        return template_stage in self.data.templates
-
     def _get_stage_template(self, template_stage_name: str) -> Dict:
-        tpl = self.data.templates.get(template_stage_name)
+        tpl = self.data.storage.get(template_stage_name)
         if tpl is None:
             raise EngineInternalException(message=f"Template {template_stage_name} not found")
         return tpl
@@ -52,21 +49,12 @@ class MessageProcessor:
         if current_stage_in_session is None:
             self.CURRENT_STAGE = self.config.start_template_stage
 
-            # assume user is new or session cleared
-            if self._is_stage_in_repository(self.CURRENT_STAGE) is False:
-                raise EngineInternalException(message="Configured start stage does not exist",
-                                              data=self.CURRENT_STAGE)
-
             self.CURRENT_TEMPLATE = self._get_stage_template(self.CURRENT_STAGE)
             self.IS_FIRST_TIME = True
 
             self.session.save(session_id=self.session_id, key=SessionConstants.CURRENT_STAGE, data=self.CURRENT_STAGE)
             self.session.save(session_id=self.session_id, key=SessionConstants.PREV_STAGE, data=self.CURRENT_STAGE)
             return
-
-        if self._is_stage_in_repository(current_stage_in_session) is False:
-            raise EngineInternalException(message="Template stage not found in template context map",
-                                          data=current_stage_in_session)
 
         self.CURRENT_STAGE = current_stage_in_session
         self.CURRENT_TEMPLATE = self._get_stage_template(current_stage_in_session)
@@ -75,15 +63,9 @@ class MessageProcessor:
         if possible_trigger_input is None:
             return
 
-        for _stage, _pattern in self.data.triggers.items():
+        for _stage, _pattern in self.data.storage.triggers().items():
             if EngineUtil.is_regex_input(_pattern):
                 if EngineUtil.is_regex_pattern_match(EngineUtil.extract_pattern(_pattern), possible_trigger_input):
-                    if self._is_stage_in_repository(_stage) is False:
-                        raise EngineInternalException(
-                            message="Triggered template stage not found in template context map",
-                            data=_stage
-                        )
-
                     self.CURRENT_TEMPLATE = self._get_stage_template(_stage)
                     self.CURRENT_STAGE = _stage
                     self.IS_FROM_TRIGGER = True

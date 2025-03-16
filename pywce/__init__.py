@@ -19,8 +19,9 @@ TODO: AI agents
     : Handle agent response and process supported message types.
 """
 
-from pywce.modules import client, DefaultSessionManager
+from pywce.modules import client, DefaultSessionManager, storage
 from pywce.modules.session import ISessionManager
+from pywce.modules.storage import IStorageManager
 from pywce.src.constants import SessionConstants, EngineConstants, TemplateTypeConstants
 from pywce.src.engine import Engine
 from pywce.src.models import HookArg, TemplateDynamicBody, EngineConfig, ExternalHandlerResponse
@@ -37,6 +38,7 @@ __all__ = [
     "client",
     "ISessionManager",
     "DefaultSessionManager",
+    "storage",
 
     # engine
     "Engine",
