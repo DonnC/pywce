@@ -1,38 +1,32 @@
 "START-MENU":
   type: list
-  template: "car_rental.hooks.name.username"
   message:
-    title: Welcome
+    title: Hie there 👋🏼
     body: |
-      Good day {{ name }} 👋🏼
+      I can help you create your own custom AI Agents to use on the go.
       
-      Welcome to Nikk's Car Rental.
+      Imagine having your own customized ChatGPT tailored to your specific needs 😉.
       
-      Rent a car with us and enjoy exclusive deals on affordable fuel-saving and luxurious cars.
-      
-      Select your next action!
+      Click button for more options.
+    button: Menu Options
     footer: Powered by pywce
     sections:
-      "Menu":
+      "Options":
         0:
-          title: Rent A Car 🚗
-          description: View current available cars
+          title: New AI Agent 🤖
+          description: Create your personalized AI agent
         1:
-          title: My Rentals
-          description: View current rented cars
-        2:
-          title: Enquiries
-          description: Have questions? Contact us
+          title: Chat With Agent 🤖🗣️
+          description: Select your personalized AI to chat with.
         3:
           title: Report ⚠️
-          description: Report car issues
+          description: Encountering service issues? Let us know
         4:
-          title: Help
-          description: Get help message
+          title: About ℹ️
+          description: Get more about project details and the developer
   routes:
-    "0": "RENT-A-CAR"
-    "1": "RENTALS"
-    "2": "ENQUIRY"
+    "0": "NEW-AGENT-STAGE"
+    "1": "LIST-AGENTS-FOR-CHAT"
     "3": "REPORT"
-    "4": "HELP"
+    "4": "ABOUT-STAGE"
 

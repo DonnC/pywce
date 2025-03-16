@@ -21,6 +21,7 @@ class WhatsAppService:
     def __init__(self, model: WhatsAppServiceModel, validate_template: bool = True) -> None:
         self.model = model
         self.template = model.template
+        self.model_template_type = self.model.template_type
 
         self._init_processor(validate_template)
 
@@ -29,7 +30,7 @@ class WhatsAppService:
             template=self.template,
             hook_arg=self.model.hook_arg,
             wa_config=self.model.whatsapp.config,
-            template_type=self.model.template_type,
+            template_type=self.model_template_type,
             tag_on_reply=self.model.tag_on_reply,
             validate_template=validate_tpl,
         )
@@ -40,9 +41,12 @@ class WhatsAppService:
         :param template: process as engine template message else, bypass engine logic
         :return:
         """
-        payload: Dict[str, Any] = self._processor.payload(template)
+        payload: Dict[str, Any] = await self._processor.payload(template)
 
-        match self.model.template_type:
+        # update template type in case there was a processed dynamic template
+        self.model_template_type = self._processor.template_type
+
+        match self.model_template_type:
             case TemplateTypeConstants.TEXT:
                 response = await self.model.whatsapp.send_message(**payload)
 
@@ -82,7 +86,7 @@ class WhatsAppService:
             case _:
                 raise EngineInternalException(
                     message="Unsupported message type for payload generation",
-                    data=f"Stage: {self.model.next_stage} | Type: {self.model.template_type}"
+                    data=f"Stage: {self.model.next_stage} | Type: {self.model_template_type}"
                 )
 
         if template is True or \

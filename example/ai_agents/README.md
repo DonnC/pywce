@@ -1,15 +1,12 @@
 # AI Agents
-Typical example chatbots with AI Agents.
+Create your own customized AI agents.
 
 Inspiration drawn from:
 https://github.com/panda-zw/fastapi-whatsapp-openai
 
-
-https://medium.com/@piyushkashyap045/how-to-use-gemini-models-through-the-openai-library-a-step-by-step-guide-169e3585c9ce
-
 ## Features
-1. Rent a car
-2. Chat with AI Agent
+1. Create an AI agent
+2. View and chat with any created AI Agent
 
 ## Setup
 > [!NOTE]
@@ -17,11 +14,19 @@ https://medium.com/@piyushkashyap045/how-to-use-gemini-models-through-the-openai
 
 Ensure you have your WhatsApp account set properly. [Checkout this tutorial here](https://www.youtube.com/watch?v=Y8kihPdCI_U)
 
-The project uses WhatsApp Flows for the car rental screen.
+The project uses WhatsApp Flows for the create agent screen.
 
-You can find the example [WhatsApp Flow json here](flows) that you can copy and paste in your account Flows.
+You can find the example [WhatsApp Flow json here](flows) that you can copy and paste in your project.
 
-![flow](assets/flow.png)
+Make sure on the `EngineConfig`, you have set `ext_handler_hook` to ai agent processor hook
+```python
+from pywce import EngineConfig
+
+_eng_config = EngineConfig(
+    # .. other fields
+    ext_handler_hook="example.ai_agents.hooks.ai_hook.agent_processor"
+)
+```
 
 ## Run
 ```bash
