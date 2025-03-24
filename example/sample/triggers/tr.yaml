@@ -1,0 +1,2 @@
+"START-MENU": "re:(?i)(start)|(hi)|(hie)"
+"REPORT": "re:^report$"

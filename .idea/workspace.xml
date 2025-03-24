@@ -5,56 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e700a6d4-f3fd-4ca6-8806-bc5eb9b6e49c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/example/sample/templates/t.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/sample/triggers/tr.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pywce/src/models/base_model.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pywce/src/models/inner_message.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pywce/src/models/messages.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pywce/src/models/templates.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/agents.json" beforeDir="false" afterPath="$PROJECT_DIR$/example/agents.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/common/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/common/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/assets/favicon.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/media/endpoints-1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/media/portal-1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/media/portal-2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/media/portal-3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/media/portal-4.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/media/portal-5.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/storage/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/bot.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/hooks/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/hooks/capture_ride.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/hooks/live_support.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/hooks/live_support_handler.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/hooks/location.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/hooks/name_template.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/templates/ehailing-bot.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/templates/live-support.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/templates/report.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/triggers/triggers.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/components/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/components/action_bar.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/components/chat_window.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/components/footer.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/components/message_card.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/components/sidebar.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/components/sidebar_chat.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/constants.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/model.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/portal.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/redis_manager.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/state.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/style.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/pubsub.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/requirements.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/rxconfig.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/seed.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/modules/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/engine.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/engine.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/models/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/services/message_processor.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/message_processor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/services/worker.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/worker.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_engine.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_engine.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/modules/storage/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/storage/__init__.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -345,6 +303,11 @@
       <workItem from="1741242638403" duration="12093000" />
       <workItem from="1742110498766" duration="7006000" />
       <workItem from="1742130653125" duration="5208000" />
+      <workItem from="1742328964643" duration="669000" />
+      <workItem from="1742544428471" duration="3539000" />
+      <workItem from="1742561806651" duration="2687000" />
+      <workItem from="1742576031686" duration="1520000" />
+      <workItem from="1742759312968" duration="3859000" />
     </task>
     <servers />
   </component>

@@ -67,6 +67,10 @@ class YamlStorageManager(IStorageManager):
 
         assert len(self._TEMPLATES) != 0, "No valid templates found"
 
+        # TODO: remove me
+        from pprint import pprint
+        pprint(self._TEMPLATES)
+
         return self._TEMPLATES
 
     def load_triggers(self) -> Dict:
