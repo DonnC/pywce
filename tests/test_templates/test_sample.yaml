@@ -3,7 +3,7 @@
 # stage names can be numbers or any supported YAML data type
 
 "START_MENU":
-  type: button
+  kind: button
   template: "tests.test_services.name_template.username"
   message:
     title: Test
@@ -15,14 +15,14 @@
     "proceed": "STAGE_TEXT"
 
 "STAGE_TEXT":
-  type: text
+  kind: text
   prop: test_prop_key
   message: "Enter any test data to save in prop"
   routes:
     "re:.*": "STAGE_LIST"
 
 "STAGE_LIST":
-  type: list
+  kind: list
   prop: test_list_prop_key
   message:
     title: List Title

@@ -1,5 +1,5 @@
 "COMING-SOON":
-  type: button
+  kind: button
   message:
     title: ℹ️ Notice
     body: Feature coming soon.

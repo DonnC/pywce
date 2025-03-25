@@ -1,5 +1,5 @@
 "NEW-AGENT-STAGE":
-  type: flow
+  kind: flow
   message:
     id: 1039619734882452
     draft: true
@@ -11,7 +11,7 @@
     "re:.*": "CREATE-AGENT"
 
 "CREATE-AGENT":
-  type: button
+  kind: button
   on-generate: "example.ai_agents.hooks.manage_agents.create"
   message:
     title: AI Agent
@@ -22,7 +22,7 @@
     "menu": "START-MENU"
 
 "LIST-AGENTS-FOR-CHAT":
-  type: dynamic
+  kind: dynamic
   prop: selected_agent
   template: "example.ai_agents.hooks.manage_agents.select_agent"
   message: "{{ message }}"

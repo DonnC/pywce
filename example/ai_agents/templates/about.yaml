@@ -1,5 +1,5 @@
 "ABOUT-STAGE":
-  type: cta
+  kind: cta
   message:
     title: "About"
     body: |

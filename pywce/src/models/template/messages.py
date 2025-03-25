@@ -1,10 +1,9 @@
-from typing import Dict, List, Optional
+from typing import List, Optional, Union
 
-from pydantic import Field
+from pydantic import Field, field_validator
 
 from pywce.src.constants import TemplateConstants
-from pywce.src.models.base_model import BaseMessage
-from pywce.src.models.inner_message import ListSection
+from pywce.src.models.template.base_model import BaseMessage, ListSection, SectionRowItem, ProductsListSection
 
 
 class BaseInteractiveMessage(BaseMessage):
@@ -30,7 +29,19 @@ class ProductMessage(BaseInteractiveMessage):
 class ProductsMessage(BaseInteractiveMessage):
     catalog_id: str = Field(..., alias=TemplateConstants.MESSAGE_CATALOG_ID)
     button: str
-    sections: Dict[str, List[str]]  # {section_title: [product_ids]}
+    sections: List[ProductsListSection]
+
+    @field_validator('sections', mode='before')
+    @classmethod
+    def from_dict_(cls, value: dict):
+        sections_list = [
+            ProductsListSection(
+                title=str(section_name),
+                products=product_ids
+            )
+            for section_name, product_ids in value.items()
+        ]
+        return sections_list
 
 
 class CTAMessage(BaseInteractiveMessage):
@@ -47,17 +58,29 @@ class ListMessage(BaseInteractiveMessage):
     button: str
     sections: List[ListSection]
 
+    @field_validator('sections', mode='before')
+    @classmethod
+    def from_dict_(cls, value: dict):
+        sections_list = [
+            ListSection(
+                title=str(section_name),
+                rows=[SectionRowItem(identifier=str(_id), **row_data) for _id, row_data in row.items()]
+            )
+            for section_name, row in value.items()
+        ]
+        return sections_list
+
 
 class MediaMessage(BaseMessage):
-    typ: str = Field(..., alias=TemplateConstants.TEMPLATE_TYPE)
-    media_id: Optional[str] = Field(..., alias=TemplateConstants.MESSAGE_ID)
+    kind: str = Field(..., alias=TemplateConstants.TEMPLATE_TYPE)
+    media_id: Optional[str] = Field(None, alias=TemplateConstants.MESSAGE_ID)
     url: Optional[str] = None
     caption: Optional[str] = None
     filename: Optional[str] = None
 
 
 class FlowMessage(BaseInteractiveMessage):
-    flow_id: Optional[str] = Field(..., alias="id")
+    flow_id: Union[int, str]
     draft: bool = False
     name: str
     button: str

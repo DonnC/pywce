@@ -1,5 +1,5 @@
 button:
-  type: button
+  kind: button
   message:
     title: Pywce Features
     body: Checkout and sample the latest pywce features
@@ -11,7 +11,7 @@ button:
     "other btn": "another route"
 
 "catalog":
-  type: catalog
+  kind: catalog
   message:
     body: "Order on the go. Visit out catalog and add items to buy!"
     product-id: "yevoov7bew"
@@ -19,7 +19,7 @@ button:
     "re:.*": "VIEW-SINGLE-ITEM"
 
 "product":
-  type: product
+  kind: product
   message:
     body: "Check out our latest product on offer\nPurchase discounted Econet USD bundle"
     catalog-id: "885273645601453"
@@ -29,7 +29,7 @@ button:
 
 # many products message
 "products":
-  type: products
+  kind: products
   message:
     title: Menu
     body: "Check out our latest offering on prepaid services"
@@ -46,7 +46,7 @@ button:
     "re:.*": "START-MENU"
 
 "cta":
-  type: cta
+  kind: cta
   message:
     title: "Support"
     body: "View my GitHub profile, contribute or support 🙈"
@@ -56,7 +56,7 @@ button:
     "re:.*": "another route"
 
 "template":
-  type: template
+  kind: template
   template: "dotted.path.to.template.hook.whatsapp_template_hook"
   message:
     name: "<your-template-name>"
@@ -65,14 +65,14 @@ button:
     "re:.*": "NEXT-ROUTE"
 
 dynamic:
-  type: dynamic
+  kind: dynamic
   template: "dotted.path.to.template.hook.dynamic_message"
   message: "{{ body }}"
   routes:
     "re:.*": "OTHER-NEXT-ROUTE"
 
 text:
-  type: text
+  kind: text
   prop: my_prop
   message: "Provide additional info to the driver"
   routes:
@@ -80,7 +80,7 @@ text:
     "re:.*": "other routes"
 
 list:
-  type: list
+  kind: list
   message:
     title: My title
     body: Message body
@@ -110,18 +110,18 @@ list:
     "re:.*": "OTHER ROUTES"
 
 media:
-  type: dynamic
+  kind: dynamic
   template: "dotted.path.to.template.hook.dynamic_message"
   message: "{{ body }}"
   routes:
     "re:.*": "OTHER-NEXT-ROUTE"
 
 flow:
-  type: flow
+  kind: flow
   template: "car_rental.hooks.rent.init_rental"
   on-receive: "car_rental.hooks.rent.recv_rental"
   message:
-    id: 1542160659833214
+    flow_id: 1542160659833214
     draft: true
     name: FLOW_RENT_CAR
     title: "Rent A Car"
@@ -131,18 +131,18 @@ flow:
     "re:.*": "CONFIRM-RENTAL"
 
 location:
-  type: dynamic
+  kind: location
   validator: "dotted.path.to.template.hook.validate"
   message:
-    lat: 8282893
-    lon: -29293
+    lat: "8282893"
+    lon: "-29293"
     name: my address
     address: 34 Drive
   routes:
     "re:.*": "OTHER-NEXT-ROUTE"
 
 request-location:
-  type: request-location
+  kind: request-location
   message: "Where would you like to be picked from?"
   routes:
     "re:.*": "DESTINATION-LOCATION"

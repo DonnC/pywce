@@ -1,5 +1,5 @@
 "HELP":
-  type: text
+  kind: text
   message: |
     Welcome to our Help Board
     

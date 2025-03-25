@@ -1,5 +1,5 @@
 "RENTALS":
-  type: text
+  kind: text
   template: "car_rental.hooks.rent.customer_rentals"
   message: "{{ body }}"
   routes:

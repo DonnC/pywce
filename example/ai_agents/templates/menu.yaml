@@ -1,5 +1,5 @@
 "START-MENU":
-  type: list
+  kind: list
   message:
     title: Hie there 👋🏼
     body: |

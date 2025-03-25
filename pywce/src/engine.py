@@ -9,7 +9,6 @@ from pywce.src.utils import pywce_logger
 
 _logger = pywce_logger(__name__)
 
-
 class Engine:
     def __init__(self, config: EngineConfig):
         self.config: EngineConfig = config

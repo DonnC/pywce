@@ -1,5 +1,5 @@
 "REPORT":
-  type: text
+  kind: text
   prop: report
   message: "Provide report information"
   routes:

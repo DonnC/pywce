@@ -1,12 +1,12 @@
 "REPORT":
-  type: text
+  kind: text
   prop: report_issue
   message: "Having car issues?\n\nProvide clear and detailed issue report for us to assist you better."
   routes:
     "re:.*": "SAVE-REPORT"
 
 "SAVE-REPORT":
-  type: button
+  kind: button
   on-generate: "car_rental.hooks.report.save"
   message:
     title: Report Car
@@ -17,6 +17,6 @@
     buttons:
       - Menu
   params:
-    type: REPORT
+    kind: REPORT
   routes:
     "menu": "START-MENU"

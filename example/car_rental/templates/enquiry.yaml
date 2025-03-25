@@ -1,12 +1,12 @@
 "ENQUIRY":
-  type: text
+  kind: text
   prop: report_enquiry
   message: "How would you like us to serve you?\nProvide your enquiry details"
   routes:
     "re:.*": "SAVE-ENQUIRY"
 
 "SAVE-ENQUIRY":
-  type: button
+  kind: button
   on-generate: "car_rental.hooks.report.save"
   message:
     title: Enquiry
@@ -17,6 +17,6 @@
     buttons:
       - Menu
   params:
-    type: ENQUIRY
+    kind: ENQUIRY
   routes:
     "menu": "START-MENU"

@@ -1,5 +1,5 @@
 "RENT-A-CAR":
-  type: flow
+  kind: flow
   template: "car_rental.hooks.rent.init_rental"
   message:
     id: 1542160659833214
@@ -12,7 +12,7 @@
     "re:.*": "CONFIRM-RENTAL"
 
 "CONFIRM-RENTAL":
-  type: button
+  kind: button
   template: "car_rental.hooks.rent.quote"
   message:
     title: Confirm Rental
@@ -25,7 +25,7 @@
     "pay": "RENTAL-PAYMENT"
 
 "RENTAL-PAYMENT":
-  type: button
+  kind: button
   on-generate: "car_rental.hooks.payment.initiate"
   message:
     title: Rental Payment

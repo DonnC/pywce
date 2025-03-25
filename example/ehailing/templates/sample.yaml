@@ -1,5 +1,5 @@
 "SAMPLE-TEMPLATES":
-  type: button
+  kind: button
   message:
     title: Pywce Features
     body: Checkout and sample the latest pywce features
@@ -9,7 +9,7 @@
     "new features": "VIEW-CATALOG-ITEM"
 
 "VIEW-CATALOG-ITEM":
-  type: catalog
+  kind: catalog
   message:
     body: "Order on the go. Visit out catalog and add items to buy!"
     product-id: "yevoov7bew"
@@ -18,7 +18,7 @@
 
 # single product message
 "VIEW-SINGLE-ITEM":
-  type: product
+  kind: product
   message:
     body: "Check out our latest product on offer\nPurchase discounted Econet USD bundle"
     catalog-id: "885273645601453"
@@ -28,7 +28,7 @@
 
 # many products message
 "VIEW-MULTI-ITEMS":
-  type: products
+  kind: products
   message:
     title: Menu
     body: "Check out our latest offering on prepaid services"

@@ -2,10 +2,9 @@ import re
 from random import randint
 from typing import Dict, Any, List, Union, Optional
 
-from pywce import EngineConstants
 from pywce.modules import client
 from pywce.modules.whatsapp import WhatsAppConfig
-from pywce.src.constants import TemplateConstants, TemplateTypeConstants
+from pywce.src.constants import TemplateConstants, TemplateTypeConstants, EngineConstants
 from pywce.src.exceptions import EngineInternalException
 from pywce.src.models import HookArg
 from pywce.src.services import HookService
@@ -64,7 +63,7 @@ class TemplateMessageProcessor:
 
     def _validate_template(self) -> None:
         if TemplateConstants.TEMPLATE_TYPE not in self.template:
-            raise EngineInternalException("Template type not specified")
+            raise EngineInternalException("Template type | kind not specified")
         if TemplateConstants.MESSAGE not in self.template:
             raise EngineInternalException("Template message not defined")
 

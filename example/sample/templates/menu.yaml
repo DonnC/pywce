@@ -1,0 +1,29 @@
+"START-MENU":
+  kind: button
+  ack: true
+  message:
+    title: Greetings
+    body: |
+      Hi, Enjoy an innovative template-driven framework for chatbot development.
+      
+      Select your next action!
+    footer: pywce
+    buttons:
+      - Start
+      - Developer Profile
+  routes:
+    "start": "button"
+    "developer profile": "GITHUB-PROFILE"
+
+"GITHUB-PROFILE":
+  kind: cta
+  message:
+    title: "Support"
+    body: "View my GitHub profile, projects and star, fork, share, contribute or support 🙈"
+    url: "https://github.com/DonnC"
+    button: "GitHub"
+  params:
+    name: jdoe
+    age: 21
+  routes:
+    "re:.*": "START-MENU"

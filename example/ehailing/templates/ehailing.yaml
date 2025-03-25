@@ -1,5 +1,5 @@
 "START-MENU":
-  type: button
+  kind: button
   template: "ehailing.hooks.name_template.username"
   message:
     title: Greetings
@@ -16,7 +16,7 @@
     "developer profile": "GITHUB-PROFILE"
 
 "GITHUB-PROFILE":
-  type: cta
+  kind: cta
   message:
     title: "Support"
     body: "View my GitHub profile, projects and star, fork, share, contribute or support 🙈"
@@ -26,7 +26,7 @@
     "re:.*": "START-MENU"
 
 "PROJECT-MENU":
-  type: button
+  kind: button
   checkpoint: true
   message:
     title: eHailing Chatbot
@@ -38,7 +38,7 @@
     "begin": "PICKUP-DRIVE-MAIN-MENU"
 
 "PICKUP-DRIVE-MAIN-MENU":
-  type: button
+  kind: button
   prop: ride_type
   message:
     title: PickDrive
@@ -52,20 +52,20 @@
     "re:.*": "PICKUP-LOCATION"
 
 "PICKUP-LOCATION":
-  type: request-location
+  kind: request-location
   message: "Where would you like to be picked from?"
   routes:
     "re:.*": "DESTINATION-LOCATION"
 
 "DESTINATION-LOCATION":
-  type: request-location
+  kind: request-location
   on-receive: "ehailing.hooks.location.save_destination"
   message: "Where would you like to go?"
   routes:
     "re:.*": "RIDE-OFFER"
 
 "RIDE-OFFER":
-  type: button
+  kind: button
   message:
     title: Ride Fee
     body: "Your ride fee to your destination is USD $3.50\n🕑You will arrive in approx ~ 3mins"
@@ -78,14 +78,14 @@
     "counter offer": "RIDE-COUNTER-OFFER"
 
 "RIDE-COMMENT":
-  type: text
+  kind: text
   prop: ride_comments
   message: "Provide additional info to the driver"
   routes:
     "re:.*": "AVAILABLE-DRIVERS"
 
 "AVAILABLE-DRIVERS":
-  type: list
+  kind: list
   message:
     title: Available Drivers
     body: "I found rides matching your choice. Select one you like and they will be ready to pick you up"
@@ -113,7 +113,7 @@
     "re:.*": "CONFIRM-OFFER"
 
 "CONFIRM-OFFER":
-  type: button
+  kind: button
   on-receive: "ehailing.hooks.capture_ride.capture"
   message:
     title: PickDrive Ride
@@ -133,7 +133,7 @@
     "abort": "PICKUP-DRIVE"
 
 "DRIVER-COMMAND-COME":
-  type: button
+  kind: button
   message:
     title: PickDrive
     body: "Driver is coming to your location now!"

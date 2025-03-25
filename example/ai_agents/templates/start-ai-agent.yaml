@@ -1,5 +1,5 @@
 "INVOKE-AI-AGENT":
-  type: text
+  kind: text
   on-generate: "example.ai_agents.hooks.ai_hook.invoke_ai_agent"
   message: |
     🤖 Hi, how can i help you today?.

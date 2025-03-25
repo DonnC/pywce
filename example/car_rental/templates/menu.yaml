@@ -1,5 +1,5 @@
 "START-MENU":
-  type: list
+  kind: list
   template: "car_rental.hooks.name.username"
   message:
     title: Welcome

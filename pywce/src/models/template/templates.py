@@ -1,74 +1,77 @@
 from typing import Union, Literal, Annotated
 
-from pywce.src.models.base_model import BaseTemplate
-from pywce.src.models.messages import *
+from pydantic import TypeAdapter
+
+from pywce.src.constants import TemplateTypeConstants
+from pywce.src.models.template.base_model import BaseTemplate
+from pywce.src.models.template.messages import *
 
 
 # message: str only     =======================================
 class TextTemplate(BaseTemplate):
-    typ: Literal["text"] = "text"
+    kind: Literal["text"] = TemplateTypeConstants.TEXT
     message: str
 
 
 class DynamicTemplate(BaseTemplate):
-    typ: Literal["dynamic"] = "dynamic"
+    kind: Literal["dynamic"] = TemplateTypeConstants.DYNAMIC
     message: str
 
 
 class RequestLocationTemplate(BaseTemplate):
-    typ: Literal["request-location"] = "request-location"
+    kind: Literal["request-location"] = TemplateTypeConstants.REQUEST_LOCATION
     message: str
 
 
 # ============================================================
 
 class ButtonTemplate(BaseTemplate):
-    typ: Literal["button"] = "button"
+    kind: Literal["button"] = TemplateTypeConstants.BUTTON
     message: ButtonMessage
 
 
 class CtaTemplate(BaseTemplate):
-    typ: Literal["cta"] = "cta"
+    kind: Literal["cta"] = TemplateTypeConstants.CTA
     message: CTAMessage
 
 
 class ListTemplate(BaseTemplate):
-    typ: Literal["list"] = "list"
+    kind: Literal["list"] = TemplateTypeConstants.LIST
     message: ListMessage
 
 
 class TemplateTemplate(BaseTemplate):
-    typ: Literal["template"] = "template"
+    kind: Literal["template"] = TemplateTypeConstants.TEMPLATE
     message: TemplateMessage
 
 
 class MediaTemplate(BaseTemplate):
-    typ: Literal["media"] = "media"
+    kind: Literal["media"] = TemplateTypeConstants.MEDIA
     message: MediaMessage
 
 
 class FlowTemplate(BaseTemplate):
-    typ: Literal["flow"] = "flow"
+    kind: Literal["flow"] = TemplateTypeConstants.FLOW
     message: FlowMessage
 
 
 class LocationTemplate(BaseTemplate):
-    typ: Literal["location"] = "location"
+    kind: Literal["location"] = TemplateTypeConstants.LOCATION
     message: LocationMessage
 
 
 class CatalogTemplate(BaseTemplate):
-    typ: Literal["catalog"] = "catalog"
+    kind: Literal["catalog"] = TemplateTypeConstants.CATALOG
     message: CatalogMessage
 
 
 class ProductTemplate(BaseTemplate):
-    typ: Literal["product"] = "product"
+    kind: Literal["product"] = TemplateTypeConstants.SINGLE_PRODUCT
     message: ProductMessage
 
 
 class MultiProductTemplate(BaseTemplate):
-    typ: Literal["products"] = "products"
+    kind: Literal["products"] = TemplateTypeConstants.MULTI_PRODUCT
     message: ProductsMessage
 
 
@@ -91,12 +94,9 @@ EngineTemplate = Annotated[
         ProductTemplate,
         MultiProductTemplate
     ],
-    Field(discriminator="typ"),
+    Field(discriminator=TemplateConstants.TEMPLATE_TYPE),
 ]
 
 
-# ----------
-# Parsing Function
-# ----------
 def load_template(data: dict) -> EngineTemplate:
-    return EngineTemplate.model_validate(data)
+    return TypeAdapter(EngineTemplate).validate_python(data)
