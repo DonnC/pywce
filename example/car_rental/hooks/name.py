@@ -6,7 +6,7 @@ logger = pywce_logger(__name__)
 @hook
 def username(arg: HookArg) -> HookArg:
     """
-    A template to get default user whatsapp username.
+    A templates to get default user whatsapp username.
 
     :param arg: HookArg passed by engine
     :return: updated HookArg
@@ -16,7 +16,7 @@ def username(arg: HookArg) -> HookArg:
     # set default username in session for retrieving later
     arg.session_manager.save(session_id=arg.user.wa_id, key="username", data=arg.user.name)
 
-    # set render payload data to match the required template dynamic var
+    # set render payload data to match the required templates dynamic var
     arg.template_body = TemplateDynamicBody(render_template_payload={"name": arg.user.name})
 
     return arg

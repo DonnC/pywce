@@ -3,7 +3,7 @@ from typing import List, Optional, Union
 from pydantic import Field, field_validator
 
 from pywce.src.constants import TemplateConstants
-from pywce.src.models.template.base_model import BaseMessage, ListSection, SectionRowItem, ProductsListSection
+from pywce.src.templates.base_model import BaseMessage, ListSection, SectionRowItem, ProductsListSection
 
 
 class BaseInteractiveMessage(BaseMessage):

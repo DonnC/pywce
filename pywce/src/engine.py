@@ -5,6 +5,7 @@ from pywce.src.constants import TemplateTypeConstants, SessionConstants
 from pywce.src.exceptions import ExtHandlerHookError, HookError, EngineInternalException
 from pywce.src.models import EngineConfig, WorkerJob, WhatsAppServiceModel, HookArg, ExternalHandlerResponse
 from pywce.src.services import Worker, WhatsAppService, HookService
+from pywce.src.templates import templates
 from pywce.src.utils import pywce_logger
 
 _logger = pywce_logger(__name__)
@@ -23,7 +24,7 @@ class Engine:
         """
             terminate external handler session for given recipient_id
 
-            after termination, user messages will be handled by the normal template-driven approach
+            after termination, user messages will be handled by the normal templates-driven approach
         """
         user_session: ISessionManager = self.config.session_manager.session(session_id=recipient_id)
         has_ext_handler_session = user_session.get(session_id=recipient_id, key=SessionConstants.EXTERNAL_CHAT_HANDLER)
@@ -41,52 +42,8 @@ class Engine:
                                                    key=SessionConstants.EXTERNAL_CHAT_HANDLER)
 
         if has_ext_handler_session is not None:
-            match response.typ:
-                case TemplateTypeConstants.TEXT:
-                    _template = {
-                        "type": "text",
-                        "message-id": response.reply_message_id,
-                        "message": response.message
-                    }
-
-                case TemplateTypeConstants.BUTTON:
-                    _template = {
-                        "type": "button",
-                        "message-id": response.reply_message_id,
-                        "message": {
-                            "title": response.title,
-                            "body": response.message,
-                            "buttons": response.options
-                        }
-                    }
-
-                case TemplateTypeConstants.LIST:
-                    _sections = {}
-
-                    for option in response.options:
-                        _sections[option["id"]] = {
-                            "title": option["id"],
-                            "description": option["description"]
-                        }
-
-                    _template = {
-                        "type": "list",
-                        "message-id": response.reply_message_id,
-                        "message": {
-                            "title": response.title,
-                            "body": response.message,
-                            "sections": {
-                                response.title: _sections
-                            }
-                        }
-                    }
-
-                case _:
-                    raise EngineInternalException("Type not supported for external handler")
-
             service_model = WhatsAppServiceModel(
-                template_type=response.typ,
-                template=_template,
+                template=response.template,
                 whatsapp=self.whatsapp,
                 user=client.WaUser(wa_id=response.recipient_id),
                 hook_arg=HookArg(

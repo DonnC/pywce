@@ -1,1 +1,0 @@
-from pywce.src.models.template import *

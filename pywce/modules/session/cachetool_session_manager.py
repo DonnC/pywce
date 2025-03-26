@@ -1,11 +1,16 @@
 import threading
 from typing import Any, Dict, Type, List, Union
 
-from cachetools import TTLCache
 from pywce.modules.session import ISessionManager
 from pywce.src.utils import pywce_logger
-
 from . import T
+from ...src.exceptions import EngineException
+
+try:
+    from cachetools import TTLCache
+except ImportError:
+    TTLCache = None
+
 
 class CachetoolSessionManager(ISessionManager):
     """
@@ -13,7 +18,8 @@ class CachetoolSessionManager(ISessionManager):
 
     Handles user-specific session data and a global cache with time-to-live (TTL).
     """
-    def __init__(self, user_ttl: int=10*60, global_ttl: int=15*60, maxsize: int = 1000):
+
+    def __init__(self, user_ttl: int = 10 * 60, global_ttl: int = 15 * 60, maxsize: int = 1000):
         """
         Initialize the session manager.
 
@@ -21,6 +27,8 @@ class CachetoolSessionManager(ISessionManager):
         :param global_ttl: TTL for the global cache (in seconds).
         :param maxsize: Maximum size of the caches.
         """
+        self._verify_dependencies()
+
         self.user_ttl = user_ttl
         self.global_ttl = global_ttl
         self.lock = threading.Lock()
@@ -29,6 +37,10 @@ class CachetoolSessionManager(ISessionManager):
         # Initialize global and per-user session caches
         self.global_cache = TTLCache(maxsize=maxsize, ttl=self.global_ttl)
         self.user_caches: Dict[str, TTLCache] = {}
+
+    def _verify_dependencies(self):
+        if TTLCache is None:
+            raise EngineException("Cache requires additional dependencies. Install using `pip install pywce[cache]`.")
 
     @property
     def prop_key(self) -> str:
@@ -45,7 +57,6 @@ class CachetoolSessionManager(ISessionManager):
             if session_id not in self.user_caches:
                 self.user_caches[session_id] = TTLCache(maxsize=1000, ttl=self.user_ttl)
             return self.user_caches[session_id]
-
 
     def session(self, session_id: str) -> ISessionManager:
         self._get_user_cache(session_id)

@@ -97,7 +97,7 @@ def quote(arg: HookArg):
         "charges": service.calculate_rental_charges(rental_days, daily_cost)
     }
 
-    # create needed template body to render
+    # create needed templates body to render
     render_payload = {"body": confirmation}
 
     # save arbitrary data to user session

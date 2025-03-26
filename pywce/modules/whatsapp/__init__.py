@@ -117,11 +117,11 @@ class WhatsApp:
     async def send_template(self, recipient_id: str, template: str, components: List[Dict], message_id: str = None,
                             lang: str = "en_US"):
         """
-        Asynchronously sends a template message to a WhatsApp user. Templates can be:
-            1. Text template
-            2. Media based template
-            3. Interactive template
-        You can customize the template message by passing a dictionary of components.
+        Asynchronously sends a templates message to a WhatsApp user. Templates can be:
+            1. Text templates
+            2. Media based templates
+            3. Interactive templates
+        You can customize the templates message by passing a dictionary of components.
         Find available components in the documentation:
         https://developers.facebook.com/docs/whatsapp/cloud-api/guides/send-message-templates
 
@@ -130,7 +130,7 @@ class WhatsApp:
             recipient_id (str): Phone number of the user with country code without +.
             message_id: if replying to a message, include the previous message id here
             components (list): List of components to be sent to the user.
-            lang (str): Language of the template message, default is "en_US".
+            lang (str): Language of the templates message, default is "en_US".
         """
 
         assert len(components) <= 0, "Template components list cannot be empty"
@@ -138,7 +138,7 @@ class WhatsApp:
         data = {
             "messaging_product": "whatsapp",
             "to": recipient_id,
-            "type": "template",
+            "type": "templates",
         }
 
         template_data = {
@@ -147,7 +147,7 @@ class WhatsApp:
             "components": components,
         }
 
-        data["template"] = template_data
+        data["templates"] = template_data
 
         if message_id is not None:
             data["context"] = {"message_id": message_id}

@@ -5,7 +5,7 @@
 @updated: 02-2025
 
 This is an example standalone chatbot. Standalone in the sense that it uses pywce as
-a WhatsApp Client Library only, without the engine template-driven superpower.
+a WhatsApp Client Library only, without the engine templates-driven superpower.
 """
 
 import os

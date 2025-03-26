@@ -20,7 +20,7 @@ from pywce import hook, HookArg, TemplateDynamicBody
 @hook
 def username(arg: HookArg) -> HookArg:
     """
-    A template to get default user whatsapp username.
+    A templates to get default user whatsapp username.
 
     :param arg: HookArg passed by engine
     :return: updated HookArg
@@ -103,14 +103,14 @@ Note that `template` hook is required for template message types
 It should return template list of components e.g.
 
 ```python
-# dotted.path.to.template.hook.py
+# dotted.path.to.templates.hook.py
 from pywce import hook, HookArg, EngineConstants, TemplateDynamicBody
 
 @hook
 def whatsapp_template_hook(arg: HookArg):
     # TODO: handle business logic
 
-    # add your list of dict entries matching your template
+    # add your list of dict entries matching your templates
     template_components = []
 
     arg.template_body = TemplateDynamicBody(render_template_payload={EngineConstants.WHATSAPP_TEMPLATE_KEY: template_components})
@@ -120,11 +120,11 @@ def whatsapp_template_hook(arg: HookArg):
 
 ```yaml
 "WHATSAPP-TEMPLATE-MESSAGE":
-  type: template
-  template: "dotted.path.to.template.hook.whatsapp_template_hook"
+  type: templates
+  template: "dotted.path.to.templates.hook.whatsapp_template_hook"
   message:
-    name: "<your-template-name>"
-    language: "your-template-lang"    # default to en_US
+    name: "<your-templates-name>"
+    language: "your-templates-lang"    # default to en_US
   routes:
     "re:.*": "NEXT-ROUTE"
 ```
@@ -139,7 +139,7 @@ Dynamic template can render any supported pywce message type.
 > Hook should return a dict that matches any supported message, message attribute structure
 
 ```python
-# dotted.path.to.template.hook.py
+# dotted.path.to.templates.hook.py
 from pywce import hook, HookArg, TemplateTypeConstants, TemplateDynamicBody
 
 
@@ -166,7 +166,7 @@ def dynamic_message(arg: HookArg):
 ```yaml
 "DYNAMIC-MESSAGE":
   type: dynamic
-  template: "dotted.path.to.template.hook.dynamic_message"
+  template: "dotted.path.to.templates.hook.dynamic_message"
   message: "{{ body }}"
   routes:
     "re:.*": "NEXT-ROUTE"

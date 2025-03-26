@@ -1,13 +1,14 @@
 import threading
 from typing import Any, Dict, Type, List, Union
 
-from pywce import ISessionManager, pywce_logger
+from pywce.modules.session import ISessionManager
+from pywce.src.utils import pywce_logger
 from . import T
 
 
-class DictSessionManager(ISessionManager):
+class DefaultSessionManager(ISessionManager):
     """
-        Default session manager
+        Default in-memory dict-based session manager
 
         Uses python dict datatype to implement simple data storage
 

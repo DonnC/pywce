@@ -124,7 +124,7 @@ from pywce import hook, HookArg, TemplateDynamicBody
 
 @hook
 def username(arg: HookArg) -> HookArg:
-    # set render payload data to match the required template dynamic var
+    # set render payload data to match the required templates dynamic var
     
     # greet user by their whatsapp name 😎
     arg.template_body = TemplateDynamicBody(

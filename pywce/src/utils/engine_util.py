@@ -4,6 +4,7 @@ from typing import Any, Dict
 
 from jinja2 import Template
 
+from pywce.src.templates import EngineRoute
 from pywce.src.utils.engine_logger import pywce_logger
 from pywce.src.constants import EngineConstants
 from pywce.src.exceptions import TemplateRenderException
@@ -22,7 +23,7 @@ class EngineUtil:
     @staticmethod
     def render_template(template: Any, context: Dict) -> Any:
         """
-        Render the template using Jinja2 after special variables are replaced.
+        Render the templates using Jinja2 after special variables are replaced.
         """
         try:
             if context is None: return template
@@ -40,7 +41,7 @@ class EngineUtil:
                 return render_with_jinja(template)
 
         except Exception as e:
-            _logger.error("Render template failure: {}".format(str(e)))
+            _logger.error("Render templates failure: {}".format(str(e)))
             raise TemplateRenderException(message="Template failed to render")
 
     @staticmethod
@@ -76,15 +77,21 @@ class EngineUtil:
 
     @staticmethod
     def extract_pattern(pattern) -> str:
-        return pattern.split(EngineConstants.REGEX_PLACEHOLDER)[-1].strip()
+        if EngineUtil.is_regex_input(pattern):
+            return pattern.split(EngineConstants.REGEX_PLACEHOLDER)[-1].strip()
+        return pattern
 
     @staticmethod
-    def is_regex_pattern_match(regex_pattern, text) -> bool:
+    def has_triggered(trigger: EngineRoute, upstream_user_input) -> bool:
         """
         Checks if a regex pattern matches any part of the given text.
 
-        :param regex_pattern: The regex pattern to match.
-        :param text: The text to check against the regex pattern.
+        :param trigger: The regex pattern to match.
+
+        :param upstream_user_input: The text to check against the regex pattern.
         :return: True if the pattern matches any part of the text, False otherwise.
         """
-        return re.search(regex_pattern, str(text)) is not None
+        if trigger.is_regex:
+            return re.search(EngineUtil.extract_pattern(trigger.user_input), str(upstream_user_input)) is not None
+
+        return str(upstream_user_input) == str(trigger.user_input)

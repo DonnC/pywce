@@ -5,40 +5,42 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e700a6d4-f3fd-4ca6-8806-bc5eb9b6e49c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/example/sample/templates/menu.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/test.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pywce/src/models/template/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/example/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ai_agents/templates/about.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ai_agents/templates/about.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ai_agents/templates/manage-agents.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ai_agents/templates/manage-agents.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ai_agents/templates/menu.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ai_agents/templates/menu.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ai_agents/templates/report.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ai_agents/templates/report.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ai_agents/templates/start-ai-agent.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ai_agents/templates/start-ai-agent.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/car_rental/templates/coming_soon.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/car_rental/templates/coming_soon.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/car_rental/templates/enquiry.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/car_rental/templates/enquiry.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/car_rental/templates/help.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/car_rental/templates/help.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/car_rental/templates/menu.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/car_rental/templates/menu.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/car_rental/templates/rent.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/car_rental/templates/rent.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/car_rental/templates/rentals.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/car_rental/templates/rentals.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/car_rental/templates/report.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/car_rental/templates/report.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ehailing/templates/ehailing.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ehailing/templates/ehailing.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ehailing/templates/report.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ehailing/templates/report.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ehailing/templates/sample.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ehailing/templates/sample.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/CHANGELOG.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/.env.example" beforeDir="false" afterPath="$PROJECT_DIR$/example/.env.example" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/car_rental/hooks/name.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/car_rental/hooks/name.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/car_rental/hooks/rent.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/car_rental/hooks/rent.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/chatbot/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/chatbot/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ehailing/hooks/name_template.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/ehailing/hooks/name_template.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ehailing/triggers/triggers.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ehailing/triggers/triggers.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/sample/templates/t.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/sample/templates/t.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pywce/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/modules/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/modules/session/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/session/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/modules/session/cachetool_session_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/session/cachetool_session_manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/modules/session/dict_session_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/session/dict_session_manager.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pywce/modules/storage/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/storage/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/modules/whatsapp/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/whatsapp/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/src/constants/engine.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/constants/engine.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pywce/src/constants/template.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/constants/template.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/src/constants/template_type.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/constants/template_type.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pywce/src/engine.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/engine.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/models/base_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/models/template/base_model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/models/inner_message.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/models/messages.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/models/template/messages.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/models/templates.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/models/template/templates.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/src/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/models/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/src/models/template/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/templates/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/src/models/template/base_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/templates/base_model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/src/models/template/messages.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/templates/messages.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/src/models/template/templates.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/templates/templates.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/src/services/message_processor.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/message_processor.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pywce/src/services/template_message_processor.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/template_message_processor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/src/services/whatsapp_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/whatsapp_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/src/services/worker.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/worker.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pywce/src/utils/engine_logger.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/utils/engine_logger.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/src/utils/engine_util.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/utils/engine_util.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_templates/test_sample.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_templates/test_sample.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_services/name_template.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_services/name_template.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_triggers/test_triggers.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_triggers/test_triggers.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,53 +70,53 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultHtmlFileTemplate": "HTML File",
-    "HTTP Request.generated-requests | #1.executor": "Run",
-    "HTTP Request.generated-requests | #2.executor": "Run",
-    "Python tests.Python tests for test_cachetool_session_manager.TestSessionManager.executor": "Run",
-    "Python tests.Python tests for test_cachetool_session_manager.TestSessionManager.test_prop.executor": "Debug",
-    "Python tests.Python tests for test_cachetool_session_manager.TestSessionManager.test_save.executor": "Debug",
-    "Python tests.Python tests for test_default_session_impl.TestDefaultSessionManager.test_save.executor": "Run",
-    "Python tests.Python tests for test_default_session_impl.TestSessionManager.executor": "Run",
-    "Python tests.Python tests for test_default_session_impl.TestSessionManager.test_clear.executor": "Run",
-    "Python tests.Python tests for test_engine.MyTestCase.executor": "Run",
-    "Python tests.Python tests for test_engine.TestPywceEngine.executor": "Debug",
-    "Python tests.Python tests in test_default_session_impl.py.executor": "Run",
-    "Python tests.Python tests in tests.executor": "Run",
-    "Python.agents.executor": "Run",
-    "Python.hook_service.executor": "Run",
-    "Python.main.executor": "Run",
-    "Python.pubsub_test.executor": "Run",
-    "Python.response_structure.executor": "Run",
-    "Python.scratch.executor": "Run",
-    "Python.templetor.executor": "Run",
-    "Python.test.executor": "Run",
-    "Python.test_ai.executor": "Run",
-    "Python.test_v.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "feat/model",
-    "last_opened_file_path": "C:/Users/DEVELOPER/Documents/Personal/Personal/Projects/python/pywce/example/ai_agents/templates",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "editing.templates",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;HTTP Request.generated-requests | #1.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.generated-requests | #2.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for test_cachetool_session_manager.TestSessionManager.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for test_cachetool_session_manager.TestSessionManager.test_prop.executor&quot;: &quot;Debug&quot;,
+    &quot;Python tests.Python tests for test_cachetool_session_manager.TestSessionManager.test_save.executor&quot;: &quot;Debug&quot;,
+    &quot;Python tests.Python tests for test_default_session_impl.TestDefaultSessionManager.test_save.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for test_default_session_impl.TestSessionManager.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for test_default_session_impl.TestSessionManager.test_clear.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for test_engine.MyTestCase.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for test_engine.TestPywceEngine.executor&quot;: &quot;Debug&quot;,
+    &quot;Python tests.Python tests in test_default_session_impl.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in tests.executor&quot;: &quot;Run&quot;,
+    &quot;Python.agents.executor&quot;: &quot;Run&quot;,
+    &quot;Python.hook_service.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.pubsub_test.executor&quot;: &quot;Run&quot;,
+    &quot;Python.response_structure.executor&quot;: &quot;Run&quot;,
+    &quot;Python.scratch.executor&quot;: &quot;Run&quot;,
+    &quot;Python.templetor.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test_ai.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test_v.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feat/model&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/DEVELOPER/Documents/Personal/Personal/Projects/python/pywce/example/ai_agents/templates&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editing.templates&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "sqlite"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;sqlite&quot;
     ],
-    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
-      "JSON",
-      "Markdown"
+    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
+      &quot;JSON&quot;,
+      &quot;Markdown&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\example\ai_agents\templates" />
@@ -124,11 +126,11 @@
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\example\standalone_chatbot" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\pywce\src" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\pywce\src\models\template" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\example" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\example\ai_agents\templates" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce" />
-      <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\example\common" />
     </key>
   </component>
   <component name="RunManager">
@@ -339,6 +341,7 @@
       <workItem from="1742821974728" duration="1770000" />
       <workItem from="1742845032830" duration="1221000" />
       <workItem from="1742886935185" duration="11825000" />
+      <workItem from="1742972125672" duration="10580000" />
     </task>
     <servers />
   </component>
@@ -356,6 +359,6 @@
     <SUITE FILE_PATH="coverage/pywce$pubsub_test.coverage" NAME="pubsub_test Coverage Results" MODIFIED="1738936009261" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/portal" />
     <SUITE FILE_PATH="coverage/pywce$test_v.coverage" NAME="test_v Coverage Results" MODIFIED="1736092146828" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/pywce$agents.coverage" NAME="agents Coverage Results" MODIFIED="1741259598056" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/example/autogen_multiagents" />
-    <SUITE FILE_PATH="coverage/pywce$test.coverage" NAME="test Coverage Results" MODIFIED="1742915215043" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/example" />
+    <SUITE FILE_PATH="coverage/pywce$test.coverage" NAME="test Coverage Results" MODIFIED="1742974302609" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/example" />
   </component>
 </project>

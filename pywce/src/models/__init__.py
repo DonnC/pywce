@@ -1,9 +1,10 @@
 from dataclasses import dataclass, field
-from typing import Dict, Any, List, Optional, Callable, Union
+from typing import Dict, Any, List, Optional, Callable
 
 from pywce.modules import *
 from pywce.modules import client, storage
 from pywce.src.constants import TemplateTypeConstants
+from pywce.src.templates import EngineTemplate
 
 
 @dataclass
@@ -11,7 +12,7 @@ class EngineConfig:
     """
         holds pywce engine configuration
 
-        :var start_template_stage: The first template to render when user initiates a chat
+        :var start_template_stage: The first templates to render when user initiates a chat
         :var session_manager: Implementation of ISessionManager
         :var handle_session_queue: if enabled, engine will internally track history of
                                      received messages to avoid duplicate message processing
@@ -56,12 +57,12 @@ class TemplateDynamicBody:
     """
         Model for flow & dynamic message types.
 
-        Also used in `template` hooks for dynamic message rendering
+        Also used in `templates` hooks for dynamic message rendering
 
         :var typ: specifies type of dynamic message body to create
         :var initial_flow_payload: for flows that require initial data passed to a whatsapp flow
-        :var render_template_payload: `for dynamic templates` -> the dynamic message template body
-                                        `for template templates` -> the template dynamic variables to prefill
+        :var render_template_payload: `for dynamic templates` -> the dynamic message templates body
+                                        `for templates templates` -> the templates dynamic variables to prefill
     """
     typ: TemplateTypeConstants = None
     initial_flow_payload: Dict[str, Any] = None
@@ -76,10 +77,10 @@ class HookArg:
         The model has all the data a hook might need to process any further business logic
 
         :var user: current whatsapp user object
-        :var template_body: mainly returned from template, dynamic or flow hooks
+        :var template_body: mainly returned from templates, dynamic or flow hooks
         :var additional_data: data from interactive & unprocessable message type responses. E.g a list, location, flow etc response
-        :var flow: for flow message type, name of flow from the template
-        :var params: configured static template params
+        :var flow: for flow message type, name of flow from the templates
+        :var params: configured static templates params
         :var session_id: current session id
         :var user_input: the raw user input, usually a str if message was a button or text
         :var session_manager: session instance of the current user -> WaUser
@@ -92,7 +93,7 @@ class HookArg:
     from_trigger: bool = False
     flow: Optional[str] = None
     additional_data: Optional[Dict[str, Any]] = None
-    params: Dict[str, Any] = field(default_factory=dict)
+    params: Dict[Any, Any] = field(default_factory=dict)
 
     def __str__(self):
         attrs = {
@@ -110,8 +111,7 @@ class HookArg:
 
 @dataclass
 class WhatsAppServiceModel:
-    template_type: TemplateTypeConstants
-    template: Dict
+    template: EngineTemplate
     whatsapp: client.WhatsApp
     user: client.WaUser
     hook_arg: HookArg = None
@@ -138,98 +138,6 @@ class ExternalHandlerResponse:
     Example use case:
         1. Live Support
         2. AI Agent
-
-
-    :var typ (TemplateTypeConstants): type of the chat template to render to user
-    :var recipient_id (str): whatsapp user wa id to respond to
-    :var message (str): the message body to render to user
-    :var options (list): if typ is button / list - the list of options to render
-    :var reply_message_id (str): which message to reply to
     """
-    typ: TemplateTypeConstants
     recipient_id: str
-    message: str
-    options: Optional[List] = None
-    title: Optional[str] = None
-    reply_message_id: Optional[str] = None
-
-
-# === template dto ===
-# TODO: WIP
-@dataclass
-class SectionBaseDto:
-    pass
-
-
-@dataclass
-class ListSectionRowDto:
-    """
-        0:
-          title: Rent A Car 🚗
-          description: View current available cars
-        1:
-          title: My Rentals
-          description: View current rented cars
-    """
-    id: Union[str, int]
-    title: str
-    description: Optional[str] = None
-
-
-@dataclass
-class ListSectionDto(SectionBaseDto):
-    """
-      "Menu":
-        0:
-          title: Rent A Car 🚗
-          description: View current available cars
-        1:
-          title: My Rentals
-          description: View current rented cars
-    """
-    title: str
-    rows: List[ListSectionRowDto]
-
-
-@dataclass
-class CatalogSectionDto(SectionBaseDto):
-    """
-        "Burgers":
-            - "product-id-3"
-            - "product-id-4"
-    """
-    title: str
-    products: List[str]
-
-
-@dataclass
-class RouteDto:
-    id: Union[str, int]
-    route: str
-
-
-@dataclass
-class MessageDto:
-    catalog_id: Optional[str] = field(metadata={"required": False, "yaml_name": "catalog-id"})
-    product_id: Optional[str] = field(metadata={"required": False, "yaml_name": "product-id"})
-    title: Optional[str] = None
-    body: Optional[str] = None
-    footer: Optional[str] = None
-    button: Optional[str] = None
-    url: Optional[str] = None
-    name: Optional[str] = None
-    language: Optional[str] = None
-    sections: Optional[List[SectionBaseDto]] = None
-
-
-@dataclass
-class TemplateDto:
-    """
-    Main template model
-
-    represents the yaml template general DTO
-    """
-    typ: str = field(metadata={"required": True, "yaml_name": "type"})
-    message: Union[str, MessageDto]
-    routes: List[RouteDto]
-    template: Optional[str] = None
+    template: EngineTemplate

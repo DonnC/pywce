@@ -24,7 +24,7 @@ setup(
     version="1.0.7",
     author="Donald Chinhuru",
     author_email="donychinhuru@gmail.com",
-    description="A template-driven framework for building WhatsApp chatbots",
+    description="A templates-driven framework for building WhatsApp chatbots",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/DonnC/pywce",
@@ -33,7 +33,8 @@ setup(
     python_requires=">=3.9",
     install_requires=install_requires,
     extras_require={
-        "ai": ["openai", "docstring-parser"]
+        "ai": ["openai", "docstring-parser"],
+        "cache": ["cachetools"]
     },
     classifiers=[
         "Development Status :: 4 - Beta",
@@ -52,5 +53,5 @@ setup(
         "Source Code": "https://github.com/DonnC/pywce",
         "Documentation": "https://docs.page/donnc/wce",
     },
-    keywords=["whatsapp", "chatbot", "ai", "yaml", "automation", "template", "hooks"]
+    keywords=["whatsapp", "chatbot", "ai", "yaml", "automation", "templates", "hooks"]
 )

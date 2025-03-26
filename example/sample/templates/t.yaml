@@ -56,17 +56,17 @@ button:
     "re:.*": "another route"
 
 "template":
-  kind: template
-  template: "dotted.path.to.template.hook.whatsapp_template_hook"
+  kind: templates
+  template: "dotted.path.to.templates.hook.whatsapp_template_hook"
   message:
-    name: "<your-template-name>"
-    language: "your-template-lang"    # default to en_US
+    name: "<your-templates-name>"
+    language: "your-templates-lang"    # default to en_US
   routes:
     "re:.*": "NEXT-ROUTE"
 
 dynamic:
   kind: dynamic
-  template: "dotted.path.to.template.hook.dynamic_message"
+  template: "dotted.path.to.templates.hook.dynamic_message"
   message: "{{ body }}"
   routes:
     "re:.*": "OTHER-NEXT-ROUTE"
@@ -111,7 +111,7 @@ list:
 
 media:
   kind: dynamic
-  template: "dotted.path.to.template.hook.dynamic_message"
+  template: "dotted.path.to.templates.hook.dynamic_message"
   message: "{{ body }}"
   routes:
     "re:.*": "OTHER-NEXT-ROUTE"
@@ -132,7 +132,7 @@ flow:
 
 location:
   kind: location
-  validator: "dotted.path.to.template.hook.validate"
+  validator: "dotted.path.to.templates.hook.validate"
   message:
     lat: "8282893"
     lon: "-29293"

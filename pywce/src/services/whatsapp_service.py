@@ -12,7 +12,7 @@ _logger = pywce_logger(__name__)
 
 class WhatsAppService:
     """
-        Generates whatsapp api payload from given engine template
+        Generates whatsapp api payload from given engine templates
 
         sends whatsapp message
     """
@@ -21,7 +21,6 @@ class WhatsAppService:
     def __init__(self, model: WhatsAppServiceModel, validate_template: bool = True) -> None:
         self.model = model
         self.template = model.template
-        self.model_template_type = self.model.template_type
 
         self._init_processor(validate_template)
 
@@ -38,12 +37,12 @@ class WhatsAppService:
     async def send_message(self, handle_session: bool = True, template: bool = True) -> Dict[str, Any]:
         """
         :param handle_session:
-        :param template: process as engine template message else, bypass engine logic
+        :param template: process as engine templates message else, bypass engine logic
         :return:
         """
         payload: Dict[str, Any] = await self._processor.payload(template)
 
-        # update template type in case there was a processed dynamic template
+        # update templates type in case there was a processed dynamic templates
         self.model_template_type = self._processor.template_type
 
         match self.model_template_type:

@@ -5,6 +5,7 @@ from pywce.src.constants import EngineConstants, SessionConstants, TemplateConst
 from pywce.src.exceptions import EngineInternalException, EngineResponseException
 from pywce.src.models import WorkerJob, HookArg
 from pywce.src.services import HookService
+from pywce.src.templates import EngineTemplate
 from pywce.src.utils import EngineUtil
 from pywce.src.utils.engine_logger import pywce_logger
 
@@ -13,10 +14,10 @@ class MessageProcessor:
     """
         Main message processor class
 
-        Processes current message against template
-        Processes all template hooks
+        Processes current message against templates
+        Processes all templates hooks
     """
-    CURRENT_TEMPLATE: Dict
+    CURRENT_TEMPLATE: EngineTemplate
     CURRENT_STAGE: str
     HOOK_ARG: HookArg
     IS_FIRST_TIME: bool = False
@@ -37,7 +38,7 @@ class MessageProcessor:
 
         self.logger = pywce_logger(__name__)
 
-    def _get_stage_template(self, template_stage_name: str) -> Dict:
+    def _get_stage_template(self, template_stage_name: str) -> EngineTemplate:
         tpl = self.data.storage.get(template_stage_name)
         if tpl is None:
             raise EngineInternalException(message=f"Template {template_stage_name} not found")
@@ -63,16 +64,15 @@ class MessageProcessor:
         if possible_trigger_input is None:
             return
 
-        for _stage, _pattern in self.data.storage.triggers().items():
-            if EngineUtil.is_regex_input(_pattern):
-                if EngineUtil.is_regex_pattern_match(EngineUtil.extract_pattern(_pattern), possible_trigger_input):
-                    self.CURRENT_TEMPLATE = self._get_stage_template(_stage)
-                    self.CURRENT_STAGE = _stage
-                    self.IS_FROM_TRIGGER = True
-                    self.session.save(session_id=self.session_id, key=SessionConstants.CURRENT_STAGE,
-                                      data=self.CURRENT_STAGE)
-                    self.logger.debug("Template change from trigger. Stage: " + _stage)
-                    return
+        for trigger in self.data.storage.triggers():
+            if EngineUtil.has_triggered(trigger, possible_trigger_input):
+                self.CURRENT_TEMPLATE = self._get_stage_template(trigger.next_stage)
+                self.CURRENT_STAGE = trigger.next_stage
+                self.IS_FROM_TRIGGER = True
+                self.session.save(session_id=self.session_id, key=SessionConstants.CURRENT_STAGE,
+                                  data=self.CURRENT_STAGE)
+                self.logger.debug("Template change from trigger. Stage: " + trigger.next_stage)
+                return
 
         # TODO: check if current msg id is null, throw Ambiguous old webhook exc
 
@@ -125,37 +125,26 @@ class MessageProcessor:
                                               data=self.CURRENT_STAGE)
 
     def _check_for_session_bypass(self) -> None:
-        if TemplateConstants.SESSION in self.CURRENT_TEMPLATE:
-            if bool(self.CURRENT_TEMPLATE.get(TemplateConstants.SESSION, False)) is True:
-                self.IS_FROM_TRIGGER = False
-                self.session.save(session_id=self.session_id, key=SessionConstants.CURRENT_STAGE,
-                                  data=self.CURRENT_STAGE)
+        if self.CURRENT_TEMPLATE.session is False:
+            self.IS_FROM_TRIGGER = False
+            self.session.save(session_id=self.session_id, key=SessionConstants.CURRENT_STAGE,
+                              data=self.CURRENT_STAGE)
 
     def _check_save_checkpoint(self) -> None:
-        if TemplateConstants.CHECKPOINT in self.CURRENT_TEMPLATE:
+        if self.CURRENT_TEMPLATE.checkpoint is True:
             self.session.save(session_id=self.session_id, key=SessionConstants.LATEST_CHECKPOINT,
                               data=self.CURRENT_STAGE)
 
-    def _check_template_params(self, template: Dict = None) -> None:
-        tpl = self.CURRENT_TEMPLATE if template is None else template
-
+    def _check_template_params(self, template: EngineTemplate = None) -> None:
+        tpl = template or self.CURRENT_TEMPLATE
         self.HOOK_ARG.from_trigger = self.IS_FROM_TRIGGER
 
-        if TemplateConstants.PARAMS in tpl:
+        if tpl.params is not None:
             self.HOOK_ARG.params.update(tpl.get(TemplateConstants.PARAMS))
-
-    async def _process_hook(self, stage_key: str) -> None:
-        if stage_key in self.CURRENT_TEMPLATE:
-            await HookService.process_hook(hook_dotted_path=self.CURRENT_TEMPLATE.get(stage_key), hook_arg=self.HOOK_ARG)
-
-    async def _on_generate(self, next_template: Dict) -> None:
-        if TemplateConstants.ON_GENERATE in next_template:
-            await HookService.process_hook(hook_dotted_path=next_template.get(TemplateConstants.ON_GENERATE),
-                                     hook_arg=self.HOOK_ARG)
 
     def _ack_user_message(self) -> None:
         # a fire & forget approach
-        mark_as_read = self.config.read_receipts is True or TemplateConstants.READ_RECEIPT in self.CURRENT_TEMPLATE
+        mark_as_read = self.config.read_receipts is True or self.CURRENT_TEMPLATE.acknowledge is True
 
         if mark_as_read is True:
             try:
@@ -163,18 +152,9 @@ class MessageProcessor:
             except:
                 self.logger.warning("Failed to ack user message", stack_info=True)
 
-    def _save_prop(self) -> None:
-        # usually applicable to TEXT message types
-        if TemplateConstants.PROP in self.CURRENT_TEMPLATE:
-            self.session.save_prop(
-                session_id=self.session_id,
-                prop_key=self.CURRENT_TEMPLATE.get(TemplateConstants.PROP),
-                data=self.USER_INPUT[0]
-            )
-
     async def process_dynamic_route_hook(self) -> Union[str, None]:
         """
-        Router hook is used to check next-route flow, instead of using template-level defined common, it
+        Router hook is used to check next-route flow, instead of using templates-level defined common, it
         reroutes / redirects / jumps to the response of the `router` hook.
 
         Router hook should return route stage inside the additional_data with key **EngineConstants.DYNAMIC_ROUTE_KEY**
@@ -182,12 +162,12 @@ class MessageProcessor:
         :return: str or None
         """
 
-        if TemplateConstants.DYNAMIC_ROUTER in self.CURRENT_TEMPLATE:
+        if self.CURRENT_TEMPLATE.router is not None:
             try:
                 self._check_template_params()
 
                 result = await HookService.process_hook(
-                    hook_dotted_path=self.CURRENT_TEMPLATE.get(TemplateConstants.DYNAMIC_ROUTER),
+                    hook_dotted_path=self.CURRENT_TEMPLATE.router,
                     hook_arg=self.HOOK_ARG)
 
                 return result.additional_data.get(EngineConstants.DYNAMIC_ROUTE_KEY)
@@ -199,16 +179,19 @@ class MessageProcessor:
 
     async def process_pre_hooks(self, next_stage_template: Dict = None) -> None:
         """
-        Process all template hooks before message response is generated
+        Process all templates hooks before message response is generated
         and send back to user
 
-        :param next_stage_template: for processing next stage template else use current stage template
+        :param next_stage_template: for processing next stage templates else use current stage templates
         :return: None
         """
         await HookService.process_global_hooks("pre", self.HOOK_ARG)
 
         self._check_template_params(next_stage_template)
-        await self._on_generate(next_stage_template)
+
+        if self.CURRENT_TEMPLATE.on_generate is not None:
+            await HookService.process_hook(hook_dotted_path=self.CURRENT_TEMPLATE.on_generate,
+                                           hook_arg=self.HOOK_ARG)
 
     async def process_post_hooks(self) -> None:
         """
@@ -219,7 +202,7 @@ class MessageProcessor:
 
         ---
 
-        e.g. Generate stage A template -> process all A's pre-hooks -> send to user.
+        e.g. Generate stage A templates -> process all A's pre-hooks -> send to user.
 
         User responds to A message -> Engine processes A post-hooks.
 
@@ -232,10 +215,21 @@ class MessageProcessor:
 
         self._ack_user_message()
         self._check_template_params()
-        await self._process_hook(stage_key=TemplateConstants.VALIDATOR)
-        await self._process_hook(stage_key=TemplateConstants.ON_RECEIVE)
-        await self._process_hook(stage_key=TemplateConstants.MIDDLEWARE)
-        self._save_prop()
+
+        if self.CURRENT_TEMPLATE.on_receive is not None:
+            await HookService.process_hook(hook_dotted_path=self.CURRENT_TEMPLATE.on_receive,
+                                           hook_arg=self.HOOK_ARG)
+
+        if self.CURRENT_TEMPLATE.middleware is not None:
+            await HookService.process_hook(hook_dotted_path=self.CURRENT_TEMPLATE.middleware,
+                                           hook_arg=self.HOOK_ARG)
+
+        if self.CURRENT_TEMPLATE.prop is not None:
+            self.session.save_prop(
+                session_id=self.session_id,
+                prop_key=self.CURRENT_TEMPLATE.prop,
+                data=self.USER_INPUT[0]
+            )
 
     def setup(self) -> None:
         """

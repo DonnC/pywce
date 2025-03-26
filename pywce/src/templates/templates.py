@@ -1,10 +1,10 @@
-from typing import Union, Literal, Annotated
+from typing import Literal, Annotated
 
 from pydantic import TypeAdapter
 
 from pywce.src.constants import TemplateTypeConstants
-from pywce.src.models.template.base_model import BaseTemplate
-from pywce.src.models.template.messages import *
+from pywce.src.templates.base_model import BaseTemplate
+from pywce.src.templates.messages import *
 
 
 # message: str only     =======================================
@@ -41,7 +41,7 @@ class ListTemplate(BaseTemplate):
 
 
 class TemplateTemplate(BaseTemplate):
-    kind: Literal["template"] = TemplateTypeConstants.TEMPLATE
+    kind: Literal["templates"] = TemplateTypeConstants.TEMPLATE
     message: TemplateMessage
 
 

@@ -27,7 +27,7 @@ class ProductsListSection(BaseModel):
 
 
 # ----------
-# Base Message Model (for each template type inner message)
+# Base Message Model (for each templates type inner message)
 # ----------
 class BaseMessage(BaseModel):
     pass
@@ -41,19 +41,18 @@ class BaseTemplate(BaseModel):
     routes: List[EngineRoute]
 
     # attr
-    acknowledge: Optional[bool] = Field(None, alias=TemplateConstants.READ_RECEIPT)
-    authenticated: Optional[bool] = None
-    checkpoint: Optional[bool] = None
+    acknowledge: bool = Field(False, alias=TemplateConstants.READ_RECEIPT)
+    authenticated: bool = False
+    checkpoint: bool = False
     prop: Optional[str] = None
-    session: Optional[bool] = None
-    transient: Optional[bool] = None
+    session: bool = True
+    transient: bool = False
     reply_message_id: Optional[str] = Field(None, alias=TemplateConstants.REPLY_MESSAGE_ID)
 
     # hooks
     template: Optional[str] = None
     on_receive: Optional[str] = Field(None, alias=TemplateConstants.ON_RECEIVE)
     on_generate: Optional[str] = Field(None, alias=TemplateConstants.ON_GENERATE)
-    validator: Optional[str] = None
     router: Optional[str] = None
     middleware: Optional[str] = None
 

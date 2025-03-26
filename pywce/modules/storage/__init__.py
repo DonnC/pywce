@@ -7,12 +7,12 @@ import ruamel.yaml
 
 from pywce.src.constants import EngineConstants
 from pywce.src.exceptions import EngineException
-from pywce.src.models.template.base_model import EngineRoute
-from pywce.src.models.template.templates import EngineTemplate, load_template
+from pywce.src.templates.base_model import EngineRoute
+from pywce.src.templates.templates import EngineTemplate, load_template
 
 
 class IStorageManager(ABC):
-    """Abstract base class for different template storage backends."""
+    """Abstract base class for different templates storage backends."""
 
     @abstractmethod
     def load_templates(self) -> None:
@@ -26,7 +26,7 @@ class IStorageManager(ABC):
 
     @abstractmethod
     def exists(self, name: str) -> bool:
-        """Check if a template exists."""
+        """Check if a templates exists."""
         pass
 
     @abstractmethod
@@ -36,7 +36,7 @@ class IStorageManager(ABC):
 
     @abstractmethod
     def get(self, name: str) -> EngineTemplate:
-        """Load a single template by name."""
+        """Load a single templates by name."""
         pass
 
 
@@ -51,7 +51,7 @@ class YamlStorageManager(IStorageManager):
 
     def _map(self):
         for stage, template in self._TEMPLATES.items():
-            print('[*] Processing template stage: {}'.format(stage))
+            print('[*] Processing templates stage: {}'.format(stage))
             tpl = load_template(template)
             pprint(tpl)
             print('=' * 30)
@@ -96,8 +96,7 @@ class YamlStorageManager(IStorageManager):
         return name in self._TEMPLATES
 
     def get(self, name: str) -> Optional[EngineTemplate]:
-        tpl = self._TEMPLATES.get(name)
-        return load_template(tpl)
+        return load_template(self._TEMPLATES.get(name))
 
     def triggers(self) -> List[EngineRoute]:
         return [

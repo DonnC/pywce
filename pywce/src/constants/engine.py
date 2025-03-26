@@ -10,9 +10,9 @@ class EngineConstants:
 
     RETRY_NAME_KEY = "Retry"
 
-    # holds a list of WhatsApp template components
+    # holds a list of WhatsApp templates components
     # {WHATSAPP_TEMPLATE_KEY: [..components list..]}
-    WHATSAPP_TEMPLATE_KEY = "template"
+    WHATSAPP_TEMPLATE_KEY = "templates"
     DYNAMIC_ROUTE_KEY = "route"
 
     DYNAMIC_BODY_STAGE = "DTPL_BODY_STAGE"
