@@ -1,6 +1,6 @@
 from typing import List, Optional, Union
 
-from pydantic import Field, field_validator
+from pydantic import Field, field_validator, model_serializer
 
 from pywce.src.constants import TemplateConstants
 from pywce.src.templates.base_model import BaseMessage, ListSection, SectionRowItem, ProductsListSection
@@ -18,7 +18,7 @@ class ButtonMessage(BaseInteractiveMessage):
 
 
 class CatalogMessage(BaseInteractiveMessage):
-    product_id: str = Field(..., alias=TemplateConstants.MESSAGE_CATALOG_PRODUCT_ID)
+    product_id: Optional[str] = Field(None, alias=TemplateConstants.MESSAGE_CATALOG_PRODUCT_ID)
 
 
 class ProductMessage(BaseInteractiveMessage):
@@ -28,7 +28,6 @@ class ProductMessage(BaseInteractiveMessage):
 
 class ProductsMessage(BaseInteractiveMessage):
     catalog_id: str = Field(..., alias=TemplateConstants.MESSAGE_CATALOG_ID)
-    button: str
     sections: List[ProductsListSection]
 
     @field_validator('sections', mode='before')
@@ -43,6 +42,17 @@ class ProductsMessage(BaseInteractiveMessage):
         ]
         return sections_list
 
+    @model_serializer(mode="wrap")
+    def serialize(self, handler):
+        """Convert sections list back to a dictionary when serializing"""
+        data = handler(self)  # Get default serialization
+
+        # Convert sections list back to dict
+        if isinstance(self.sections, list):
+            data["sections"] = {section.title: section.products for section in self.sections}
+
+        return data
+
 
 class CTAMessage(BaseInteractiveMessage):
     url: str
@@ -55,7 +65,7 @@ class TemplateMessage(BaseMessage):
 
 
 class ListMessage(BaseInteractiveMessage):
-    button: str
+    button: str = "Options"
     sections: List[ListSection]
 
     @field_validator('sections', mode='before')
@@ -69,6 +79,19 @@ class ListMessage(BaseInteractiveMessage):
             for section_name, row in value.items()
         ]
         return sections_list
+
+    @model_serializer(mode="wrap")
+    def serialize(self, handler):
+        """Convert sections list back to a dictionary when serializing"""
+        data = handler(self)
+
+        if isinstance(self.sections, list):
+            data["sections"] = {
+                section.title: {item.identifier: item.model_dump(exclude={"identifier"}) for item in section.rows}
+                for section in self.sections
+            }
+
+        return data
 
 
 class MediaMessage(BaseMessage):

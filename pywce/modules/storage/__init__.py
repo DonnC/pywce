@@ -1,14 +1,13 @@
 from abc import ABC, abstractmethod
 from pathlib import Path
-from pprint import pprint
-from typing import Optional, Dict, List
+from typing import Dict, List
 
 import ruamel.yaml
 
 from pywce.src.constants import EngineConstants
 from pywce.src.exceptions import EngineException
+from pywce.src.templates import EngineTemplate, Template
 from pywce.src.templates.base_model import EngineRoute
-from pywce.src.templates.templates import EngineTemplate, load_template
 
 
 class IStorageManager(ABC):
@@ -49,14 +48,6 @@ class YamlStorageManager(IStorageManager):
     _TEMPLATES: Dict = {}
     _TRIGGERS: Dict = {}
 
-    def _map(self):
-        for stage, template in self._TEMPLATES.items():
-            print('[*] Processing templates stage: {}'.format(stage))
-            tpl = load_template(template)
-            pprint(tpl)
-            print('=' * 30)
-            print()
-
     def __init__(self, template_dir: str, trigger_dir: str):
         self.template_dir = Path(template_dir)
         self.trigger_dir = Path(trigger_dir)
@@ -64,7 +55,6 @@ class YamlStorageManager(IStorageManager):
 
         self.load_triggers()
         self.load_templates()
-        self._map()
 
     def load_templates(self) -> None:
         self._TEMPLATES.clear()
@@ -95,8 +85,8 @@ class YamlStorageManager(IStorageManager):
     def exists(self, name: str) -> bool:
         return name in self._TEMPLATES
 
-    def get(self, name: str) -> Optional[EngineTemplate]:
-        return load_template(self._TEMPLATES.get(name))
+    def get(self, name: str) -> EngineTemplate:
+        return Template.as_model(self._TEMPLATES.get(name))
 
     def triggers(self) -> List[EngineRoute]:
         return [

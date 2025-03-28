@@ -1,7 +1,8 @@
 from datetime import datetime
 from typing import Dict, Any
 
-from pywce.src.constants import SessionConstants, TemplateTypeConstants
+import pywce.src.templates as templates
+from pywce.src.constants import SessionConstants
 from pywce.src.exceptions import EngineInternalException
 from pywce.src.models import WhatsAppServiceModel
 from pywce.src.services.template_message_processor import TemplateMessageProcessor
@@ -22,16 +23,9 @@ class WhatsAppService:
         self.model = model
         self.template = model.template
 
-        self._init_processor(validate_template)
-
-    def _init_processor(self, validate_tpl: bool):
         self._processor = TemplateMessageProcessor(
-            template=self.template,
-            hook_arg=self.model.hook_arg,
-            wa_config=self.model.whatsapp.config,
-            template_type=self.model_template_type,
-            tag_on_reply=self.model.tag_on_reply,
-            validate_template=validate_tpl,
+            template=model.template,
+            whatsapp_model=model
         )
 
     async def send_message(self, handle_session: bool = True, template: bool = True) -> Dict[str, Any]:
@@ -41,59 +35,47 @@ class WhatsAppService:
         :return:
         """
         payload: Dict[str, Any] = await self._processor.payload(template)
+        _tpl = self._processor.template
 
-        # update templates type in case there was a processed dynamic templates
-        self.model_template_type = self._processor.template_type
+        is_interactive: bool = isinstance(_tpl, templates.ButtonTemplate) or \
+                               isinstance(_tpl, templates.CtaTemplate) or \
+                               isinstance(_tpl, templates.CatalogTemplate) or \
+                               isinstance(_tpl, templates.ProductTemplate) or \
+                               isinstance(_tpl, templates.MultiProductTemplate) or \
+                               isinstance(_tpl, templates.ListTemplate) or \
+                               isinstance(_tpl, templates.FlowTemplate)
 
-        match self.model_template_type:
-            case TemplateTypeConstants.TEXT:
-                response = await self.model.whatsapp.send_message(**payload)
+        if is_interactive is True:
+            response = await self.model.config.whatsapp.send_interactive(**payload)
 
-            case TemplateTypeConstants.BUTTON:
-                response = await self.model.whatsapp.send_interactive(**payload)
+        elif isinstance(_tpl, templates.TextTemplate):
+            response = await self.model.config.whatsapp.send_message(**payload)
 
-            case TemplateTypeConstants.CTA:
-                response = await self.model.whatsapp.send_interactive(**payload)
+        elif isinstance(_tpl, templates.TemplateTemplate):
+            response = await self.model.config.whatsapp.send_template(**payload)
 
-            case TemplateTypeConstants.CATALOG:
-                response = await self.model.whatsapp.send_interactive(**payload)
+        elif isinstance(_tpl, templates.MediaTemplate):
+            response = await self.model.config.whatsapp.send_media(**payload)
 
-            case TemplateTypeConstants.SINGLE_PRODUCT:
-                response = await self.model.whatsapp.send_interactive(**payload)
+        elif isinstance(_tpl, templates.LocationTemplate):
+            response = await self.model.config.whatsapp.send_location(**payload)
 
-            case TemplateTypeConstants.MULTI_PRODUCT:
-                response = await self.model.whatsapp.send_interactive(**payload)
+        elif isinstance(_tpl, templates.RequestLocationTemplate):
+            response = await self.model.config.whatsapp.request_location(**payload)
 
-            case TemplateTypeConstants.LIST:
-                response = await self.model.whatsapp.send_interactive(**payload)
-
-            case TemplateTypeConstants.FLOW:
-                response = await self.model.whatsapp.send_interactive(**payload)
-
-            case TemplateTypeConstants.MEDIA:
-                response = await self.model.whatsapp.send_media(**payload)
-
-            case TemplateTypeConstants.TEMPLATE:
-                response = await self.model.whatsapp.send_template(**payload)
-
-            case TemplateTypeConstants.LOCATION:
-                response = await self.model.whatsapp.send_location(**payload)
-
-            case TemplateTypeConstants.REQUEST_LOCATION:
-                response = await self.model.whatsapp.request_location(**payload)
-
-            case _:
-                raise EngineInternalException(
-                    message="Unsupported message type for payload generation",
-                    data=f"Stage: {self.model.next_stage} | Type: {self.model_template_type}"
-                )
+        else:
+            raise EngineInternalException(
+                message="Unsupported message type for payload generation",
+                data=f"Stage: {self.model.next_stage} | Type: {_tpl.__class__.__name__}"
+            )
 
         if template is True or \
-                self.model.whatsapp.util.was_request_successful(recipient_id=self.model.user.wa_id,
-                                                                response_data=response):
+                self.model.config.whatsapp.util.was_request_successful(recipient_id=self.model.hook_arg.user.wa_id,
+                                                                       response_data=response):
+
             if handle_session is True:
                 session = self.model.hook_arg.session_manager
-                session_id = self.model.user.wa_id
+                session_id = self.model.hook_arg.user.wa_id
                 current_stage = session.get(session_id=session_id, key=SessionConstants.CURRENT_STAGE)
 
                 session.save(session_id=session_id, key=SessionConstants.PREV_STAGE, data=current_stage)
@@ -101,7 +83,7 @@ class WhatsAppService:
 
                 _logger.debug(f"Current route set to: {self.model.next_stage}")
 
-                if self.model.handle_session_activity is True:
+                if self.model.config.handle_session_inactivity is True:
                     session.save(session_id=session_id, key=SessionConstants.LAST_ACTIVITY_AT,
                                  data=datetime.now().isoformat())
 

@@ -2,13 +2,12 @@ import re
 from random import randint
 from typing import Dict, Any, List, Union, Optional
 
+import pywce.src.templates as templates
 from pywce.modules import client
-from pywce.modules.whatsapp import WhatsAppConfig
-from pywce.src.constants import TemplateConstants, TemplateTypeConstants, EngineConstants
+from pywce.src.constants import EngineConstants
 from pywce.src.exceptions import EngineInternalException
-from pywce.src.models import HookArg
+from pywce.src.models import WhatsAppServiceModel
 from pywce.src.services import HookService
-from pywce.src.templates import templates
 from pywce.src.utils import EngineUtil, pywce_logger
 
 _logger = pywce_logger(__name__)
@@ -20,23 +19,18 @@ class TemplateMessageProcessor:
 
     Processes templates messages, creates whatsapp message bodies from passed templates.
     """
-    _message: Union[str, Dict[str, Any]] = None
+    template: templates.EngineTemplate
 
     def __init__(self,
                  template: templates.EngineTemplate,
-                 hook_arg: HookArg,
-                 wa_config: WhatsAppConfig,
-                 tag_on_reply: bool = False
+                 whatsapp_model: WhatsAppServiceModel
                  ) -> None:
-        self.tag_on_reply = tag_on_reply
-        self.wa_config = wa_config
-        self.hook = hook_arg
+        self.config = whatsapp_model.config
+        self.hook = whatsapp_model.hook_arg
         self.template = template
-
 
     def _setup(self):
         self.user = self.hook.user
-        self._message = self.template.message
 
     def _message_id(self) -> Union[str, None]:
         """
@@ -44,17 +38,9 @@ class TemplateMessageProcessor:
 
         :return: None or message id to reply to
         """
-        if self.tag_on_reply is True:
-            return self.user.msg_id
+        return self.user.msg_id if self.config.tag_on_reply is True else self.template.reply_message_id
 
-        msg_id = self.template.reply_message_id or False
-
-        if isinstance(msg_id, str):
-            return msg_id
-
-        return None if msg_id is False else self.user.msg_id
-
-    def _process_special_vars(self) -> Dict:
+    def _process_special_vars(self) -> templates.EngineTemplate:
         """
         Process and replace special variables in the templates ({{ s.var }} and {{ p.var }}).
 
@@ -87,12 +73,14 @@ class TemplateMessageProcessor:
 
             return value
 
-        return replace_special_vars(self.template)
+        dict_template = replace_special_vars(templates.Template.as_dict(self.template))
+
+        return templates.Template.as_model(dict_template)
 
     async def _process_template_hook(self, skip: bool = False) -> None:
         """
         If templates has the `templates` hook specified, process it
-        and resign to self.templates
+        and reassign to self.templates
         :return: None
         """
         self.template = self._process_special_vars()
@@ -100,14 +88,14 @@ class TemplateMessageProcessor:
 
         if skip: return
 
-        if TemplateConstants.TEMPLATE in self.template:
-            response = await HookService.process_hook(hook_dotted_path=self.template.get(TemplateConstants.TEMPLATE),
+        if self.template.template is not None:
+            response = await HookService.process_hook(hook_dotted_path=self.template.template,
                                                       hook_arg=self.hook)
 
-            self.template = EngineUtil.render_template(
-                template=self.template,
+            self.template = templates.Template.as_model(EngineUtil.render_template(
+                template=templates.Template.as_dict(self.template),
                 context=response.template_body.render_template_payload
-            )
+            ))
 
             self._setup()
 
@@ -117,21 +105,21 @@ class TemplateMessageProcessor:
 
         TODO: implement different supported header types for button messages
         """
-        interactive_fields = {}
+        _message: templates.BaseInteractiveMessage = self.template.message
+        interactive_fields = {"body": {"text": _message.body}}
 
-        if self._message.get(TemplateConstants.MESSAGE_TITLE):
-            interactive_fields["header"] = {"type": "text", "text": self._message.get(TemplateConstants.MESSAGE_TITLE)}
-        if self._message.get(TemplateConstants.MESSAGE_BODY):
-            interactive_fields["body"] = {"text": self._message.get(TemplateConstants.MESSAGE_BODY)}
-        if self._message.get(TemplateConstants.MESSAGE_FOOTER):
-            interactive_fields["footer"] = {"text": self._message.get(TemplateConstants.MESSAGE_FOOTER)}
+        if _message.title is not None:
+            interactive_fields["header"] = {"type": "text", "text": _message.title}
+
+        if _message.footer is not None:
+            interactive_fields["footer"] = {"text": _message.footer}
 
         return interactive_fields
 
     def _text(self) -> Dict[str, Any]:
         data = {
             "recipient_id": self.user.wa_id,
-            "message": self._message,
+            "message": self.template.message,
             "message_id": self._message_id()
         }
 
@@ -146,7 +134,7 @@ class TemplateMessageProcessor:
         Args:
                button[dict]: A dictionary containing the button data
         """
-        buttons: List = self._message.get(TemplateConstants.MESSAGE_BUTTONS)
+        buttons: List = self.template.message.buttons
         data = {
             "type": "button",
             **self._get_common_interactive_fields()
@@ -182,8 +170,8 @@ class TemplateMessageProcessor:
                 "action": {
                     "name": "cta_url",
                     "parameters": {
-                        "display_text": self._message.get(TemplateConstants.MESSAGE_BUTTON),
-                        "url": self._message.get(TemplateConstants.MESSAGE_URL)
+                        "display_text": self.template.message.button,
+                        "url": self.template.message.url
                     }
                 }}
 
@@ -204,12 +192,9 @@ class TemplateMessageProcessor:
             "type": "product",
             **self._get_common_interactive_fields(),
             "action": {
-                "product_retailer_id": self._message.get(TemplateConstants.MESSAGE_CATALOG_PRODUCT_ID),
-                "catalog_id": self._message.get(TemplateConstants.MESSAGE_CATALOG_ID)
+                "product_retailer_id": self.template.message.product_id,
+                "catalog_id": self.template.message.catalog_id
             }}
-
-        assert self._message.get(TemplateConstants.MESSAGE_CATALOG_PRODUCT_ID) is not None, "product id is missing"
-        assert self._message.get(TemplateConstants.MESSAGE_CATALOG_ID) is not None, "catalog id is missing"
 
         return {
             "recipient_id": self.user.wa_id,
@@ -226,19 +211,15 @@ class TemplateMessageProcessor:
         """
         data = {"type": "product_list", **self._get_common_interactive_fields()}
 
-        sections: Dict[str, Dict[str, Dict]] = self._message.get(TemplateConstants.MESSAGE_SECTIONS)
-
-        assert self._message.get(TemplateConstants.MESSAGE_CATALOG_ID) is not None, "catalog id is missing"
-
-        action_data = {"catalog_id": self._message.get(TemplateConstants.MESSAGE_CATALOG_ID)}
+        action_data = {"catalog_id": self.template.message.catalog_id}
 
         section_data = []
 
-        for section_title, item_list in sections.items():
-            sec_title_data = {"title": section_title}
+        for section in self.template.message.sections:
+            sec_title_data = {"title": section.title}
             sec_title_items = []
 
-            for item in item_list:
+            for item in section.products:
                 sec_title_items.append({"product_retailer_id": item})
 
             sec_title_data["product_items"] = sec_title_items
@@ -265,9 +246,9 @@ class TemplateMessageProcessor:
 
         action_data = {"name": "catalog_message"}
 
-        if self._message.get(TemplateConstants.MESSAGE_CATALOG_PRODUCT_ID):
+        if self.template.message.product_id is not None:
             action_data["parameters"] = {
-                "thumbnail_product_retailer_id": self._message.get(TemplateConstants.MESSAGE_CATALOG_PRODUCT_ID)
+                "thumbnail_product_retailer_id": self.template.message.product_id
             }
 
         data["action"] = action_data
@@ -281,19 +262,17 @@ class TemplateMessageProcessor:
     def _list(self) -> Dict[str, Any]:
         data = {"type": "list", **self._get_common_interactive_fields()}
 
-        sections: Dict[str, Dict[str, Dict]] = self._message.get(TemplateConstants.MESSAGE_SECTIONS)
-
         section_data = []
 
-        for section_title, inner_sections in sections.items():
-            sec_title_data = {"title": section_title}
+        for section in self.template.message.sections:
+            sec_title_data = {"title": section.title}
             sec_title_rows = []
 
-            for _id, _section in inner_sections.items():
+            for row in section.rows:
                 sec_title_rows.append({
-                    "id": _id,
-                    "title": _section.get("title"),
-                    "description": _section.get("description")
+                    "id": row.identifier,
+                    "title": row.title,
+                    "description": row.description
                 })
 
             sec_title_data["rows"] = sec_title_rows
@@ -301,7 +280,7 @@ class TemplateMessageProcessor:
             section_data.append(sec_title_data)
 
         data["action"] = {
-            "button": self._message.get(TemplateConstants.MESSAGE_BUTTON, "Options"),
+            "button": self.template.message.button,
             "sections": section_data
         }
 
@@ -319,8 +298,8 @@ class TemplateMessageProcessor:
 
         flow_initial_payload: Optional[Dict] = None
 
-        if TemplateConstants.TEMPLATE in self.template:
-            response = await HookService.process_hook(hook_dotted_path=self.template.get(TemplateConstants.TEMPLATE),
+        if self.template.template is not None:
+            response = await HookService.process_hook(hook_dotted_path=self.template.template,
                                                       hook_arg=self.hook)
 
             flow_initial_payload = response.template_body.initial_flow_payload
@@ -329,9 +308,9 @@ class TemplateMessageProcessor:
                 template=self.template,
                 context=response.template_body.render_template_payload
             )
-            self._setup(True)
+            self._setup()
 
-        action_payload = {"screen": self._message.get(TemplateConstants.MESSAGE_NAME)}
+        action_payload = {"screen": self.template.message.name}
 
         if flow_initial_payload is not None:
             action_payload["data"] = flow_initial_payload
@@ -339,12 +318,12 @@ class TemplateMessageProcessor:
         data["action"] = {
             "name": "flow",
             "parameters": {
-                "flow_message_version": self.wa_config.flow_version,
-                "flow_action": self.wa_config.flow_action,
-                "mode": "published" if self._message.get(TemplateConstants.MESSAGE_FLOW_DRAFT) is None else "draft",
-                "flow_token": f"{self._message.get(TemplateConstants.MESSAGE_NAME)}_{self.user.wa_id}_{randint(99, 9999)}",
-                "flow_id": self._message.get(TemplateConstants.MESSAGE_ID),
-                "flow_cta": self._message.get(TemplateConstants.MESSAGE_BUTTON),
+                "flow_message_version": self.config.whatsapp.config.flow_version,
+                "flow_action": self.config.whatsapp.config.flow_action,
+                "mode": "draft" if self.template.message.draft else "published",
+                "flow_token": f"{self.template.message.name}_{self.user.wa_id}_{randint(99, 9999)}",
+                "flow_id": self.template.message.flow_id,
+                "flow_cta": self.template.message.button,
                 "flow_action_payload": action_payload
             }
         }
@@ -370,13 +349,12 @@ class TemplateMessageProcessor:
 
         data = {
             "recipient_id": self.user.wa_id,
-            "media": self._message.get(TemplateConstants.MESSAGE_ID,
-                                       self._message.get(TemplateConstants.MESSAGE_URL)),
-            "media_type": MEDIA_MAPPING.get(self._message.get(TemplateConstants.TEMPLATE_TYPE)),
-            "caption": self._message.get(TemplateConstants.MESSAGE_MEDIA_CAPTION),
-            "filename": self._message.get(TemplateConstants.MESSAGE_MEDIA_FILENAME),
+            "media": self.template.message.media_id or self.template.message.url,
+            "media_type": MEDIA_MAPPING.get(self.template.message.kind),
+            "caption": self.template.message.caption,
+            "filename": self.template.message.filename,
             "message_id": self._message_id(),
-            "link": self._message.get(TemplateConstants.MESSAGE_URL) is not None
+            "link": self.template.message.url is not None
         }
 
         return data
@@ -384,10 +362,10 @@ class TemplateMessageProcessor:
     def _location(self) -> Dict[str, Any]:
         data = {
             "recipient_id": self.user.wa_id,
-            "lat": self._message.get(TemplateConstants.MESSAGE_LOC_LAT),
-            "lon": self._message.get(TemplateConstants.MESSAGE_LOC_LON),
-            "name": self._message.get(TemplateConstants.MESSAGE_NAME),
-            "address": self._message.get(TemplateConstants.MESSAGE_LOC_ADDRESS),
+            "lat": self.template.message.lat,
+            "lon": self.template.message.lon,
+            "name": self.template.message.name,
+            "address": self.template.message.address,
             "message_id": self._message_id()
         }
 
@@ -396,7 +374,7 @@ class TemplateMessageProcessor:
     def _location_request(self) -> Dict[str, Any]:
         data = {
             "recipient_id": self.user.wa_id,
-            "message": self._message,
+            "message": self.template.message,
             "message_id": self._message_id()
         }
 
@@ -412,13 +390,12 @@ class TemplateMessageProcessor:
 
         The dynamic payload must be same as templates json message body
         """
-        assert self.template.get(TemplateConstants.TEMPLATE), "templates hook is missing"
+        assert self.template.template is not None, "templates hook is missing"
 
-        response = await HookService.process_hook(hook_dotted_path=self.template.get(TemplateConstants.TEMPLATE),
+        response = await HookService.process_hook(hook_dotted_path=self.template.template,
                                                   hook_arg=self.hook)
 
-        self.template_type = response.template_body.typ
-        self._message = response.template_body.render_template_payload
+        self.template = response.template_body.dynamic_template
 
     async def _whatsapp_template(self):
         """
@@ -431,10 +408,9 @@ class TemplateMessageProcessor:
 
         The dynamic payload must be same as templates json message body
         """
-        assert self.template.get(TemplateConstants.TEMPLATE), "templates hook is missing"
-        assert self._message.get(TemplateConstants.MESSAGE_NAME) is not None, "templates name is missing"
+        assert self.template.template is not None, "templates hook is missing"
 
-        response = await HookService.process_hook(hook_dotted_path=self.template.get(TemplateConstants.TEMPLATE),
+        response = await HookService.process_hook(hook_dotted_path=self.template.template,
                                                   hook_arg=self.hook)
 
         components: List = response.template_body.render_template_payload.get(EngineConstants.WHATSAPP_TEMPLATE_KEY, [])
@@ -442,8 +418,8 @@ class TemplateMessageProcessor:
         return {
             "recipient_id": self.user.wa_id,
             "message_id": self._message_id(),
-            "templates": self._message.get(TemplateConstants.MESSAGE_NAME),
-            "lang": self._message.get(TemplateConstants.MESSAGE_TEMPLATE_LANG, "en_US"),
+            "templates": self.template.message.name,
+            "lang": self.template.message.language,
             "components": components
         }
 
@@ -454,51 +430,50 @@ class TemplateMessageProcessor:
         """
         if template is True:
             await self._process_template_hook(
-                skip=self.template_type == TemplateTypeConstants.FLOW or \
-                     self.template_type == TemplateTypeConstants.DYNAMIC or \
-                     self.template_type == TemplateTypeConstants.TEMPLATE
+                skip=isinstance(self.template, templates.FlowTemplate) or \
+                     isinstance(self.template, templates.DynamicTemplate) or \
+                     isinstance(self.template, templates.TemplateTemplate)
             )
 
-        match self.template_type:
-            case TemplateTypeConstants.TEXT:
-                return self._text()
+        if isinstance(self.template, templates.TextTemplate):
+            return self._text()
 
-            case TemplateTypeConstants.TEMPLATE:
-                return await self._whatsapp_template()
+        elif isinstance(self.template, templates.TemplateTemplate):
+            return await self._whatsapp_template()
 
-            case TemplateTypeConstants.BUTTON:
-                return self._button()
+        elif isinstance(self.template, templates.ButtonTemplate):
+            return self._button()
 
-            case TemplateTypeConstants.CTA:
-                return self._cta()
+        elif isinstance(self.template, templates.CtaTemplate):
+            return self._cta()
 
-            case TemplateTypeConstants.CATALOG:
-                return self._catalog()
+        elif isinstance(self.template, templates.CatalogTemplate):
+            return self._catalog()
 
-            case TemplateTypeConstants.SINGLE_PRODUCT:
-                return self._single_product_item()
+        elif isinstance(self.template, templates.ProductTemplate):
+            return self._single_product_item()
 
-            case TemplateTypeConstants.MULTI_PRODUCT:
-                return self._multi_product_item()
+        elif isinstance(self.template, templates.ProductsMessage):
+            return self._multi_product_item()
 
-            case TemplateTypeConstants.LIST:
-                return self._list()
+        elif isinstance(self.template, templates.ListTemplate):
+            return self._list()
 
-            case TemplateTypeConstants.FLOW:
-                return await self._flow()
+        elif isinstance(self.template, templates.FlowTemplate):
+            return await self._flow()
 
-            case TemplateTypeConstants.MEDIA:
-                return self._media()
+        elif isinstance(self.template, templates.MediaTemplate):
+            return self._media()
 
-            case TemplateTypeConstants.LOCATION:
-                return self._location()
+        elif isinstance(self.template, templates.LocationTemplate):
+            return self._location()
 
-            case TemplateTypeConstants.REQUEST_LOCATION:
-                return self._location_request()
+        elif isinstance(self.template, templates.RequestLocationTemplate):
+            return self._location_request()
 
-            case _:
-                raise EngineInternalException(
-                    message=f"Type not supported for payload generation: {self.template_type}")
+        else:
+            raise EngineInternalException(
+                message=f"Type not supported for payload generation: {self.template.__class__.__name__}")
 
     async def payload(self, template: bool = True) -> Dict[str, Any]:
         """
@@ -507,7 +482,7 @@ class TemplateMessageProcessor:
         """
         override_template = template
 
-        if self.template_type == TemplateTypeConstants.DYNAMIC:
+        if isinstance(self.template, templates.DynamicTemplate):
             override_template = False
             await self._dynamic()
 

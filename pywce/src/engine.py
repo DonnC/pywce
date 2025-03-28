@@ -1,14 +1,14 @@
 from typing import Dict, Any
 
 from pywce.modules import client, ISessionManager
-from pywce.src.constants import TemplateTypeConstants, SessionConstants
-from pywce.src.exceptions import ExtHandlerHookError, HookError, EngineInternalException
+from pywce.src.constants import SessionConstants
+from pywce.src.exceptions import ExtHandlerHookError, HookError
 from pywce.src.models import EngineConfig, WorkerJob, WhatsAppServiceModel, HookArg, ExternalHandlerResponse
 from pywce.src.services import Worker, WhatsAppService, HookService
-from pywce.src.templates import templates
 from pywce.src.utils import pywce_logger
 
 _logger = pywce_logger(__name__)
+
 
 class Engine:
     def __init__(self, config: EngineConfig):
@@ -16,6 +16,9 @@ class Engine:
         self.whatsapp = config.whatsapp
 
         HookService.register_callable_global_hooks(self.config.global_pre_hooks, self.config.global_post_hooks)
+
+    def _user_session(self, session_id) -> ISessionManager:
+        return self.config.session_manager.session(session_id=session_id)
 
     def verify_webhook(self, mode, challenge, token):
         return self.whatsapp.util.webhook_challenge(mode, challenge, token)
@@ -26,30 +29,27 @@ class Engine:
 
             after termination, user messages will be handled by the normal templates-driven approach
         """
-        user_session: ISessionManager = self.config.session_manager.session(session_id=recipient_id)
-        has_ext_handler_session = user_session.get(session_id=recipient_id, key=SessionConstants.EXTERNAL_CHAT_HANDLER)
+        has_ext_handler_session = self._user_session(recipient_id).get(session_id=recipient_id,
+                                                                       key=SessionConstants.EXTERNAL_CHAT_HANDLER)
 
         if has_ext_handler_session is not None:
-            user_session.evict(session_id=recipient_id, key=SessionConstants.EXTERNAL_CHAT_HANDLER)
+            self._user_session(recipient_id).evict(session_id=recipient_id, key=SessionConstants.EXTERNAL_CHAT_HANDLER)
             _logger.debug("External handler session terminated for: %s", recipient_id)
 
     async def ext_handler_respond(self, response: ExternalHandlerResponse):
         """
             helper method for external handler to send back response to user
         """
-        user_session: ISessionManager = self.config.session_manager.session(session_id=response.recipient_id)
-        has_ext_handler_session = user_session.get(session_id=response.recipient_id,
-                                                   key=SessionConstants.EXTERNAL_CHAT_HANDLER)
-
+        has_ext_handler_session = self._user_session(response.recipient_id).get(session_id=response.recipient_id,
+                                                                                key=SessionConstants.EXTERNAL_CHAT_HANDLER)
         if has_ext_handler_session is not None:
             service_model = WhatsAppServiceModel(
                 template=response.template,
-                whatsapp=self.whatsapp,
-                user=client.WaUser(wa_id=response.recipient_id),
+                config=self.config,
                 hook_arg=HookArg(
                     user=client.WaUser(wa_id=response.recipient_id),
                     session_id=response.recipient_id,
-                    session_manager=user_session
+                    session_manager=self._user_session(response.recipient_id)
                 ),
             )
 
@@ -88,9 +88,7 @@ class Engine:
                 job=WorkerJob(
                     engine_config=self.config,
                     payload=response_model,
-                    user=wa_user,
-                    storage=self.config.storage_manager,
-                    session_manager=user_session
+                    user=wa_user
                 )
             )
             await worker.work()

@@ -1,6 +1,6 @@
 from typing import Dict, Optional, Any, List, Union
 
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, model_serializer
 
 from pywce.src.constants import TemplateConstants, EngineConstants
 
@@ -66,3 +66,13 @@ class BaseTemplate(BaseModel):
                 EngineRoute(user_input=k, next_stage=v, is_regex=str(k).startswith(EngineConstants.REGEX_PLACEHOLDER))
                 for k, v in value.items()]
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize(self, handler):
+        """Convert routes back to a dictionary when serializing"""
+        data = handler(self)
+
+        if isinstance(self.routes, list):
+            data["routes"] = {route.user_input: route.next_stage for route in self.routes}
+
+        return data

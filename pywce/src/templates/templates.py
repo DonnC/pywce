@@ -1,6 +1,4 @@
-from typing import Literal, Annotated
-
-from pydantic import TypeAdapter
+from typing import Literal
 
 from pywce.src.constants import TemplateTypeConstants
 from pywce.src.templates.base_model import BaseTemplate
@@ -73,30 +71,3 @@ class ProductTemplate(BaseTemplate):
 class MultiProductTemplate(BaseTemplate):
     kind: Literal["products"] = TemplateTypeConstants.MULTI_PRODUCT
     message: ProductsMessage
-
-
-# ----------
-# Discriminated Union Type
-# ----------
-EngineTemplate = Annotated[
-    Union[
-        ButtonTemplate,
-        CtaTemplate,
-        ListTemplate,
-        TextTemplate,
-        TemplateTemplate,
-        DynamicTemplate,
-        MediaTemplate,
-        FlowTemplate,
-        LocationTemplate,
-        RequestLocationTemplate,
-        CatalogTemplate,
-        ProductTemplate,
-        MultiProductTemplate
-    ],
-    Field(discriminator=TemplateConstants.TEMPLATE_TYPE),
-]
-
-
-def load_template(data: dict) -> EngineTemplate:
-    return TypeAdapter(EngineTemplate).validate_python(data)

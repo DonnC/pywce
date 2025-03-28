@@ -34,7 +34,6 @@ button:
     title: Menu
     body: "Check out our latest offering on prepaid services"
     catalog-id: "885273645601453"
-    button: Purchase Now
     sections:
       "Airtime":     # <- title
         - "yevoov7bew" # econet usd bundles

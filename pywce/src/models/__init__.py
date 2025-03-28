@@ -3,7 +3,6 @@ from typing import Dict, Any, List, Optional, Callable
 
 from pywce.modules import *
 from pywce.modules import client, storage
-from pywce.src.constants import TemplateTypeConstants
 from pywce.src.templates import EngineTemplate
 
 
@@ -48,8 +47,6 @@ class WorkerJob:
     engine_config: EngineConfig
     payload: client.ResponseStructure
     user: client.WaUser
-    storage: storage.IStorageManager
-    session_manager: ISessionManager
 
 
 @dataclass
@@ -59,14 +56,13 @@ class TemplateDynamicBody:
 
         Also used in `templates` hooks for dynamic message rendering
 
-        :var typ: specifies type of dynamic message body to create
+        :var dynamic_template: dynamic message model to render
         :var initial_flow_payload: for flows that require initial data passed to a whatsapp flow
-        :var render_template_payload: `for dynamic templates` -> the dynamic message templates body
-                                        `for templates templates` -> the templates dynamic variables to prefill
+        :var render_template_payload: the templates dynamic variables to prefill
     """
-    typ: TemplateTypeConstants = None
-    initial_flow_payload: Dict[str, Any] = None
-    render_template_payload: Dict[str, Any] = None
+    dynamic_template: Optional[EngineTemplate] = None
+    initial_flow_payload: Optional[Dict[Any, Any]] = None
+    render_template_payload: Optional[Dict[str, Any]] = None
 
 
 @dataclass
@@ -111,14 +107,10 @@ class HookArg:
 
 @dataclass
 class WhatsAppServiceModel:
+    config: EngineConfig
     template: EngineTemplate
-    whatsapp: client.WhatsApp
-    user: client.WaUser
-    hook_arg: HookArg = None
-    next_stage: str = None
-    handle_session_activity: bool = False
-    tag_on_reply: bool = False
-    read_receipts: bool = False
+    hook_arg: HookArg
+    next_stage: Optional[str] = None
 
 
 @dataclass
