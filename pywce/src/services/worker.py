@@ -1,16 +1,17 @@
 from datetime import datetime
 from random import randint
 from time import time
-from typing import List, Dict, Any, Tuple
+from typing import List, Tuple
 
 from pywce.modules import ISessionManager, client
 from pywce.src.constants import *
 from pywce.src.exceptions import *
 from pywce.src.models import HookArg
-from pywce.src.models import WorkerJob, WhatsAppServiceModel, QuickButtonModel
+from pywce.src.models import WorkerJob, WhatsAppServiceModel
 from pywce.src.services import MessageProcessor, WhatsAppService
-from pywce.src.templates import ButtonTemplate, EngineTemplate
-from pywce.src.utils import EngineUtil, pywce_logger
+from pywce.src.templates import ButtonTemplate, EngineTemplate, ButtonMessage, EngineRoute
+from pywce.src.utils.engine_logger import pywce_logger
+from pywce.src.utils.engine_util import EngineUtil
 
 _logger = pywce_logger(__name__)
 
@@ -28,7 +29,7 @@ class Worker:
         self.payload = job.payload
         self.user = job.user
         self.session_id = self.user.wa_id
-        self.session: ISessionManager = self.job.session_manager
+        self.session: ISessionManager = self.job.engine_config.session_manager.session(self.session_id)
 
     def _get_message_queue(self) -> List:
         return self.session.get(session_id=self.session_id, key=SessionConstants.MESSAGE_HISTORY) or []
@@ -75,7 +76,7 @@ class Worker:
             return EngineUtil.has_interaction_expired(last_active, self.job.engine_config.inactivity_timeout_min)
         return False
 
-    def _checkpoint_handler(self, routes: Dict[str, Any], user_input: str = None,
+    def _checkpoint_handler(self, routes: List[EngineRoute], user_input: str = None,
                             is_from_trigger: bool = False) -> bool:
         """
         Check if a checkpoint is available in session. If so,
@@ -88,15 +89,22 @@ class Worker:
         checkpoint = self.session.get(session_id=self.session_id, key=SessionConstants.LATEST_CHECKPOINT)
         dynamic_retry = self.session.get(session_id=self.session_id, key=SessionConstants.DYNAMIC_RETRY)
 
-        should_reroute_to_checkpoint = EngineConstants.RETRY_NAME_KEY not in routes \
-                                       and _input.lower() == EngineConstants.RETRY_NAME_KEY.lower() \
-                                       and checkpoint is not None \
+        has_retry_input = False
+
+        for r in routes:
+            if str(r.user_input).upper() == EngineConstants.RETRY_NAME_KEY.upper():
+                if _input.strip().lower() == EngineConstants.RETRY_NAME_KEY.lower():
+                    has_retry_input = True
+
+        should_reroute_to_checkpoint = has_retry_input and checkpoint is not None \
                                        and dynamic_retry is not None \
                                        and is_from_trigger is False
 
         return should_reroute_to_checkpoint
 
     async def _next_route_handler(self, msg_processor: MessageProcessor) -> str:
+        _user_input = msg_processor.USER_INPUT[0]
+
         if msg_processor.IS_FIRST_TIME: return self.job.engine_config.start_template_stage
 
         if self._inactivity_handler():
@@ -104,10 +112,10 @@ class Worker:
                 message="You have been inactive for a while, to secure your account, kindly login again")
 
         # get possible next common configured on templates
-        current_template_routes: Dict[str, Any] = msg_processor.CURRENT_TEMPLATE.get(TemplateConstants.ROUTES)
+        current_template_routes = msg_processor.CURRENT_TEMPLATE.routes
 
         # check for next route in last checkpoint
-        if self._checkpoint_handler(current_template_routes, msg_processor.USER_INPUT[0],
+        if self._checkpoint_handler(current_template_routes, _user_input,
                                     msg_processor.IS_FROM_TRIGGER):
             return self.session.get(session_id=self.session_id, key=SessionConstants.LATEST_CHECKPOINT)
 
@@ -121,24 +129,18 @@ class Worker:
             return msg_processor.CURRENT_STAGE
 
         # check for next route in configured templates common
-        for _pattern, _route in current_template_routes.items():
-            if EngineUtil.is_regex_input(_pattern):
-                if msg_processor.USER_INPUT[0] is None:
-                    # received an unprocessable input e.g. location-request / media message
-                    # provide a dummy input that may match {"re:.*": "NEXT-STAGE"}
-                    # this is to avoid any proper defined route that may match accidentally
-                    _dummy_input = f"pywce.{randint(11, 1111)}"
-                    if EngineUtil.has_triggered(EngineUtil.extract_pattern(_pattern), _dummy_input):
-                        return _route
+        for trigger in current_template_routes:
+            if _user_input is None:
+                # received an unprocessable input e.g. location-request / media message
+                # provide a dummy input that may match {"re:.*": "NEXT-STAGE"}
+                # this is to avoid any proper defined route that may match accidentally
+                _dummy_input = f"pywce.{randint(11, 1111)}"
+                if EngineUtil.has_triggered(trigger, _dummy_input):
+                    return trigger.next_stage
 
-                else:
-                    if EngineUtil.has_triggered(EngineUtil.extract_pattern(_pattern),
-                                                msg_processor.USER_INPUT[0]):
-                        return _route
-
-        # check for next route in templates common that match exact user input
-        if msg_processor.USER_INPUT[0] in current_template_routes:
-            return current_template_routes[msg_processor.USER_INPUT[0]]
+            else:
+                if EngineUtil.has_triggered(trigger, _user_input):
+                    return trigger.next_stage
 
         # at this point, user provided an invalid response then
         raise EngineResponseException(message="Invalid response, please try again", data=msg_processor.CURRENT_STAGE)
@@ -157,7 +159,7 @@ class Worker:
 
         next_template_stage = await self._next_route_handler(msg_processor)
 
-        next_template = self.job.storage.get(next_template_stage)
+        next_template = self.job.engine_config.storage_manager.get(next_template_stage)
 
         # check if next templates requires user to be authenticated before processing
         self._check_authentication(next_template)
@@ -178,14 +180,12 @@ class Worker:
         _logger.warning("Sending quick button to user..")
 
         service_model = WhatsAppServiceModel(
-            template_type=TemplateTypeConstants.BUTTON,
+            config=self.job.engine_config,
             template=btn_template,
-            whatsapp=_client,
-            user=self.user,
             hook_arg=HookArg(user=self.user, session_id=self.user.wa_id, user_input=None)
         )
 
-        whatsapp_service = WhatsAppService(model=service_model, validate_template=False)
+        whatsapp_service = WhatsAppService(model=service_model)
         response = await whatsapp_service.send_message(handle_session=False, template=False)
 
         response_msg_id = _client.util.get_response_message_id(response)
@@ -203,15 +203,10 @@ class Worker:
         _logger.info("Next templates stage: %s", next_stage)
 
         service_model = WhatsAppServiceModel(
-            template_type=TEMPLATE_TYPE_MAPPING.get(next_template.get(TemplateConstants.TEMPLATE_TYPE)),
+            config=self.job.engine_config,
             template=next_template,
-            whatsapp=processor.whatsapp,
-            user=self.user,
             next_stage=next_stage,
-            hook_arg=processor.HOOK_ARG,
-            tag_on_reply=self.job.engine_config.tag_on_reply,
-            read_receipts=self.job.engine_config.read_receipts,
-            handle_session_activity=self.job.engine_config.handle_session_inactivity
+            hook_arg=processor.HOOK_ARG
         )
 
         whatsapp_service = WhatsAppService(model=service_model)
@@ -264,10 +259,13 @@ class Worker:
         except TemplateRenderException as e:
             _logger.error("Failed to render templates: " + e.message)
 
-            btn = QuickButtonModel(
-                title="Message",
-                message="Failed to process message",
-                buttons=[EngineConstants.DEFAULT_RETRY_BTN_NAME, EngineConstants.DEFAULT_REPORT_BTN_NAME]
+            btn = ButtonTemplate(
+                message=ButtonMessage(
+                    title="Message",
+                    body="Failed to process message",
+                    buttons=[EngineConstants.DEFAULT_RETRY_BTN_NAME, EngineConstants.DEFAULT_REPORT_BTN_NAME]
+                ),
+                routes=[]
             )
 
             await self.send_quick_btn_message(btn_template=btn)
@@ -277,10 +275,13 @@ class Worker:
         except EngineResponseException as e:
             _logger.error("EngineResponse exc, message: %s, data: %s", e.message, e.data)
 
-            btn = QuickButtonModel(
-                title="Message",
-                message=f"{e.message}\n\nYou may click the Menu button to return to Menu",
-                buttons=[EngineConstants.DEFAULT_MENU_BTN_NAME, EngineConstants.DEFAULT_REPORT_BTN_NAME]
+            btn = ButtonTemplate(
+                message=ButtonMessage(
+                    title="Message",
+                    body=f"{e.message}\n\nYou may click the Menu button to return to Menu",
+                    buttons=[EngineConstants.DEFAULT_MENU_BTN_NAME, EngineConstants.DEFAULT_REPORT_BTN_NAME]
+                ),
+                routes=[]
             )
 
             await self.send_quick_btn_message(btn_template=btn)
@@ -291,10 +292,13 @@ class Worker:
             _logger.critical("Ambiguous session mismatch encountered with %s" % self.user.wa_id)
             _logger.error(e.message)
 
-            btn = QuickButtonModel(
-                title="Message",
-                message="Failed to understand something on my end.\n\nCould not process message.",
-                buttons=[EngineConstants.DEFAULT_MENU_BTN_NAME]
+            btn = ButtonTemplate(
+                message=ButtonMessage(
+                    title="Message",
+                    body="Failed to understand something on my end.\n\nCould not process message.",
+                    buttons=[EngineConstants.DEFAULT_MENU_BTN_NAME]
+                ),
+                routes=[]
             )
 
             await self.send_quick_btn_message(btn_template=btn)
@@ -307,11 +311,14 @@ class Worker:
             # clear all user session data
             self.session.clear(session_id=self.user.wa_id)
 
-            btn = QuickButtonModel(
-                title="Security Check 🔐",
-                message=e.message,
-                footer="Session Expired",
-                buttons=[EngineConstants.DEFAULT_MENU_BTN_NAME]
+            btn = ButtonTemplate(
+                message=ButtonMessage(
+                    title="Security Check 🔐",
+                    body=e.message,
+                    footer="Session Expired",
+                    buttons=[EngineConstants.DEFAULT_MENU_BTN_NAME]
+                ),
+                routes=[]
             )
 
             await self.send_quick_btn_message(btn_template=btn)

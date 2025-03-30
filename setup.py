@@ -21,7 +21,7 @@ with open("requirements.txt", "r", encoding="utf-8") as fh:
 
 setup(
     name="pywce",
-    version="1.0.7",
+    version="2.0.0",
     author="Donald Chinhuru",
     author_email="donychinhuru@gmail.com",
     description="A templates-driven framework for building WhatsApp chatbots",

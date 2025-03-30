@@ -6,6 +6,7 @@ class EngineConstants:
     MESSAGE_QUEUE_COUNT: int = 100
     TIMEOUT_REQUEST_RETRY_COUNT = 2
     REGEX_PLACEHOLDER = "re:"
+    EXT_HOOK_PROCESSOR_PLACEHOLDER = "ext:"
     TRIGGER_ROUTE_PARAM = "trigger-route"
 
     RETRY_NAME_KEY = "Retry"

@@ -9,7 +9,7 @@ router = APIRouter()
 logger = pywce_logger(__name__)
 
 @router.post("/chatbot/webhook")
-@whatsapp.util.signature_required
+# @whatsapp.util.signature_required
 async def handler(request: Request, background_tasks: BackgroundTasks):
     """Handle incoming webhook events from WhatsApp and process them in the background."""
     payload_bytes = await request.body()

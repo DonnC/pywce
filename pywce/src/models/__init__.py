@@ -1,6 +1,8 @@
 from dataclasses import dataclass, field
 from typing import Dict, Any, List, Optional, Callable
 
+from pydantic import BaseModel
+
 from pywce.modules import *
 from pywce.modules import client, storage
 from pywce.src.templates import EngineTemplate
@@ -27,7 +29,8 @@ class EngineConfig:
     whatsapp: client.WhatsApp
     start_template_stage: str
     storage_manager: storage.IStorageManager
-    ext_handler_hook: str = None
+    ext_handler_hook: Optional[str] = None
+    ext_hook_processor: Optional[Callable] = None
     handle_session_queue: bool = True
     handle_session_inactivity: bool = True
     tag_on_reply: bool = False
@@ -49,8 +52,7 @@ class WorkerJob:
     user: client.WaUser
 
 
-@dataclass
-class TemplateDynamicBody:
+class TemplateDynamicBody(BaseModel):
     """
         Model for flow & dynamic message types.
 
@@ -65,8 +67,7 @@ class TemplateDynamicBody:
     render_template_payload: Optional[Dict[str, Any]] = None
 
 
-@dataclass
-class HookArg:
+class HookArg(BaseModel):
     """
         Main hooks argument. All defined hooks must accept this arg in their functions and return the same arg.
 
@@ -80,6 +81,7 @@ class HookArg:
         :var session_id: current session id
         :var user_input: the raw user input, usually a str if message was a button or text
         :var session_manager: session instance of the current user -> WaUser
+        :var hook: the name / dotted path of the hook being executed
     """
     user: client.WaUser
     session_id: str
@@ -90,6 +92,12 @@ class HookArg:
     flow: Optional[str] = None
     additional_data: Optional[Dict[str, Any]] = None
     params: Dict[Any, Any] = field(default_factory=dict)
+    hook: Optional[str] = None
+
+    model_config = {
+        "json_exclude": {"session_manager"},
+        "arbitrary_types_allowed": True
+    }
 
     def __str__(self):
         attrs = {
@@ -100,6 +108,7 @@ class HookArg:
             "from_trigger": self.from_trigger,
             "user_input": self.user_input,
             "flow": self.flow,
+            "hook": self.hook,
             "additional_data": self.additional_data
         }
         return f"HookArg({attrs})"

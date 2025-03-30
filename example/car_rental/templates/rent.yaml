@@ -2,7 +2,7 @@
   kind: flow
   template: "car_rental.hooks.rent.init_rental"
   message:
-    id: 1542160659833214
+    flow_id: 1542160659833214
     draft: true
     name: FLOW_RENT_CAR
     title: "Rent A Car"

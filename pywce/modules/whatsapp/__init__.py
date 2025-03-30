@@ -435,7 +435,7 @@ class WhatsApp:
                 user.msg_id = data["messages"][0]["id"]
                 user.timestamp = data["messages"][0]["timestamp"]
 
-            user.validate()
+            user.wa_validator()
 
             return user
 

@@ -1,6 +1,6 @@
 "START-MENU":
   kind: button
-  template: "ehailing.hooks.name_template.username"
+  template: "ext:get_name"
   message:
     title: Greetings
     body: |

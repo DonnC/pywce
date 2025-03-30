@@ -3,7 +3,7 @@ import os
 from dotenv import load_dotenv
 
 from pywce import Engine, client, storage, EngineConfig
-from .global_hooks import log_incoming_message
+from .global_hooks import log_incoming_message, external_hook_processor
 
 load_dotenv()
 
@@ -27,6 +27,7 @@ _eng_config = EngineConfig(
 
     # optional fields, depends on the example project being run
     global_pre_hooks=[log_incoming_message],
+    ext_hook_processor=external_hook_processor,
     ext_handler_hook="example.ai_agents.hooks.ai_hook.agent_processor"
 )
 

@@ -4,15 +4,15 @@ from typing import Any, Dict
 
 from jinja2 import Template
 
-from pywce.src.templates import EngineRoute
-from pywce.src.utils.engine_logger import pywce_logger
 from pywce.src.constants import EngineConstants
 from pywce.src.exceptions import TemplateRenderException
+from pywce.src.templates import EngineRoute
+from pywce.src.utils.engine_logger import pywce_logger
 
 _logger = pywce_logger(__name__)
 
-class EngineUtil:
 
+class EngineUtil:
     @staticmethod
     def extract_special_vars(value: str, pattern: str) -> list:
         """

@@ -3,8 +3,9 @@ import inspect
 from functools import wraps
 from typing import Callable, Literal, Optional
 
-from pywce.src.models import ExternalHandlerResponse, TemplateTypeConstants
+from pywce.src.constants import TemplateTypeConstants
 from pywce.src.exceptions import HookError
+from pywce.src.models import ExternalHandlerResponse
 from pywce.src.models import HookArg
 from pywce.src.services.ai_service import AiResponse
 from pywce.src.utils.engine_logger import pywce_logger
@@ -18,6 +19,7 @@ _function_cache = {}
 _global_pre_hooks = []
 _global_post_hooks = []
 
+
 class HookService:
     """
     Hook Service:
@@ -27,6 +29,7 @@ class HookService:
     Dynamically call hook functions or class methods.
     All hooks should accept a [HookArg] param and return a [HookArg] response.
     """
+
     @staticmethod
     def registry():
         return _hook_registry
@@ -36,7 +39,8 @@ class HookService:
         return _dotted_path_registry
 
     @staticmethod
-    def map_ai_handler_response(recipient:str, ai_response: AiResponse, agent_name:str="🤖") -> ExternalHandlerResponse:
+    def map_ai_handler_response(recipient: str, ai_response: AiResponse,
+                                agent_name: str = "🤖") -> ExternalHandlerResponse:
         # TODO: map all supported ai responses
         if ai_response.typ == "button":
             _type = TemplateTypeConstants.BUTTON
@@ -47,11 +51,9 @@ class HookService:
         else:
             _type = TemplateTypeConstants.TEXT
 
+        # FIXME: fix ai response
         return ExternalHandlerResponse(
-            typ=_type,
-            title=ai_response.title,
-            message=f"{agent_name}\n{ai_response.message}",
-            options=ai_response.options,
+            template=None,
             recipient_id=recipient
         )
 
@@ -74,7 +76,7 @@ class HookService:
     @staticmethod
     def register_global_hook(hook_dotted_path: str, hook_type: Literal["pre", "post"]):
         """
-        Register a global pre or post hook.
+        Register a global or pre or post hook.
         :param hook_dotted_path: Dotted path to the hook function.
         :param hook_type: Either "pre" or "post".
         """
@@ -162,7 +164,7 @@ class HookService:
 
             # implement class based hook
 
-            # Function-based hook
+            # async Function-based hook
             if inspect.iscoroutinefunction(hook_func):
                 return await hook_func(hook_arg)
 
@@ -184,11 +186,12 @@ class HookService:
         return await HookService._execute_hook(hook_dotted_path, hook_arg)
 
     @staticmethod
-    async def process_global_hooks(hook_type: Literal["pre", "post"], hook_arg: HookArg) -> None:
+    async def process_global_hooks(hook_type: Literal["pre", "post"], hook_arg: HookArg) -> Optional[HookArg]:
         try:
             hooks = _global_pre_hooks if hook_type == "pre" else _global_post_hooks
             for pre_hook in hooks:
                 await HookService._execute_hook(pre_hook, hook_arg)
+
         except HookError as e:
             _logger.critical("Global `%s` hook processing failure, error: %s", hook_type, e.message)
 

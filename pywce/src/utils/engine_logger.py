@@ -1,7 +1,7 @@
 import logging
 from os import getenv
 
-def pywce_logger(name: str = "pywce", file: bool = False) -> logging.Logger:
+def pywce_logger(name: str = "pywce") -> logging.Logger:
     """
     Configures and returns a logger with both console and file logging.
     """
@@ -9,7 +9,7 @@ def pywce_logger(name: str = "pywce", file: bool = False) -> logging.Logger:
 
     if not logger.hasHandlers():
         console_formatter = logging.Formatter(
-            '%(log_color)s%(asctime)s [%(levelname)s] [%(name)s:%(lineno)d] - %(message)s',
+            '%(asctime)s [%(levelname)s] [%(name)s:%(lineno)d] - %(message)s',
             datefmt='%Y-%m-%d %H:%M:%S',
         )
 

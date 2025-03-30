@@ -34,10 +34,6 @@ Ensure you have the following installed before contributing:
    # example dependencies
    cd example
    pip install -r requirements.txt
-   
-   # live-support portal dependencies
-   cd portal
-   pip install -r requirements.txt
    ```
     
 5. (Optional) Run tests to ensure your environment is working:
@@ -56,7 +52,6 @@ If you encounter any bugs, feature requests, or documentation issues, please [op
 Feel free to suggest new features or improvements to:
 - The **WhatsApp client library** (`pywce.whatsapp`) for direct interaction with the API.
 - The **Engine** for the main project building chatbots.
-- The **Portal** for the live-support web
 
 ### 3. Making Changes
 - Before you start coding, create a new branch for your changes:
@@ -112,11 +107,6 @@ The `pywce.whatsapp` module provides direct API integration. If you'd like to ad
 The engine processes chatbot logic via YAML templates. When adding new engine capabilities:
 - Add corresponding engine logic in corresponding folder under `pywce/src/`.
 - Document new template options or hooks clearly in `CHANGELOG` and or `README`.
-
-### Adding New Portal Features
-The live support portal is developed using Reflex. When adding new or revamping the portal:
-- Follow or improve on the existing project structure under `pywce/portal/portal`.
-- Document new features or updates clearly in the `README`.
 ---
 
 ## Getting Help

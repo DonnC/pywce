@@ -23,7 +23,7 @@ button:
   message:
     body: "Check out our latest product on offer\nPurchase discounted Econet USD bundle"
     catalog-id: "885273645601453"
-    product-id: "yevoov7bew"
+    product-id: "yevoov7bed"
   routes:
     "re:.*": "VIEW-MULTI-ITEMS"
 
@@ -35,8 +35,8 @@ button:
     body: "Check out our latest offering on prepaid services"
     catalog-id: "885273645601453"
     sections:
-      "Airtime":     # <- title
-        - "yevoov7bew" # econet usd bundles
+      "Airtime":          # <- title
+        - "yevoov7bew"    # product-id
         - "fnj8azxotz"
       "Prepaid Services":
         - "noarvqv190"
@@ -48,17 +48,17 @@ button:
   kind: cta
   message:
     title: "Support"
-    body: "View my GitHub profile, contribute or support 🙈"
+    body: "View my GitHub profile, contribute or support"
     url: "https://github.com/DonnC"
     button: "GitHub"
   routes:
     "re:.*": "another route"
 
 "template":
-  kind: templates
+  kind: template
   template: "dotted.path.to.templates.hook.whatsapp_template_hook"
   message:
-    name: "<your-templates-name>"
+    name: "<your-template-name>"
     language: "your-templates-lang"    # default to en_US
   routes:
     "re:.*": "NEXT-ROUTE"
@@ -120,7 +120,7 @@ flow:
   template: "car_rental.hooks.rent.init_rental"
   on-receive: "car_rental.hooks.rent.recv_rental"
   message:
-    flow_id: 1542160659833214
+    flow_id: 154256...00
     draft: true
     name: FLOW_RENT_CAR
     title: "Rent A Car"

@@ -6,7 +6,7 @@ from pywce.src.constants import SessionConstants
 from pywce.src.exceptions import EngineInternalException
 from pywce.src.models import WhatsAppServiceModel
 from pywce.src.services.template_message_processor import TemplateMessageProcessor
-from pywce.src.utils import pywce_logger
+from pywce.src.utils.engine_logger import pywce_logger
 
 _logger = pywce_logger(__name__)
 
@@ -19,7 +19,7 @@ class WhatsAppService:
     """
     _processor: TemplateMessageProcessor
 
-    def __init__(self, model: WhatsAppServiceModel, validate_template: bool = True) -> None:
+    def __init__(self, model: WhatsAppServiceModel) -> None:
         self.model = model
         self.template = model.template
 

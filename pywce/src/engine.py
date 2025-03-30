@@ -6,6 +6,7 @@ from pywce.src.exceptions import ExtHandlerHookError, HookError
 from pywce.src.models import EngineConfig, WorkerJob, WhatsAppServiceModel, HookArg, ExternalHandlerResponse
 from pywce.src.services import Worker, WhatsAppService, HookService
 from pywce.src.utils import pywce_logger
+from pywce.src.utils.hook_util import HookUtil
 
 _logger = pywce_logger(__name__)
 
@@ -53,7 +54,7 @@ class Engine:
                 ),
             )
 
-            whatsapp_service = WhatsAppService(model=service_model, validate_template=False)
+            whatsapp_service = WhatsAppService(model=service_model)
             response = await whatsapp_service.send_message(handle_session=False, template=False)
 
             response_msg_id = self.whatsapp.util.get_response_message_id(response)
@@ -104,9 +105,9 @@ class Engine:
                         additional_data={}
                     )
 
-                    await HookService.process_hook(
-                        hook_dotted_path=self.config.ext_handler_hook,
-                        hook_arg=_arg
+                    await HookUtil.process_hook(
+                        hook=self.config.ext_handler_hook,
+                        arg=_arg
                     )
                     return
                 except HookError as e:

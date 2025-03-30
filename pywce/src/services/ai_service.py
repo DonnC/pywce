@@ -12,7 +12,7 @@ from dotenv import load_dotenv
 from pydantic import BaseModel
 
 from pywce.src.exceptions import AiException
-from pywce.src.utils import pywce_logger
+from pywce.src.utils.engine_logger import pywce_logger
 
 try:
     import openai

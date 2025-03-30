@@ -7,8 +7,9 @@ from pywce.modules import client
 from pywce.src.constants import EngineConstants
 from pywce.src.exceptions import EngineInternalException
 from pywce.src.models import WhatsAppServiceModel
-from pywce.src.services import HookService
-from pywce.src.utils import EngineUtil, pywce_logger
+from pywce.src.utils.engine_logger import pywce_logger
+from pywce.src.utils.engine_util import EngineUtil
+from pywce.src.utils.hook_util import HookUtil
 
 _logger = pywce_logger(__name__)
 
@@ -28,6 +29,8 @@ class TemplateMessageProcessor:
         self.config = whatsapp_model.config
         self.hook = whatsapp_model.hook_arg
         self.template = template
+
+        self._setup()
 
     def _setup(self):
         self.user = self.hook.user
@@ -89,8 +92,10 @@ class TemplateMessageProcessor:
         if skip: return
 
         if self.template.template is not None:
-            response = await HookService.process_hook(hook_dotted_path=self.template.template,
-                                                      hook_arg=self.hook)
+            response = await HookUtil.process_hook(hook=self.template.template,
+                                                   arg=self.hook,
+                                                   external=self.config.ext_hook_processor
+                                                   )
 
             self.template = templates.Template.as_model(EngineUtil.render_template(
                 template=templates.Template.as_dict(self.template),
@@ -299,8 +304,10 @@ class TemplateMessageProcessor:
         flow_initial_payload: Optional[Dict] = None
 
         if self.template.template is not None:
-            response = await HookService.process_hook(hook_dotted_path=self.template.template,
-                                                      hook_arg=self.hook)
+            response = await HookUtil.process_hook(hook=self.template.template,
+                                                   arg=self.hook,
+                                                   external=self.config.ext_hook_processor
+                                                   )
 
             flow_initial_payload = response.template_body.initial_flow_payload
 
@@ -392,8 +399,10 @@ class TemplateMessageProcessor:
         """
         assert self.template.template is not None, "templates hook is missing"
 
-        response = await HookService.process_hook(hook_dotted_path=self.template.template,
-                                                  hook_arg=self.hook)
+        response = await HookUtil.process_hook(hook=self.template.template,
+                                               arg=self.hook,
+                                               external=self.config.ext_hook_processor
+                                               )
 
         self.template = response.template_body.dynamic_template
 
@@ -410,8 +419,10 @@ class TemplateMessageProcessor:
         """
         assert self.template.template is not None, "templates hook is missing"
 
-        response = await HookService.process_hook(hook_dotted_path=self.template.template,
-                                                  hook_arg=self.hook)
+        response = await HookUtil.process_hook(hook=self.template.template,
+                                               arg=self.hook,
+                                               external=self.config.ext_hook_processor
+                                               )
 
         components: List = response.template_body.render_template_payload.get(EngineConstants.WHATSAPP_TEMPLATE_KEY, [])
 

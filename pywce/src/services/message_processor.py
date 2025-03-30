@@ -6,8 +6,9 @@ from pywce.src.exceptions import EngineInternalException, EngineResponseExceptio
 from pywce.src.models import WorkerJob, HookArg
 from pywce.src.services import HookService
 from pywce.src.templates import EngineTemplate
-from pywce.src.utils import EngineUtil
 from pywce.src.utils.engine_logger import pywce_logger
+from pywce.src.utils.engine_util import EngineUtil
+from pywce.src.utils.hook_util import HookUtil
 
 
 class MessageProcessor:
@@ -39,7 +40,7 @@ class MessageProcessor:
         self.logger = pywce_logger(__name__)
 
     def _get_stage_template(self, template_stage_name: str) -> EngineTemplate:
-        tpl = self.data.storage.get(template_stage_name)
+        tpl = self.config.storage_manager.get(template_stage_name)
         if tpl is None:
             raise EngineInternalException(message=f"Template {template_stage_name} not found")
         return tpl
@@ -64,7 +65,7 @@ class MessageProcessor:
         if possible_trigger_input is None:
             return
 
-        for trigger in self.data.storage.triggers():
+        for trigger in self.config.storage_manager.triggers():
             if EngineUtil.has_triggered(trigger, possible_trigger_input):
                 self.CURRENT_TEMPLATE = self._get_stage_template(trigger.next_stage)
                 self.CURRENT_STAGE = trigger.next_stage
@@ -166,9 +167,11 @@ class MessageProcessor:
             try:
                 self._check_template_params()
 
-                result = await HookService.process_hook(
-                    hook_dotted_path=self.CURRENT_TEMPLATE.router,
-                    hook_arg=self.HOOK_ARG)
+                result = await HookUtil.process_hook(
+                    hook=self.CURRENT_TEMPLATE.router,
+                    arg=self.HOOK_ARG,
+                    external=self.config.ext_hook_processor
+                )
 
                 return result.additional_data.get(EngineConstants.DYNAMIC_ROUTE_KEY)
 
@@ -190,8 +193,10 @@ class MessageProcessor:
         self._check_template_params(next_stage_template)
 
         if self.CURRENT_TEMPLATE.on_generate is not None:
-            await HookService.process_hook(hook_dotted_path=self.CURRENT_TEMPLATE.on_generate,
-                                           hook_arg=self.HOOK_ARG)
+            await HookUtil.process_hook(hook=self.CURRENT_TEMPLATE.on_generate,
+                                        arg=self.HOOK_ARG,
+                                        external=self.config.ext_hook_processor
+                                        )
 
     async def process_post_hooks(self) -> None:
         """
@@ -217,12 +222,16 @@ class MessageProcessor:
         self._check_template_params()
 
         if self.CURRENT_TEMPLATE.on_receive is not None:
-            await HookService.process_hook(hook_dotted_path=self.CURRENT_TEMPLATE.on_receive,
-                                           hook_arg=self.HOOK_ARG)
+            await HookUtil.process_hook(hook=self.CURRENT_TEMPLATE.on_receive,
+                                        arg=self.HOOK_ARG,
+                                        external=self.config.ext_hook_processor
+                                        )
 
         if self.CURRENT_TEMPLATE.middleware is not None:
-            await HookService.process_hook(hook_dotted_path=self.CURRENT_TEMPLATE.middleware,
-                                           hook_arg=self.HOOK_ARG)
+            await HookUtil.process_hook(hook=self.CURRENT_TEMPLATE.middleware,
+                                        arg=self.HOOK_ARG,
+                                        external=self.config.ext_hook_processor
+                                        )
 
         if self.CURRENT_TEMPLATE.prop is not None:
             self.session.save_prop(

@@ -1,7 +1,7 @@
 "NEW-AGENT-STAGE":
   kind: flow
   message:
-    id: 1039619734882452
+    flow_id: 1039619734882452
     draft: true
     name: CREATE_AGENT
     title: "AI Agent 🤖"

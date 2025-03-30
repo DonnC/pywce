@@ -9,14 +9,14 @@ allowing you to define conversation flows and business logic in a clean and modu
 
 ## Features
 
-- **Template-Driven Design**: Use YAML templates for conversational flows.
+- **Template-Driven Design**: Use templates (YAML by default) for conversational flows.
 - **Hooks for Business Logic**: Attach Python functions to process messages or actions.
 - Focus on your conversation flow and business logic.
 - Easy-to-use API for WhatsApp Cloud.
+- Model based templates
 - Supports dynamic messages with placeholders.
 - Built-in support for WhatsApp Webhooks.
 - Starter templates
-- Live Support / Human interaction portal template
 
 ## Installation
 ```bash
@@ -65,9 +65,15 @@ You can either use `.env` or add your credentials directly to the WhatsAppConfig
 ```python
 import os
 from dotenv import load_dotenv
-from pywce import client, Engine, EngineConfig
+from pywce import client, Engine, EngineConfig, storage
 
 load_dotenv()
+
+# configure default YAML templates manager
+yaml_storage = storage.YamlStorageManager(
+    os.getenv("TEMPLATES_DIR"), 
+    os.getenv("TRIGGERS_DIR")
+)
 
 whatsapp_config = client.WhatsAppConfig(
     token=os.getenv("ACCESS_TOKEN"),
@@ -79,8 +85,7 @@ whatsapp = client.WhatsApp(whatsapp_config=whatsapp_config)
 
 engine_config = EngineConfig(
     whatsapp=whatsapp,
-    templates_dir=os.getenv("TEMPLATES_DIR"),
-    trigger_dir=os.getenv("TRIGGERS_DIR"),
+    storage_manager=yaml_storage,
     start_template_stage=os.getenv("START_STAGE")
 )
 
@@ -100,7 +105,7 @@ Here's a simple example template to get you started:
 # path/to/templates
 "START-MENU":
   type: button
-  template: "example.hooks.name_template.username"
+  template: "dotted.path.to.python.func"
   message:
     title: Welcome
     body: "Hi {{ name }}, I'm your assistant, click below to start!"
@@ -119,7 +124,7 @@ Here's a simple example template to get you started:
 
 2. Write your hook (Supercharge⚡):
 ```python
-# example/hooks/name.py
+# dotted/path/to/python/func.py
 from pywce import hook, HookArg, TemplateDynamicBody
 
 @hook
@@ -141,7 +146,7 @@ Use `fastapi` or `flask` or any python library to create endpoint to receive wha
 ```python
 # ~ fastapi snippet ~
 
-async def webhook_event(payload: Dict, headers: Dict) -> None:
+async def webhook_event(payload: dict, headers: dict) -> None:
     """
     Process webhook event in the background using pywce engine.
     """
@@ -169,11 +174,6 @@ If you run your project or the example projects successfully, your webhook url w
 _You can use `ngrok` or any service to tunnel your local service_
 
 You can then configure the endpoint in Webhook section on  Meta developer portal.
-
-## Live Support 
-Engine comes with a default basic live support /  human interaction portal out-of-the-box powered by [Reflex](https://reflex.dev/)
-
-Check out [Live Support Portal](https://github.com/DonnC/pywce/tree/feat/live-support/portal)
 
 ## WhatsApp Client Library
 > [!NOTE]
