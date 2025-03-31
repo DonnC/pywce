@@ -2,7 +2,6 @@ import threading
 from typing import Any, Dict, Type, List, Union
 
 from pywce.modules.session import ISessionManager
-from pywce.src.utils import pywce_logger
 from . import T
 from ...src.exceptions import EngineException
 
@@ -32,7 +31,6 @@ class CachetoolSessionManager(ISessionManager):
         self.user_ttl = user_ttl
         self.global_ttl = global_ttl
         self.lock = threading.Lock()
-        self.logger = pywce_logger(__name__)
 
         # Initialize global and per-user session caches
         self.global_cache = TTLCache(maxsize=maxsize, ttl=self.global_ttl)

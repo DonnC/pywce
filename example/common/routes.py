@@ -1,12 +1,10 @@
 from fastapi import APIRouter, Request, BackgroundTasks, HTTPException, Response
 
-from pywce import pywce_logger
 from .config import whatsapp
 from .tasks import engine_bg_task
 
 router = APIRouter()
 
-logger = pywce_logger(__name__)
 
 @router.post("/chatbot/webhook")
 # @whatsapp.util.signature_required

@@ -3,6 +3,7 @@
 
 
 import json
+import logging
 import os
 import shelve
 import time
@@ -12,7 +13,6 @@ from dotenv import load_dotenv
 from pydantic import BaseModel
 
 from pywce.src.exceptions import AiException
-from pywce.src.utils.engine_logger import pywce_logger
 
 try:
     import openai
@@ -29,7 +29,7 @@ OPENAI_MODEL = os.getenv("OPENAI_MODEL")
 BASE_URL = os.getenv("OPENAI_BASE_URL", None)
 RUN_TIMEOUT_IN_SECONDS = int(os.getenv("OPENAI_RUN_TIMEOUT_IN_SECONDS", "120"))
 
-_logger = pywce_logger(__name__)
+_logger = logging.getLogger(__name__)
 
 
 class AiResponse(BaseModel):

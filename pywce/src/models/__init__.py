@@ -3,8 +3,7 @@ from typing import Dict, Any, List, Optional, Callable
 
 from pydantic import BaseModel
 
-from pywce.modules import *
-from pywce.modules import client, storage
+from pywce.modules import client, storage, pywce_logger, ISessionManager, DefaultSessionManager
 from pywce.src.templates import EngineTemplate
 
 
@@ -40,6 +39,7 @@ class EngineConfig:
     inactivity_timeout_min: int = 3
     debounce_timeout_ms: int = 6000
     webhook_timestamp_threshold_s: int = 10
+    logger: pywce_logger.PywceLogger = pywce_logger.DefaultPywceLogger()
     session_manager: ISessionManager = DefaultSessionManager()
     global_pre_hooks: list[Callable] = field(default_factory=list)
     global_post_hooks: list[Callable] = field(default_factory=list)

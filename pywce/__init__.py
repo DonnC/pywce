@@ -22,14 +22,13 @@ TODO: AI agents
 import pywce.src.services.ai_service as ai
 import pywce.src.templates as template
 
-from pywce.modules import client, DefaultSessionManager, storage
+from pywce.modules import client, DefaultSessionManager, storage, pywce_logger
 from pywce.modules.session import ISessionManager
 from pywce.modules.storage import IStorageManager
 from pywce.src.constants import SessionConstants, EngineConstants, TemplateTypeConstants
 from pywce.src.engine import Engine
 from pywce.src.models import HookArg, TemplateDynamicBody, EngineConfig, ExternalHandlerResponse
 from pywce.src.services import HookService, hook
-from pywce.src.utils import pywce_logger
 
 __author__ = "Donald Chinhuru"
 __email__ = "donychinhuru@gmail.com"

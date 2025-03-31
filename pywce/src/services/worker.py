@@ -10,10 +10,7 @@ from pywce.src.models import HookArg
 from pywce.src.models import WorkerJob, WhatsAppServiceModel
 from pywce.src.services import MessageProcessor, WhatsAppService
 from pywce.src.templates import ButtonTemplate, EngineTemplate, ButtonMessage, EngineRoute
-from pywce.src.utils.engine_logger import pywce_logger
 from pywce.src.utils.engine_util import EngineUtil
-
-_logger = pywce_logger(__name__)
 
 
 class Worker:
@@ -177,8 +174,6 @@ class Worker:
         """
         _client = self.job.engine_config.whatsapp
 
-        _logger.warning("Sending quick button to user..")
-
         service_model = WhatsAppServiceModel(
             config=self.job.engine_config,
             template=btn_template,
@@ -190,7 +185,7 @@ class Worker:
 
         response_msg_id = _client.util.get_response_message_id(response)
 
-        _logger.debug("Quick button message responded with id: %s", response_msg_id)
+        self.job.engine_config.logger.log("Quick button message responded with id: %s", response_msg_id)
 
         return response_msg_id
 
@@ -200,7 +195,7 @@ class Worker:
 
         next_stage, next_template = await self._hook_next_template_handler(processor)
 
-        _logger.info("Next templates stage: %s", next_stage)
+        self.job.engine_config.logger.log("Next templates stage: " + next_stage)
 
         service_model = WhatsAppServiceModel(
             config=self.job.engine_config,
@@ -222,17 +217,19 @@ class Worker:
         """
 
         if self._is_old_webhook():
-            _logger.warning(f"Skipping old webhook request. {self.payload.body} Discarding...")
+            self.job.engine_config.logger.log(f"Skipping old webhook request. {self.payload.body} Discarding...",
+                                              level="WARNING")
             return
 
         if self.job.payload.typ == client.MessageTypeEnum.UNKNOWN or \
                 self.job.payload.typ == client.MessageTypeEnum.UNSUPPORTED:
-            _logger.warning(f"Received unknown | unsupported message: {self.user.wa_id}")
+            self.job.engine_config.logger.log(f"Received unknown | unsupported message: {self.user.wa_id}",
+                                              level="WARNING")
             return
 
         if self.job.engine_config.handle_session_queue:
             if self._exists_in_queue():
-                _logger.warning(f"Duplicate message found: {self.payload.body}")
+                self.job.engine_config.logger.log(f"Duplicate message found: {self.payload.body}", level="WARNING")
                 return
 
         last_debounce_timestamp = self.session.get(session_id=self.session_id, key=SessionConstants.CURRENT_DEBOUNCE)
@@ -244,7 +241,7 @@ class Worker:
             self.session.save(session_id=self.session_id, key=SessionConstants.CURRENT_DEBOUNCE, data=current_time)
 
         else:
-            _logger.warning("Message ignored due to debounce..")
+            self.job.engine_config.logger.log("Message ignored due to debounce..", level="WARNING")
             return
 
         if self.job.engine_config.handle_session_queue:
@@ -257,7 +254,7 @@ class Worker:
             self.session.save(session_id=self.session_id, key=SessionConstants.CURRENT_MSG_ID, data=self.user.msg_id)
 
         except TemplateRenderException as e:
-            _logger.error("Failed to render templates: " + e.message)
+            self.job.engine_config.logger.log("Failed to render templates: " + e.message, level="ERROR")
 
             btn = ButtonTemplate(
                 message=ButtonMessage(
@@ -273,7 +270,8 @@ class Worker:
             return
 
         except EngineResponseException as e:
-            _logger.error("EngineResponse exc, message: %s, data: %s", e.message, e.data)
+            self.job.engine_config.logger.log(f"EngineResponse exc, message: {e.message}, data: {e.data}",
+                                              level="ERROR")
 
             btn = ButtonTemplate(
                 message=ButtonMessage(
@@ -289,8 +287,9 @@ class Worker:
             return
 
         except UserSessionValidationException as e:
-            _logger.critical("Ambiguous session mismatch encountered with %s" % self.user.wa_id)
-            _logger.error(e.message)
+            self.job.engine_config.logger.log("Ambiguous session mismatch encountered with " + self.user.wa_id,
+                                              level="ERROR")
+            self.job.engine_config.logger.log(e.message, level="ERROR")
 
             btn = ButtonTemplate(
                 message=ButtonMessage(
@@ -306,7 +305,8 @@ class Worker:
             return
 
         except EngineSessionException as e:
-            _logger.warning("Session expired | inactive for: %s. Clearing data" % self.user.wa_id)
+            self.job.engine_config.logger.log(f"Session expired | inactive for: {self.user.wa_id}. Clearing data",
+                                              level="ERROR")
 
             # clear all user session data
             self.session.clear(session_id=self.user.wa_id)
@@ -326,5 +326,5 @@ class Worker:
             return
 
         except EngineInternalException as e:
-            _logger.critical(f"Message: %s, data: %s", e.message, e.data)
+            self.job.engine_config.logger.log(f"Message: {e.message}, data: {e.data}", level="ERROR")
             return

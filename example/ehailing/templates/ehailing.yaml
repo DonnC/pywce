@@ -59,7 +59,7 @@
 
 "DESTINATION-LOCATION":
   kind: request-location
-  on-receive: "ehailing.hooks.location.save_destination"
+  on-receive: "example.ehailing.hooks.location.save_destination"
   message: "Where would you like to go?"
   routes:
     "re:.*": "RIDE-OFFER"
@@ -114,7 +114,7 @@
 
 "CONFIRM-OFFER":
   kind: button
-  on-receive: "ehailing.hooks.capture_ride.capture"
+  on-receive: "example.ehailing.hooks.capture_ride.capture"
   message:
     title: PickDrive Ride
     body: |

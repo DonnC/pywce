@@ -2,7 +2,6 @@ import threading
 from typing import Any, Dict, Type, List, Union
 
 from pywce.modules.session import ISessionManager
-from pywce.src.utils import pywce_logger
 from . import T
 
 
@@ -19,7 +18,6 @@ class DefaultSessionManager(ISessionManager):
         self.global_session: Dict[str, Any] = {}
         self.sessions: Dict[str, Dict[str, Any]] = {}
         self.lock = threading.Lock()
-        self.logger = pywce_logger(__name__)
 
     @property
     def prop_key(self) -> str:

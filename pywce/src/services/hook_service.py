@@ -1,5 +1,6 @@
 import importlib
 import inspect
+import logging
 from functools import wraps
 from typing import Callable, Literal, Optional
 
@@ -8,9 +9,8 @@ from pywce.src.exceptions import HookError
 from pywce.src.models import ExternalHandlerResponse
 from pywce.src.models import HookArg
 from pywce.src.services.ai_service import AiResponse
-from pywce.src.utils.engine_logger import pywce_logger
 
-_logger = pywce_logger(__name__)
+_logger = logging.getLogger(__name__)
 
 # Global registries for hooks
 _hook_registry = {}
@@ -70,8 +70,6 @@ class HookService:
             _hook_registry[name] = func
         elif dotted_path:
             _dotted_path_registry[name] = dotted_path
-
-        _logger.debug("Registered %s hook: %s", "func" if func else "path", name)
 
     @staticmethod
     def register_global_hook(hook_dotted_path: str, hook_type: Literal["pre", "post"]):

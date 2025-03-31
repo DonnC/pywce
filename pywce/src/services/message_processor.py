@@ -6,7 +6,6 @@ from pywce.src.exceptions import EngineInternalException, EngineResponseExceptio
 from pywce.src.models import WorkerJob, HookArg
 from pywce.src.services import HookService
 from pywce.src.templates import EngineTemplate
-from pywce.src.utils.engine_logger import pywce_logger
 from pywce.src.utils.engine_util import EngineUtil
 from pywce.src.utils.hook_util import HookUtil
 
@@ -37,7 +36,7 @@ class MessageProcessor:
         self.session_id = self.user.wa_id
         self.session: ISessionManager = self.config.session_manager.session(session_id=self.session_id)
 
-        self.logger = pywce_logger(__name__)
+        self.logger = self.config.logger
 
     def _get_stage_template(self, template_stage_name: str) -> EngineTemplate:
         tpl = self.config.storage_manager.get(template_stage_name)
@@ -72,7 +71,7 @@ class MessageProcessor:
                 self.IS_FROM_TRIGGER = True
                 self.session.save(session_id=self.session_id, key=SessionConstants.CURRENT_STAGE,
                                   data=self.CURRENT_STAGE)
-                self.logger.debug("Template change from trigger. Stage: " + trigger.next_stage)
+                self.logger.log("Template change from trigger. Stage: " + trigger.next_stage, level="DEBUG")
                 return
 
         # TODO: check if current msg id is null, throw Ambiguous old webhook exc
@@ -151,7 +150,7 @@ class MessageProcessor:
             try:
                 self.whatsapp.mark_as_read(self.user.msg_id)
             except:
-                self.logger.warning("Failed to ack user message", stack_info=True)
+                self.logger.log("Failed to ack user message", level="WARNING")
 
     async def process_dynamic_route_hook(self) -> Union[str, None]:
         """
@@ -176,7 +175,7 @@ class MessageProcessor:
                 return result.additional_data.get(EngineConstants.DYNAMIC_ROUTE_KEY)
 
             except:
-                self.logger.error("Failed to do dynamic route hook", stack_info=True)
+                self.logger.log("Failed to do dynamic route hook", level="ERROR")
 
         return None
 

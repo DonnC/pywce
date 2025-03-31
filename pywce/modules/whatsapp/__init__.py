@@ -7,6 +7,7 @@ Unofficial python wrapper for the WhatsApp Cloud API.
 import hashlib
 import hmac
 import json
+import logging
 import mimetypes
 import os
 from functools import wraps
@@ -18,9 +19,8 @@ from pywce.modules.whatsapp.config import WhatsAppConfig
 from pywce.modules.whatsapp.message_utils import MessageUtils
 from pywce.modules.whatsapp.model import MessageTypeEnum, WaUser, ResponseStructure
 from pywce.src.exceptions import EngineException, EngineClientException
-from pywce.src.utils.engine_logger import pywce_logger
 
-_logger = pywce_logger(__name__)
+_logger = logging.getLogger(__name__)
 
 
 class WhatsApp:

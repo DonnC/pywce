@@ -1,3 +1,4 @@
+import logging
 import re
 from datetime import datetime
 from typing import Any, Dict
@@ -7,9 +8,8 @@ from jinja2 import Template
 from pywce.src.constants import EngineConstants
 from pywce.src.exceptions import TemplateRenderException
 from pywce.src.templates import EngineRoute
-from pywce.src.utils.engine_logger import pywce_logger
 
-_logger = pywce_logger(__name__)
+_logger = logging.getLogger(__name__)
 
 
 class EngineUtil:

@@ -6,9 +6,6 @@ from pywce.src.constants import SessionConstants
 from pywce.src.exceptions import EngineInternalException
 from pywce.src.models import WhatsAppServiceModel
 from pywce.src.services.template_message_processor import TemplateMessageProcessor
-from pywce.src.utils.engine_logger import pywce_logger
-
-_logger = pywce_logger(__name__)
 
 
 class WhatsAppService:
@@ -81,7 +78,7 @@ class WhatsAppService:
                 session.save(session_id=session_id, key=SessionConstants.PREV_STAGE, data=current_stage)
                 session.save(session_id=session_id, key=SessionConstants.CURRENT_STAGE, data=self.model.next_stage)
 
-                _logger.debug(f"Current route set to: {self.model.next_stage}")
+                self.model.config.logger.log(f"Current route set to: {self.model.next_stage}", level="DEBUG")
 
                 if self.model.config.handle_session_inactivity is True:
                     session.save(session_id=session_id, key=SessionConstants.LAST_ACTIVITY_AT,

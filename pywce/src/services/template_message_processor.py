@@ -7,12 +7,8 @@ from pywce.modules import client
 from pywce.src.constants import EngineConstants
 from pywce.src.exceptions import EngineInternalException
 from pywce.src.models import WhatsAppServiceModel
-from pywce.src.utils.engine_logger import pywce_logger
 from pywce.src.utils.engine_util import EngineUtil
 from pywce.src.utils.hook_util import HookUtil
-
-_logger = pywce_logger(__name__)
-
 
 class TemplateMessageProcessor:
     """
