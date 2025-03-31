@@ -18,44 +18,6 @@ The examples have all have the same structure in [common directory](common)
 To run the bots, each example should have its own `.env` file (view the example [.env.example](.env.example) file)
 
 ## ChatBots
-### Demos
-Check out demo videos in [demo folder](videos)
-
-### [Nikk's Car Rental ChatBot](car_rental)
-
-<video src="demo/rental.mp4" width="320" height="240" controls></video>
-
-A car rental chatbot using WhatsApp Flows and showcasing the powerful features of pywce. 
-
-> [!NOTE]
-> For the purpose of demo, some implementation have been mocked 
-
-Features
-1. Rent a car
-2. Get a quotation
-3. Pay for car rental
-
-_and more_
-
-
-You can find the conversation flow in [templates dir](car_rental/templates)
-
-### [AI FAQ, Car rental ChatBot](ai_agents)
-A template-driven chatbot with AI agent invocation. User can invoke AI agent to chat with by invoking it.
-
-The engine will be aware of AI session and auto-template session.
-
-> [!NOTE]
-> Experience with & having OpenAI keys required
-
-This example is built on top of Nikk's Car Rental ChatBot
-
-Features
-1. Rent a car
-2. Chat with AI agent
-
-_and more_
-
 
 ### [eHailing ChatBot](ehailing)
 

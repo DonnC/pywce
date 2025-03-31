@@ -1,5 +1,0 @@
-"REPORT":
-  kind: text
-  message: "Kindly provide your issue below"
-  routes:
-    "re:.*": "START-MENU"

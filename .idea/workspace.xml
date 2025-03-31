@@ -5,28 +5,67 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e700a6d4-f3fd-4ca6-8806-bc5eb9b6e49c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/pywce/modules/logger/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/common/global_hooks.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/common/global_hooks.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/common/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/common/routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ehailing/templates/ehailing.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ehailing/templates/ehailing.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/modules/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/modules/session/cachetool_session_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/session/cachetool_session_manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/modules/session/dict_session_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/session/dict_session_manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/modules/whatsapp/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/whatsapp/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/engine.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/engine.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/models/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/services/ai_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/ai_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/services/hook_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/hook_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/services/message_processor.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/message_processor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/services/template_message_processor.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/template_message_processor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/services/whatsapp_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/whatsapp_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/services/worker.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/worker.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/utils/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/utils/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/utils/engine_logger.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/utils/engine_util.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/utils/engine_util.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/example/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ai_agents/.env.example" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ai_agents/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ai_agents/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ai_agents/flows/create_agent.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ai_agents/flows/logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ai_agents/hooks/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ai_agents/hooks/ai_hook.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ai_agents/hooks/manage_agents.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ai_agents/service/ai_agents.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ai_agents/templates/about.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ai_agents/templates/manage-agents.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ai_agents/templates/menu.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ai_agents/templates/report.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ai_agents/templates/start-ai-agent.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ai_agents/tools/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ai_agents/tools/policy_enquiry.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ai_agents/tools/tell_date.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ai_agents/triggers/triggers.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/car_rental/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/car_rental/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/car_rental/assets/ai-banner-1.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/car_rental/assets/ai-banner.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/car_rental/assets/aqua toyota.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/car_rental/assets/flow.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/car_rental/assets/honda-fit.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/car_rental/assets/logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/car_rental/assets/nissan note.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/car_rental/flows/flow-media.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/car_rental/flows/flow-rent-car.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/car_rental/hooks/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/car_rental/hooks/name.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/car_rental/hooks/payment.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/car_rental/hooks/rent.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/car_rental/hooks/report.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/car_rental/service/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/car_rental/service/data.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/car_rental/service/rental_service.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/car_rental/templates/coming_soon.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/car_rental/templates/enquiry.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/car_rental/templates/help.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/car_rental/templates/menu.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/car_rental/templates/rent.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/car_rental/templates/rentals.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/car_rental/templates/report.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/car_rental/triggers/triggers.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/example/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/sample/templates/menu.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/sample/templates/t.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/sample/triggers/trigger.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/videos/ai-agents/PywceAiAgent-LI.mp4" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/videos/ai-agents/Screenshot_20250305_194143_WhatsApp.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/videos/ai-agents/Screenshot_20250305_200230_WhatsApp.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/videos/ai-agents/Screenshot_20250305_200249_WhatsApp.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/videos/ai-agents/Screenshot_20250305_200342_WhatsApp.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/videos/ai-agents/Screenshot_20250305_200353_WhatsApp.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/videos/ai-agents/Screenshot_20250305_200426_WhatsApp.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/videos/ai-agents/Screenshot_20250305_200455_WhatsApp.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/videos/ai-agents/Screenshot_20250305_200527_WhatsApp.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/videos/ehailing.mp4" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/videos/rental.mp4" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -337,6 +376,7 @@
       <workItem from="1743275257015" duration="1976000" />
       <workItem from="1743326526005" duration="12524000" />
       <workItem from="1743430881434" duration="4299000" />
+      <workItem from="1743455009458" duration="100000" />
     </task>
     <servers />
   </component>
