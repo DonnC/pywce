@@ -99,7 +99,7 @@ class Worker:
 
         return should_reroute_to_checkpoint
 
-    async def _next_route_handler(self, msg_processor: MessageProcessor) -> str:
+    def _next_route_handler(self, msg_processor: MessageProcessor) -> str:
         _user_input = msg_processor.USER_INPUT[0]
 
         if msg_processor.IS_FIRST_TIME: return self.job.engine_config.start_template_stage
@@ -117,7 +117,7 @@ class Worker:
             return self.session.get(session_id=self.session_id, key=SessionConstants.LATEST_CHECKPOINT)
 
         # check for next route in configured dynamic route if any
-        _has_dynamic_route = await msg_processor.process_dynamic_route_hook()
+        _has_dynamic_route = msg_processor.process_dynamic_route_hook()
         if _has_dynamic_route is not None:
             return _has_dynamic_route
 
@@ -142,7 +142,7 @@ class Worker:
         # at this point, user provided an invalid response then
         raise EngineResponseException(message="Invalid response, please try again", data=msg_processor.CURRENT_STAGE)
 
-    async def _hook_next_template_handler(self, msg_processor: MessageProcessor) -> Tuple[str, EngineTemplate]:
+    def _hook_next_template_handler(self, msg_processor: MessageProcessor) -> Tuple[str, EngineTemplate]:
         """
         Handle next templates to render to user
 
@@ -152,9 +152,9 @@ class Worker:
         :return:
         """
         if self.session.get(session_id=self.session_id, key=SessionConstants.DYNAMIC_RETRY) is None:
-            await msg_processor.process_post_hooks()
+            msg_processor.process_post_hooks()
 
-        next_template_stage = await self._next_route_handler(msg_processor)
+        next_template_stage = self._next_route_handler(msg_processor)
 
         next_template = self.job.engine_config.storage_manager.get(next_template_stage)
 
@@ -162,11 +162,11 @@ class Worker:
         self._check_authentication(next_template)
 
         # process all `next templates` pre hooks
-        await msg_processor.process_pre_hooks(next_template)
+        msg_processor.process_pre_hooks(next_template)
 
         return next_template_stage, next_template
 
-    async def send_quick_btn_message(self, btn_template: ButtonTemplate):
+    def send_quick_btn_message(self, btn_template: ButtonTemplate):
         """
         Helper method to send a quick button to the user
         without handling engine session logic
@@ -181,7 +181,7 @@ class Worker:
         )
 
         whatsapp_service = WhatsAppService(model=service_model)
-        response = await whatsapp_service.send_message(handle_session=False, template=False)
+        response = whatsapp_service.send_message(handle_session=False, template=False)
 
         response_msg_id = _client.util.get_response_message_id(response)
 
@@ -189,11 +189,11 @@ class Worker:
 
         return response_msg_id
 
-    async def _runner(self):
+    def _runner(self):
         processor = MessageProcessor(data=self.job)
         processor.setup()
 
-        next_stage, next_template = await self._hook_next_template_handler(processor)
+        next_stage, next_template = self._hook_next_template_handler(processor)
 
         self.job.engine_config.logger.log("Next templates stage: " + next_stage)
 
@@ -205,11 +205,11 @@ class Worker:
         )
 
         whatsapp_service = WhatsAppService(model=service_model)
-        await whatsapp_service.send_message()
+        whatsapp_service.send_message()
 
         processor.IS_FROM_TRIGGER = False
 
-    async def work(self):
+    def work(self):
         """
         Handles every webhook request
 
@@ -248,7 +248,7 @@ class Worker:
             self._append_message_to_queue()
 
         try:
-            await self._runner()
+            self._runner()
 
             self.session.evict(session_id=self.session_id, key=SessionConstants.DYNAMIC_RETRY)
             self.session.save(session_id=self.session_id, key=SessionConstants.CURRENT_MSG_ID, data=self.user.msg_id)
@@ -265,7 +265,7 @@ class Worker:
                 routes=[]
             )
 
-            await self.send_quick_btn_message(btn_template=btn)
+            self.send_quick_btn_message(btn_template=btn)
 
             return
 
@@ -282,7 +282,7 @@ class Worker:
                 routes=[]
             )
 
-            await self.send_quick_btn_message(btn_template=btn)
+            self.send_quick_btn_message(btn_template=btn)
 
             return
 
@@ -300,7 +300,7 @@ class Worker:
                 routes=[]
             )
 
-            await self.send_quick_btn_message(btn_template=btn)
+            self.send_quick_btn_message(btn_template=btn)
 
             return
 
@@ -321,7 +321,7 @@ class Worker:
                 routes=[]
             )
 
-            await self.send_quick_btn_message(btn_template=btn)
+            self.send_quick_btn_message(btn_template=btn)
 
             return
 

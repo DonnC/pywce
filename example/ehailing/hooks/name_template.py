@@ -1,7 +1,4 @@
-from pywce import hook, HookArg, TemplateDynamicBody, pywce_logger
-
-logger = pywce_logger(__name__)
-
+from pywce import hook, HookArg, TemplateDynamicBody
 
 @hook
 def username(arg: HookArg) -> HookArg:
@@ -11,7 +8,7 @@ def username(arg: HookArg) -> HookArg:
     :param arg: HookArg passed by engine
     :return: updated HookArg
     """
-    logger.info(f"Received hook arg: {arg}")
+    print(f"Received hook arg: {arg}")
 
     # set default username in session for retrieving later
     arg.session_manager.save(session_id=arg.user.wa_id, key="username", data=arg.user.name)

@@ -10,6 +10,7 @@ from pywce.src.models import WhatsAppServiceModel
 from pywce.src.utils.engine_util import EngineUtil
 from pywce.src.utils.hook_util import HookUtil
 
+
 class TemplateMessageProcessor:
     """
     Template Message Processor
@@ -76,7 +77,7 @@ class TemplateMessageProcessor:
 
         return templates.Template.as_model(dict_template)
 
-    async def _process_template_hook(self, skip: bool = False) -> None:
+    def _process_template_hook(self, skip: bool = False) -> None:
         """
         If templates has the `templates` hook specified, process it
         and reassign to self.templates
@@ -88,10 +89,10 @@ class TemplateMessageProcessor:
         if skip: return
 
         if self.template.template is not None:
-            response = await HookUtil.process_hook(hook=self.template.template,
-                                                   arg=self.hook,
-                                                   external=self.config.ext_hook_processor
-                                                   )
+            response = HookUtil.process_hook(hook=self.template.template,
+                                             arg=self.hook,
+                                             external=self.config.ext_hook_processor
+                                             )
 
             self.template = templates.Template.as_model(EngineUtil.render_template(
                 template=templates.Template.as_dict(self.template),
@@ -291,7 +292,7 @@ class TemplateMessageProcessor:
             "payload": data
         }
 
-    async def _flow(self) -> Dict[str, Any]:
+    def _flow(self) -> Dict[str, Any]:
         """
         Flow templates may require initial flow data to be passed, it is handled here
         """
@@ -300,10 +301,10 @@ class TemplateMessageProcessor:
         flow_initial_payload: Optional[Dict] = None
 
         if self.template.template is not None:
-            response = await HookUtil.process_hook(hook=self.template.template,
-                                                   arg=self.hook,
-                                                   external=self.config.ext_hook_processor
-                                                   )
+            response = HookUtil.process_hook(hook=self.template.template,
+                                             arg=self.hook,
+                                             external=self.config.ext_hook_processor
+                                             )
 
             flow_initial_payload = response.template_body.initial_flow_payload
 
@@ -383,7 +384,7 @@ class TemplateMessageProcessor:
 
         return data
 
-    async def _dynamic(self):
+    def _dynamic(self):
         """
         Call templates hook and expect templates message in hook.template_body.render_template_payload
 
@@ -395,14 +396,14 @@ class TemplateMessageProcessor:
         """
         assert self.template.template is not None, "templates hook is missing"
 
-        response = await HookUtil.process_hook(hook=self.template.template,
-                                               arg=self.hook,
-                                               external=self.config.ext_hook_processor
-                                               )
+        response = HookUtil.process_hook(hook=self.template.template,
+                                         arg=self.hook,
+                                         external=self.config.ext_hook_processor
+                                         )
 
         self.template = response.template_body.dynamic_template
 
-    async def _whatsapp_template(self):
+    def _whatsapp_template(self):
         """
         Call templates hook and expect whatsapp templates body in hook.template_body.render_template_payload
 
@@ -415,10 +416,10 @@ class TemplateMessageProcessor:
         """
         assert self.template.template is not None, "templates hook is missing"
 
-        response = await HookUtil.process_hook(hook=self.template.template,
-                                               arg=self.hook,
-                                               external=self.config.ext_hook_processor
-                                               )
+        response = HookUtil.process_hook(hook=self.template.template,
+                                         arg=self.hook,
+                                         external=self.config.ext_hook_processor
+                                         )
 
         components: List = response.template_body.render_template_payload.get(EngineConstants.WHATSAPP_TEMPLATE_KEY, [])
 
@@ -430,13 +431,13 @@ class TemplateMessageProcessor:
             "components": components
         }
 
-    async def _generate_payload(self, template: bool = True) -> Dict[str, Any]:
+    def _generate_payload(self, template: bool = True) -> Dict[str, Any]:
         """
         :param template: process as engine templates message else, bypass engine logic
         :return:
         """
         if template is True:
-            await self._process_template_hook(
+            self._process_template_hook(
                 skip=isinstance(self.template, templates.FlowTemplate) or \
                      isinstance(self.template, templates.DynamicTemplate) or \
                      isinstance(self.template, templates.TemplateTemplate)
@@ -446,7 +447,7 @@ class TemplateMessageProcessor:
             return self._text()
 
         elif isinstance(self.template, templates.TemplateTemplate):
-            return await self._whatsapp_template()
+            return self._whatsapp_template()
 
         elif isinstance(self.template, templates.ButtonTemplate):
             return self._button()
@@ -467,7 +468,7 @@ class TemplateMessageProcessor:
             return self._list()
 
         elif isinstance(self.template, templates.FlowTemplate):
-            return await self._flow()
+            return self._flow()
 
         elif isinstance(self.template, templates.MediaTemplate):
             return self._media()
@@ -482,7 +483,7 @@ class TemplateMessageProcessor:
             raise EngineInternalException(
                 message=f"Type not supported for payload generation: {self.template.__class__.__name__}")
 
-    async def payload(self, template: bool = True) -> Dict[str, Any]:
+    def payload(self, template: bool = True) -> Dict[str, Any]:
         """
             :param template: process as engine templates message else, bypass engine logic
             :return:
@@ -491,6 +492,6 @@ class TemplateMessageProcessor:
 
         if isinstance(self.template, templates.DynamicTemplate):
             override_template = False
-            await self._dynamic()
+            self._dynamic()
 
-        return await self._generate_payload(template=override_template)
+        return self._generate_payload(template=override_template)

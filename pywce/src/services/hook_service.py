@@ -1,5 +1,4 @@
 import importlib
-import inspect
 import logging
 from functools import wraps
 from typing import Callable, Literal, Optional
@@ -137,7 +136,7 @@ class HookService:
             raise ImportError(f"Could not load function from dotted path '{dotted_path}': {e}")
 
     @staticmethod
-    async def _execute_hook(hook_dotted_path: str, hook_arg: HookArg) -> HookArg:
+    def _execute_hook(hook_dotted_path: str, hook_arg: HookArg) -> HookArg:
         """
         Execute a function from registry or lazy loading it.
 
@@ -160,12 +159,6 @@ class HookService:
                 hook_func = HookService.load_function_from_dotted_path(hook_dotted_path)
                 HookService.register_hook(name=hook_dotted_path, dotted_path=hook_dotted_path)
 
-            # implement class based hook
-
-            # async Function-based hook
-            if inspect.iscoroutinefunction(hook_func):
-                return await hook_func(hook_arg)
-
             return hook_func(hook_arg)
 
         except Exception as e:
@@ -173,7 +166,7 @@ class HookService:
             raise HookError(f"Failed to execute hook: {hook_dotted_path}") from e
 
     @staticmethod
-    async def process_hook(hook_dotted_path: str, hook_arg: HookArg) -> HookArg:
+    def process_hook(hook_dotted_path: str, hook_arg: HookArg) -> HookArg:
         """
         Execute a function from registry or lazy loading it.
 
@@ -181,14 +174,14 @@ class HookService:
         :param hook_arg: The argument to pass to the hook function.
         :return: The result of the hook function.
         """
-        return await HookService._execute_hook(hook_dotted_path, hook_arg)
+        return HookService._execute_hook(hook_dotted_path, hook_arg)
 
     @staticmethod
-    async def process_global_hooks(hook_type: Literal["pre", "post"], hook_arg: HookArg) -> Optional[HookArg]:
+    def process_global_hooks(hook_type: Literal["pre", "post"], hook_arg: HookArg) -> Optional[HookArg]:
         try:
             hooks = _global_pre_hooks if hook_type == "pre" else _global_post_hooks
             for pre_hook in hooks:
-                await HookService._execute_hook(pre_hook, hook_arg)
+                HookService._execute_hook(pre_hook, hook_arg)
 
         except HookError as e:
             _logger.critical("Global `%s` hook processing failure, error: %s", hook_type, e.message)

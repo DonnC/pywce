@@ -25,13 +25,13 @@ class WhatsAppService:
             whatsapp_model=model
         )
 
-    async def send_message(self, handle_session: bool = True, template: bool = True) -> Dict[str, Any]:
+    def send_message(self, handle_session: bool = True, template: bool = True) -> Dict[str, Any]:
         """
         :param handle_session:
         :param template: process as engine templates message else, bypass engine logic
         :return:
         """
-        payload: Dict[str, Any] = await self._processor.payload(template)
+        payload: Dict[str, Any] = self._processor.payload(template)
         _tpl = self._processor.template
 
         is_interactive: bool = isinstance(_tpl, templates.ButtonTemplate) or \
@@ -43,22 +43,22 @@ class WhatsAppService:
                                isinstance(_tpl, templates.FlowTemplate)
 
         if is_interactive is True:
-            response = await self.model.config.whatsapp.send_interactive(**payload)
+            response = self.model.config.whatsapp.send_interactive(**payload)
 
         elif isinstance(_tpl, templates.TextTemplate):
-            response = await self.model.config.whatsapp.send_message(**payload)
+            response = self.model.config.whatsapp.send_message(**payload)
 
         elif isinstance(_tpl, templates.TemplateTemplate):
-            response = await self.model.config.whatsapp.send_template(**payload)
+            response = self.model.config.whatsapp.send_template(**payload)
 
         elif isinstance(_tpl, templates.MediaTemplate):
-            response = await self.model.config.whatsapp.send_media(**payload)
+            response = self.model.config.whatsapp.send_media(**payload)
 
         elif isinstance(_tpl, templates.LocationTemplate):
-            response = await self.model.config.whatsapp.send_location(**payload)
+            response = self.model.config.whatsapp.send_location(**payload)
 
         elif isinstance(_tpl, templates.RequestLocationTemplate):
-            response = await self.model.config.whatsapp.request_location(**payload)
+            response = self.model.config.whatsapp.request_location(**payload)
 
         else:
             raise EngineInternalException(

@@ -21,7 +21,7 @@ allowing you to define conversation flows and business logic in a clean and modu
 ## Installation
 ```bash
 
-pip install pywce
+pip install -U git+https://github.com/DonnC/pywce.git@sync
 ```
 
 
@@ -146,11 +146,11 @@ Use `fastapi` or `flask` or any python library to create endpoint to receive wha
 ```python
 # ~ fastapi snippet ~
 
-async def webhook_event(payload: dict, headers: dict) -> None:
+def webhook_event(payload: dict, headers: dict) -> None:
     """
     Process webhook event in the background using pywce engine.
     """
-    await engine_instance.process_webhook(payload, headers)
+    engine_instance.process_webhook(payload, headers)
 
 @app.post("/chatbot/webhook")
 async def process_webhook(request: Request, background_tasks: BackgroundTasks):

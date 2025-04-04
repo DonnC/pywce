@@ -152,7 +152,7 @@ class MessageProcessor:
             except:
                 self.logger.log("Failed to ack user message", level="WARNING")
 
-    async def process_dynamic_route_hook(self) -> Union[str, None]:
+    def process_dynamic_route_hook(self) -> Union[str, None]:
         """
         Router hook is used to check next-route flow, instead of using templates-level defined common, it
         reroutes / redirects / jumps to the response of the `router` hook.
@@ -166,7 +166,7 @@ class MessageProcessor:
             try:
                 self._check_template_params()
 
-                result = await HookUtil.process_hook(
+                result =  HookUtil.process_hook(
                     hook=self.CURRENT_TEMPLATE.router,
                     arg=self.HOOK_ARG,
                     external=self.config.ext_hook_processor
@@ -179,7 +179,7 @@ class MessageProcessor:
 
         return None
 
-    async def process_pre_hooks(self, next_stage_template: Dict = None) -> None:
+    def process_pre_hooks(self, next_stage_template: Dict = None) -> None:
         """
         Process all templates hooks before message response is generated
         and send back to user
@@ -187,17 +187,17 @@ class MessageProcessor:
         :param next_stage_template: for processing next stage templates else use current stage templates
         :return: None
         """
-        await HookService.process_global_hooks("pre", self.HOOK_ARG)
+        HookService.process_global_hooks("pre", self.HOOK_ARG)
 
         self._check_template_params(next_stage_template)
 
         if self.CURRENT_TEMPLATE.on_generate is not None:
-            await HookUtil.process_hook(hook=self.CURRENT_TEMPLATE.on_generate,
+             HookUtil.process_hook(hook=self.CURRENT_TEMPLATE.on_generate,
                                         arg=self.HOOK_ARG,
                                         external=self.config.ext_hook_processor
                                         )
 
-    async def process_post_hooks(self) -> None:
+    def process_post_hooks(self) -> None:
         """
         Process all hooks soon after receiving message from user.
 
@@ -215,19 +215,19 @@ class MessageProcessor:
         Return:
              None
         """
-        await HookService.process_global_hooks("post", self.HOOK_ARG)
+        HookService.process_global_hooks("post", self.HOOK_ARG)
 
         self._ack_user_message()
         self._check_template_params()
 
         if self.CURRENT_TEMPLATE.on_receive is not None:
-            await HookUtil.process_hook(hook=self.CURRENT_TEMPLATE.on_receive,
+             HookUtil.process_hook(hook=self.CURRENT_TEMPLATE.on_receive,
                                         arg=self.HOOK_ARG,
                                         external=self.config.ext_hook_processor
                                         )
 
         if self.CURRENT_TEMPLATE.middleware is not None:
-            await HookUtil.process_hook(hook=self.CURRENT_TEMPLATE.middleware,
+             HookUtil.process_hook(hook=self.CURRENT_TEMPLATE.middleware,
                                         arg=self.HOOK_ARG,
                                         external=self.config.ext_hook_processor
                                         )

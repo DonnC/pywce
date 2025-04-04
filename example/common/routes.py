@@ -7,7 +7,6 @@ router = APIRouter()
 
 
 @router.post("/chatbot/webhook")
-# @whatsapp.util.signature_required
 async def handler(request: Request, background_tasks: BackgroundTasks):
     """Handle incoming webhook events from WhatsApp and process them in the background."""
     payload_bytes = await request.body()
@@ -17,7 +16,6 @@ async def handler(request: Request, background_tasks: BackgroundTasks):
     background_tasks.add_task(engine_bg_task, payload, dict(request.headers))
 
     return "ack"
-
 
 @router.get("/chatbot/webhook")
 def verifier(request: Request) -> Response:

@@ -10,10 +10,9 @@ import json
 import logging
 import mimetypes
 import os
-from functools import wraps
 from typing import Dict, Any, List, Union
 
-from httpx import AsyncClient
+from httpx import Client
 
 from pywce.modules.whatsapp.config import WhatsAppConfig
 from pywce.modules.whatsapp.message_utils import MessageUtils
@@ -22,12 +21,10 @@ from pywce.src.exceptions import EngineException, EngineClientException
 
 _logger = logging.getLogger(__name__)
 
-
 class WhatsApp:
     """
     WhatsApp Object
     """
-
     def __init__(self, whatsapp_config: WhatsAppConfig):
         """
         Initialize the WhatsApp Object
@@ -48,7 +45,7 @@ class WhatsApp:
         }
         self.util = self._Utils(self)
 
-    async def _send_request(self, message_type: str, recipient_id: str, data: Dict[str, Any]):
+    def _send_request(self, message_type: str, recipient_id: str, data: Dict[str, Any]):
         """
         Send a request to the official WhatsApp API
 
@@ -60,8 +57,8 @@ class WhatsApp:
 
         _logger.debug(f"Sending {message_type} to {recipient_id}")
 
-        async with AsyncClient() as client:
-            response = await client.post(self.url, headers=self.headers, json=data)
+        with Client() as client:
+            response =  client.post(self.url, headers=self.headers, json=data)
 
         if response.status_code == 200:
             return response.json()
@@ -70,7 +67,7 @@ class WhatsApp:
             _logger.critical(f"Code: {response.status_code} | Response: {response.text}")
             return response.json()
 
-    async def send_message(self, recipient_id: str, message: str, recipient_type: str = "individual",
+    def send_message(self, recipient_id: str, message: str, recipient_type: str = "individual",
                            message_id: str = None, preview_url: bool = True):
         """
          Sends a text message to a WhatsApp user
@@ -92,9 +89,9 @@ class WhatsApp:
         if message_id is not None:
             data["context"] = {"message_id": message_id}
 
-        return await self._send_request(message_type='Message', recipient_id=recipient_id, data=data)
+        return  self._send_request(message_type='Message', recipient_id=recipient_id, data=data)
 
-    async def send_reaction(self, recipient_id: str, emoji: str, message_id: str, recipient_type: str = "individual"):
+    def send_reaction(self, recipient_id: str, emoji: str, message_id: str, recipient_type: str = "individual"):
         """
         Sends a reaction message to a WhatsApp user's message asynchronously.
 
@@ -112,9 +109,9 @@ class WhatsApp:
             "reaction": {"message_id": message_id, "emoji": emoji},
         }
 
-        return await self._send_request(message_type='Reaction', recipient_id=recipient_id, data=data)
+        return  self._send_request(message_type='Reaction', recipient_id=recipient_id, data=data)
 
-    async def send_template(self, recipient_id: str, template: str, components: List[Dict], message_id: str = None,
+    def send_template(self, recipient_id: str, template: str, components: List[Dict], message_id: str = None,
                             lang: str = "en_US"):
         """
         Asynchronously sends a templates message to a WhatsApp user. Templates can be:
@@ -152,9 +149,9 @@ class WhatsApp:
         if message_id is not None:
             data["context"] = {"message_id": message_id}
 
-        return await self._send_request(message_type='Template', recipient_id=recipient_id, data=data)
+        return  self._send_request(message_type='Template', recipient_id=recipient_id, data=data)
 
-    async def send_location(self, recipient_id: str, lat: str, lon: str, name: str = None, address: str = None,
+    def send_location(self, recipient_id: str, lat: str, lon: str, name: str = None, address: str = None,
                             message_id: str = None):
         """
         Asynchronously sends a location message to a WhatsApp user.
@@ -181,9 +178,9 @@ class WhatsApp:
         if message_id is not None:
             data["context"] = {"message_id": message_id}
 
-        return await self._send_request(message_type='Location', recipient_id=recipient_id, data=data)
+        return  self._send_request(message_type='Location', recipient_id=recipient_id, data=data)
 
-    async def request_location(self, recipient_id: str, message: str, message_id: str = None):
+    def request_location(self, recipient_id: str, message: str, message_id: str = None):
         data = {
             "messaging_product": "whatsapp",
             "to": recipient_id,
@@ -203,9 +200,9 @@ class WhatsApp:
         if message_id is not None:
             data["context"] = {"message_id": message_id}
 
-        return await self._send_request(message_type='RequestLocation', recipient_id=recipient_id, data=data)
+        return  self._send_request(message_type='RequestLocation', recipient_id=recipient_id, data=data)
 
-    async def send_media(
+    def send_media(
             self,
             recipient_id: str,
             media: str,
@@ -262,9 +259,9 @@ class WhatsApp:
         if message_id is not None:
             data["context"] = {"message_id": message_id}
 
-        return await self._send_request(message_type=media_type.name.title(), recipient_id=recipient_id, data=data)
+        return  self._send_request(message_type=media_type.name.title(), recipient_id=recipient_id, data=data)
 
-    async def send_contacts(self, recipient_id: str, contacts: List[Dict[Any, Any]], message_id: str = None):
+    def send_contacts(self, recipient_id: str, contacts: List[Dict[Any, Any]], message_id: str = None):
         """
         Asynchronously sends a list of contacts to a WhatsApp user.
 
@@ -286,9 +283,9 @@ class WhatsApp:
         if message_id is not None:
             data["context"] = {"message_id": message_id}
 
-        return await self._send_request(message_type='Contacts', recipient_id=recipient_id, data=data)
+        return  self._send_request(message_type='Contacts', recipient_id=recipient_id, data=data)
 
-    async def mark_as_read(self, message_id: str) -> Dict[Any, Any]:
+    def mark_as_read(self, message_id: str) -> Dict[Any, Any]:
         """
         Asynchronously marks a message as read using the WhatsApp Cloud API.
 
@@ -304,9 +301,9 @@ class WhatsApp:
             "message_id": message_id
         }
 
-        return await self._send_request(message_type='MarkAsRead', recipient_id=message_id, data=data)
+        return  self._send_request(message_type='MarkAsRead', recipient_id=message_id, data=data)
 
-    async def send_interactive(self, recipient_id: str, payload: Dict[Any, Any], message_id: str = None):
+    def send_interactive(self, recipient_id: str, payload: Dict[Any, Any], message_id: str = None):
         """
         Asynchronously sends an interactive message to a WhatsApp user.
 
@@ -324,7 +321,7 @@ class WhatsApp:
         if message_id is not None:
             data["context"] = {"message_id": message_id}
 
-        return await self._send_request(message_type='Interactive', recipient_id=recipient_id, data=data)
+        return  self._send_request(message_type='Interactive', recipient_id=recipient_id, data=data)
 
     class _Utils:
         """
@@ -378,26 +375,6 @@ class WhatsApp:
             expected_signature = self._generate_expected_signature(webhook_payload)
 
             return hmac.compare_digest(expected_signature, signature)
-
-        def signature_required(self, f):
-            """
-                [FastApi] Decorator to enforce signature verification.
-            """
-
-            from starlette.requests import Request
-
-            @wraps(f)
-            async def decorated_function(request: Request, *args, **kwargs):
-                payload = await request.body()
-                headers = dict(request.headers)
-
-                if self.verify_webhook_payload(payload.decode("utf-8"), headers) is False:
-                    _logger.critical("Webhook payload signature verification failed")
-                    raise EngineException("Webhook payload verification failed")
-
-                return await f(request, *args, **kwargs)
-
-            return decorated_function
 
         def was_request_successful(self, recipient_id: str, response_data: Dict[str, Any]) -> bool:
             """
@@ -457,7 +434,7 @@ class WhatsApp:
                 data = self._pre_process(webhook_data)
                 return MessageUtils(message_data=data.get("messages")[0]).get_structure()
 
-        async def upload_media(self, media_path: str) -> Union[str, None]:
+        def upload_media(self, media_path: str) -> Union[str, None]:
             """
             Asynchronously uploads a media file to the cloud API and returns the ID of the media.
 
@@ -471,13 +448,13 @@ class WhatsApp:
             headers = self.parent.headers.copy()
 
             try:
-                async with AsyncClient() as client, open(os.path.realpath(media_path), 'rb') as file:
+                with Client() as client, open(os.path.realpath(media_path), 'rb') as file:
                     files = {'file': (os.path.basename(media_path), file, content_type)}
                     data = {
                         'messaging_product': 'whatsapp',
                         'type': content_type
                     }
-                    response = await client.post(
+                    response =  client.post(
                         f"{self.parent.base_url}/{self.parent.config.phone_number_id}/media",
                         headers=headers,
                         files=files,
@@ -496,15 +473,15 @@ class WhatsApp:
                 _logger.error(f"Exception occurred while uploading media: {str(e)}")
                 return None
 
-        async def delete_media(self, media_id: str) -> bool:
+        def delete_media(self, media_id: str) -> bool:
             """
             Asynchronously deletes a media from the cloud API.
 
             Args:
                 media_id (str): ID of the media to be deleted.
             """
-            async with AsyncClient() as client:
-                response = await client.delete(
+            with Client() as client:
+                response =  client.delete(
                     url=f"{self.parent.base_url}/{media_id}",
                     headers=self.parent.headers
                 )
@@ -516,7 +493,7 @@ class WhatsApp:
                 _logger.critical(f"Code: {response.status_code} | Response: {response.text}")
                 return False
 
-        async def query_media_url(self, media_id: str) -> Union[str, None]:
+        def query_media_url(self, media_id: str) -> Union[str, None]:
             """
             Asynchronously query media URL from a media ID obtained either by manually uploading media or received media.
 
@@ -527,8 +504,8 @@ class WhatsApp:
                 str: Media URL, or None if not found or an error occurred.
 
             """
-            async with AsyncClient() as client:
-                response = await client.get(
+            with Client() as client:
+                response =  client.get(
                     url=f"{self.parent.base_url}/{media_id}",
                     headers=self.parent.headers
                 )
@@ -541,7 +518,7 @@ class WhatsApp:
                 _logger.critical(f"Code: {response.status_code} | Response: {response.text}")
                 return None
 
-        async def download_media(self, media_url: str, filename: str, download_dir: str = None) -> Union[str, None]:
+        def download_media(self, media_url: str, filename: str, download_dir: str = None) -> Union[str, None]:
             """
             Asynchronously download media from a media URL obtained either by manually uploading media or received media.
 
@@ -561,8 +538,8 @@ class WhatsApp:
                 save_file_here = os.path.join(folder, filename)
 
             try:
-                async with AsyncClient() as client:
-                    response = await client.get(
+                with Client() as client:
+                    response =  client.get(
                         url=media_url,
                         headers=self.parent.headers
                     )
@@ -582,7 +559,7 @@ class WhatsApp:
                 _logger.error(f"Error downloading media to {save_file_here}: {str(e)}")
                 return None
 
-        async def download_flow_media(self, flow_media_payload: Dict, download_dir: str = None):
+        def download_flow_media(self, flow_media_payload: Dict, download_dir: str = None):
             """
             Download media files uploaded on WhatsApp flows
             [
@@ -598,12 +575,12 @@ class WhatsApp:
                 str: path of the downloaded file, or None if there was an error.
             """
 
-            media_url = await self.query_media_url(flow_media_payload.get("id"))
+            media_url =  self.query_media_url(flow_media_payload.get("id"))
 
             if media_url is None:
                 raise EngineClientException(f"Failed to query media file url")
 
-            downloaded_path = await self.download_media(media_url, flow_media_payload.get("file_name"), download_dir)
+            downloaded_path =  self.download_media(media_url, flow_media_payload.get("file_name"), download_dir)
 
             if downloaded_path is None:
                 raise EngineClientException(f"Failed to download file for media id: {flow_media_payload.get('id')}")

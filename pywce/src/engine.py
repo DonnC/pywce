@@ -34,7 +34,7 @@ class Engine:
             self._user_session(recipient_id).evict(session_id=recipient_id, key=SessionConstants.EXTERNAL_CHAT_HANDLER)
             self.config.logger.log(f"External handler session terminated for: {recipient_id}", level="WARNING")
 
-    async def ext_handler_respond(self, response: ExternalHandlerResponse):
+    def ext_handler_respond(self, response: ExternalHandlerResponse):
         """
             helper method for external handler to send back response to user
         """
@@ -52,7 +52,7 @@ class Engine:
             )
 
             whatsapp_service = WhatsAppService(model=service_model)
-            response = await whatsapp_service.send_message(handle_session=False, template=False)
+            response = whatsapp_service.send_message(handle_session=False, template=False)
 
             response_msg_id = self.whatsapp.util.get_response_message_id(response)
 
@@ -62,7 +62,7 @@ class Engine:
 
         raise ExtHandlerHookError(message="No active ExternalHandler session for user!")
 
-    async def process_webhook(self, webhook_data: Dict[str, Any], webhook_headers: Dict[str, Any]):
+    def process_webhook(self, webhook_data: Dict[str, Any], webhook_headers: Dict[str, Any]):
         if self.whatsapp.config.enforce_security is True:
             if self.whatsapp.util.verify_webhook_payload(webhook_payload=webhook_data,
                                                          webhook_headers=webhook_headers) is False:
@@ -89,7 +89,7 @@ class Engine:
                     user=wa_user
                 )
             )
-            await worker.work()
+            worker.work()
 
         else:
             if self.config.ext_handler_hook is not None:
@@ -102,7 +102,7 @@ class Engine:
                         additional_data={}
                     )
 
-                    await HookUtil.process_hook(
+                    HookUtil.process_hook(
                         hook=self.config.ext_handler_hook,
                         arg=_arg
                     )

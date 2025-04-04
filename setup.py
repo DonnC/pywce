@@ -1,12 +1,3 @@
-"""
-Upload to pypi
-
-1. python -m pip install build twine
-2. python -m build
-3. twine check dist/*
-4. twine upload dist/*
-"""
-
 from setuptools import find_packages, setup
 
 with open("README.md", "r", encoding="utf-8") as fh:

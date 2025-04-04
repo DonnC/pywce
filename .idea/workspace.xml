@@ -5,67 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e700a6d4-f3fd-4ca6-8806-bc5eb9b6e49c" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/example/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/example/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ai_agents/.env.example" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ai_agents/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ai_agents/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ai_agents/flows/create_agent.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ai_agents/flows/logo.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ai_agents/hooks/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ai_agents/hooks/ai_hook.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ai_agents/hooks/manage_agents.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ai_agents/service/ai_agents.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ai_agents/templates/about.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ai_agents/templates/manage-agents.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ai_agents/templates/menu.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ai_agents/templates/report.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ai_agents/templates/start-ai-agent.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ai_agents/tools/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ai_agents/tools/policy_enquiry.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ai_agents/tools/tell_date.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ai_agents/triggers/triggers.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/car_rental/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/car_rental/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/car_rental/assets/ai-banner-1.webp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/car_rental/assets/ai-banner.webp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/car_rental/assets/aqua toyota.JPG" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/car_rental/assets/flow.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/car_rental/assets/honda-fit.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/car_rental/assets/logo.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/car_rental/assets/nissan note.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/car_rental/flows/flow-media.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/car_rental/flows/flow-rent-car.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/car_rental/hooks/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/car_rental/hooks/name.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/car_rental/hooks/payment.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/car_rental/hooks/rent.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/car_rental/hooks/report.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/car_rental/service/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/car_rental/service/data.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/car_rental/service/rental_service.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/car_rental/templates/coming_soon.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/car_rental/templates/enquiry.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/car_rental/templates/help.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/car_rental/templates/menu.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/car_rental/templates/rent.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/car_rental/templates/rentals.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/car_rental/templates/report.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/car_rental/triggers/triggers.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/example/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/sample/templates/menu.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/sample/templates/t.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/sample/triggers/trigger.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/videos/ai-agents/PywceAiAgent-LI.mp4" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/videos/ai-agents/Screenshot_20250305_194143_WhatsApp.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/videos/ai-agents/Screenshot_20250305_200230_WhatsApp.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/videos/ai-agents/Screenshot_20250305_200249_WhatsApp.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/videos/ai-agents/Screenshot_20250305_200342_WhatsApp.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/videos/ai-agents/Screenshot_20250305_200353_WhatsApp.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/videos/ai-agents/Screenshot_20250305_200426_WhatsApp.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/videos/ai-agents/Screenshot_20250305_200455_WhatsApp.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/videos/ai-agents/Screenshot_20250305_200527_WhatsApp.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/videos/ehailing.mp4" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/videos/rental.mp4" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,53 +35,53 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;HTTP Request.generated-requests | #1.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.generated-requests | #2.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for test_cachetool_session_manager.TestSessionManager.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for test_cachetool_session_manager.TestSessionManager.test_prop.executor&quot;: &quot;Debug&quot;,
-    &quot;Python tests.Python tests for test_cachetool_session_manager.TestSessionManager.test_save.executor&quot;: &quot;Debug&quot;,
-    &quot;Python tests.Python tests for test_default_session_impl.TestDefaultSessionManager.test_save.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for test_default_session_impl.TestSessionManager.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for test_default_session_impl.TestSessionManager.test_clear.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for test_engine.MyTestCase.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for test_engine.TestPywceEngine.executor&quot;: &quot;Debug&quot;,
-    &quot;Python tests.Python tests in test_default_session_impl.py.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests in tests.executor&quot;: &quot;Run&quot;,
-    &quot;Python.agents.executor&quot;: &quot;Run&quot;,
-    &quot;Python.hook_service.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.pubsub_test.executor&quot;: &quot;Run&quot;,
-    &quot;Python.response_structure.executor&quot;: &quot;Run&quot;,
-    &quot;Python.scratch.executor&quot;: &quot;Run&quot;,
-    &quot;Python.templetor.executor&quot;: &quot;Run&quot;,
-    &quot;Python.test.executor&quot;: &quot;Run&quot;,
-    &quot;Python.test_ai.executor&quot;: &quot;Run&quot;,
-    &quot;Python.test_v.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;feat/model&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/DEVELOPER/Documents/Personal/Personal/Projects/python/pywce/example/ai_agents/templates&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;editing.templates&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
+    "HTTP Request.generated-requests | #1.executor": "Run",
+    "HTTP Request.generated-requests | #2.executor": "Run",
+    "Python tests.Python tests for test_cachetool_session_manager.TestSessionManager.executor": "Run",
+    "Python tests.Python tests for test_cachetool_session_manager.TestSessionManager.test_prop.executor": "Debug",
+    "Python tests.Python tests for test_cachetool_session_manager.TestSessionManager.test_save.executor": "Debug",
+    "Python tests.Python tests for test_default_session_impl.TestDefaultSessionManager.test_save.executor": "Run",
+    "Python tests.Python tests for test_default_session_impl.TestSessionManager.executor": "Run",
+    "Python tests.Python tests for test_default_session_impl.TestSessionManager.test_clear.executor": "Run",
+    "Python tests.Python tests for test_engine.MyTestCase.executor": "Run",
+    "Python tests.Python tests for test_engine.TestPywceEngine.executor": "Debug",
+    "Python tests.Python tests in test_default_session_impl.py.executor": "Run",
+    "Python tests.Python tests in tests.executor": "Run",
+    "Python.agents.executor": "Run",
+    "Python.hook_service.executor": "Run",
+    "Python.main.executor": "Run",
+    "Python.pubsub_test.executor": "Run",
+    "Python.response_structure.executor": "Run",
+    "Python.scratch.executor": "Run",
+    "Python.templetor.executor": "Run",
+    "Python.test.executor": "Run",
+    "Python.test_ai.executor": "Run",
+    "Python.test_v.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "feat/frappe",
+    "last_opened_file_path": "C:/Users/DEVELOPER/Documents/Personal/Personal/Projects/python/pywce/example/ai_agents/templates",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "editing.templates",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;sqlite&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "sqlite"
     ],
-    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
-      &quot;JSON&quot;,
-      &quot;Markdown&quot;
+    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
+      "JSON",
+      "Markdown"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\example\ai_agents\templates" />
@@ -377,6 +317,7 @@
       <workItem from="1743326526005" duration="12524000" />
       <workItem from="1743430881434" duration="4299000" />
       <workItem from="1743455009458" duration="100000" />
+      <workItem from="1743766751082" duration="2464000" />
     </task>
     <servers />
   </component>

@@ -1,6 +1,4 @@
-from pywce import HookArg, pywce_logger, hook
-
-logger = pywce_logger(__name__)
+from pywce import HookArg, hook
 
 @hook
 def capture(arg: HookArg):
@@ -10,13 +8,13 @@ def capture(arg: HookArg):
     :param arg: HookArg passed by the engine
     :return: updated HookArg
     """
-    logger.debug(f"Capturing ride: {arg}")
+    print(f"Capturing ride: {arg}")
 
     session_id = arg.user.wa_id
     session = arg.session_manager
 
     if arg.user_input == 'confirm':
         # perform further actions
-        logger.info(f"Current user props: {session.get_user_props(session_id=session_id)}")
+        print(f"Current user props: {session.get_user_props(session_id=session_id)}")
 
     return arg
