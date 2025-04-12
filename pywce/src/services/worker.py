@@ -1,5 +1,4 @@
 from datetime import datetime
-from random import randint
 from time import time
 from typing import List, Tuple
 
@@ -9,7 +8,9 @@ from pywce.src.exceptions import *
 from pywce.src.models import HookArg
 from pywce.src.models import WorkerJob, WhatsAppServiceModel
 from pywce.src.services import MessageProcessor, WhatsAppService
-from pywce.src.templates import ButtonTemplate, EngineTemplate, ButtonMessage, EngineRoute
+from pywce.src.templates import ButtonTemplate, EngineTemplate, ButtonMessage, EngineRoute, FlowTemplate, \
+    RequestLocationTemplate, MediaTemplate, CtaTemplate, TemplateTemplate, ProductTemplate, \
+    MultiProductTemplate
 from pywce.src.utils.engine_util import EngineUtil
 
 
@@ -53,10 +54,9 @@ class Worker:
     def _check_authentication(self, current_template: EngineTemplate) -> None:
         if current_template.authenticated is True:
             is_auth_set = self.session.get(session_id=self.session_id, key=SessionConstants.VALID_AUTH_SESSION)
-            session_wa_id = self.session.get(session_id=self.session_id, key=SessionConstants.VALID_AUTH_MSISDN)
             logged_in_time = self.session.get(session_id=self.session_id, key=SessionConstants.AUTH_EXPIRE_AT)
 
-            is_invalid = logged_in_time is None or is_auth_set is None or session_wa_id is None \
+            is_invalid = logged_in_time is None or is_auth_set is None \
                          or EngineUtil.has_session_expired(logged_in_time) is True
 
             if is_invalid:
@@ -125,19 +125,22 @@ class Worker:
         if msg_processor.IS_FROM_TRIGGER:
             return msg_processor.CURRENT_STAGE
 
+        # if its 1 of the unprocessable templates, just take the next route
+        is_route_unprocessable = isinstance(msg_processor.CURRENT_TEMPLATE, FlowTemplate) or \
+                                     isinstance(msg_processor.CURRENT_TEMPLATE, RequestLocationTemplate) or \
+                                     isinstance(msg_processor.CURRENT_TEMPLATE, MediaTemplate) or \
+                                     isinstance(msg_processor.CURRENT_TEMPLATE, CtaTemplate) or \
+                                     isinstance(msg_processor.CURRENT_TEMPLATE, TemplateTemplate) or \
+                                     isinstance(msg_processor.CURRENT_TEMPLATE, ProductTemplate) or \
+                                     isinstance(msg_processor.CURRENT_TEMPLATE, MultiProductTemplate)
+
+        if is_route_unprocessable:
+            return current_template_routes[0].next_stage
+
         # check for next route in configured templates common
         for trigger in current_template_routes:
-            if _user_input is None:
-                # received an unprocessable input e.g. location-request / media message
-                # provide a dummy input that may match {"re:.*": "NEXT-STAGE"}
-                # this is to avoid any proper defined route that may match accidentally
-                _dummy_input = f"pywce.{randint(11, 1111)}"
-                if EngineUtil.has_triggered(trigger, _dummy_input):
-                    return trigger.next_stage
-
-            else:
-                if EngineUtil.has_triggered(trigger, _user_input):
-                    return trigger.next_stage
+            if EngineUtil.has_triggered(trigger, _user_input):
+                return trigger.next_stage
 
         # at this point, user provided an invalid response then
         raise EngineResponseException(message="Invalid response, please try again", data=msg_processor.CURRENT_STAGE)
@@ -260,6 +263,23 @@ class Worker:
                 message=ButtonMessage(
                     title="Message",
                     body="Failed to process message",
+                    buttons=[EngineConstants.DEFAULT_RETRY_BTN_NAME, EngineConstants.DEFAULT_REPORT_BTN_NAME]
+                ),
+                routes=[]
+            )
+
+            self.send_quick_btn_message(btn_template=btn)
+
+            return
+
+        except HookException as e:
+            self.job.engine_config.logger.log(f"HookException exc, message: {e.message}, data: {e.data}",
+                                              level="ERROR")
+
+            btn = ButtonTemplate(
+                message=ButtonMessage(
+                    title="Message",
+                    body=e.message,
                     buttons=[EngineConstants.DEFAULT_RETRY_BTN_NAME, EngineConstants.DEFAULT_REPORT_BTN_NAME]
                 ),
                 routes=[]

@@ -2,7 +2,7 @@ from typing import Dict, Any
 
 from pywce.modules import client, ISessionManager
 from pywce.src.constants import SessionConstants
-from pywce.src.exceptions import ExtHandlerHookError, HookError
+from pywce.src.exceptions import ExtHandlerHookError, InternalHookError
 from pywce.src.models import EngineConfig, WorkerJob, WhatsAppServiceModel, HookArg, ExternalHandlerResponse
 from pywce.src.services import Worker, WhatsAppService, HookService
 from pywce.src.utils.hook_util import HookUtil
@@ -107,7 +107,7 @@ class Engine:
                         arg=_arg
                     )
                     return
-                except HookError as e:
+                except InternalHookError as e:
                     self.config.logger.log("Error processing external handler hook", level="ERROR")
                     raise ExtHandlerHookError(message=e.message)
 

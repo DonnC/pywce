@@ -215,8 +215,6 @@ class MessageProcessor:
         Return:
              None
         """
-        HookService.process_global_hooks("post", self.HOOK_ARG)
-
         self._ack_user_message()
         self._check_template_params()
 
@@ -238,6 +236,8 @@ class MessageProcessor:
                 prop_key=self.CURRENT_TEMPLATE.prop,
                 data=self.USER_INPUT[0]
             )
+
+        HookService.process_global_hooks("post", self.HOOK_ARG)
 
     def setup(self) -> None:
         """

@@ -4,7 +4,7 @@ from functools import wraps
 from typing import Callable, Literal, Optional
 
 from pywce.src.constants import TemplateTypeConstants
-from pywce.src.exceptions import HookError
+from pywce.src.exceptions import InternalHookError, HookException
 from pywce.src.models import ExternalHandlerResponse
 from pywce.src.models import HookArg
 from pywce.src.services.ai_service import AiResponse
@@ -82,7 +82,7 @@ class HookService:
         elif hook_type == "post":
             _global_post_hooks.append(hook_dotted_path)
         else:
-            raise HookError("Invalid hook_type. Use 'pre' or 'post'.")
+            raise InternalHookError("Invalid hook_type. Use 'pre' or 'post'.")
 
     @staticmethod
     def register_callable_global_hooks(pre: list[Callable], post: list[Callable]):
@@ -161,9 +161,12 @@ class HookService:
 
             return hook_func(hook_arg)
 
+        except HookException as e:
+            raise HookException(e.message, e.data)
+
         except Exception as e:
             _logger.error("Hook processing failure. Hook: '%s', error: %s", hook_dotted_path, str(e))
-            raise HookError(f"Failed to execute hook: {hook_dotted_path}") from e
+            raise HookException(f"Something went wrong. Could not process request", str(e))
 
     @staticmethod
     def process_hook(hook_dotted_path: str, hook_arg: HookArg) -> HookArg:
@@ -183,8 +186,8 @@ class HookService:
             for pre_hook in hooks:
                 HookService._execute_hook(pre_hook, hook_arg)
 
-        except HookError as e:
-            _logger.critical("Global `%s` hook processing failure, error: %s", hook_type, e.message)
+        except Exception as e:
+            _logger.critical("Global `%s` hook processing failure, error: %s", hook_type, e)
 
 
 # decorator
@@ -201,7 +204,7 @@ def hook(func: Callable, global_type: Optional[Literal["pre", "post"]] = None) -
         @wraps(inner_func)
         def wrapper(arg: HookArg) -> HookArg:
             if not isinstance(arg, HookArg):
-                raise HookError(f"Expected HookArg instance, got {type(arg).__name__}")
+                raise InternalHookError(f"Expected HookArg instance, got {type(arg).__name__}")
             return inner_func(arg)
 
         # Compute the full dotted path for the function
