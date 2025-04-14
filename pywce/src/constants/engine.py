@@ -9,6 +9,9 @@ class EngineConstants:
     EXT_HOOK_PROCESSOR_PLACEHOLDER = "ext:"
     TRIGGER_ROUTE_PARAM = "trigger-route"
 
+    # TRIGGER-NEXT-STAGE | TRIGGER-INNER-ROUTE
+    TRIGGER_ROUTE_SEPERATOR = "|"
+
     RETRY_NAME_KEY = "Retry"
 
     # holds a list of WhatsApp templates components

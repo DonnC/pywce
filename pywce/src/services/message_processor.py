@@ -65,13 +65,20 @@ class MessageProcessor:
             return
 
         for trigger in self.config.storage_manager.triggers():
+            _next_stage = trigger.next_stage
+
             if EngineUtil.has_triggered(trigger, possible_trigger_input):
-                self.CURRENT_TEMPLATE = self._get_stage_template(trigger.next_stage)
-                self.CURRENT_STAGE = trigger.next_stage
+                if EngineConstants.TRIGGER_ROUTE_SEPERATOR in trigger.next_stage:
+                    _next_stage, trigger_route_param = trigger.next_stage.split(EngineConstants.TRIGGER_ROUTE_SEPERATOR)
+                    self.HOOK_ARG.params.update({EngineConstants.TRIGGER_ROUTE_PARAM: trigger_route_param})
+                    HookUtil.run_listener(listener=self.config.on_hook_arg,arg=self.HOOK_ARG)
+
+                self.CURRENT_TEMPLATE = self._get_stage_template(_next_stage)
+                self.CURRENT_STAGE = _next_stage
                 self.IS_FROM_TRIGGER = True
                 self.session.save(session_id=self.session_id, key=SessionConstants.CURRENT_STAGE,
                                   data=self.CURRENT_STAGE)
-                self.logger.log("Template change from trigger. Stage: " + trigger.next_stage, level="DEBUG")
+                self.logger.log("Template change from trigger. Stage: " + _next_stage, level="DEBUG")
                 return
 
         # TODO: check if current msg id is null, throw Ambiguous old webhook exc
@@ -142,6 +149,8 @@ class MessageProcessor:
         if tpl.params is not None:
             self.HOOK_ARG.params.update(tpl.get(TemplateConstants.PARAMS))
 
+        HookUtil.run_listener(listener=self.config.on_hook_arg, arg=self.HOOK_ARG)
+
     def _ack_user_message(self) -> None:
         # a fire & forget approach
         mark_as_read = self.config.read_receipts is True or self.CURRENT_TEMPLATE.acknowledge is True
@@ -166,7 +175,7 @@ class MessageProcessor:
             try:
                 self._check_template_params()
 
-                result =  HookUtil.process_hook(
+                result = HookUtil.process_hook(
                     hook=self.CURRENT_TEMPLATE.router,
                     arg=self.HOOK_ARG,
                     external=self.config.ext_hook_processor
@@ -187,15 +196,15 @@ class MessageProcessor:
         :param next_stage_template: for processing next stage templates else use current stage templates
         :return: None
         """
-        HookService.process_global_hooks("pre", self.HOOK_ARG)
-
         self._check_template_params(next_stage_template)
 
+        HookService.process_global_hooks("pre", self.HOOK_ARG)
+
         if self.CURRENT_TEMPLATE.on_generate is not None:
-             HookUtil.process_hook(hook=self.CURRENT_TEMPLATE.on_generate,
-                                        arg=self.HOOK_ARG,
-                                        external=self.config.ext_hook_processor
-                                        )
+            HookUtil.process_hook(hook=self.CURRENT_TEMPLATE.on_generate,
+                                  arg=self.HOOK_ARG,
+                                  external=self.config.ext_hook_processor
+                                  )
 
     def process_post_hooks(self) -> None:
         """
@@ -219,16 +228,16 @@ class MessageProcessor:
         self._check_template_params()
 
         if self.CURRENT_TEMPLATE.on_receive is not None:
-             HookUtil.process_hook(hook=self.CURRENT_TEMPLATE.on_receive,
-                                        arg=self.HOOK_ARG,
-                                        external=self.config.ext_hook_processor
-                                        )
+            HookUtil.process_hook(hook=self.CURRENT_TEMPLATE.on_receive,
+                                  arg=self.HOOK_ARG,
+                                  external=self.config.ext_hook_processor
+                                  )
 
         if self.CURRENT_TEMPLATE.middleware is not None:
-             HookUtil.process_hook(hook=self.CURRENT_TEMPLATE.middleware,
-                                        arg=self.HOOK_ARG,
-                                        external=self.config.ext_hook_processor
-                                        )
+            HookUtil.process_hook(hook=self.CURRENT_TEMPLATE.middleware,
+                                  arg=self.HOOK_ARG,
+                                  external=self.config.ext_hook_processor
+                                  )
 
         if self.CURRENT_TEMPLATE.prop is not None:
             self.session.save_prop(
@@ -257,5 +266,8 @@ class MessageProcessor:
             session_manager=self.session,
             user=self.user,
             user_input=self.USER_INPUT[0],
-            additional_data=self.USER_INPUT[1]
+            additional_data=self.USER_INPUT[1],
+            has_auth=self.config.has_auth
         )
+
+        HookUtil.run_listener(listener=self.config.on_hook_arg,arg=self.HOOK_ARG)

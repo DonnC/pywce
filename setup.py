@@ -12,7 +12,7 @@ with open("requirements.txt", "r", encoding="utf-8") as fh:
 
 setup(
     name="pywce",
-    version="2.1.0",
+    version="2.2.0",
     author="Donald Chinhuru",
     author_email="donychinhuru@gmail.com",
     description="A templates-driven framework for building WhatsApp chatbots",

@@ -10,7 +10,8 @@ import json
 import logging
 import mimetypes
 import os
-from typing import Dict, Any, List, Union
+from collections.abc import Callable
+from typing import Dict, Any, List, Union, Optional
 
 from httpx import Client
 
@@ -18,6 +19,7 @@ from pywce.modules.whatsapp.config import WhatsAppConfig
 from pywce.modules.whatsapp.message_utils import MessageUtils
 from pywce.modules.whatsapp.model import MessageTypeEnum, WaUser, ResponseStructure
 from pywce.src.exceptions import EngineException, EngineClientException
+from pywce.src.utils.hook_util import HookUtil
 
 _logger = logging.getLogger(__name__)
 
@@ -25,7 +27,7 @@ class WhatsApp:
     """
     WhatsApp Object
     """
-    def __init__(self, whatsapp_config: WhatsAppConfig):
+    def __init__(self, whatsapp_config: WhatsAppConfig, on_send_listener: Optional[Callable]=None):
         """
         Initialize the WhatsApp Object
 
@@ -33,6 +35,7 @@ class WhatsApp:
             config[WhatsAppConfig]: config object
         """
         self.config = whatsapp_config
+        self.listener = on_send_listener
         self.base_url = f"https://graph.facebook.com/{self.config.version}"
         self.url = f"{self.base_url}/{self.config.phone_number_id}/messages"
 
@@ -57,15 +60,22 @@ class WhatsApp:
 
         _logger.debug(f"Sending {message_type} to {recipient_id}")
 
-        with Client() as client:
-            response =  client.post(self.url, headers=self.headers, json=data)
+        try:
+            with Client() as client:
+                response =  client.post(self.url, headers=self.headers, json=data)
 
-        if response.status_code == 200:
-            return response.json()
+            if response.status_code == 200:
+                return response.json()
 
-        else:
-            _logger.critical(f"Code: {response.status_code} | Response: {response.text}")
-            return response.json()
+            else:
+                _logger.critical(f"Code: {response.status_code} | Response: {response.text}")
+                return response.json()
+
+        except Exception as e:
+            _logger.error(f"Error sending {message_type} to {recipient_id}: {str(e)}")
+
+        finally:
+            HookUtil.run_listener(listener=self.listener)
 
     def send_message(self, recipient_id: str, message: str, recipient_type: str = "individual",
                            message_id: str = None, preview_url: bool = True):
@@ -473,6 +483,9 @@ class WhatsApp:
                 _logger.error(f"Exception occurred while uploading media: {str(e)}")
                 return None
 
+            finally:
+                HookUtil.run_listener(listener=self.parent.listener)
+
         def delete_media(self, media_id: str) -> bool:
             """
             Asynchronously deletes a media from the cloud API.
@@ -558,6 +571,9 @@ class WhatsApp:
             except Exception as e:
                 _logger.error(f"Error downloading media to {save_file_here}: {str(e)}")
                 return None
+
+            finally:
+                HookUtil.run_listener(listener=self.parent.listener)
 
         def download_flow_media(self, flow_media_payload: Dict, download_dir: str = None):
             """

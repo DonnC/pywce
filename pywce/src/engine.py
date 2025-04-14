@@ -102,6 +102,11 @@ class Engine:
                         additional_data={}
                     )
 
+                    HookUtil.run_listener(
+                        listener=self.config.on_hook_arg,
+                        arg=_arg
+                    )
+
                     HookUtil.process_hook(
                         hook=self.config.ext_handler_hook,
                         arg=_arg

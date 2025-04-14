@@ -5,8 +5,7 @@ from typing import List, Tuple
 from pywce.modules import ISessionManager, client
 from pywce.src.constants import *
 from pywce.src.exceptions import *
-from pywce.src.models import HookArg
-from pywce.src.models import WorkerJob, WhatsAppServiceModel
+from pywce.src.models import HookArg, WorkerJob, WhatsAppServiceModel
 from pywce.src.services import MessageProcessor, WhatsAppService
 from pywce.src.templates import ButtonTemplate, EngineTemplate, ButtonMessage, EngineRoute, FlowTemplate, \
     RequestLocationTemplate, MediaTemplate, CtaTemplate, TemplateTemplate, ProductTemplate, \
@@ -52,7 +51,7 @@ class Worker:
         return time_difference > self.job.engine_config.webhook_timestamp_threshold_s
 
     def _check_authentication(self, current_template: EngineTemplate) -> None:
-        if current_template.authenticated is True:
+        if current_template.authenticated and self.job.engine_config.has_auth:
             is_auth_set = self.session.get(session_id=self.session_id, key=SessionConstants.VALID_AUTH_SESSION)
             logged_in_time = self.session.get(session_id=self.session_id, key=SessionConstants.AUTH_EXPIRE_AT)
 
@@ -69,7 +68,7 @@ class Worker:
         is_auth_set = self.session.get(session_id=self.session_id, key=SessionConstants.VALID_AUTH_SESSION)
         last_active = self.session.get(session_id=self.session_id, key=SessionConstants.LAST_ACTIVITY_AT)
 
-        if is_auth_set:
+        if self.job.engine_config.has_auth and is_auth_set is not None:
             return EngineUtil.has_interaction_expired(last_active, self.job.engine_config.inactivity_timeout_min)
         return False
 
@@ -80,21 +79,29 @@ class Worker:
 
         Check if user input is `Retry` - only keyword response to trigger go-to-checkpoint logic
         :return: bool
+
+
+        boolean gotoCheckpoint = !this.templateHasKey(currentStageRoutes, EngineConstants.RETRY_NAME)
+                && this.currentStageUserInput.toString().equalsIgnoreCase(EngineConstants.RETRY_NAME)
+                && checkpoint != null
+                && this.session.get(this.sessionId, SessionConstants.SESSION_DYNAMIC_RETRY_KEY) != null
+                && !this.isFromTrigger;
         """
 
         _input = user_input or ''
         checkpoint = self.session.get(session_id=self.session_id, key=SessionConstants.LATEST_CHECKPOINT)
         dynamic_retry = self.session.get(session_id=self.session_id, key=SessionConstants.DYNAMIC_RETRY)
 
-        has_retry_input = False
+        route_has_retry_input = False
+        user_input_is_retry = _input.strip().lower() == EngineConstants.RETRY_NAME_KEY.lower()
 
         for r in routes:
-            if str(r.user_input).upper() == EngineConstants.RETRY_NAME_KEY.upper():
-                if _input.strip().lower() == EngineConstants.RETRY_NAME_KEY.lower():
-                    has_retry_input = True
+            if str(r.user_input).lower() == EngineConstants.RETRY_NAME_KEY.lower():
+                route_has_retry_input = True
+                break
 
-        should_reroute_to_checkpoint = has_retry_input and checkpoint is not None \
-                                       and dynamic_retry is not None \
+        should_reroute_to_checkpoint = route_has_retry_input is False and checkpoint is not None \
+                                       and dynamic_retry is not None and user_input_is_retry is True \
                                        and is_from_trigger is False
 
         return should_reroute_to_checkpoint

@@ -3,7 +3,6 @@ from dataclasses import dataclass
 
 @dataclass(frozen=True)
 class SessionConstants:
-    EXPIRY = "pywce_expiry"
     CURRENT_STAGE_RETRY_COUNT = "pywce_retry_count"
     PREV_STAGE = "pywce_prev_stage"
     CURRENT_STAGE = "pywce_current_stage"
