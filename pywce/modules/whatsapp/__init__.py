@@ -19,15 +19,16 @@ from pywce.modules.whatsapp.config import WhatsAppConfig
 from pywce.modules.whatsapp.message_utils import MessageUtils
 from pywce.modules.whatsapp.model import MessageTypeEnum, WaUser, ResponseStructure
 from pywce.src.exceptions import EngineException, EngineClientException
-from pywce.src.utils.hook_util import HookUtil
 
 _logger = logging.getLogger(__name__)
+
 
 class WhatsApp:
     """
     WhatsApp Object
     """
-    def __init__(self, whatsapp_config: WhatsAppConfig, on_send_listener: Optional[Callable]=None):
+
+    def __init__(self, whatsapp_config: WhatsAppConfig, on_send_listener: Optional[Callable] = None):
         """
         Initialize the WhatsApp Object
 
@@ -62,7 +63,7 @@ class WhatsApp:
 
         try:
             with Client() as client:
-                response =  client.post(self.url, headers=self.headers, json=data)
+                response = client.post(self.url, headers=self.headers, json=data)
 
             if response.status_code == 200:
                 return response.json()
@@ -75,10 +76,11 @@ class WhatsApp:
             _logger.error(f"Error sending {message_type} to {recipient_id}: {str(e)}")
 
         finally:
-            HookUtil.run_listener(listener=self.listener)
+            if self.listener:
+                self.listener()
 
     def send_message(self, recipient_id: str, message: str, recipient_type: str = "individual",
-                           message_id: str = None, preview_url: bool = True):
+                     message_id: str = None, preview_url: bool = True):
         """
          Sends a text message to a WhatsApp user
 
@@ -99,7 +101,7 @@ class WhatsApp:
         if message_id is not None:
             data["context"] = {"message_id": message_id}
 
-        return  self._send_request(message_type='Message', recipient_id=recipient_id, data=data)
+        return self._send_request(message_type='Message', recipient_id=recipient_id, data=data)
 
     def send_reaction(self, recipient_id: str, emoji: str, message_id: str, recipient_type: str = "individual"):
         """
@@ -119,10 +121,10 @@ class WhatsApp:
             "reaction": {"message_id": message_id, "emoji": emoji},
         }
 
-        return  self._send_request(message_type='Reaction', recipient_id=recipient_id, data=data)
+        return self._send_request(message_type='Reaction', recipient_id=recipient_id, data=data)
 
     def send_template(self, recipient_id: str, template: str, components: List[Dict], message_id: str = None,
-                            lang: str = "en_US"):
+                      lang: str = "en_US"):
         """
         Asynchronously sends a templates message to a WhatsApp user. Templates can be:
             1. Text templates
@@ -159,10 +161,10 @@ class WhatsApp:
         if message_id is not None:
             data["context"] = {"message_id": message_id}
 
-        return  self._send_request(message_type='Template', recipient_id=recipient_id, data=data)
+        return self._send_request(message_type='Template', recipient_id=recipient_id, data=data)
 
     def send_location(self, recipient_id: str, lat: str, lon: str, name: str = None, address: str = None,
-                            message_id: str = None):
+                      message_id: str = None):
         """
         Asynchronously sends a location message to a WhatsApp user.
 
@@ -188,7 +190,7 @@ class WhatsApp:
         if message_id is not None:
             data["context"] = {"message_id": message_id}
 
-        return  self._send_request(message_type='Location', recipient_id=recipient_id, data=data)
+        return self._send_request(message_type='Location', recipient_id=recipient_id, data=data)
 
     def request_location(self, recipient_id: str, message: str, message_id: str = None):
         data = {
@@ -210,7 +212,7 @@ class WhatsApp:
         if message_id is not None:
             data["context"] = {"message_id": message_id}
 
-        return  self._send_request(message_type='RequestLocation', recipient_id=recipient_id, data=data)
+        return self._send_request(message_type='RequestLocation', recipient_id=recipient_id, data=data)
 
     def send_media(
             self,
@@ -269,7 +271,7 @@ class WhatsApp:
         if message_id is not None:
             data["context"] = {"message_id": message_id}
 
-        return  self._send_request(message_type=media_type.name.title(), recipient_id=recipient_id, data=data)
+        return self._send_request(message_type=media_type.name.title(), recipient_id=recipient_id, data=data)
 
     def send_contacts(self, recipient_id: str, contacts: List[Dict[Any, Any]], message_id: str = None):
         """
@@ -293,7 +295,7 @@ class WhatsApp:
         if message_id is not None:
             data["context"] = {"message_id": message_id}
 
-        return  self._send_request(message_type='Contacts', recipient_id=recipient_id, data=data)
+        return self._send_request(message_type='Contacts', recipient_id=recipient_id, data=data)
 
     def mark_as_read(self, message_id: str) -> Dict[Any, Any]:
         """
@@ -311,7 +313,7 @@ class WhatsApp:
             "message_id": message_id
         }
 
-        return  self._send_request(message_type='MarkAsRead', recipient_id=message_id, data=data)
+        return self._send_request(message_type='MarkAsRead', recipient_id=message_id, data=data)
 
     def send_interactive(self, recipient_id: str, payload: Dict[Any, Any], message_id: str = None):
         """
@@ -331,7 +333,7 @@ class WhatsApp:
         if message_id is not None:
             data["context"] = {"message_id": message_id}
 
-        return  self._send_request(message_type='Interactive', recipient_id=recipient_id, data=data)
+        return self._send_request(message_type='Interactive', recipient_id=recipient_id, data=data)
 
     class _Utils:
         """
@@ -464,7 +466,7 @@ class WhatsApp:
                         'messaging_product': 'whatsapp',
                         'type': content_type
                     }
-                    response =  client.post(
+                    response = client.post(
                         f"{self.parent.base_url}/{self.parent.config.phone_number_id}/media",
                         headers=headers,
                         files=files,
@@ -484,7 +486,8 @@ class WhatsApp:
                 return None
 
             finally:
-                HookUtil.run_listener(listener=self.parent.listener)
+                if self.parent.listener:
+                    self.parent.listener()
 
         def delete_media(self, media_id: str) -> bool:
             """
@@ -494,7 +497,7 @@ class WhatsApp:
                 media_id (str): ID of the media to be deleted.
             """
             with Client() as client:
-                response =  client.delete(
+                response = client.delete(
                     url=f"{self.parent.base_url}/{media_id}",
                     headers=self.parent.headers
                 )
@@ -518,7 +521,7 @@ class WhatsApp:
 
             """
             with Client() as client:
-                response =  client.get(
+                response = client.get(
                     url=f"{self.parent.base_url}/{media_id}",
                     headers=self.parent.headers
                 )
@@ -552,7 +555,7 @@ class WhatsApp:
 
             try:
                 with Client() as client:
-                    response =  client.get(
+                    response = client.get(
                         url=media_url,
                         headers=self.parent.headers
                     )
@@ -573,7 +576,8 @@ class WhatsApp:
                 return None
 
             finally:
-                HookUtil.run_listener(listener=self.parent.listener)
+                if self.parent.listener:
+                    self.parent.listener()
 
         def download_flow_media(self, flow_media_payload: Dict, download_dir: str = None):
             """
@@ -591,12 +595,12 @@ class WhatsApp:
                 str: path of the downloaded file, or None if there was an error.
             """
 
-            media_url =  self.query_media_url(flow_media_payload.get("id"))
+            media_url = self.query_media_url(flow_media_payload.get("id"))
 
             if media_url is None:
                 raise EngineClientException(f"Failed to query media file url")
 
-            downloaded_path =  self.download_media(media_url, flow_media_payload.get("file_name"), download_dir)
+            downloaded_path = self.download_media(media_url, flow_media_payload.get("file_name"), download_dir)
 
             if downloaded_path is None:
                 raise EngineClientException(f"Failed to download file for media id: {flow_media_payload.get('id')}")

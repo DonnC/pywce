@@ -7,12 +7,6 @@
     <list default="true" id="e700a6d4-f3fd-4ca6-8806-bc5eb9b6e49c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pywce/modules/whatsapp/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/whatsapp/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/constants/engine.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/constants/engine.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/constants/session.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/constants/session.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/engine.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/engine.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/models/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/services/message_processor.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/message_processor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/services/worker.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/worker.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pywce/src/utils/hook_util.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/utils/hook_util.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
@@ -335,6 +329,8 @@
       <workItem from="1744397456536" duration="5383000" />
       <workItem from="1744525523667" duration="4899000" />
       <workItem from="1744573244305" duration="7195000" />
+      <workItem from="1744631502375" duration="131000" />
+      <workItem from="1744652955087" duration="664000" />
     </task>
     <servers />
   </component>
