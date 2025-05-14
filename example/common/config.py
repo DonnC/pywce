@@ -7,7 +7,7 @@ from .global_hooks import log_incoming_message, external_hook_processor
 
 load_dotenv()
 
-yaml_storage = storage.YamlStorageManager(os.getenv("TEMPLATES_DIR"), os.getenv("TRIGGERS_DIR"))
+hybrid_storage = storage.YamlJsonStorageManager(os.getenv("TEMPLATES_DIR"), os.getenv("TRIGGERS_DIR"))
 
 # create a .env and set the appropriate keys
 _wa_config = client.WhatsAppConfig(
@@ -22,7 +22,7 @@ whatsapp = client.WhatsApp(_wa_config)
 
 _eng_config = EngineConfig(
     whatsapp=whatsapp,
-    storage_manager=yaml_storage,
+    storage_manager=hybrid_storage,
     start_template_stage=os.getenv("START_STAGE"),
 
     # optional fields, depends on the example project being run

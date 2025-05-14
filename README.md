@@ -61,6 +61,7 @@ START_STAGE         = START-MENU
 
 ### Engine
 You can either use `.env` or add your credentials directly to the WhatsAppConfig class
+
 ```python
 import os
 from dotenv import load_dotenv
@@ -69,8 +70,8 @@ from pywce import client, Engine, EngineConfig, storage
 load_dotenv()
 
 # configure default YAML templates manager
-yaml_storage = storage.YamlStorageManager(
-    os.getenv("TEMPLATES_DIR"), 
+yaml_storage = storage.YamlJsonStorageManager(
+    os.getenv("TEMPLATES_DIR"),
     os.getenv("TRIGGERS_DIR")
 )
 

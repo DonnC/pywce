@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from pathlib import Path
+import json
 from typing import Dict, List
 
 import ruamel.yaml
@@ -39,11 +40,11 @@ class IStorageManager(ABC):
         pass
 
 
-class YamlStorageManager(IStorageManager):
+class YamlJsonStorageManager(IStorageManager):
     """
-        YAML files storage manager
+    YAML/JSON files storage manager.
 
-        Read all yaml files
+    Supports reading both YAML (.yaml) and JSON (.json) files from the templates and triggers directories.
     """
     _TEMPLATES: Dict = {}
     _TRIGGERS: Dict = {}
@@ -62,13 +63,17 @@ class YamlStorageManager(IStorageManager):
         if not self.template_dir.is_dir():
             raise EngineException("Template dir provided is not a valid directory")
 
-        for template_file in self.template_dir.glob("*.yaml"):
+        for template_file in self.template_dir.glob("*"):
+            if template_file.suffix not in [".yml", ".yaml", ".json"]:
+                continue
+
             with template_file.open("r", encoding="utf-8") as file:
-                data = self.yaml.load(file)
+                data = json.load(file) if template_file.suffix == ".json" else self.yaml.load(file)
                 if data:
                     self._TEMPLATES.update(data)
 
-        assert len(self._TEMPLATES) != 0, "No valid templates found"
+        if not self._TEMPLATES:
+            raise EngineException("No valid templates found")
 
     def load_triggers(self) -> None:
         self._TRIGGERS.clear()
@@ -76,9 +81,12 @@ class YamlStorageManager(IStorageManager):
         if not self.trigger_dir.is_dir():
             raise EngineException("Trigger dir provided is not a valid directory")
 
-        for trigger_file in self.trigger_dir.glob("*.yaml"):
+        for trigger_file in self.trigger_dir.glob("*"):
+            if trigger_file.suffix not in [".yml", ".yaml", ".json"]:
+                continue
+
             with trigger_file.open("r", encoding="utf-8") as file:
-                data = self.yaml.load(file)
+                data = json.load(file) if trigger_file.suffix == ".json" else self.yaml.load(file)
                 if data:
                     self._TRIGGERS.update(data)
 
