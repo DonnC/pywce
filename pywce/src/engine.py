@@ -1,3 +1,4 @@
+import logging
 from typing import Dict, Any
 
 from pywce.modules import client, ISessionManager
@@ -7,6 +8,7 @@ from pywce.src.models import EngineConfig, WorkerJob, WhatsAppServiceModel, Hook
 from pywce.src.services import Worker, WhatsAppService, HookService
 from pywce.src.utils.hook_util import HookUtil
 
+logger = logging.getLogger(__name__)
 
 class Engine:
     def __init__(self, config: EngineConfig):
@@ -32,7 +34,7 @@ class Engine:
 
         if has_ext_handler_session is not None:
             self._user_session(recipient_id).evict(session_id=recipient_id, key=SessionConstants.EXTERNAL_CHAT_HANDLER)
-            self.config.logger.log(f"External handler session terminated for: {recipient_id}", level="WARNING")
+            logger.warning(f"External handler session terminated for: %s", recipient_id)
 
     def ext_handler_respond(self, response: ExternalHandlerResponse):
         """
@@ -56,7 +58,7 @@ class Engine:
 
             response_msg_id = self.whatsapp.util.get_response_message_id(response)
 
-            self.config.logger.log(f"ExtHandler message responded with id: {response_msg_id}")
+            logger.debug(f"ExtHandler message responded with id: %s", response_msg_id)
 
             return response_msg_id
 
@@ -66,12 +68,12 @@ class Engine:
         if self.whatsapp.config.enforce_security is True:
             if self.whatsapp.util.verify_webhook_payload(webhook_payload=webhook_data,
                                                          webhook_headers=webhook_headers) is False:
-                self.config.logger.log("Invalid webhook payload", level="WARNING")
+                logger.warning("Invalid webhook payload")
                 return
 
         if not self.whatsapp.util.is_valid_webhook_message(webhook_data):
             _msg = webhook_data if self.config.log_invalid_webhooks is True else "skipping.."
-            self.config.logger.log(f"Invalid webhook message: {_msg}", level="WARNING")
+            logger.warning(f"Invalid webhook message: %s", _msg)
             return
 
         wa_user = self.whatsapp.util.get_wa_user(webhook_data)
@@ -113,8 +115,8 @@ class Engine:
                     )
                     return
                 except InternalHookError as e:
-                    self.config.logger.log("Error processing external handler hook", level="ERROR")
+                    logger.error("Error processing external handler hook")
                     raise ExtHandlerHookError(message=e.message)
 
             else:
-                self.config.logger.log("No external handler hook provided, skipping..", level="WARNING")
+                logger.warning("No external handler hook provided, skipping..")

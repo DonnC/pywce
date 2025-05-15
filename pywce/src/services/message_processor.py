@@ -1,3 +1,4 @@
+import logging
 from typing import Dict, Tuple, Any, Union
 
 from pywce.modules import ISessionManager, client
@@ -9,6 +10,8 @@ from pywce.src.templates import EngineTemplate
 from pywce.src.utils.engine_util import EngineUtil
 from pywce.src.utils.hook_util import HookUtil
 
+
+_logger = logging.getLogger(__name__)
 
 class MessageProcessor:
     """
@@ -35,8 +38,6 @@ class MessageProcessor:
 
         self.session_id = self.user.wa_id
         self.session: ISessionManager = self.config.session_manager.session(session_id=self.session_id)
-
-        self.logger = self.config.logger
 
     def _get_stage_template(self, template_stage_name: str) -> EngineTemplate:
         tpl = self.config.storage_manager.get(template_stage_name)
@@ -78,7 +79,7 @@ class MessageProcessor:
                 self.IS_FROM_TRIGGER = True
                 self.session.save(session_id=self.session_id, key=SessionConstants.CURRENT_STAGE,
                                   data=self.CURRENT_STAGE)
-                self.logger.log("Template change from trigger. Stage: " + _next_stage, level="DEBUG")
+                _logger.debug("Template change from trigger. Stage: %s", _next_stage)
                 return
 
         # TODO: check if current msg id is null, throw Ambiguous old webhook exc
@@ -159,7 +160,7 @@ class MessageProcessor:
             try:
                 self.whatsapp.mark_as_read(self.user.msg_id)
             except:
-                self.logger.log("Failed to ack user message", level="WARNING")
+                _logger.warning("Failed to ack user message")
 
     def process_dynamic_route_hook(self) -> Union[str, None]:
         """
@@ -184,7 +185,7 @@ class MessageProcessor:
                 return result.additional_data.get(EngineConstants.DYNAMIC_ROUTE_KEY)
 
             except:
-                self.logger.log("Failed to do dynamic route hook", level="ERROR")
+                _logger.error("Failed to do dynamic route hook")
 
         return None
 

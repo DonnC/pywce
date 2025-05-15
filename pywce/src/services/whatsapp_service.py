@@ -1,3 +1,4 @@
+import logging
 from datetime import datetime
 from typing import Dict, Any
 
@@ -7,6 +8,8 @@ from pywce.src.exceptions import EngineInternalException
 from pywce.src.models import WhatsAppServiceModel
 from pywce.src.services.template_message_processor import TemplateMessageProcessor
 
+
+logger = logging.getLogger(__name__)
 
 class WhatsAppService:
     """
@@ -78,7 +81,7 @@ class WhatsAppService:
                 session.save(session_id=session_id, key=SessionConstants.PREV_STAGE, data=current_stage)
                 session.save(session_id=session_id, key=SessionConstants.CURRENT_STAGE, data=self.model.next_stage)
 
-                self.model.config.logger.log(f"Current route set to: {self.model.next_stage}", level="DEBUG")
+                logger.debug(f"Current route set to: %s", self.model.next_stage)
 
                 if self.model.config.handle_session_inactivity is True:
                     session.save(session_id=session_id, key=SessionConstants.LAST_ACTIVITY_AT,

@@ -466,6 +466,7 @@ class WhatsApp:
                         'messaging_product': 'whatsapp',
                         'type': content_type
                     }
+
                     response = client.post(
                         f"{self.parent.base_url}/{self.parent.config.phone_number_id}/media",
                         headers=headers,

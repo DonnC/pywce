@@ -1,5 +1,2 @@
-*.json
 *.env
-/autogen_multiagents/config.yaml
-!/autogen_multiagents/studio/
 test.py

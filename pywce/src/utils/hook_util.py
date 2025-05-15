@@ -1,9 +1,11 @@
+import logging
 from typing import Optional, Callable
 
 from pywce.src.constants import EngineConstants
 from pywce.src.models import HookArg
 from pywce.src.services import HookService
 
+logger = logging.getLogger(__name__)
 
 class HookUtil:
     @staticmethod
@@ -25,4 +27,4 @@ class HookUtil:
                     listener()
 
         except Exception as e:
-            print("[LISTENER-ERROR] Failed to process listener: ", str(e))
+            logger.error("[LISTENER-ERROR] Failed to process listener: %s", str(e))

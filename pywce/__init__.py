@@ -3,7 +3,7 @@ pywce: Python WhatsApp Chatbot Engine
 
 pywce is a package for creating WhatsApp chatbots using a templates-driven approach. It decouples
 the engine from the WhatsApp client library, allowing developers to use them independently or
-together. Templates use YAML to define conversation flows, making chatbot development simpler
+together. Templates use YAML/JSON to define conversation flows, making chatbot development simpler
 and more intuitive.
 
 Modules:
@@ -17,7 +17,7 @@ Author: Donald Chinhuru
 import pywce.src.services.ai_service as ai
 import pywce.src.templates as template
 
-from pywce.modules import client, DefaultSessionManager, storage, pywce_logger
+from pywce.modules import client, DefaultSessionManager, storage
 from pywce.modules.session import ISessionManager
 from pywce.modules.storage import IStorageManager
 from pywce.src.constants import SessionConstants, EngineConstants, TemplateTypeConstants
@@ -55,7 +55,6 @@ __all__ = [
     "hook",
 
     # util
-    "pywce_logger",
     "HookException",
 
     # constants
@@ -65,6 +64,6 @@ __all__ = [
 ]
 __doc__ = (
     "A batteries-included WhatsApp ChatBot builder framework library using a templates-driven approach. "
-    "Supports YAML templates out-of-the-box and provides a modular structure for integrating "
+    "Supports YAML/JSON templates out-of-the-box and provides a modular structure for integrating "
     "with WhatsApp Cloud API."
 )

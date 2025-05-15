@@ -7,18 +7,29 @@
 This is an example standalone chatbot. Standalone in the sense that it uses pywce as
 a WhatsApp Client Library only, without the engine templates-driven superpower.
 """
-
+import logging
 import os
+from contextlib import asynccontextmanager
 
 import uvicorn
 from dotenv import load_dotenv
 from fastapi import FastAPI, Request, Response, HTTPException
 
 from pywce import client
+from ..common.app_logger import setup_logger
 
 load_dotenv()
 
-app = FastAPI()
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    setup_logger()
+    yield
+
+
+app = FastAPI(lifespan=lifespan)
+
+logger = logging.getLogger(__name__)
 
 # create a .env and set the appropriate keys
 config = client.WhatsAppConfig(
@@ -40,11 +51,11 @@ async def handler(request: Request) -> Response:
     if whatsapp.util.is_valid_webhook_message(payload):
         # simplify getting whatsapp user object with waId, msgId, timestamp and name
         _user = whatsapp.util.get_wa_user(payload)
-        print(f"Current whatsapp user: {_user}")
+        logger.info(f"Current whatsapp user: %s", _user)
 
         # simplify webhook message type and data
         response = whatsapp.util.get_response_structure(payload)
-        print(f"Webhook response structure: {response}")
+        logger.info(f"Webhook response structure: %s", response)
 
         # TODO: implement other types and process them accordingly
         match response.typ:

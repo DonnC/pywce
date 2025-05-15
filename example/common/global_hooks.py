@@ -1,6 +1,9 @@
-from pywce import HookArg, pywce_logger, TemplateDynamicBody
+import logging
 
-logger = pywce_logger.DefaultPywceLogger()
+from pywce import HookArg, TemplateDynamicBody
+
+logger = logging.getLogger(__name__)
+
 
 def log_incoming_message(arg: HookArg) -> None:
     """
@@ -14,9 +17,10 @@ def log_incoming_message(arg: HookArg) -> None:
     Returns:
         None: global hooks have no need to return anything
     """
-    logger.log(f"{'*' * 10} New incoming request arg {'*' * 10}")
-    logger.log(arg)
-    logger.log(f"{'*' * 30}")
+    logger.debug(f"{'*' * 10} New incoming request arg {'*' * 10}")
+    logger.debug("%s", arg)
+    logger.debug(f"{'*' * 30}")
+
 
 def external_hook_processor(arg: HookArg) -> HookArg:
     """
@@ -30,9 +34,9 @@ def external_hook_processor(arg: HookArg) -> HookArg:
     Returns:
         None: global hooks have no need to return anything
     """
-    logger.log(f"{'*' * 10} external hook processor {'*' * 10}")
-    logger.log(arg)
-    logger.log(f"{'*' * 30}")
+    logger.debug(f"{'*' * 10} external hook processor {'*' * 10}")
+    logger.debug("%s", arg)
+    logger.debug(f"{'*' * 30}")
 
     # set default username in session for retrieving later
     arg.session_manager.save(session_id=arg.user.wa_id, key="username", data=arg.user.name)
