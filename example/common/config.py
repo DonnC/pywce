@@ -27,8 +27,7 @@ _eng_config = EngineConfig(
 
     # optional fields, depends on the example project being run
     global_pre_hooks=[log_incoming_message],
-    ext_hook_processor=external_hook_processor,
-    ext_handler_hook="example.ai_agents.hooks.ai_hook.agent_processor"
+    ext_hook_processor=external_hook_processor
 )
 
 engine = Engine(config=_eng_config)

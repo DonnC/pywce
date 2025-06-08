@@ -37,7 +37,6 @@ class EngineConfig:
     tag_on_reply: bool = False
     read_receipts: bool = False
     log_invalid_webhooks: bool = False
-    session_ttl_min: int = 30
     inactivity_timeout_min: int = 3
     debounce_timeout_ms: int = 6000
     webhook_timestamp_threshold_s: int = 10
@@ -61,11 +60,11 @@ class TemplateDynamicBody(BaseModel):
         Also used in `templates` hooks for dynamic message rendering
 
         :var dynamic_template: dynamic message model to render
-        :var initial_flow_payload: for flows that require initial data passed to a whatsapp flow
+        :var flow_payload: for flows that require initial data passed to a whatsapp flow
         :var render_template_payload: the templates dynamic variables to prefill
     """
     dynamic_template: Optional[EngineTemplate] = None
-    initial_flow_payload: Optional[Dict[Any, Any]] = None
+    flow_payload: Optional[Dict[Any, Any]] = None
     render_template_payload: Optional[Dict[str, Any]] = None
 
 
@@ -88,7 +87,7 @@ class HookArg(BaseModel):
     """
     user: client.WaUser
     session_id: str
-    has_auth:bool = False
+    has_auth: bool = False
     user_input: Optional[Any] = None
     session_manager: Optional[ISessionManager] = None
     template_body: Optional[TemplateDynamicBody] = None

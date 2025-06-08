@@ -306,7 +306,7 @@ class TemplateMessageProcessor:
                                              external=self.config.ext_hook_processor
                                              )
 
-            flow_initial_payload = response.template_body.initial_flow_payload
+            flow_initial_payload = response.template_body.flow_payload
 
             self.template = EngineUtil.render_template(
                 template=self.template,

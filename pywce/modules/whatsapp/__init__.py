@@ -4,8 +4,6 @@ https://github.com/oca159/heyoo/tree/main
 
 Unofficial python wrapper for the WhatsApp Cloud API.
 """
-import hashlib
-import hmac
 import json
 import logging
 import mimetypes
@@ -14,11 +12,15 @@ from collections.abc import Callable
 from typing import Dict, Any, List, Union, Optional
 
 from httpx import Client
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.asymmetric import padding
+from cryptography.hazmat.primitives import serialization
 
+from pywce.src.models import HookArg
 from pywce.modules.whatsapp.config import WhatsAppConfig
 from pywce.modules.whatsapp.message_utils import MessageUtils
 from pywce.modules.whatsapp.model import MessageTypeEnum, WaUser, ResponseStructure
-from pywce.src.exceptions import EngineException, EngineClientException
+from pywce.src.exceptions import EngineClientException, HookException
 
 _logger = logging.getLogger(__name__)
 
@@ -28,7 +30,11 @@ class WhatsApp:
     WhatsApp Object
     """
 
-    def __init__(self, whatsapp_config: WhatsAppConfig, on_send_listener: Optional[Callable] = None):
+    def __init__(self,
+                 whatsapp_config: WhatsAppConfig,
+                 on_send_listener: Optional[Callable] = None,
+                 flow_endpoint_processor: Optional[Callable] = None
+                 ):
         """
         Initialize the WhatsApp Object
 
@@ -37,6 +43,7 @@ class WhatsApp:
         """
         self.config = whatsapp_config
         self.listener = on_send_listener
+        self.endpoint_processor = flow_endpoint_processor
         self.base_url = f"https://graph.facebook.com/{self.config.version}"
         self.url = f"{self.base_url}/{self.config.phone_number_id}/messages"
 
@@ -338,6 +345,8 @@ class WhatsApp:
     class _Utils:
         """
             Utility class for WhatsApp utility methods
+
+            WhatsApp flows endpoint ref: https://medium.com/@nijmehar16/develop-a-chatbot-using-whatsapp-flows-and-integrate-it-with-your-backend-cf61142aca2e
         """
         _HUB_SIGNATURE_HEADER_KEY = "x-hub-signature-256"
         _MEDIA_DIR = "pywce_downloads"
@@ -371,26 +380,44 @@ class WhatsApp:
             payload_str = payload.decode("utf-8")
             return json.loads(payload_str)
 
-        def _generate_expected_signature(self, payload: str) -> str:
-            """Generate the HMAC signature from the payload."""
-            return hmac.new(
-                bytes(self.parent.config.app_secret, "latin-1"),
-                msg=payload.encode("utf-8"),
-                digestmod=hashlib.sha256
-            ).hexdigest()
+        def decrypt_flow_payload(self, encrypted_payload: bytes) -> dict:
+            """Decrypts the WhatsApp Flow payload."""
+            try:
+                private_key = serialization.load_pem_private_key(self.parent.config.private_key.encode('utf-8'), password=None)
+                decrypted_payload = private_key.decrypt(
+                    encrypted_payload,
+                    padding.OAEP(
+                        mgf=padding.MGF1(algorithm=hashes.SHA256()),
+                        algorithm=hashes.SHA256(),
+                        label=None
+                    )
+                )
 
-        def verify_webhook_payload(self, webhook_payload: str, webhook_headers: Dict) -> bool:
-            if self._HUB_SIGNATURE_HEADER_KEY not in webhook_headers:
-                raise EngineException("Unsecure webhook payload received")
+                _logger.debug("Flow endpoint decrypted payload: %s", decrypted_payload)
+                return json.loads(decrypted_payload.decode('utf-8'))
+            except Exception as e:
+                raise EngineClientException(message="Failed to decrypt payload", data=str(e))
 
-            signature = webhook_headers.get(self._HUB_SIGNATURE_HEADER_KEY, "")[7:]
-            expected_signature = self._generate_expected_signature(webhook_payload)
+        def create_flow_response(self, screen: str, data: dict) -> dict:
+            """Creates a standard WhatsApp Flow response."""
+            return {"version": self.parent.config.flow_version, "screen": screen, "data": data}
 
-            return hmac.compare_digest(expected_signature, signature)
+        def flow_endpoint_handler(self, payload: bytes) -> dict:
+            if self.parent.endpoint_processor is None:
+                raise HookException(message="Flow endpoint callable not defined")
+
+            data = self.decrypt_flow_payload(encrypted_payload=payload)
+
+            response: HookArg = self.parent.endpoint_processor()
+
+            if response.template_body.flow_payload is None:
+                raise HookException(message="Flow handler must return a dictionary with 'screen' and 'data' keys.")
+
+            return self.create_flow_response(**response.template_body.flow_payload)
 
         def was_request_successful(self, recipient_id: str, response_data: Dict[str, Any]) -> bool:
             """
-            check if the response after sending to whatsapp is valid
+                check if the response after sending to whatsapp is valid
             """
             is_whatsapp = response_data.get("messaging_product") == "whatsapp"
             is_same_recipient = recipient_id == response_data.get("contacts")[0].get("wa_id")

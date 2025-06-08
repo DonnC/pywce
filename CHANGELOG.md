@@ -185,7 +185,7 @@ hook_files =  [{'id': '1571385113..', 'mime_type': 'image/jpeg', 'sha256': 'lV..
 # you can download files by passing to utility method
 files = []
 for file in hook_files:
-    f = await whatsapp.util.download_flow_media(file)
+    f = whatsapp.util.download_flow_media(file)
     files.append(f)
 
 print("downloaded files: ", files)

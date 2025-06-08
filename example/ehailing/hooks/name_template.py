@@ -34,6 +34,6 @@ def username(arg: HookArg) -> HookArg:
             message="You do not have any tasks. Add tasks to view them"
         )
 
-    arg.template_body = TemplateDynamicBody(initial_flow_payload=tpl)
+    arg.template_body = TemplateDynamicBody(flow_payload=tpl)
 
     return arg

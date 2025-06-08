@@ -65,19 +65,13 @@ class Engine:
         raise ExtHandlerHookError(message="No active ExternalHandler session for user!")
 
     def process_webhook(self, webhook_data: Dict[str, Any], webhook_headers: Dict[str, Any]):
-        if self.whatsapp.config.enforce_security is True:
-            if self.whatsapp.util.verify_webhook_payload(webhook_payload=webhook_data,
-                                                         webhook_headers=webhook_headers) is False:
-                logger.warning("Invalid webhook payload")
-                return
-
         if not self.whatsapp.util.is_valid_webhook_message(webhook_data):
             _msg = webhook_data if self.config.log_invalid_webhooks is True else "skipping.."
             logger.warning(f"Invalid webhook message: %s", _msg)
             return
 
         wa_user = self.whatsapp.util.get_wa_user(webhook_data)
-        user_session: ISessionManager = self.config.session_manager.session(session_id=wa_user.wa_id)
+        user_session: ISessionManager = self._user_session(wa_user.wa_id)
         response_model = self.whatsapp.util.get_response_structure(webhook_data)
 
         # check if user has running external handler
