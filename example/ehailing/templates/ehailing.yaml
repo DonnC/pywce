@@ -1,31 +1,4 @@
-"START-MENU":
-  kind: button
-  template: "ext:get_name"
-  message:
-    title: Greetings
-    body: |
-      Hi {{ name }}, Enjoy an innovative template-driven framework for chatbot development.
-      
-      Select your next action!
-    footer: pywce
-    buttons:
-      - eHailing Bot
-      - Developer Profile
-  routes:
-    "ehailing bot": "PROJECT-MENU"
-    "developer profile": "GITHUB-PROFILE"
-
-"GITHUB-PROFILE":
-  kind: cta
-  message:
-    title: "Support"
-    body: "View my GitHub profile, projects and star, fork, share, contribute or support 🙈"
-    url: "https://github.com/DonnC"
-    button: "GitHub"
-  routes:
-    "re:.*": "START-MENU"
-
-"PROJECT-MENU":
+"START-EHAILING":
   kind: button
   checkpoint: true
   message:
@@ -35,14 +8,14 @@
     buttons:
       - Begin
   routes:
-    "begin": "PICKUP-DRIVE-MAIN-MENU"
+    "begin": "SELECT-RIDE"
 
-"PICKUP-DRIVE-MAIN-MENU":
+"SELECT-RIDE":
   kind: button
   prop: ride_type
   message:
     title: PickDrive
-    body: "Good {{ s.username }}.\nTo offer you with exclusive riding experience, select your preferred ride type"
+    body: "Great, to offer you with exclusive riding experience, select your preferred ride type"
     footer: pywce
     buttons:
       - Ride
@@ -74,10 +47,10 @@
       - Accept
       - Counter Offer
   routes:
-    "accept": "RIDE-COMMENT"
+    "accept": "RIDE-ADDITIONAL-COMMENT"
     "counter offer": "RIDE-COUNTER-OFFER"
 
-"RIDE-COMMENT":
+"RIDE-ADDITIONAL-COMMENT":
   kind: text
   prop: ride_comments
   message: "Provide additional info to the driver"
@@ -90,7 +63,7 @@
     title: Available Drivers
     body: "I found rides matching your choice. Select one you like and they will be ready to pick you up"
     footer: pywce
-    button: Rides
+    button: View Drivers
     sections:
       "Available Rides":
         0:
@@ -130,7 +103,7 @@
       - Abort
   routes:
     "confirm": "DRIVER-COMMAND-COME"
-    "abort": "PICKUP-DRIVE"
+    "abort": "START-MENU"
 
 "DRIVER-COMMAND-COME":
   kind: button
@@ -139,6 +112,6 @@
     body: "Driver is coming to your location now!"
     footer: pywce
     buttons:
-      - Rate
+      - Report
   routes:
-    "rate": "REPORT"
+    "report": "REPORT"

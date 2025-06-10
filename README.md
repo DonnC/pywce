@@ -34,6 +34,18 @@ This library gives you a full-blown framework for chatbots of any scale allowing
 ---
 
 ## Setup
+
+### Summary: Setup in 6 easy steps (with FastAPI)
+1. Clone repo and navigate to the `example` folder
+2. Install all dependencies 
+3. Setup your whatsapp account configs in `.env.example` and edit the file to `.env` only
+4. Run the `main.py` and setup tunnelling using `ngrok` or any similar service and configure your webhook on developer portal
+5. Build on top of the example templates in `example\ehailing\templates` folder to suit your chatbot needs
+6. Implement your chatbot logic in `example\ehailing\hooks` folder
+
+> After you get the hang of it, you can start your new project afresh
+---
+
 ### WhatsApp
 Follow the complete step by step WhatsApp Cloud API guide below. 
 

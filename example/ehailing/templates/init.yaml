@@ -1,0 +1,26 @@
+"START-MENU":
+  kind: button
+  template: "example.ehailing.hooks.name.username"
+  message:
+    title: Greetings
+    body: |
+      Hi {{ name }}, Enjoy an innovative template-driven framework for chatbot development.
+      
+      Select your next action!
+    footer: pywce
+    buttons:
+      - eHailing Bot
+      - Developer Profile
+  routes:
+    "ehailing bot": "START-EHAILING"
+    "developer profile": "GITHUB-PROFILE"
+
+"GITHUB-PROFILE":
+  kind: cta
+  message:
+    title: "Support"
+    body: "View my GitHub profile, projects and star, fork, share, contribute or support"
+    url: "https://github.com/DonnC"
+    button: "GitHub"
+  routes:
+    "re:.*": "START-MENU"

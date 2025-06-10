@@ -12,7 +12,7 @@ async def handler(request: Request, background_tasks: BackgroundTasks):
     payload_bytes = await request.body()
     payload = whatsapp.util.bytes_to_dict(payload_bytes)
 
-    # Add processing task to background
+    # Add processing task to background: recommended approach
     background_tasks.add_task(engine_bg_task, payload, dict(request.headers))
 
     return "ack"

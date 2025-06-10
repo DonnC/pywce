@@ -1,12 +1,11 @@
-# define global commands / words / message / phrase to catch
-# in order to process a specific stage templates
+# define global commands or phrases to catch in order to process a specific stage template
+# e.g. If a user types `start` or hi - render the START-MENU stage template
 
-# e.g. If a user types `start` - render the START-MENU stage templates
-# defined in the /test_templates directory
+# format is as below
+# YOUR-TEMPLATE-STAGE-NAME: re:<your-specific-regex-command>
+
+
+# when user greets the bot, render the first start menu stage
 "START-MENU": "re:(?i)(start)|(hi)|(hie)"
 
-# for reporting
 "REPORT": "re:^report$"
-
-# local dev only
-"SAMPLE-TEMPLATES": "re:(?i)^sample$"

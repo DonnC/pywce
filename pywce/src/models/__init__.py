@@ -18,7 +18,6 @@ class EngineConfig:
                                      received messages to avoid duplicate message processing
         :var handle_session_inactivity: if enabled, engine will track user inactivity and
                                           reroutes user back to `start_template_stage` if inactive
-        :var has_auth: if enabled, engine will track chatbot user session authentication
         :var debounce_timeout_ms: reasonable time difference to process new message
         :var tag_on_reply: if enabled, engine will tag (reply) every message as it responds to it
         :var log_invalid_webhooks: if enabled, engine will log (WARN) all detailed invalid webhooks
@@ -33,7 +32,6 @@ class EngineConfig:
     ext_hook_processor: Optional[Callable] = None
     handle_session_queue: bool = True
     handle_session_inactivity: bool = True
-    has_auth: bool = True
     tag_on_reply: bool = False
     read_receipts: bool = False
     log_invalid_webhooks: bool = False
@@ -83,11 +81,9 @@ class HookArg(BaseModel):
         :var user_input: the raw user input, usually a str if message was a button or text
         :var session_manager: session instance of the current user -> WaUser
         :var hook: the name / dotted path of the hook being executed
-        :var has_auth: propagate if bot has user auth
     """
     user: client.WaUser
     session_id: str
-    has_auth: bool = False
     user_input: Optional[Any] = None
     session_manager: Optional[ISessionManager] = None
     template_body: Optional[TemplateDynamicBody] = None
@@ -112,7 +108,6 @@ class HookArg(BaseModel):
             "user_input": self.user_input,
             "flow": self.flow,
             "hook": self.hook,
-            "has_auth": self.has_auth,
             "additional_data": self.additional_data
         }
         return f"HookArg({attrs})"

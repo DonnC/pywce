@@ -18,7 +18,6 @@ def setup_logger():
     )
     rich_handler.setLevel(logging.INFO)
 
-    # Custom formatter for console
     console_formatter = logging.Formatter(
         "%(asctime)s [%(levelname)] %(message)s",
         '%Y-%m-%d %H:%M:%S',
@@ -26,7 +25,6 @@ def setup_logger():
     rich_handler.setFormatter(console_formatter)
     logger.addHandler(rich_handler)
 
-    # File handler (unchanged)
     fh = logging.FileHandler("pywce.log")
     fh.setLevel(logging.DEBUG)
     fh_formatter = logging.Formatter(

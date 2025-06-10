@@ -267,8 +267,7 @@ class MessageProcessor:
             session_manager=self.session,
             user=self.user,
             user_input=self.USER_INPUT[0],
-            additional_data=self.USER_INPUT[1],
-            has_auth=self.config.has_auth
+            additional_data=self.USER_INPUT[1]
         )
 
         HookUtil.run_listener(listener=self.config.on_hook_arg,arg=self.HOOK_ARG)
