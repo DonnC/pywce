@@ -40,29 +40,22 @@
 "RIDE-OFFER":
   kind: button
   message:
-    title: Ride Fee
-    body: "Your ride fee to your destination is USD $3.50\n🕑You will arrive in approx ~ 3mins"
-    footer: pywce
+    title: Ride
+    body: |
+      💰 Ride fee: USD $3.50
+      🕑 Arrival time: ~3mins
     buttons:
       - Accept
       - Counter Offer
   routes:
-    "accept": "RIDE-ADDITIONAL-COMMENT"
+    "accept": "AVAILABLE-DRIVERS"
     "counter offer": "RIDE-COUNTER-OFFER"
-
-"RIDE-ADDITIONAL-COMMENT":
-  kind: text
-  prop: ride_comments
-  message: "Provide additional info to the driver"
-  routes:
-    "re:.*": "AVAILABLE-DRIVERS"
 
 "AVAILABLE-DRIVERS":
   kind: list
   message:
     title: Available Drivers
     body: "I found rides matching your choice. Select one you like and they will be ready to pick you up"
-    footer: pywce
     button: View Drivers
     sections:
       "Available Rides":
@@ -97,7 +90,6 @@
       Reg Number: QZW 0123
       
       Confirm to notify the driver to come pick you up now
-    footer: pywce
     buttons:
       - Confirm
       - Abort
@@ -110,7 +102,6 @@
   message:
     title: PickDrive
     body: "Driver is coming to your location now!"
-    footer: pywce
     buttons:
       - Report
   routes:

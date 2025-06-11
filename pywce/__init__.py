@@ -14,7 +14,6 @@ Modules:
 Author: Donald Chinhuru
 """
 
-import pywce.src.services.ai_service as ai
 import pywce.src.templates as template
 
 from pywce.modules import client, DefaultSessionManager, storage
@@ -24,7 +23,7 @@ from pywce.src.constants import SessionConstants, EngineConstants, TemplateTypeC
 from pywce.src.engine import Engine
 from pywce.src.models import HookArg, TemplateDynamicBody, EngineConfig, ExternalHandlerResponse
 from pywce.src.services import HookService, hook
-from pywce.src.exceptions import HookException
+from pywce.src.exceptions import HookException, FlowEndpointException
 
 __author__ = "Donald Chinhuru"
 __email__ = "donychinhuru@gmail.com"
@@ -42,9 +41,6 @@ __all__ = [
     "EngineConfig",
     "ExternalHandlerResponse",
 
-    # ai
-    "ai",
-
     # templates
     "template",
 
@@ -56,6 +52,7 @@ __all__ = [
 
     # util
     "HookException",
+    "FlowEndpointException",
 
     # constants
     "SessionConstants",

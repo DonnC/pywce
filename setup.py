@@ -12,7 +12,7 @@ with open("requirements.txt", "r", encoding="utf-8") as fh:
 
 setup(
     name="pywce",
-    version="2.2.0+1",
+    version="3.0.0",
     author="Donald Chinhuru",
     author_email="donychinhuru@gmail.com",
     description="A templates-driven framework for building WhatsApp chatbots",
@@ -24,7 +24,6 @@ setup(
     python_requires=">=3.9",
     install_requires=install_requires,
     extras_require={
-        "ai": ["openai", "docstring-parser"],
         "cache": ["cachetools"]
     },
     classifiers=[

@@ -2,10 +2,12 @@ import logging
 
 from rich.logging import RichHandler
 
+log_level = logging.DEBUG
+
 
 def setup_logger():
     logger = logging.getLogger("pywce")
-    logger.setLevel(logging.DEBUG)
+    logger.setLevel(log_level)
 
     logger.handlers.clear()
 
@@ -16,17 +18,17 @@ def setup_logger():
         markup=True,
         log_time_format="[%Y-%m-%d %H:%M:%S]"
     )
-    rich_handler.setLevel(logging.INFO)
+    rich_handler.setLevel(log_level)
 
     console_formatter = logging.Formatter(
-        "%(asctime)s [%(levelname)] %(message)s",
+        "%(asctime)s [%(levelname)s] %(message)s",
         '%Y-%m-%d %H:%M:%S',
     )
     rich_handler.setFormatter(console_formatter)
     logger.addHandler(rich_handler)
 
     fh = logging.FileHandler("pywce.log")
-    fh.setLevel(logging.DEBUG)
+    fh.setLevel(log_level)
     fh_formatter = logging.Formatter(
         '%(asctime)s [%(levelname)s] [%(name)s:%(lineno)d] - %(message)s',
         "%Y-%m-%d %H:%M:%S"

@@ -24,6 +24,10 @@ class EngineClientException(EngineException):
     def __init__(self, message, data=None):
         super().__init__(message, data)
 
+class FlowEndpointException(EngineException):
+    def __init__(self, message, data=500):
+        super().__init__(message, data)
+
 class EngineInternalException(EngineException):
     def __init__(self, message, data=None):
         super().__init__(message, data)

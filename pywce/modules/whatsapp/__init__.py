@@ -8,27 +8,87 @@ import json
 import logging
 import mimetypes
 import os
+from base64 import b64decode, b64encode
 from collections.abc import Callable
+from dataclasses import dataclass
 from typing import Dict, Any, List, Union, Optional
 
-from httpx import Client
 from cryptography.hazmat.primitives import hashes
-from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.primitives.asymmetric import padding
+from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+from httpx import Client
 
-from pywce.src.models import HookArg
 from pywce.modules.whatsapp.config import WhatsAppConfig
 from pywce.modules.whatsapp.message_utils import MessageUtils
 from pywce.modules.whatsapp.model import MessageTypeEnum, WaUser, ResponseStructure
-from pywce.src.exceptions import EngineClientException, HookException
+from pywce.src.exceptions import EngineClientException, HookException, FlowEndpointException
 
 _logger = logging.getLogger(__name__)
+
+
+@dataclass
+class FlowEndpointPayload:
+    """
+    Actual flow endpoint payload. Can be
+    1. Data exchange
+           {
+                "version": "<VERSION>",
+                "action": "<ACTION_NAME>",
+                "screen": "<SCREEN_NAME>",
+                "data": {
+                  "prop_1": "value_1",
+                   …
+                  "prop_n": "value_n"
+                },
+               "flow_token": "<FLOW-TOKEN>"
+            }
+    2. Ping
+        {
+            "version": "3.0",
+            "action": "ping"
+        }
+    3. Error message
+        {
+            "version": "<VERSION>",
+            "flow_token": "<FLOW-TOKEN>",
+            "action": "data_exchange | INIT",
+            "data": {
+                "error": "<ERROR-KEY>",
+                "error_message": "<ERROR-MESSAGE>"
+            }
+        }
+    """
+    version: str
+    action: str
+    screen: Optional[str] = None
+    flow_token: Optional[str] = None
+    data: Optional[Dict[str, Any]] = None
+
+
+@dataclass
+class FlowEndpointResponse:
+    payload: FlowEndpointPayload
+    aes_key: bytes
+    iv: bytes
 
 
 class WhatsApp:
     """
     WhatsApp Object
     """
+
+    INVALID_SIGNATURE_HTTP_CODE: int = 432
+    INVALID_FLOW_TOKEN_HTTP_CODE: int = 427
+    CHANGED_PUBLIC_KEY_HTTP_CODE: int = 421
+
+    INIT_FLOW_ACTION = 'INIT'
+    BACK_FLOW_ACTION = 'BACK'
+    PING_FLOW_ACTION = 'ping'
+    DATA_EXCHANGE_FLOW_ACTION = 'data_exchange'
+
+    FLOW_ENDPOINT_ACK_ERROR_PAYLOAD = {"data": {"acknowledged": True}}
+    FLOW_ENDPOINT_PING_PAYLOAD = {"data": {"status": "active"}}
 
     def __init__(self,
                  whatsapp_config: WhatsAppConfig,
@@ -350,9 +410,10 @@ class WhatsApp:
         """
         _HUB_SIGNATURE_HEADER_KEY = "x-hub-signature-256"
         _MEDIA_DIR = "pywce_downloads"
+        _TAG_LENGTH_BYTES = 16
 
         def __init__(self, parent) -> None:
-            self.parent = parent
+            self.parent: "WhatsApp" = parent
 
         def _pre_process(self, webhook_data: Dict[Any, Any]) -> Dict[Any, Any]:
             """
@@ -380,12 +441,30 @@ class WhatsApp:
             payload_str = payload.decode("utf-8")
             return json.loads(payload_str)
 
-        def decrypt_flow_payload(self, encrypted_payload: bytes) -> dict:
-            """Decrypts the WhatsApp Flow payload."""
+        def decrypt_flow_payload(self, encrypted_flow_payload: dict) -> Optional[FlowEndpointResponse]:
+            """
+            Decrypts the incoming WhatsApp Flow request payload.
+            """
             try:
-                private_key = serialization.load_pem_private_key(self.parent.config.private_key.encode('utf-8'), password=None)
-                decrypted_payload = private_key.decrypt(
-                    encrypted_payload,
+                encrypted_flow_data_b64 = encrypted_flow_payload.get('encrypted_flow_data')
+                encrypted_aes_key_b64 = encrypted_flow_payload.get('encrypted_aes_key')
+                initial_vector_b64 = encrypted_flow_payload.get('initial_vector')
+
+                flow_data = b64decode(encrypted_flow_data_b64)
+                iv = b64decode(initial_vector_b64)
+
+                pwd: Optional[bytes] = None
+                if self.parent.config.private_key_pwd is not None:
+                    pwd = self.parent.config.private_key_pwd.encode("utf-8")
+
+                # Decrypt the AES encryption key
+                encrypted_aes_key = b64decode(encrypted_aes_key_b64)
+                private_key = serialization.load_pem_private_key(
+                    self.parent.config.private_key.encode('utf-8'),
+                    password=pwd
+                )
+                aes_key = private_key.decrypt(
+                    encrypted_aes_key,
                     padding.OAEP(
                         mgf=padding.MGF1(algorithm=hashes.SHA256()),
                         algorithm=hashes.SHA256(),
@@ -393,27 +472,105 @@ class WhatsApp:
                     )
                 )
 
-                _logger.debug("Flow endpoint decrypted payload: %s", decrypted_payload)
-                return json.loads(decrypted_payload.decode('utf-8'))
+                # Decrypt the Flow data
+                encrypted_flow_data_body = flow_data[:-self._TAG_LENGTH_BYTES]
+                encrypted_flow_data_tag = flow_data[-self._TAG_LENGTH_BYTES:]
+
+                decryptor = Cipher(
+                    algorithms.AES(aes_key),
+                    modes.GCM(iv, encrypted_flow_data_tag)
+                ).decryptor()
+
+                decrypted_data_bytes = decryptor.update(encrypted_flow_data_body) + decryptor.finalize()
+                decrypted_data = json.loads(decrypted_data_bytes.decode("utf-8"))
+
+                config_response = FlowEndpointResponse(
+                    payload=FlowEndpointPayload(**decrypted_data),
+                    aes_key=aes_key,
+                    iv=iv
+                )
+
+                return config_response
+
             except Exception as e:
-                raise EngineClientException(message="Failed to decrypt payload", data=str(e))
+                raise FlowEndpointException(
+                    message=f"Failed to decrypt flow payload: {str(e)}",
+                    data=self.parent.CHANGED_PUBLIC_KEY_HTTP_CODE
+                )
 
-        def create_flow_response(self, screen: str, data: dict) -> dict:
-            """Creates a standard WhatsApp Flow response."""
-            return {"version": self.parent.config.flow_version, "screen": screen, "data": data}
+        def encrypt_flow_payload(self, response_payload: dict, config: FlowEndpointResponse) -> str:
+            """
+            Encrypts the response payload before sending it back to WhatsApp.
+            """
+            try:
+                # Flip the initialization vector
+                flipped_iv = bytearray()
+                for byte in config.iv:
+                    flipped_iv.append(byte ^ 0xFF)
 
-        def flow_endpoint_handler(self, payload: bytes) -> dict:
-            if self.parent.endpoint_processor is None:
-                raise HookException(message="Flow endpoint callable not defined")
+                # Encrypt the response data
+                encryptor = Cipher(
+                    algorithms.AES(config.aes_key),
+                    modes.GCM(bytes(flipped_iv))
+                ).encryptor()
 
-            data = self.decrypt_flow_payload(encrypted_payload=payload)
+                encrypted_response_bytes = encryptor.update(
+                    json.dumps(response_payload).encode("utf-8")) + encryptor.finalize()
+                full_encrypted_data = encrypted_response_bytes + encryptor.tag
 
-            response: HookArg = self.parent.endpoint_processor()
+                return b64encode(full_encrypted_data).decode("utf-8")
 
-            if response.template_body.flow_payload is None:
-                raise HookException(message="Flow handler must return a dictionary with 'screen' and 'data' keys.")
+            except Exception as e:
+                raise FlowEndpointException(
+                    message="Failed to encrypt flow payload",
+                    data=self.parent.CHANGED_PUBLIC_KEY_HTTP_CODE
+                )
 
-            return self.create_flow_response(**response.template_body.flow_payload)
+        def create_final_flow_response(self, flow_token: str, params: dict=None) -> dict:
+            return {
+                "screen": "SUCCESS",
+                "data": {
+                    "extension_message_response": {
+                        "params": {
+                            "flow_token": flow_token,
+                            **params
+                        }
+                    }
+                }
+            }
+
+        def flow_endpoint_handler(self, flow_payload: dict) -> str:
+            """
+                Call the configured flow endpoint processor,
+                the callable should accept one argument of type FlowEndpointPayload.
+
+            :param flow_payload: raw request payload with encrypted data
+            :return: Encrypted flow payload as a str
+            :rtype: str
+            :raise FlowEndpointException
+            """
+            try:
+                if self.parent.endpoint_processor is None:
+                    raise HookException(message="Flow endpoint callable not defined")
+
+                flow_response = self.decrypt_flow_payload(flow_payload)
+
+                response = self.parent.endpoint_processor(flow_response.payload)
+
+                _logger.debug("Flow endpoint processor response: %s", response)
+
+                if response.template_body.flow_payload is None:
+                    raise FlowEndpointException(message="Flow handler callback did not return a valid response")
+
+                return self.encrypt_flow_payload(response.template_body.flow_payload, flow_response)
+
+            except FlowEndpointException as fee:
+                _logger.error("Error processing flow endpoint", exc_info=True)
+                raise fee
+
+            except Exception as e:
+                _logger.error("Flow endpoint handler error", exc_info=True)
+                raise FlowEndpointException(message="Failed to process flow endpoint request")
 
         def was_request_successful(self, recipient_id: str, response_data: Dict[str, Any]) -> bool:
             """

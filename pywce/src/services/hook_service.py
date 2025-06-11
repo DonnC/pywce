@@ -7,7 +7,6 @@ from pywce.src.constants import TemplateTypeConstants
 from pywce.src.exceptions import InternalHookError, HookException
 from pywce.src.models import ExternalHandlerResponse
 from pywce.src.models import HookArg
-from pywce.src.services.ai_service import AiResponse
 
 _logger = logging.getLogger(__name__)
 
@@ -36,25 +35,6 @@ class HookService:
     @staticmethod
     def path_registry():
         return _dotted_path_registry
-
-    @staticmethod
-    def map_ai_handler_response(recipient: str, ai_response: AiResponse,
-                                agent_name: str = "🤖") -> ExternalHandlerResponse:
-        # TODO: map all supported ai responses
-        if ai_response.typ == "button":
-            _type = TemplateTypeConstants.BUTTON
-
-        elif ai_response.typ == "list":
-            _type = TemplateTypeConstants.LIST
-
-        else:
-            _type = TemplateTypeConstants.TEXT
-
-        # FIXME: fix ai response
-        return ExternalHandlerResponse(
-            template=None,
-            recipient_id=recipient
-        )
 
     @staticmethod
     def register_hook(name: str, func: Callable = None, dotted_path: str = None):

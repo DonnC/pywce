@@ -58,7 +58,7 @@ class TemplateDynamicBody(BaseModel):
         Also used in `templates` hooks for dynamic message rendering
 
         :var dynamic_template: dynamic message model to render
-        :var flow_payload: for flows that require initial data passed to a whatsapp flow
+        :var flow_payload: for flows that require initial data passed to a whatsapp flow or flow endpoint response
         :var render_template_payload: the templates dynamic variables to prefill
     """
     dynamic_template: Optional[EngineTemplate] = None
