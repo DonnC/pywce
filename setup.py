@@ -27,7 +27,6 @@ setup(
         "cache": ["cachetools"]
     },
     classifiers=[
-        "Development Status :: 4 - Beta",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3",
@@ -43,5 +42,5 @@ setup(
         "Source Code": "https://github.com/DonnC/pywce",
         "Documentation": "https://docs.page/donnc/wce",
     },
-    keywords=["whatsapp", "chatbot", "ai", "yaml", "automation", "templates", "hooks"]
+    keywords=["whatsapp", "chatbot", "automation", "templates", "hooks"]
 )

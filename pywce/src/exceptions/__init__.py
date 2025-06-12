@@ -13,7 +13,7 @@ class EngineException(Exception):
         self.data = data
 
     def __str__(self):
-        return f"[{self.__class__.__str__}] Message: {self.message} | Data: {self.data}"
+        return f"[{self.__class__.__name__}] Message: {self.message} | Data: {self.data}"
 
 
 class AiException(EngineException):

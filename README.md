@@ -16,6 +16,7 @@ allowing you to define conversation flows and business logic in a clean and modu
 - Model based templates
 - Supports dynamic messages with placeholders.
 - Built-in support for WhatsApp Webhooks.
+- *Support WhatsApp Flow endpoint
 - Starter templates
 
 ## Installation
@@ -55,21 +56,7 @@ Important settings needed for this framework
 1. Phone number ID (be it test number or live number)
 2. Access Token (Temporary or permanent)
 3. Webhook callback verification token of your choice
-
-Create a `.env `with the below settings in your project or test folder (be it `example` or `portal` folders)
-
-```
-ACCESS_TOKEN        = <your-whatsapp-access-token>
-PHONE_NUMBER_ID     = <your-number-phone-id>
-WEBHOOK_HUB_TOKEN   = <your-webhook-verification-token>
-
-# path to your templates & triggers folders
-TEMPLATES_DIR       = portal/chatbot/templates
-TRIGGERS_DIR        = portal/chatbot/triggers
-
-# your templates initial or start stage
-START_STAGE         = START-MENU
-```
+4. App secret (optional)
 
 ### Engine
 You can either use `.env` or add your credentials directly to the WhatsAppConfig class
@@ -81,8 +68,8 @@ from pywce import client, Engine, EngineConfig, storage
 
 load_dotenv()
 
-# configure default YAML templates manager
-yaml_storage = storage.YamlJsonStorageManager(
+# configure default YAML/JSON templates manager
+template_storage_manager = storage.YamlJsonStorageManager(
     os.getenv("TEMPLATES_DIR"),
     os.getenv("TRIGGERS_DIR")
 )
@@ -97,7 +84,7 @@ whatsapp = client.WhatsApp(whatsapp_config=whatsapp_config)
 
 engine_config = EngineConfig(
     whatsapp=whatsapp,
-    storage_manager=yaml_storage,
+    storage_manager=template_storage_manager,
     start_template_stage=os.getenv("START_STAGE")
 )
 
@@ -111,13 +98,13 @@ Here's a simple example template to get you started:
 > _Checkout complete working examples in the [example folder](https://github.com/DonnC/pywce/blob/master/example)_
 
 
-1. Define YAML template (Conversation Flow💬):
+1. Define YAML/JSON template (Conversation Flow💬):
 
 ```yaml
 # path/to/templates
 "START-MENU":
   type: button
-  template: "dotted.path.to.python.func"
+  template: "path.to.func.username"
   message:
     title: Welcome
     body: "Hi {{ name }}, I'm your assistant, click below to start!"
@@ -131,21 +118,24 @@ Here's a simple example template to get you started:
   type: text
   message: Great, lets get you started quickly. What is your age?
   routes:
-    "re://d{1,}": "NEXT-STEP-FURTHER"
+    "re://d{1,}": "ANOTHER-STEP"
 ```
 
 2. Write your hook (Supercharge⚡):
 ```python
-# dotted/path/to/python/func.py
-from pywce import hook, HookArg, TemplateDynamicBody
+# path/to/func.py
+from pywce import HookArg, TemplateDynamicBody
 
-@hook
 def username(arg: HookArg) -> HookArg:
-    # set render payload data to match the required templates dynamic var
+    """
+     fill message template's dynamic variable: name
+     to greet user by their whatsapp name 😎
+    """
     
-    # greet user by their whatsapp name 😎
+    template_value = {"name": arg.user.name}
+    
     arg.template_body = TemplateDynamicBody(
-        render_template_payload={"name": arg.user.name}
+        render_template_payload=template_value
     )
 
     return arg
@@ -165,18 +155,17 @@ def webhook_event(payload: dict, headers: dict) -> None:
     engine_instance.process_webhook(payload, headers)
 
 @app.post("/chatbot/webhook")
-async def process_webhook(request: Request, background_tasks: BackgroundTasks):
+async def process_webhook(req: Request, bt: BackgroundTasks):
     """
     Handle incoming webhook events from WhatsApp 
     and process them in the background.
     """
-    payload = await request.json()
-    headers = dict(request.headers)
+    payload = await req.json()
+    headers = dict(req.headers)
 
-    # handle event in the background
-    background_tasks.add_task(webhook_event, payload, headers)
+    # handle webhook in the background
+    bt.add_task(webhook_event, payload, headers)
 
-    # Immediately respond to WhatsApp with acknowledgment
     return Response(content="ACK", status_code=200)
 ```
 

@@ -5,7 +5,7 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.pretty import Pretty
 
-from pywce import HookArg, client, TemplateDynamicBody, FlowEndpointException
+from pywce import HookArg, client, FlowEndpointException
 from .data import LocalDataSource
 
 logger = logging.getLogger(__name__)
@@ -28,7 +28,7 @@ def log_incoming_message(arg: HookArg, title: str = None) -> None:
     logger.debug(Console().print(panel, highlight=True))
 
 
-def flow_endpoint_handler(payload: client.FlowEndpointPayload) -> HookArg:
+def flow_endpoint_handler(payload: client.FlowEndpointPayload) -> dict:
     """
     Handles all flow endpoint requests, the callable receives payload already decrypted
 
@@ -48,21 +48,12 @@ def flow_endpoint_handler(payload: client.FlowEndpointPayload) -> HookArg:
 
     response = {}
 
-    if payload.action == client.WhatsApp.PING_FLOW_ACTION:
-        response = client.WhatsApp.FLOW_ENDPOINT_PING_PAYLOAD
+    if payload.flow_token != LocalDataSource.expected_flow_token:
+        raise FlowEndpointException(message="Unexpected token", data=client.WhatsApp.INVALID_FLOW_TOKEN_HTTP_CODE)
 
-    elif payload.data.get("error") is not None or payload.data.get("error_message") is not None:
-        response = client.WhatsApp.FLOW_ENDPOINT_ACK_ERROR_PAYLOAD
+    if payload.action == client.WhatsApp.INIT_FLOW_ACTION:
+        response = LocalDataSource.init_response
 
-    else:
-        if payload.flow_token != LocalDataSource.expected_flow_token:
-            raise FlowEndpointException(message="Unexpected token", data=client.WhatsApp.INVALID_FLOW_TOKEN_HTTP_CODE)
+    # TODO: handle other logic
 
-        if payload.action == client.WhatsApp.INIT_FLOW_ACTION:
-            response = LocalDataSource.init_response
-
-        # TODO: handle other logic
-
-    arg.template_body = TemplateDynamicBody(flow_payload=response)
-
-    return arg
+    return response

@@ -4,6 +4,7 @@ https://github.com/oca159/heyoo/tree/main
 
 Unofficial python wrapper for the WhatsApp Cloud API.
 """
+
 import json
 import logging
 import mimetypes
@@ -13,8 +14,7 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from typing import Dict, Any, List, Union, Optional
 
-from cryptography.hazmat.primitives import hashes
-from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from httpx import Client
@@ -29,36 +29,6 @@ _logger = logging.getLogger(__name__)
 
 @dataclass
 class FlowEndpointPayload:
-    """
-    Actual flow endpoint payload. Can be
-    1. Data exchange
-           {
-                "version": "<VERSION>",
-                "action": "<ACTION_NAME>",
-                "screen": "<SCREEN_NAME>",
-                "data": {
-                  "prop_1": "value_1",
-                   …
-                  "prop_n": "value_n"
-                },
-               "flow_token": "<FLOW-TOKEN>"
-            }
-    2. Ping
-        {
-            "version": "3.0",
-            "action": "ping"
-        }
-    3. Error message
-        {
-            "version": "<VERSION>",
-            "flow_token": "<FLOW-TOKEN>",
-            "action": "data_exchange | INIT",
-            "data": {
-                "error": "<ERROR-KEY>",
-                "error_message": "<ERROR-MESSAGE>"
-            }
-        }
-    """
     version: str
     action: str
     screen: Optional[str] = None
@@ -67,17 +37,13 @@ class FlowEndpointPayload:
 
 
 @dataclass
-class FlowEndpointResponse:
+class _FlowEndpointResponse:
     payload: FlowEndpointPayload
     aes_key: bytes
     iv: bytes
 
 
 class WhatsApp:
-    """
-    WhatsApp Object
-    """
-
     INVALID_SIGNATURE_HTTP_CODE: int = 432
     INVALID_FLOW_TOKEN_HTTP_CODE: int = 427
     CHANGED_PUBLIC_KEY_HTTP_CODE: int = 421
@@ -103,7 +69,7 @@ class WhatsApp:
         """
         self.config = whatsapp_config
         self.listener = on_send_listener
-        self.endpoint_processor = flow_endpoint_processor
+        self.flow_endpoint_processor = flow_endpoint_processor
         self.base_url = f"https://graph.facebook.com/{self.config.version}"
         self.url = f"{self.base_url}/{self.config.phone_number_id}/messages"
 
@@ -172,7 +138,7 @@ class WhatsApp:
 
     def send_reaction(self, recipient_id: str, emoji: str, message_id: str, recipient_type: str = "individual"):
         """
-        Sends a reaction message to a WhatsApp user's message asynchronously.
+        Sends a reaction message to a WhatsApp user's message .
 
         Args:
             emoji (str): Emoji to become a reaction to a message. Ex.: '\uD83D\uDE00' (😀)
@@ -193,7 +159,7 @@ class WhatsApp:
     def send_template(self, recipient_id: str, template: str, components: List[Dict], message_id: str = None,
                       lang: str = "en_US"):
         """
-        Asynchronously sends a templates message to a WhatsApp user. Templates can be:
+         sends a templates message to a WhatsApp user. Templates can be:
             1. Text templates
             2. Media based templates
             3. Interactive templates
@@ -233,7 +199,7 @@ class WhatsApp:
     def send_location(self, recipient_id: str, lat: str, lon: str, name: str = None, address: str = None,
                       message_id: str = None):
         """
-        Asynchronously sends a location message to a WhatsApp user.
+         sends a location message to a WhatsApp user.
 
         Args:
             lat (str): Latitude of the location.
@@ -293,7 +259,7 @@ class WhatsApp:
             message_id: str = None
     ):
         """
-        Asynchronously send media message to a WhatsApp user.
+        send media message to a WhatsApp user.
 
         There are two ways to send media message to a user, either by passing the media id or by passing the media link.
         Media id is the id of the media uploaded to the cloud API.
@@ -342,7 +308,7 @@ class WhatsApp:
 
     def send_contacts(self, recipient_id: str, contacts: List[Dict[Any, Any]], message_id: str = None):
         """
-        Asynchronously sends a list of contacts to a WhatsApp user.
+         sends a list of contacts to a WhatsApp user.
 
         Args:
             contacts: List of contacts to send, structured according to the WhatsApp API requirements.
@@ -366,7 +332,7 @@ class WhatsApp:
 
     def mark_as_read(self, message_id: str) -> Dict[Any, Any]:
         """
-        Asynchronously marks a message as read using the WhatsApp Cloud API.
+         marks a message as read using the WhatsApp Cloud API.
 
         Args:
             message_id (str): ID of the message to be marked as read.
@@ -384,7 +350,7 @@ class WhatsApp:
 
     def send_interactive(self, recipient_id: str, payload: Dict[Any, Any], message_id: str = None):
         """
-        Asynchronously sends an interactive message to a WhatsApp user.
+         sends an interactive message to a WhatsApp user.
 
         Args:
             payload (dict): A dictionary containing the interactive type payload.
@@ -405,8 +371,6 @@ class WhatsApp:
     class _Utils:
         """
             Utility class for WhatsApp utility methods
-
-            WhatsApp flows endpoint ref: https://medium.com/@nijmehar16/develop-a-chatbot-using-whatsapp-flows-and-integrate-it-with-your-backend-cf61142aca2e
         """
         _HUB_SIGNATURE_HEADER_KEY = "x-hub-signature-256"
         _MEDIA_DIR = "pywce_downloads"
@@ -441,7 +405,7 @@ class WhatsApp:
             payload_str = payload.decode("utf-8")
             return json.loads(payload_str)
 
-        def decrypt_flow_payload(self, encrypted_flow_payload: dict) -> Optional[FlowEndpointResponse]:
+        def decrypt_flow_payload(self, encrypted_flow_payload: dict) -> Optional[_FlowEndpointResponse]:
             """
             Decrypts the incoming WhatsApp Flow request payload.
             """
@@ -484,7 +448,7 @@ class WhatsApp:
                 decrypted_data_bytes = decryptor.update(encrypted_flow_data_body) + decryptor.finalize()
                 decrypted_data = json.loads(decrypted_data_bytes.decode("utf-8"))
 
-                config_response = FlowEndpointResponse(
+                config_response = _FlowEndpointResponse(
                     payload=FlowEndpointPayload(**decrypted_data),
                     aes_key=aes_key,
                     iv=iv
@@ -498,7 +462,7 @@ class WhatsApp:
                     data=self.parent.CHANGED_PUBLIC_KEY_HTTP_CODE
                 )
 
-        def encrypt_flow_payload(self, response_payload: dict, config: FlowEndpointResponse) -> str:
+        def encrypt_flow_payload(self, response_payload: dict, config: _FlowEndpointResponse) -> str:
             """
             Encrypts the response payload before sending it back to WhatsApp.
             """
@@ -526,7 +490,7 @@ class WhatsApp:
                     data=self.parent.CHANGED_PUBLIC_KEY_HTTP_CODE
                 )
 
-        def create_final_flow_response(self, flow_token: str, params: dict=None) -> dict:
+        def create_final_flow_response(self, flow_token: str, params: dict = None) -> dict:
             return {
                 "screen": "SUCCESS",
                 "data": {
@@ -545,27 +509,39 @@ class WhatsApp:
                 the callable should accept one argument of type FlowEndpointPayload.
 
             :param flow_payload: raw request payload with encrypted data
+            :param expected_flow_token: flow endpoint token to expect, if provided, will check against request flow token
             :return: Encrypted flow payload as a str
-            :rtype: str
             :raise FlowEndpointException
             """
             try:
-                if self.parent.endpoint_processor is None:
+                if self.parent.flow_endpoint_processor is None:
                     raise HookException(message="Flow endpoint callable not defined")
 
                 flow_response = self.decrypt_flow_payload(flow_payload)
 
-                response = self.parent.endpoint_processor(flow_response.payload)
+                if flow_response.payload.action == self.parent.PING_FLOW_ACTION:
+                    return self.encrypt_flow_payload(
+                        response_payload=self.parent.FLOW_ENDPOINT_PING_PAYLOAD,
+                        config=flow_response
+                    )
 
-                _logger.debug("Flow endpoint processor response: %s", response)
+                elif flow_response.payload.data.get("error") is not None or \
+                        flow_response.payload.data.get("error_message") is not None:
+                    e, msg = flow_response.payload.data.get("error"), flow_response.payload.data.get("error_message")
+                    _logger.error("Flow error, %s: %s", e, msg)
+                    return self.encrypt_flow_payload(
+                        response_payload=self.parent.FLOW_ENDPOINT_ACK_ERROR_PAYLOAD,
+                        config=flow_response
+                    )
 
-                if response.template_body.flow_payload is None:
+                response: Optional[dict] = self.parent.flow_endpoint_processor(flow_response.payload)
+
+                if response is None:
                     raise FlowEndpointException(message="Flow handler callback did not return a valid response")
 
-                return self.encrypt_flow_payload(response.template_body.flow_payload, flow_response)
+                return self.encrypt_flow_payload(response, flow_response)
 
             except FlowEndpointException as fee:
-                _logger.error("Error processing flow endpoint", exc_info=True)
                 raise fee
 
             except Exception as e:
@@ -632,7 +608,7 @@ class WhatsApp:
 
         def upload_media(self, media_path: str) -> Union[str, None]:
             """
-            Asynchronously uploads a media file to the cloud API and returns the ID of the media.
+             uploads a media file to the cloud API and returns the ID of the media.
 
             Args:
                 media_path (str): Path of the media to be uploaded.
@@ -676,7 +652,7 @@ class WhatsApp:
 
         def delete_media(self, media_id: str) -> bool:
             """
-            Asynchronously deletes a media from the cloud API.
+             deletes a media from the cloud API.
 
             Args:
                 media_id (str): ID of the media to be deleted.
@@ -696,7 +672,7 @@ class WhatsApp:
 
         def query_media_url(self, media_id: str) -> Union[str, None]:
             """
-            Asynchronously query media URL from a media ID obtained either by manually uploading media or received media.
+             query media URL from a media ID obtained either by manually uploading media or received media.
 
             Args:
                 media_id (str): Media ID of the media.
@@ -721,7 +697,7 @@ class WhatsApp:
 
         def download_media(self, media_url: str, filename: str, download_dir: str = None) -> Union[str, None]:
             """
-            Asynchronously download media from a media URL obtained either by manually uploading media or received media.
+             download media from a media URL obtained either by manually uploading media or received media.
 
             Args:
                 media_url (str): Media URL of the media.
