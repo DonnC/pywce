@@ -5,17 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e700a6d4-f3fd-4ca6-8806-bc5eb9b6e49c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/example/booking_flow_endpoint/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/booking_flow_static/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/booking_stage_based/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/booking_stage_based/hooks/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/booking_stage_based/templates/booking.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/booking_stage_based/templates/report.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/booking_stage_based/templates/start.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/booking_stage_based/triggers/triggers.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ehailing/hooks/capture_ride.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/ehailing/hooks/capture_ride.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ehailing/templates/ehailing.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ehailing/templates/ehailing.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/modules/whatsapp/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/whatsapp/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/services/message_processor.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/message_processor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/services/template_message_processor.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/template_message_processor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/services/worker.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/worker.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/templates/base_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/templates/base_model.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,7 +69,7 @@
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;sync&quot;,
     &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/DEVELOPER/Documents/Personal/Personal/Projects/python/pywce/example/ai_agents/templates&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/DEVELOPER/Documents/Personal/Personal/Projects/python/pywce/example/booking_stage_based/templates&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -95,11 +90,11 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\example\booking_stage_based\templates" />
+      <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\example\booking_stage_based\triggers" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\example\ai_agents\templates" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\example" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\example\demo" />
-      <recent name="$PROJECT_DIR$/portal/portal/chatbot" />
-      <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\example\standalone_chatbot" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\pywce\src" />
@@ -359,6 +354,8 @@
       <workItem from="1749814238825" duration="3246000" />
       <workItem from="1749899391173" duration="2761000" />
       <workItem from="1749972168707" duration="3801000" />
+      <workItem from="1750001574852" duration="2419000" />
+      <workItem from="1750004253994" duration="1572000" />
     </task>
     <servers />
   </component>
