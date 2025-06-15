@@ -105,7 +105,7 @@ class TemplateMessageProcessor:
         """
         Helper function to get common fields (header, body, footer) if they exist.
 
-        TODO: implement different supported header types for button messages
+        TODO: implement different supported header types for quick reply button messages
         """
         _message: templates.BaseInteractiveMessage = self.template.message
         interactive_fields = {"body": {"text": _message.body}}
@@ -295,6 +295,8 @@ class TemplateMessageProcessor:
     def _flow(self) -> Dict[str, Any]:
         """
         Flow templates may require initial flow data to be passed, it is handled here
+
+        TODO: pass flow_token from template
         """
         data = {"type": "flow", **self._get_common_interactive_fields()}
 
@@ -319,13 +321,15 @@ class TemplateMessageProcessor:
         if flow_initial_payload is not None:
             action_payload["data"] = flow_initial_payload
 
+        flow_token = f"{self.template.message.name}_{self.user.wa_id}_{randint(99, 9999)}"
+
         data["action"] = {
             "name": "flow",
             "parameters": {
                 "flow_message_version": self.config.whatsapp.config.flow_version,
                 "flow_action": self.config.whatsapp.config.flow_action,
                 "mode": "draft" if self.template.message.draft else "published",
-                "flow_token": f"{self.template.message.name}_{self.user.wa_id}_{randint(99, 9999)}",
+                "flow_token": flow_token,
                 "flow_id": self.template.message.flow_id,
                 "flow_cta": self.template.message.button,
                 "flow_action_payload": action_payload
@@ -412,7 +416,7 @@ class TemplateMessageProcessor:
 
         The dynamic method must process the payload and sent it
 
-        The dynamic payload must be same as templates json message body
+        The dynamic payload must be same as whatsapp templates json message body
         """
         assert self.template.template is not None, "templates hook is missing"
 

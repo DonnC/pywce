@@ -1,4 +1,5 @@
 import logging
+import time
 
 from pywce import HookArg
 
@@ -12,6 +13,9 @@ def capture(arg: HookArg):
     :return: updated HookArg
     """
     saved_user_props = arg.session_manager.get_user_props(session_id=arg.session_id)
+
+    # simulate request processing
+    time.sleep(10)
 
     if arg.user_input == 'confirm':
         logger.debug(f"Current user props: %s", saved_user_props)

@@ -171,10 +171,7 @@ class Worker:
 
         next_template = self.job.engine_config.storage_manager.get(next_template_stage)
 
-        # check if next templates requires user to be authenticated before processing
         self._check_authentication(next_template)
-
-        # process all `next templates` pre hooks
         msg_processor.process_pre_hooks(next_template)
 
         return next_template_stage, next_template
@@ -332,7 +329,7 @@ class Worker:
         except EngineSessionException as e:
             logger.error(f"Session expired | inactive for: %s. Clearing data", self.user.wa_id)
 
-            # clear all user session data
+            # TODO: may want to delegate this call to the user
             self.session.clear(session_id=self.user.wa_id)
 
             btn = ButtonTemplate(

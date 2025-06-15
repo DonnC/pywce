@@ -348,6 +348,25 @@ class WhatsApp:
 
         return self._send_request(message_type='MarkAsRead', recipient_id=message_id, data=data)
 
+    def show_typing_indicator(self, message_id: str) -> Dict[Any, Any]:
+        """
+         Show a typing indicator using the WhatsApp Cloud API.
+
+        Args:
+            message_id (str): ID of the message to be marked as read.
+
+        Returns:
+            Dict[Any, Any]: Response from the API.
+        """
+        data = {
+            "messaging_product": "whatsapp",
+            "status": "read",
+            "message_id": message_id,
+            "typing_indicator": {"type": "text"}
+        }
+
+        return self._send_request(message_type='TypingIndicator', recipient_id=message_id, data=data)
+
     def send_interactive(self, recipient_id: str, payload: Dict[Any, Any], message_id: str = None):
         """
          sends an interactive message to a WhatsApp user.

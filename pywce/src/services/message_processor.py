@@ -162,10 +162,17 @@ class MessageProcessor:
             except:
                 _logger.warning("Failed to ack user message")
 
+    def _show_typing_indicator(self) -> None:
+        # a fire & forget approach
+        if self.CURRENT_TEMPLATE.typing is True:
+            try:
+                self.whatsapp.show_typing_indicator(self.user.msg_id)
+            except:
+                _logger.warning("Could not show typing indicator")
+
     def process_dynamic_route_hook(self) -> Union[str, None]:
         """
-        Router hook is used to check next-route flow, instead of using templates-level defined common, it
-        reroutes / redirects / jumps to the response of the `router` hook.
+        Router hook is used to force a redirect to the next stage by taking the response of the `router` hook.
 
         Router hook should return route stage inside the additional_data with key **EngineConstants.DYNAMIC_ROUTE_KEY**
 
@@ -261,6 +268,7 @@ class MessageProcessor:
         self._get_message_body()
         self._check_for_session_bypass()
         self._check_save_checkpoint()
+        self._show_typing_indicator()
 
         self.HOOK_ARG = HookArg(
             session_id=self.session_id,

@@ -47,6 +47,7 @@ class BaseTemplate(BaseModel):
     prop: Optional[str] = None
     session: bool = True
     transient: bool = False
+    typing: bool = False
     reply_message_id: Optional[str] = Field(None, alias=TemplateConstants.REPLY_MESSAGE_ID)
 
     # hooks

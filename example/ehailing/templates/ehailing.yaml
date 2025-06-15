@@ -80,6 +80,7 @@
 
 "CONFIRM-OFFER":
   kind: button
+  typing: true
   on-receive: "example.ehailing.hooks.capture_ride.capture"
   message:
     title: PickDrive Ride

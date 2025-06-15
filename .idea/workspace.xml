@@ -5,25 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e700a6d4-f3fd-4ca6-8806-bc5eb9b6e49c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/example/common/data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/booking_flow_endpoint/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/booking_flow_static/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/booking_stage_based/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/.env.example" beforeDir="false" afterPath="$PROJECT_DIR$/example/.env.example" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/example/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/common/app_logger.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/common/app_logger.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/common/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/common/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/common/global_hooks.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/common/global_hooks.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/common/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/common/routes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ehailing/hooks/capture_ride.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/ehailing/hooks/capture_ride.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/ehailing/templates/ehailing.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ehailing/templates/ehailing.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pywce/modules/whatsapp/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/whatsapp/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/modules/whatsapp/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/whatsapp/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/exceptions/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/exceptions/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/models/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/services/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/services/ai_service.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/services/hook_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/hook_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/src/services/message_processor.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/message_processor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/src/services/template_message_processor.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/template_message_processor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/src/services/worker.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/worker.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/src/templates/base_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/templates/base_model.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -361,6 +353,12 @@
       <workItem from="1749383392714" duration="4628000" />
       <workItem from="1749556850991" duration="1506000" />
       <workItem from="1749622711402" duration="23188000" />
+      <workItem from="1749728919634" duration="9465000" />
+      <workItem from="1749748372197" duration="3702000" />
+      <workItem from="1749799975895" duration="1717000" />
+      <workItem from="1749814238825" duration="3246000" />
+      <workItem from="1749899391173" duration="2761000" />
+      <workItem from="1749972168707" duration="3801000" />
     </task>
     <servers />
   </component>
