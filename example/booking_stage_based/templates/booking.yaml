@@ -27,13 +27,13 @@
   kind: text
   prop: booking_time_index
   message: |
-    What time?
+    Select your preferred booking time?
     1. 10:00 AM
     2. 10:30 AM
     3. 01:00 PM
     4. 03:00 PM
     
-    _Reply with numbered option to select_
+    _Reply with numbered option
   routes:
     "re:\\d": "confirmation"
 
@@ -57,6 +57,6 @@
 
 "order_complete":
   kind: text
-  message: Thank you for booking with us. Type *menu* to get to main menu
+  message: Thank you for booking with us. Type *menu* to go to menu
   routes:
     "re:.*": start
