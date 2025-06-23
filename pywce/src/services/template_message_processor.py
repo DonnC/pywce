@@ -16,6 +16,9 @@ class TemplateMessageProcessor:
     Template Message Processor
 
     Processes templates messages, creates whatsapp message bodies from passed templates.
+
+    TODO: handle global constant triggers internally.
+        : i.e Retry, Report and Menu triggers
     """
     template: templates.EngineTemplate
 

@@ -13,7 +13,7 @@ class WhatsAppConfig:
     private_key:str = None
     private_key_pwd: str = None
     version: str = "v22.0"
-    flow_version: str = "3.0"
+    flow_version: str = "3"
     flow_action: str = "navigate"
 
     use_emulator: bool = False

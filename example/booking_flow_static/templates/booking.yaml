@@ -1,0 +1,34 @@
+"initiate_flow":
+  kind: flow
+  message:
+    flow_id: <REPLACE-WITH-YOUR-FLOW-ID>
+    draft: true
+    name: BOOK_SCREEN
+    title: Start Booking
+    body: Click the button to begin your booking process with us. Kindly fill in all the required fields.
+    button: Start Booking
+  routes:
+    "re:.*": "confirmation"
+
+"confirmation":
+  kind: button
+  template: "example.booking_flow_static.hooks.book.save_booking_details"
+  message:
+    title: Book Summary
+    body: |
+      Full Name: {{ username }}
+      Birth Day: {{ birth_date }}
+      ID Number: {{ national_id }}
+      Time Slot: {{ time_slot }}
+    buttons:
+      - Confirm
+      - Book Again
+  routes:
+    "confirm": "order_complete"
+    "book again": "initiate_flow"
+
+"order_complete":
+  kind: text
+  message: Thank you for booking with us. Type *menu* to go to menu
+  routes:
+    "re:.*": start
