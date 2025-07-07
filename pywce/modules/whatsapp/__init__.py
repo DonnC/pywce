@@ -522,16 +522,19 @@ class WhatsApp:
                 }
             }
 
-        def flow_endpoint_handler(self, flow_payload: dict) -> str:
+        def flow_endpoint_handler(self, flow_payload: dict, handle_error:bool=True) -> str:
             """
                 Call the configured flow endpoint processor,
                 the callable should accept one argument of type FlowEndpointPayload.
 
             :param flow_payload: raw request payload with encrypted data
-            :param expected_flow_token: flow endpoint token to expect, if provided, will check against request flow token
+            :param handle_error: if true, error messages will be responded to automatically
             :return: Encrypted flow payload as a str
             :raise FlowEndpointException
             """
+
+            flow_response: Optional[_FlowEndpointResponse] = None
+
             try:
                 if self.parent.flow_endpoint_processor is None:
                     raise HookException(message="Flow endpoint callable not defined")
@@ -544,10 +547,10 @@ class WhatsApp:
                         config=flow_response
                     )
 
-                elif flow_response.payload.data.get("error") is not None or \
-                        flow_response.payload.data.get("error_message") is not None:
-                    e, msg = flow_response.payload.data.get("error"), flow_response.payload.data.get("error_message")
-                    _logger.error("Flow error, %s: %s", e, msg)
+                elif handle_error and (flow_response.payload.data.get("error") is not None or
+                                       flow_response.payload.data.get("error_message") is not None):
+                    # e, msg = flow_response.payload.data.get("error"), flow_response.payload.data.get("error_message")
+                    _logger.critical("Flow error, %s", flow_response)
                     return self.encrypt_flow_payload(
                         response_payload=self.parent.FLOW_ENDPOINT_ACK_ERROR_PAYLOAD,
                         config=flow_response

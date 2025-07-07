@@ -10,7 +10,6 @@ from .data import LocalDataSource
 
 logger = logging.getLogger(__name__)
 
-
 def log_incoming_message(arg: HookArg, title: str = None) -> None:
     """
     log_incoming_message(arg: HookArg)
@@ -31,10 +30,6 @@ def log_incoming_message(arg: HookArg, title: str = None) -> None:
 def flow_endpoint_handler(payload: client.FlowEndpointPayload) -> dict:
     """
     Handles all flow endpoint requests, the callable receives payload already decrypted
-
-    The response will be passed in the `arg.template_body.flow_payload`
-
-    This example follows the WhatsApp Flows endpoint sample flow for PreApproved Loan
     """
 
     arg = HookArg(
@@ -48,11 +43,10 @@ def flow_endpoint_handler(payload: client.FlowEndpointPayload) -> dict:
 
     response = {}
 
-    if payload.flow_token != LocalDataSource.expected_flow_token:
-        raise FlowEndpointException(message="Unexpected token", data=client.WhatsApp.INVALID_FLOW_TOKEN_HTTP_CODE)
+    action = payload.data.get('type')
 
-    if payload.action == client.WhatsApp.INIT_FLOW_ACTION:
-        response = LocalDataSource.init_response
+    if action == 'time_slots':
+        response = LocalDataSource.flow_time_slots
 
     # TODO: handle other logic
 

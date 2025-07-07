@@ -1,0 +1,10 @@
+{
+  "ask_report": {
+    "kind": "text",
+    "prop": "report",
+    "message": "Provide report information",
+    "routes": {
+      "re:.*": "start"
+    }
+  }
+}

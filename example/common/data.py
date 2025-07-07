@@ -1,32 +1,33 @@
 # dummy constant data
 
 class LocalDataSource:
-    expected_flow_token = "my_secure_token_at_123"
-    init_response = {
-        "screen": "LOAN",
+    available_booking_slots = [
+        {
+            "id": "10_00",
+            "title": "Morning",
+            "description": "Get ahead of your schedules",
+            "metadata": "10:00 hrs",
+            "enabled": True
+        },
+        {
+            "id": "12_00",
+            "title": "Midday",
+            "description": "Bright sun, escape the morning breeze",
+            "metadata": "12:00 hrs",
+            "enabled": False
+        },
+        {
+            "id": "15_00",
+            "title": "Evening",
+            "description": "Beat the daily traffic",
+            "metadata": "15:00 hrs",
+            "enabled": True
+        }
+    ]
+    flow_time_slots = {
+        "screen": "BOOK_SCREEN",
         "data": {
-            "tenure": [
-                {
-                    "id": "p12",
-                    "title": "12 pywce"
-                },
-                {
-                    "id": "p24",
-                    "title": "24 pywce"
-                }
-            ],
-            "amount": [
-                {
-                    "id": "am1",
-                    "title": "ZWG 5,000"
-                },
-                {
-                    "id": "am2",
-                    "title": "ZWG 3,20,000"
-                }
-            ],
-            "emi": "ZWG 3,000",
-            "rate": "8.3% pa",
-            "fee": "600"
+            "time_slots": available_booking_slots,
+            "is_dropdown_visible": True
         }
     }

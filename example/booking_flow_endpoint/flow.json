@@ -1,0 +1,132 @@
+{
+    "version": "7.1",
+    "data_api_version": "3.0",
+    "routing_model": {
+        "BOOK_SCREEN": []
+    },
+    "screens": [
+        {
+            "id": "BOOK_SCREEN",
+            "title": "Book A Demo",
+            "terminal": true,
+            "success": true,
+            "data": {
+                "time_slots": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string"
+                            },
+                            "title": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            },
+                            "metadata": {
+                                "type": "string"
+                            },
+                            "enabled": {
+                                "type": "boolean"
+                            }
+                        }
+                    },
+                    "__example__": [
+                        {
+                            "id": "10_00",
+                            "title": "10AM",
+                            "description": "Book at 10",
+                            "metadata": "10AM",
+                            "enabled": true
+                        },
+                        {
+                            "id": "12_00",
+                            "title": "12PM",
+                            "description": "Book at 12",
+                            "metadata": "12 Midday",
+                            "enabled": false
+                        },
+                        {
+                            "id": "15_00",
+                            "title": "3PM",
+                            "description": "Book at 3PM",
+                            "metadata": "15:00 hrs",
+                            "enabled": false
+                        }
+                    ]
+                },
+                "is_dropdown_visible": {
+                    "type": "boolean",
+                    "__example__": false
+                }
+            },
+            "layout": {
+                "type": "SingleColumnLayout",
+                "children": [
+                    {
+                        "type": "TextSubheading",
+                        "text": "Fill your book details below"
+                    },
+                    {
+                        "input-type": "text",
+                        "label": "First Name",
+                        "name": "first_name",
+                        "required": true,
+                        "type": "TextInput"
+                    },
+                    {
+                        "input-type": "text",
+                        "label": "Last Name",
+                        "name": "last_name",
+                        "required": true,
+                        "type": "TextInput"
+                    },
+                    {
+                        "input-type": "text",
+                        "label": "National ID",
+                        "name": "national_id",
+                        "required": true,
+                        "type": "TextInput",
+                        "helper-text": "Format: xx-xxxxxx L xx"
+                    },
+                    {
+                        "label": "Birth Date",
+                        "name": "birth_date",
+                        "required": true,
+                        "type": "DatePicker",
+                         "on-select-action": {
+                            "name": "data_exchange",
+                            "payload": {
+                                "type": "time_slots"
+                            }
+                        }
+                    },
+                    {
+                        "data-source": "${data.time_slots}",
+                        "visible": "${data.is_dropdown_visible}",
+                        "label": "Time Slot",
+                        "name": "time_slot",
+                        "required": false,
+                        "type": "Dropdown"
+                    },
+                    {
+                        "type": "Footer",
+                        "label": "Submit",
+                        "on-click-action": {
+                            "name": "complete",
+                            "payload": {
+                                "first_name": "${form.first_name}",
+                                "last_name": "${form.last_name}",
+                                "national_id": "${form.national_id}",
+                                "birth_date": "${form.birth_date}",
+                                "time_slot": "${form.time_slot}"
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

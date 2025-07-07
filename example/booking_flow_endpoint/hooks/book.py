@@ -1,21 +1,4 @@
-from example.common.data import LocalDataSource
 from pywce import HookArg, TemplateDynamicBody
-
-def get_available_booking_slots(arg: HookArg) -> HookArg:
-    """
-        Get available booking slots dynamically
-        To use as initial flow data
-    """
-    # TODO: fetch from DB
-
-    flow_data = {
-        "time_slots": LocalDataSource.available_booking_slots,
-        "is_dropdown_visible": False
-    }
-
-    arg.template_body = TemplateDynamicBody(flow_payload=flow_data)
-
-    return arg
 
 def save_render_booking(arg: HookArg) -> HookArg:
     """

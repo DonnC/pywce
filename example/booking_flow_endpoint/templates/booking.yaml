@@ -1,7 +1,8 @@
 "initiate_flow":
   kind: flow
+  template: "example.booking_flow_static.hooks.book.get_available_booking_slots"
   message:
-    flow_id: <REPLACE-WITH-YOUR-FLOW-ID>
+    flow_id: "733424789378117"
     draft: true
     name: BOOK_SCREEN
     title: Start Booking
