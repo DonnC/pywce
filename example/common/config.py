@@ -4,7 +4,7 @@ from typing import Optional
 from dotenv import load_dotenv
 
 from pywce import Engine, storage, EngineConfig, client
-from .global_hooks import log_incoming_message, flow_endpoint_handler
+from .global_hooks import log_incoming_message
 
 load_dotenv()
 
@@ -24,10 +24,7 @@ _wa_config = client.WhatsAppConfig(
     private_key_pwd=os.getenv("PRIVATE_KEY_PASS_KEY")
 )
 
-whatsapp = client.WhatsApp(
-    whatsapp_config=_wa_config,
-    flow_endpoint_processor=flow_endpoint_handler
-)
+whatsapp = client.WhatsApp(whatsapp_config=_wa_config)
 
 hybrid_storage = storage.YamlJsonStorageManager(os.getenv("TEMPLATES_DIR"), os.getenv("TRIGGERS_DIR"))
 

@@ -5,10 +5,11 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.pretty import Pretty
 
-from pywce import HookArg, client, FlowEndpointException
+from pywce import HookArg, client
 from .data import LocalDataSource
 
 logger = logging.getLogger(__name__)
+
 
 def log_incoming_message(arg: HookArg, title: str = None) -> None:
     """

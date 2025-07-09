@@ -37,7 +37,7 @@ class FlowEndpointPayload:
 
 
 @dataclass
-class _FlowEndpointResponse:
+class FlowEndpointResponse:
     payload: FlowEndpointPayload
     aes_key: bytes
     iv: bytes
@@ -59,7 +59,7 @@ class WhatsApp:
     def __init__(self,
                  whatsapp_config: WhatsAppConfig,
                  on_send_listener: Optional[Callable] = None,
-                 flow_endpoint_processor: Optional[Callable] = None
+
                  ):
         """
         Initialize the WhatsApp Object
@@ -69,7 +69,6 @@ class WhatsApp:
         """
         self.config = whatsapp_config
         self.listener = on_send_listener
-        self.flow_endpoint_processor = flow_endpoint_processor
         self.base_url = f"https://graph.facebook.com/{self.config.version}"
         self.url = f"{self.base_url}/{self.config.phone_number_id}/messages"
 
@@ -424,7 +423,7 @@ class WhatsApp:
             payload_str = payload.decode("utf-8")
             return json.loads(payload_str)
 
-        def decrypt_flow_payload(self, encrypted_flow_payload: dict) -> Optional[_FlowEndpointResponse]:
+        def get_flow_payload(self, encrypted_flow_payload: dict) -> FlowEndpointResponse:
             """
             Decrypts the incoming WhatsApp Flow request payload.
             """
@@ -467,7 +466,7 @@ class WhatsApp:
                 decrypted_data_bytes = decryptor.update(encrypted_flow_data_body) + decryptor.finalize()
                 decrypted_data = json.loads(decrypted_data_bytes.decode("utf-8"))
 
-                config_response = _FlowEndpointResponse(
+                config_response = FlowEndpointResponse(
                     payload=FlowEndpointPayload(**decrypted_data),
                     aes_key=aes_key,
                     iv=iv
@@ -481,7 +480,7 @@ class WhatsApp:
                     data=self.parent.CHANGED_PUBLIC_KEY_HTTP_CODE
                 )
 
-        def encrypt_flow_payload(self, response_payload: dict, config: _FlowEndpointResponse) -> str:
+        def generate_flow_response_payload(self, response_payload: dict, config: FlowEndpointResponse) -> str:
             """
             Encrypts the response payload before sending it back to WhatsApp.
             """
@@ -522,46 +521,43 @@ class WhatsApp:
                 }
             }
 
-        def flow_endpoint_handler(self, flow_payload: dict, handle_error:bool=True) -> str:
+        def flow_endpoint_handler(self, encrypted_flow_payload: dict, handler: Callable, handle_error:bool=True) -> str:
             """
                 Call the configured flow endpoint processor,
                 the callable should accept one argument of type FlowEndpointPayload.
 
-            :param flow_payload: raw request payload with encrypted data
+            :param encrypted_flow_payload: raw request payload with encrypted data
+            :param handler: function with business logic to process the flow payload
             :param handle_error: if true, error messages will be responded to automatically
             :return: Encrypted flow payload as a str
             :raise FlowEndpointException
             """
 
-            flow_response: Optional[_FlowEndpointResponse] = None
+            flow_response: Optional[FlowEndpointResponse] = None
 
             try:
-                if self.parent.flow_endpoint_processor is None:
-                    raise HookException(message="Flow endpoint callable not defined")
-
-                flow_response = self.decrypt_flow_payload(flow_payload)
+                flow_response = self.get_flow_payload(encrypted_flow_payload)
 
                 if flow_response.payload.action == self.parent.PING_FLOW_ACTION:
-                    return self.encrypt_flow_payload(
+                    return self.generate_flow_response_payload(
                         response_payload=self.parent.FLOW_ENDPOINT_PING_PAYLOAD,
                         config=flow_response
                     )
 
                 elif handle_error and (flow_response.payload.data.get("error") is not None or
                                        flow_response.payload.data.get("error_message") is not None):
-                    # e, msg = flow_response.payload.data.get("error"), flow_response.payload.data.get("error_message")
                     _logger.critical("Flow error, %s", flow_response)
-                    return self.encrypt_flow_payload(
+                    return self.generate_flow_response_payload(
                         response_payload=self.parent.FLOW_ENDPOINT_ACK_ERROR_PAYLOAD,
                         config=flow_response
                     )
 
-                response: Optional[dict] = self.parent.flow_endpoint_processor(flow_response.payload)
+                response: Optional[dict] = handler(flow_response.payload)
 
                 if response is None:
                     raise FlowEndpointException(message="Flow handler callback did not return a valid response")
 
-                return self.encrypt_flow_payload(response, flow_response)
+                return self.generate_flow_response_payload(response, flow_response)
 
             except FlowEndpointException as fee:
                 raise fee

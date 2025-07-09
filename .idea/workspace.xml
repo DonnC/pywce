@@ -5,19 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e700a6d4-f3fd-4ca6-8806-bc5eb9b6e49c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/example/booking_flow_endpoint/flow.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/booking_flow_endpoint/hooks/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/booking_flow_endpoint/hooks/book.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/booking_flow_endpoint/templates/booking.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/booking_flow_endpoint/templates/report.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/booking_flow_endpoint/templates/start.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/booking_flow_endpoint/triggers/triggers.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/booking_flow_static/hooks/book.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/booking_flow_static/hooks/book.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/booking_flow_static/templates/booking.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/booking_flow_static/templates/booking.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/common/data.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/common/data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/common/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/common/config.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/common/global_hooks.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/common/global_hooks.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/common/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/common/routes.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pywce/modules/whatsapp/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/whatsapp/__init__.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -48,54 +39,54 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultHtmlFileTemplate": "HTML File",
-    "HTTP Request.generated-requests | #1.executor": "Run",
-    "HTTP Request.generated-requests | #2.executor": "Run",
-    "Python tests.Python tests for test_cachetool_session_manager.TestSessionManager.executor": "Run",
-    "Python tests.Python tests for test_cachetool_session_manager.TestSessionManager.test_prop.executor": "Debug",
-    "Python tests.Python tests for test_cachetool_session_manager.TestSessionManager.test_save.executor": "Debug",
-    "Python tests.Python tests for test_default_session_impl.TestDefaultSessionManager.test_save.executor": "Run",
-    "Python tests.Python tests for test_default_session_impl.TestSessionManager.executor": "Run",
-    "Python tests.Python tests for test_default_session_impl.TestSessionManager.test_clear.executor": "Run",
-    "Python tests.Python tests for test_engine.MyTestCase.executor": "Run",
-    "Python tests.Python tests for test_engine.TestPywceEngine.executor": "Debug",
-    "Python tests.Python tests in test_default_session_impl.py.executor": "Run",
-    "Python tests.Python tests in tests.executor": "Run",
-    "Python.agents.executor": "Run",
-    "Python.hook_service.executor": "Run",
-    "Python.main.executor": "Run",
-    "Python.pubsub_test.executor": "Run",
-    "Python.response_structure.executor": "Run",
-    "Python.scratch.executor": "Run",
-    "Python.templetor.executor": "Run",
-    "Python.test.executor": "Run",
-    "Python.test_ai.executor": "Run",
-    "Python.test_v.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "sync",
-    "junie.onboarding.icon.badge.shown": "true",
-    "last_opened_file_path": "C:/Users/DEVELOPER/Documents/Personal/Personal/Projects/python/pywce/example/booking_flow_endpoint",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "editing.templates",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;HTTP Request.generated-requests | #1.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.generated-requests | #2.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for test_cachetool_session_manager.TestSessionManager.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for test_cachetool_session_manager.TestSessionManager.test_prop.executor&quot;: &quot;Debug&quot;,
+    &quot;Python tests.Python tests for test_cachetool_session_manager.TestSessionManager.test_save.executor&quot;: &quot;Debug&quot;,
+    &quot;Python tests.Python tests for test_default_session_impl.TestDefaultSessionManager.test_save.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for test_default_session_impl.TestSessionManager.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for test_default_session_impl.TestSessionManager.test_clear.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for test_engine.MyTestCase.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for test_engine.TestPywceEngine.executor&quot;: &quot;Debug&quot;,
+    &quot;Python tests.Python tests in test_default_session_impl.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in tests.executor&quot;: &quot;Run&quot;,
+    &quot;Python.agents.executor&quot;: &quot;Run&quot;,
+    &quot;Python.hook_service.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.pubsub_test.executor&quot;: &quot;Run&quot;,
+    &quot;Python.response_structure.executor&quot;: &quot;Run&quot;,
+    &quot;Python.scratch.executor&quot;: &quot;Run&quot;,
+    &quot;Python.templetor.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test_ai.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test_v.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;sync&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/DEVELOPER/Documents/Personal/Personal/Projects/python/pywce/example/booking_flow_endpoint&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editing.templates&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "sqlite"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;sqlite&quot;
     ],
-    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
-      "JSON",
-      "Markdown"
+    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
+      &quot;JSON&quot;,
+      &quot;Markdown&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\example\booking_flow_endpoint" />
@@ -378,6 +369,7 @@
       <workItem from="1751477593794" duration="1290000" />
       <workItem from="1751549675061" duration="106000" />
       <workItem from="1751880941465" duration="14764000" />
+      <workItem from="1752055201318" duration="5716000" />
     </task>
     <servers />
   </component>
