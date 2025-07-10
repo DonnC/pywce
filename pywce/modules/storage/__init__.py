@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from pathlib import Path
 import json
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 import ruamel.yaml
 
@@ -35,7 +35,7 @@ class IStorageManager(ABC):
         pass
 
     @abstractmethod
-    def get(self, name: str) -> EngineTemplate:
+    def get(self, name: str) -> Optional[EngineTemplate]:
         """Load a single templates by name."""
         pass
 
@@ -93,8 +93,11 @@ class YamlJsonStorageManager(IStorageManager):
     def exists(self, name: str) -> bool:
         return name in self._TEMPLATES
 
-    def get(self, name: str) -> EngineTemplate:
-        return Template.as_model(self._TEMPLATES.get(name))
+    def get(self, name: str) -> Optional[EngineTemplate]:
+        try:
+            return Template.as_model(self._TEMPLATES.get(name))
+        except:
+            return None
 
     def triggers(self) -> List[EngineRoute]:
         return [

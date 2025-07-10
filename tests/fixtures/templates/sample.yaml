@@ -35,8 +35,8 @@
     catalog-id: "885273645601453"
     button: Purchase Now
     sections:
-      "Airtime":     # <- title
-        - "yevoov7bew" # econet usd bundles
+      "Airtime":
+        - "yevoov7bew"
         - "fnj8azxotz"
       "Prepaid Services":
         - "noarvqv190"

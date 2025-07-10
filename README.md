@@ -1,48 +1,46 @@
 # WhatsApp ChatBot Engine
 
-A framework for creating WhatsApp chatbots of any scale using a template-driven approach - 
+A framework for creating complete WhatsApp chatbots of any scale using a template-driven approach - 
 allowing you to define conversation flows and business logic in a clean and modular way. 
 
 > [!NOTE]
-> Template engine and WhatsApp client library are decoupled - allowing you to use them independently or together. 
+> Core chatbot template engine and WhatsApp client library are decoupled - allowing you to use them independently or together. 
 
 
 ## Features
 
-- **Template-Driven Design**: Use templates (YAML by default) for conversational flows.
-- **Hooks for Business Logic**: Attach Python functions to process messages or actions.
-- Focus on your conversation flow and business logic.
+- **Template-Driven Design**: Define conversational flows and business logic in a clean, modular way (Support YAML & JSON templates by default).
+- **Hooks for Business Logic**: Attach Python functions to process messages or actions on your hooks.
+- **Customizable**: implement your own session & template storage source.
 - Easy-to-use API for WhatsApp Cloud.
-- Model based templates
 - Supports dynamic messages with placeholders.
 - Built-in support for WhatsApp Webhooks.
-- *Support WhatsApp Flow endpoint
-- Starter templates
+- Support WhatsApp Flow endpoint
+- Supports all WhatsApp message types
 
 ## Installation
 ```bash
 pip install git+https://github.com/DonnC/pywce.git@sync
 ```
 
-
 ---
 
 ## Why pywce
-Most WhatsApp chatbot tutorials or libraries just scraps the surface, only sending a few message or handling simple logic or are client libraries only.
+Most WhatsApp chatbot tutorials or libraries acts as client libraries only.
 
-This library gives you a full-blown framework for chatbots of any scale allowing you access to full package of whatsapp client library and chatbot development framework.
+This library gives you a complete approach for developing chatbots of any scale, giving you access to full package of whatsapp client library and chatbot development framework.
 
 ---
 
 ## Setup
 
 ### Summary: Setup in 6 easy steps (with FastAPI)
-1. Clone repo and navigate to the `example` folder
-2. Install all dependencies 
+1. Clone repo and install all dependencies, `pip install .`
+2. Navigate to the `example` folder and install its dependencies too, `pip install -r requirements.txt`
 3. Setup your whatsapp account configs in `.env.example` and edit the file to `.env` only
-4. Run the `main.py` and setup tunnelling using `ngrok` or any similar service and configure your webhook on developer portal
-5. Build on top of the example templates in `example\ehailing\templates` folder to suit your chatbot needs
-6. Implement your chatbot logic in `example\ehailing\hooks` folder
+4. Run the chatbot, `fastapi dev main.py` and setup tunneling using `ngrok` or any similar service (if hosted local) and configure your webhook on developer portal
+5. Build on top of available example templates in `example/ehailing/templates` folder to suit your chatbot needs
+6. Implement your chatbot logic in `example/ehailing/hooks` folder
 
 > After you get the hang of it, you can start your new project afresh
 ---
@@ -52,23 +50,24 @@ Follow the complete step by step WhatsApp Cloud API guide below.
 
 [![WhatsApp Cloud API Complete Setup Guide](https://img.youtube.com/vi/Y8kihPdCI_U/0.jpg)](https://www.youtube.com/watch?v=Y8kihPdCI_U)
 
-Important settings needed for this framework
-1. Phone number ID (be it test number or live number)
-2. Access Token (Temporary or permanent)
+Important settings needed for this library
+1. Phone number ID
+2. Access Token
 3. Webhook callback verification token of your choice
-4. App secret (optional)
+4. App secret
 
 ### Engine
 You can either use `.env` or add your credentials directly to the WhatsAppConfig class
 
 ```python
+# config.py
 import os
 from dotenv import load_dotenv
 from pywce import client, Engine, EngineConfig, storage
 
 load_dotenv()
 
-# configure default YAML/JSON templates manager
+# configure default YAML/JSON templates source
 template_storage_manager = storage.YamlJsonStorageManager(
     os.getenv("TEMPLATES_DIR"),
     os.getenv("TRIGGERS_DIR")
@@ -88,7 +87,7 @@ engine_config = EngineConfig(
     start_template_stage=os.getenv("START_STAGE")
 )
 
-engine_instance = Engine(config=engine_config)
+engine = Engine(config=engine_config)
 ```
 
 ## Example ChatBot
@@ -101,10 +100,10 @@ Here's a simple example template to get you started:
 1. Define YAML/JSON template (Conversation Flow💬):
 
 ```yaml
-# path/to/templates
+# path/to/templates/bot.yaml
 "START-MENU":
   type: button
-  template: "path.to.func.username"
+  template: "path.to.hook.username"
   message:
     title: Welcome
     body: "Hi {{ name }}, I'm your assistant, click below to start!"
@@ -116,14 +115,15 @@ Here's a simple example template to get you started:
 
 "NEXT-STEP":
   type: text
-  message: Great, lets get you started quickly. What is your age?
+  prop: age
+  message: Great, What is your age?
   routes:
-    "re://d{1,}": "ANOTHER-STEP"
+    "re:.*": "ANOTHER-STEP"
 ```
 
 2. Write your hook (Supercharge⚡):
 ```python
-# path/to/func.py
+# path/to/hook.py
 from pywce import HookArg, TemplateDynamicBody
 
 def username(arg: HookArg) -> HookArg:
@@ -143,38 +143,30 @@ def username(arg: HookArg) -> HookArg:
 
 3. Engine client:
 
-Use `fastapi` or `flask` or any python library to create endpoint to receive whatsapp webhooks
+Use `fastapi` or `flask` or any python library to create endpoint to receive WhatsApp webhooks
 
 ```python
+# main.py
+
 # ~ fastapi snippet ~
 
-def webhook_event(payload: dict, headers: dict) -> None:
-    """
-    Process webhook event in the background using pywce engine.
-    """
-    engine_instance.process_webhook(payload, headers)
+from .config import engine, whatsapp
+
+def bg_wehbook_handler(payload: dict, headers: dict) -> None:
+    engine.process_webhook(payload, headers)
 
 @app.post("/chatbot/webhook")
-async def process_webhook(req: Request, bt: BackgroundTasks):
+async def process_webhook(req: Request, bg_task: BackgroundTasks):
     """
-    Handle incoming webhook events from WhatsApp 
-    and process them in the background.
+        Handle incoming webhook events from WhatsApp 
+        and process them in the background.
     """
     payload = await req.json()
-    headers = dict(req.headers)
 
-    # handle webhook in the background
-    bt.add_task(webhook_event, payload, headers)
-
+    bg_task.add_task(bg_wehbook_handler, payload, dict(req.headers))
+    
     return Response(content="ACK", status_code=200)
 ```
-
-### Run ChatBot
-If you run your project or the example projects successfully, your webhook url will be available on `localhost:port/chatbot/webhook`.
-
-_You can use `ngrok` or any service to tunnel your local service_
-
-You can then configure the endpoint in Webhook section on  Meta developer portal.
 
 ## WhatsApp Client Library
 > [!NOTE]
@@ -182,7 +174,7 @@ You can then configure the endpoint in Webhook section on  Meta developer portal
 
 PyWCE provides a simple, Pythonic interface to interact with the WhatsApp Cloud API:
 
-- **Send messages** (text, media, templates, interactive)
+- **Send messages** (text, media, templates, interactive, etc)
 - **Receive and process webhooks**
 - **Media management** (upload and download)
 - **Out of the box utilities** using the `WhatsApp.Utils` class.
@@ -193,9 +185,9 @@ Example usage:
 from pywce import client
 
 config = client.WhatsAppConfig(
-    token="your_access_token",
-    phone_number_id="your_phone_number_id",
-    hub_verification_token="your_webhook_hub_verification_token"
+    token="ACCESS-TOKEN",
+    phone_number_id="PHONE-NUMBER-ID",
+    hub_verification_token="WEBHOOK-VERIFICATION-TOKEN"
 )
 
 whatsapp = client.WhatsApp(whatsapp_config=config)
@@ -203,7 +195,7 @@ whatsapp = client.WhatsApp(whatsapp_config=config)
 # Sending a text message
 response = whatsapp.send_message(
     recipient_id="recipient_number",
-    message="Hello from PyWCE!"
+    message="Hello from pywce!"
 )
 
 # verify if request was successful, using utils

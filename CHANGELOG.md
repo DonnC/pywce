@@ -192,3 +192,12 @@ print("downloaded files: ", files)
 ```
 * Added initial support for custom AI agent
 * Can now define global pre & post hooks
+
+## [3.0.0] July 2025
+* Massive, great new features 🚀
+* Support for flow endpoint
+* Customizable template storage sources - you can now implement your own template source be it DB or server
+* Customizable session - implement your own session manager
+* Added a new template field: `typing..` indicator to show typing back to user when processing that template
+* Added more examples
+* Improved docs

@@ -12,6 +12,10 @@ async def lifespan(app: FastAPI):
     yield
 
 
-app = FastAPI(lifespan=lifespan)
+app = FastAPI(
+    lifespan=lifespan,
+    title="Pywce Examples",
+    description="A project entry point example for Pywce chatbot examples"
+)
 
 app.include_router(chatbot_router)

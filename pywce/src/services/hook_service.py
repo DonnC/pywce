@@ -3,9 +3,7 @@ import logging
 from functools import wraps
 from typing import Callable, Literal, Optional
 
-from pywce.src.constants import TemplateTypeConstants
 from pywce.src.exceptions import InternalHookError, HookException
-from pywce.src.models import ExternalHandlerResponse
 from pywce.src.models import HookArg
 
 _logger = logging.getLogger(__name__)

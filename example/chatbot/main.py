@@ -7,6 +7,7 @@
 This is an example standalone chatbot. Standalone in the sense that it uses pywce as
 a WhatsApp Client Library only, without the engine templates-driven superpower.
 """
+
 import logging
 import os
 from contextlib import asynccontextmanager
@@ -40,7 +41,7 @@ config = client.WhatsAppConfig(
 whatsapp = client.WhatsApp(config)
 
 
-@app.post("/webhook")
+@app.post("/chatbot/webhook")
 async def handler(request: Request) -> Response:
     """
         Handle incoming webhook events from WhatsApp and process them
@@ -87,7 +88,3 @@ async def verifier(request: Request) -> str:
         return challenge
 
     raise HTTPException(status_code=403, detail="Forbidden")
-
-
-if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)

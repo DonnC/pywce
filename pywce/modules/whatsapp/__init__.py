@@ -22,7 +22,7 @@ from httpx import Client
 from pywce.modules.whatsapp.config import WhatsAppConfig
 from pywce.modules.whatsapp.message_utils import MessageUtils
 from pywce.modules.whatsapp.model import MessageTypeEnum, WaUser, ResponseStructure
-from pywce.src.exceptions import EngineClientException, HookException, FlowEndpointException
+from pywce.src.exceptions import EngineClientException, FlowEndpointException
 
 _logger = logging.getLogger(__name__)
 
@@ -58,8 +58,7 @@ class WhatsApp:
 
     def __init__(self,
                  whatsapp_config: WhatsAppConfig,
-                 on_send_listener: Optional[Callable] = None,
-
+                 on_send_listener: Optional[Callable] = None
                  ):
         """
         Initialize the WhatsApp Object
@@ -174,7 +173,7 @@ class WhatsApp:
             lang (str): Language of the templates message, default is "en_US".
         """
 
-        assert len(components) <= 0, "Template components list cannot be empty"
+        # assert len(components) <= 0, "Template components list cannot be empty"
 
         data = {
             "messaging_product": "whatsapp",
@@ -521,7 +520,8 @@ class WhatsApp:
                 }
             }
 
-        def flow_endpoint_handler(self, encrypted_flow_payload: dict, handler: Callable, handle_error:bool=True) -> str:
+        def flow_endpoint_handler(self, encrypted_flow_payload: dict, handler: Callable,
+                                  handle_error: bool = True) -> str:
             """
                 Call the configured flow endpoint processor,
                 the callable should accept one argument of type FlowEndpointPayload.

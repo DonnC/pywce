@@ -8,7 +8,7 @@ from .global_hooks import flow_endpoint_handler
 from .tasks import engine_bg_task
 
 logger = logging.getLogger(__name__)
-router = APIRouter()
+router = APIRouter(prefix="/chatbot", tags=["routes", "chatbot", "pywce"])
 
 
 @router.post("/")
@@ -20,7 +20,7 @@ def index():
     }
 
 
-@router.post("/chatbot/webhook")
+@router.post("/webhook")
 async def handle_incoming_webhook(request: Request, background_tasks: BackgroundTasks):
     payload_bytes = await request.body()
     payload = whatsapp.util.bytes_to_dict(payload_bytes)
@@ -31,7 +31,7 @@ async def handle_incoming_webhook(request: Request, background_tasks: Background
     return "ack"
 
 
-@router.get("/chatbot/webhook")
+@router.get("/webhook")
 def verify_webhook_challenge(request: Request) -> Response:
     params = request.query_params
     mode, token, challenge = params.get("hub.mode"), params.get("hub.verify_token"), params.get("hub.challenge")
@@ -42,8 +42,25 @@ def verify_webhook_challenge(request: Request) -> Response:
     raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Forbidden")
 
 
-@router.post("/chatbot/flow")
+@router.post("/flow")
 async def handle_flow_endpoint_request(request: Request):
+    """
+     Handle flow endpoint requests.
+
+     This uses the built-in function in the library to handle flow requests
+
+     The function automatically handles
+
+        0. Payload decryption
+
+        1. Error requests
+
+        2. Ping requests
+
+        3. Call your business logic function that you pass
+
+        4. Response payload encryption
+    """
     try:
         enc_json_data = await request.json()
 
@@ -63,12 +80,11 @@ async def handle_flow_endpoint_request(request: Request):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"An error occurred: {e}")
 
 
-@router.post("/chatbot/manual-flow")
+@router.post("/manual-flow")
 async def handle_flow_endpoint_request_manually(request: Request):
     """
         Manually process a flow endpoint request
     """
-
     try:
         # 1. get request encrypted flow request
         enc_json_data = await request.json()
@@ -76,10 +92,10 @@ async def handle_flow_endpoint_request_manually(request: Request):
         # 2. get decrypted flow payload
         dec_flow_response = whatsapp.util.get_flow_payload(enc_json_data)
 
-        # 3. handle business logic
+        # 3. Call your class/method - handle business logic
         result: dict = flow_endpoint_handler(dec_flow_response.payload)
 
-        # . 4 generate flow encrypted response as str
+        # 4. generate flow encrypted response as str
         flow_response = whatsapp.util.generate_flow_response_payload(result, dec_flow_response)
 
         # 5. Return a text plain response
