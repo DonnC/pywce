@@ -5,29 +5,34 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e700a6d4-f3fd-4ca6-8806-bc5eb9b6e49c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/pyproject.toml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/fixtures/templates/init.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/fixtures/templates/report.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/fixtures/triggers/triggers.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/test_session_manager.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/test_whatsapp.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/test_yaml_json_storage_manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/CHANGELOG.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MANIFEST.in" beforeDir="false" afterPath="$PROJECT_DIR$/MANIFEST.in" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/.env.example" beforeDir="false" afterPath="$PROJECT_DIR$/example/.env.example" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/chatbot/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/chatbot/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/booking_flow_endpoint/templates/report.json" beforeDir="false" afterPath="$PROJECT_DIR$/example/booking_flow_endpoint/templates/report.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/booking_flow_endpoint/triggers/triggers.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/booking_flow_endpoint/triggers/triggers.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/booking_flow_static/templates/report.json" beforeDir="false" afterPath="$PROJECT_DIR$/example/booking_flow_static/templates/report.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/booking_flow_static/triggers/triggers.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/booking_flow_static/triggers/triggers.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/booking_stage_based/templates/report.json" beforeDir="false" afterPath="$PROJECT_DIR$/example/booking_stage_based/templates/report.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/booking_stage_based/triggers/triggers.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/booking_stage_based/triggers/triggers.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/common/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/common/config.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/common/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/common/routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ehailing/templates/sample.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/tests/fixtures/templates/sample.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/modules/session/cachetool_session_manager.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/modules/session/dict_session_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/session/dict_session_manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/modules/storage/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/storage/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/modules/whatsapp/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/whatsapp/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/services/hook_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/hook_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/common/tasks.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/common/tasks.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ehailing/hooks/name.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ehailing/templates/ehailing.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ehailing/templates/ehailing.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ehailing/templates/init.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ehailing/templates/init.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ehailing/triggers/triggers.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ehailing/triggers/triggers.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/src/constants/engine.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/constants/engine.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/src/constants/session.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/constants/session.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/src/constants/template.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/constants/template.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/src/engine.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/engine.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/src/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/models/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/src/services/message_processor.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/message_processor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/src/services/template_message_processor.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/template_message_processor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/src/services/whatsapp_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/whatsapp_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/src/services/worker.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/worker.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/src/templates/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/templates/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/src/templates/messages.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/templates/messages.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -118,6 +123,7 @@
     "Python.test_ai.executor": "Run",
     "Python.test_v.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "sync",
     "junie.onboarding.icon.badge.shown": "true",
@@ -128,6 +134,7 @@
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "ml.llm.AIAssistantPromptsLibrary",
+    "to.speed.mode.migration.done": "true",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -253,8 +260,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-09060db00ec0-JavaScript-PY-251.26927.74" />
-        <option value="bundled-python-sdk-657d8234b839-64d779b69b7a-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-251.26927.74" />
+        <option value="bundled-js-predefined-d6986cc7102b-e03c56caf84a-JavaScript-PY-252.23892.515" />
+        <option value="bundled-python-sdk-7e47963ff851-f0eec537fc84-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.23892.515" />
       </set>
     </attachedChunks>
   </component>
@@ -423,6 +430,17 @@
       <workItem from="1751880941465" duration="14764000" />
       <workItem from="1752055201318" duration="6217000" />
       <workItem from="1752130231953" duration="13124000" />
+      <workItem from="1752352857256" duration="110000" />
+      <workItem from="1752499024709" duration="615000" />
+      <workItem from="1752650287687" duration="594000" />
+      <workItem from="1752818935538" duration="2025000" />
+      <workItem from="1752830583197" duration="57000" />
+      <workItem from="1752830702371" duration="270000" />
+      <workItem from="1752861199251" duration="189000" />
+      <workItem from="1753169470969" duration="638000" />
+      <workItem from="1753946999675" duration="2045000" />
+      <workItem from="1755179092544" duration="2565000" />
+      <workItem from="1755502987983" duration="10431000" />
     </task>
     <servers />
   </component>

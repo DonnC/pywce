@@ -12,8 +12,6 @@ class EngineConstants:
     # TRIGGER-NEXT-STAGE | TRIGGER-INNER-ROUTE
     TRIGGER_ROUTE_SEPERATOR = "|"
 
-    RETRY_NAME_KEY = "Retry"
-
     # holds a list of WhatsApp templates components
     # {WHATSAPP_TEMPLATE_KEY: [..components list..]}
     WHATSAPP_TEMPLATE_KEY = "templates"
@@ -26,3 +24,6 @@ class EngineConstants:
     DEFAULT_MENU_BTN_NAME = "Menu"
     DEFAULT_RETRY_BTN_NAME = "Retry"
     DEFAULT_REPORT_BTN_NAME = "Report"
+    DEFAULT_BACK_BTN_NAME = "Back"
+
+    GLOBAL_BUILTIN_TRIGGERS_LC = [DEFAULT_BACK_BTN_NAME.lower(), DEFAULT_MENU_BTN_NAME.lower(), DEFAULT_RETRY_BTN_NAME.lower(), DEFAULT_REPORT_BTN_NAME.lower()]

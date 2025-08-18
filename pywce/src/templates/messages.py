@@ -104,9 +104,10 @@ class MediaMessage(BaseMessage):
 
 class FlowMessage(BaseInteractiveMessage):
     flow_id: Union[int, str]
-    draft: bool = False
     name: str
     button: str
+    token: Optional[str] = None
+    draft: bool = False
 
 
 class LocationMessage(BaseMessage):

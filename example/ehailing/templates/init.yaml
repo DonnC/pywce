@@ -1,10 +1,10 @@
 "START-MENU":
   kind: button
-  template: "example.ehailing.hooks.name.username"
+  checkpoint: true
   message:
     title: Greetings
     body: |
-      Hi {{ name }}, Enjoy an innovative template-driven framework for chatbot development.
+      Hi {{ s.wa_name }}, Enjoy an innovative template-driven framework for chatbot development.
       
       Select your next action!
     footer: pywce

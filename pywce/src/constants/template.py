@@ -16,7 +16,7 @@ class TemplateConstants:
     :var TRANSIENT: bool - If set, engine skips processing this stage for rendering.
     """
 
-    TEMPLATE_TYPE = "kind"
+    TEMPLATE_TYPE = "type"
     CHECKPOINT = "checkpoint"
     READ_RECEIPT = "ack"
 

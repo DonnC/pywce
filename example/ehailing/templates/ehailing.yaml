@@ -3,7 +3,7 @@
   checkpoint: true
   message:
     title: eHailing Chatbot
-    body: "Hi {{ s.username }}, I'm a PoC eHailing PickDrive assistant.\n\nTo begin, click the button below"
+    body: "Hi {{ s.wa_name }}, I'm a PoC eHailing PickDrive assistant.\n\nTo begin, click the button below"
     footer: pywce
     buttons:
       - Begin

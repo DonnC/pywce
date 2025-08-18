@@ -45,7 +45,7 @@ class WhatsAppService:
                                isinstance(_tpl, templates.ListTemplate) or \
                                isinstance(_tpl, templates.FlowTemplate)
 
-        if is_interactive is True:
+        if is_interactive:
             response = self.model.config.whatsapp.send_interactive(**payload)
 
         elif isinstance(_tpl, templates.TextTemplate):
@@ -69,11 +69,11 @@ class WhatsAppService:
                 data=f"Stage: {self.model.next_stage} | Type: {_tpl.__class__.__name__}"
             )
 
-        if template is True or \
+        if template or \
                 self.model.config.whatsapp.util.was_request_successful(recipient_id=self.model.hook_arg.user.wa_id,
                                                                        response_data=response):
 
-            if handle_session is True:
+            if handle_session:
                 session = self.model.hook_arg.session_manager
                 session_id = self.model.hook_arg.user.wa_id
                 current_stage = session.get(session_id=session_id, key=SessionConstants.CURRENT_STAGE)
@@ -83,7 +83,7 @@ class WhatsAppService:
 
                 logger.debug(f"Current route set to: %s", self.model.next_stage)
 
-                if self.model.config.handle_session_inactivity is True:
+                if self.model.config.handle_session_inactivity:
                     session.save(session_id=session_id, key=SessionConstants.LAST_ACTIVITY_AT,
                                  data=datetime.now().isoformat())
 

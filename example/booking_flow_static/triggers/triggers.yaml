@@ -1,4 +1,2 @@
 # when user greets the bot, render the first start menu stage
 "start": "re:(?i)^(start|hi|hie|menu)$"
-
-"ask_report": "re:(?!)^report$"

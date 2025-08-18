@@ -25,7 +25,7 @@ EngineTemplate = Annotated[
         ProductTemplate,
         MultiProductTemplate
     ],
-    Field(discriminator=TemplateConstants.TEMPLATE_TYPE),
+    Field(discriminator="kind"),
 ]
 
 class Template:

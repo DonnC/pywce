@@ -27,6 +27,7 @@ class EngineConfig:
     """
     whatsapp: client.WhatsApp
     start_template_stage: str
+    report_template_stage: str
     storage_manager: storage.IStorageManager
     ext_handler_hook: Optional[str] = None
     ext_hook_processor: Optional[Callable] = None

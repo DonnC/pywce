@@ -26,7 +26,7 @@ async def handle_incoming_webhook(request: Request, background_tasks: Background
     payload = whatsapp.util.bytes_to_dict(payload_bytes)
 
     # Add processing task to background: recommended approach
-    background_tasks.add_task(engine_bg_task, payload, dict(request.headers))
+    background_tasks.add_task(engine_bg_task, payload)
 
     return "ack"
 

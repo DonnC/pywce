@@ -64,7 +64,7 @@ class Engine:
 
         raise ExtHandlerHookError(message="No active ExternalHandler session for user!")
 
-    def process_webhook(self, webhook_data: Dict[str, Any], webhook_headers: Dict[str, Any]):
+    def process_webhook(self, webhook_data: Dict[str, Any]):
         if not self.whatsapp.util.is_valid_webhook_message(webhook_data):
             _msg = webhook_data if self.config.log_invalid_webhooks is True else "skipping.."
             logger.warning(f"Invalid webhook message: %s", _msg)
@@ -74,12 +74,15 @@ class Engine:
         user_session: ISessionManager = self._user_session(wa_user.wa_id)
         response_model = self.whatsapp.util.get_response_structure(webhook_data)
 
+        if user_session.get(wa_user.wa_id, SessionConstants.DEFAULT_NAME) is None:
+            user_session.save(wa_user.wa_id, SessionConstants.DEFAULT_NAME, wa_user.name)
+
         # check if user has running external handler
         has_ext_session = user_session.get(session_id=wa_user.wa_id, key=SessionConstants.EXTERNAL_CHAT_HANDLER)
 
         if has_ext_session is None:
             worker = Worker(
-                job=WorkerJob(
+                WorkerJob(
                     engine_config=self.config,
                     payload=response_model,
                     user=wa_user

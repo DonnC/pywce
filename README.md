@@ -14,7 +14,7 @@ allowing you to define conversation flows and business logic in a clean and modu
 - **Customizable**: implement your own session & template storage source.
 - Easy-to-use API for WhatsApp Cloud.
 - Supports dynamic messages with placeholders.
-- Built-in support for WhatsApp Webhooks.
+- Built-in support for common chatbot input phrases like `back`, `retry`, `report` and `menu`. Also caches default name under `wa_name` key
 - Support WhatsApp Flow endpoint
 - Supports all WhatsApp message types
 

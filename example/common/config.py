@@ -32,7 +32,7 @@ _eng_config = EngineConfig(
     whatsapp=whatsapp,
     storage_manager=hybrid_storage,
     start_template_stage=os.getenv("START_STAGE"),
-
+    report_template_stage=os.getenv("REPORT_STAGE"),
     # optional fields, depends on the example project being run
     global_pre_hooks=[log_incoming_message]
 )

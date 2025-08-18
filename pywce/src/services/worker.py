@@ -66,7 +66,7 @@ class Worker:
                     message="Your session has expired. Kindly login again to access our WhatsApp Services")
 
     def _inactivity_handler(self) -> bool:
-        if self.job.engine_config.handle_session_inactivity is False: return False
+        if not self.job.engine_config.handle_session_inactivity: return False
 
         is_auth_set = self.session.get(session_id=self.session_id, key=SessionConstants.VALID_AUTH_SESSION)
         last_active = self.session.get(session_id=self.session_id, key=SessionConstants.LAST_ACTIVITY_AT)
@@ -96,10 +96,10 @@ class Worker:
         dynamic_retry = self.session.get(session_id=self.session_id, key=SessionConstants.DYNAMIC_RETRY)
 
         route_has_retry_input = False
-        user_input_is_retry = _input.strip().lower() == EngineConstants.RETRY_NAME_KEY.lower()
+        user_input_is_retry = _input.strip().lower() == EngineConstants.DEFAULT_RETRY_BTN_NAME.lower()
 
         for r in routes:
-            if str(r.user_input).lower() == EngineConstants.RETRY_NAME_KEY.lower():
+            if str(r.user_input).lower() == EngineConstants.DEFAULT_RETRY_BTN_NAME.lower():
                 route_has_retry_input = True
                 break
 
@@ -116,7 +116,7 @@ class Worker:
 
         if self._inactivity_handler():
             raise EngineSessionException(
-                message="You have been inactive for a while, to secure your account, kindly login again")
+                message="You have been inactive for a while. Let's start afresh")
 
         # get possible next common configured on templates
         current_template_routes = msg_processor.CURRENT_TEMPLATE.routes
@@ -298,8 +298,9 @@ class Worker:
 
             btn = ButtonTemplate(
                 message=ButtonMessage(
-                    title="Message",
-                    body=f"{e.message}\n\nYou may click the Menu button to return to Menu",
+                    title="Invalid input",
+                    body=f"{e.message}\n\nYou may click the buttons below to change options",
+                    footer="retry",
                     buttons=[EngineConstants.DEFAULT_MENU_BTN_NAME, EngineConstants.DEFAULT_REPORT_BTN_NAME]
                 ),
                 routes=[]

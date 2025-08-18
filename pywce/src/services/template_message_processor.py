@@ -16,9 +16,6 @@ class TemplateMessageProcessor:
     Template Message Processor
 
     Processes templates messages, creates whatsapp message bodies from passed templates.
-
-    TODO: handle global constant triggers internally.
-        : i.e Retry, Report and Menu triggers
     """
     template: templates.EngineTemplate
 
@@ -41,7 +38,7 @@ class TemplateMessageProcessor:
 
         :return: None or message id to reply to
         """
-        return self.user.msg_id if self.config.tag_on_reply is True else self.template.reply_message_id
+        return self.user.msg_id if self.config.tag_on_reply else self.template.reply_message_id
 
     def _process_special_vars(self) -> templates.EngineTemplate:
         """
@@ -298,8 +295,6 @@ class TemplateMessageProcessor:
     def _flow(self) -> Dict[str, Any]:
         """
         Flow templates may require initial flow data to be passed, it is handled here
-
-        TODO: pass flow_token from template
         """
         data = {"type": "flow", **self._get_common_interactive_fields()}
 
@@ -332,7 +327,7 @@ class TemplateMessageProcessor:
                 "flow_message_version": self.config.whatsapp.config.flow_version,
                 "flow_action": self.config.whatsapp.config.flow_action,
                 "mode": "draft" if self.template.message.draft else "published",
-                "flow_token": flow_token,
+                "flow_token": self.template.message.token if self.template.message.token else flow_token,
                 "flow_id": self.template.message.flow_id,
                 "flow_cta": self.template.message.button,
                 "flow_action_payload": action_payload

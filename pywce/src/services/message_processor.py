@@ -1,5 +1,5 @@
 import logging
-from typing import Dict, Tuple, Any, Union
+from typing import Dict, Tuple, Any, Union, Optional
 
 from pywce.modules import ISessionManager, client
 from pywce.src.constants import EngineConstants, SessionConstants, TemplateConstants
@@ -10,8 +10,8 @@ from pywce.src.templates import EngineTemplate
 from pywce.src.utils.engine_util import EngineUtil
 from pywce.src.utils.hook_util import HookUtil
 
-
 _logger = logging.getLogger(__name__)
+
 
 class MessageProcessor:
     """
@@ -22,7 +22,7 @@ class MessageProcessor:
     """
     CURRENT_TEMPLATE: EngineTemplate
     CURRENT_STAGE: str
-    HOOK_ARG: HookArg
+    HOOK_ARG: Optional[HookArg] = None
     IS_FIRST_TIME: bool = False
     IS_FROM_TRIGGER: bool = False
 
@@ -38,6 +38,15 @@ class MessageProcessor:
 
         self.session_id = self.user.wa_id
         self.session: ISessionManager = self.config.session_manager.session(session_id=self.session_id)
+
+    def _compute_hook_arg(self):
+        self.HOOK_ARG = HookArg(
+            session_id=self.session_id,
+            session_manager=self.session,
+            user=self.user,
+            user_input=self.USER_INPUT[0],
+            additional_data=self.USER_INPUT[1]
+        )
 
     def _get_stage_template(self, template_stage_name: str) -> EngineTemplate:
         tpl = self.config.storage_manager.get(template_stage_name)
@@ -62,7 +71,34 @@ class MessageProcessor:
         self.CURRENT_TEMPLATE = self._get_stage_template(current_stage_in_session)
 
     def _check_if_trigger(self, possible_trigger_input: str = None) -> None:
+        if self.HOOK_ARG is None:
+            self._compute_hook_arg()
+
         if possible_trigger_input is None:
+            return
+
+        if possible_trigger_input.lower() in EngineConstants.GLOBAL_BUILTIN_TRIGGERS_LC:
+            HookUtil.run_listener(listener=self.config.on_hook_arg, arg=self.HOOK_ARG)
+
+            if possible_trigger_input.lower() == EngineConstants.DEFAULT_REPORT_BTN_NAME.lower():
+                self.CURRENT_STAGE = self.config.report_template_stage
+                self.CURRENT_TEMPLATE = self._get_stage_template(self.CURRENT_STAGE)
+
+            elif possible_trigger_input.lower() == EngineConstants.DEFAULT_BACK_BTN_NAME.lower() or possible_trigger_input.lower() == EngineConstants.DEFAULT_RETRY_BTN_NAME.lower():
+                self.CURRENT_STAGE = self.session.get(session_id=self.session_id,
+                                                      key=SessionConstants.PREV_STAGE) or self.config.start_template_stage
+                self.CURRENT_TEMPLATE = self._get_stage_template(self.CURRENT_STAGE)
+
+            else:
+                _stage = self.session.get(session_id=self.session_id,
+                                          key=SessionConstants.LATEST_CHECKPOINT) or self.config.start_template_stage
+                self.CURRENT_STAGE = _stage
+                self.CURRENT_TEMPLATE = self._get_stage_template(self.CURRENT_STAGE)
+
+            self.IS_FROM_TRIGGER = True
+            self.session.save(session_id=self.session_id, key=SessionConstants.CURRENT_STAGE, data=self.CURRENT_STAGE)
+            _logger.debug("Template change from builtin trigger: %s. Stage: %s", possible_trigger_input,
+                          self.CURRENT_STAGE)
             return
 
         for trigger in self.config.storage_manager.triggers():
@@ -72,14 +108,14 @@ class MessageProcessor:
                 if EngineConstants.TRIGGER_ROUTE_SEPERATOR in trigger.next_stage:
                     _next_stage, trigger_route_param = trigger.next_stage.split(EngineConstants.TRIGGER_ROUTE_SEPERATOR)
                     self.HOOK_ARG.params.update({EngineConstants.TRIGGER_ROUTE_PARAM: trigger_route_param})
-                    HookUtil.run_listener(listener=self.config.on_hook_arg,arg=self.HOOK_ARG)
+                    HookUtil.run_listener(listener=self.config.on_hook_arg, arg=self.HOOK_ARG)
 
                 self.CURRENT_TEMPLATE = self._get_stage_template(_next_stage)
                 self.CURRENT_STAGE = _next_stage
                 self.IS_FROM_TRIGGER = True
                 self.session.save(session_id=self.session_id, key=SessionConstants.CURRENT_STAGE,
                                   data=self.CURRENT_STAGE)
-                _logger.debug("Template change from trigger. Stage: %s", _next_stage)
+                _logger.debug("Template change from trigger: %s. Stage: %s", trigger, _next_stage)
                 return
 
         # TODO: check if current msg id is null, throw Ambiguous old webhook exc
@@ -163,8 +199,7 @@ class MessageProcessor:
                 _logger.warning("Failed to ack user message")
 
     def _show_typing_indicator(self) -> None:
-        # a fire & forget approach
-        if self.CURRENT_TEMPLATE.typing is True:
+        if self.CURRENT_TEMPLATE.typing:
             try:
                 self.whatsapp.show_typing_indicator(self.user.msg_id)
             except:
@@ -270,12 +305,6 @@ class MessageProcessor:
         self._check_save_checkpoint()
         self._show_typing_indicator()
 
-        self.HOOK_ARG = HookArg(
-            session_id=self.session_id,
-            session_manager=self.session,
-            user=self.user,
-            user_input=self.USER_INPUT[0],
-            additional_data=self.USER_INPUT[1]
-        )
+        self._compute_hook_arg()
 
-        HookUtil.run_listener(listener=self.config.on_hook_arg,arg=self.HOOK_ARG)
+        HookUtil.run_listener(listener=self.config.on_hook_arg, arg=self.HOOK_ARG)

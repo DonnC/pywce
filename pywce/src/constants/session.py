@@ -28,3 +28,5 @@ class SessionConstants:
 
     # set this to enable user external handlers e.g live support / ai agent etc
     EXTERNAL_CHAT_HANDLER = "pywce_ext_handler"
+
+    DEFAULT_NAME = "wa_name"
