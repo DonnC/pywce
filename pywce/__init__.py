@@ -60,7 +60,7 @@ __all__ = [
     "TemplateTypeConstants"
 ]
 __doc__ = (
-    "A batteries-included WhatsApp ChatBot builder framework library using a templates-driven approach. "
+    "A batteries-included WhatsApp ChatBot builder framework using a template-driven approach. "
     "Supports YAML/JSON templates out-of-the-box and provides a modular structure for integrating "
     "with WhatsApp Cloud API."
 )

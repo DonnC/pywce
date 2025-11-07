@@ -26,7 +26,7 @@ Thank you, if you like or find my work helpful to you.
 Your support goes a long way in taking this work further, be it sharing with your network, staring the repository, 
 contributing or even financial support - I appreciate any form of support.
 
-or get in touch with me on [donychinhuru@gmail.com](mailto:donychinhuru@gmail.com)
+or get in touch with me on [donnclab@gmail.com](mailto:donychinhuru@gmail.com)
 
 Want a chatbot developed for you or just to say hi or get in touch on software development projects or consultancy?
 You can contact me on the email above.

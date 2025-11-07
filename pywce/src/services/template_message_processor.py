@@ -15,7 +15,7 @@ class TemplateMessageProcessor:
     """
     Template Message Processor
 
-    Processes templates messages, creates whatsapp message bodies from passed templates.
+    Processes templates messages, creates whatsapp message body from passed templates.
     """
     template: templates.EngineTemplate
 

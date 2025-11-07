@@ -26,9 +26,9 @@ pip install git+https://github.com/DonnC/pywce.git@sync
 ---
 
 ## Why pywce
-Most WhatsApp chatbot tutorials or libraries acts as client libraries only.
+Most WhatsApp chatbot tutorials or libraries acts as client libraries only or give basic chatbot using a lot of `if..else`.
 
-This library gives you a complete approach for developing chatbots of any scale, giving you access to full package of whatsapp client library and chatbot development framework.
+This project gives you a complete approach for developing chatbots of any scale, giving you access to full package of whatsapp client library and chatbot development framework.
 
 ---
 
@@ -39,8 +39,8 @@ This library gives you a complete approach for developing chatbots of any scale,
 2. Navigate to the `example` folder and install its dependencies too, `pip install -r requirements.txt`
 3. Setup your whatsapp account configs in `.env.example` and edit the file to `.env` only
 4. Run the chatbot, `fastapi dev main.py` and setup tunneling using `ngrok` or any similar service (if hosted local) and configure your webhook on developer portal
-5. Build on top of available example templates in `example/ehailing/templates` folder to suit your chatbot needs
-6. Implement your chatbot logic in `example/ehailing/hooks` folder
+5. Build on top of available example templates in `example/` folder to suit your chatbot needs
+6. Implement your chatbot logic in `example/<project-name>/hooks` folder
 
 > After you get the hang of it, you can start your new project afresh
 ---
