@@ -1,46 +1,50 @@
 from abc import ABC, abstractmethod
 from pathlib import Path
-from typing import Optional, Dict
+import json
+from typing import Dict, List, Optional
 
 import ruamel.yaml
 
+from pywce.src.constants import EngineConstants
 from pywce.src.exceptions import EngineException
+from pywce.src.templates import EngineTemplate, Template
+from pywce.src.templates.base_model import EngineRoute
 
 
 class IStorageManager(ABC):
-    """Abstract base class for different template storage backends."""
+    """Abstract base class for different templates storage backends."""
 
     @abstractmethod
-    def load_templates(self) -> Dict:
+    def load_templates(self) -> None:
         """Load chatbot templates."""
         pass
 
     @abstractmethod
-    def load_triggers(self) -> Dict:
+    def load_triggers(self) -> None:
         """Load chatbot triggers."""
         pass
 
     @abstractmethod
     def exists(self, name: str) -> bool:
-        """Check if a template exists."""
+        """Check if a templates exists."""
         pass
 
     @abstractmethod
-    def triggers(self) -> Dict:
+    def triggers(self) -> List[EngineRoute]:
         """Get all triggers"""
         pass
 
     @abstractmethod
-    def get(self, name: str) -> Optional[Dict]:
-        """Load a single template by name."""
+    def get(self, name: str) -> Optional[EngineTemplate]:
+        """Load a single templates by name."""
         pass
 
 
-class YamlStorageManager(IStorageManager):
+class YamlJsonStorageManager(IStorageManager):
     """
-        YAML files storage manager
+    YAML/JSON files storage manager.
 
-        Read all yaml files
+    Supports reading both YAML (.yaml) and JSON (.json) files from the templates and triggers directories.
     """
     _TEMPLATES: Dict = {}
     _TRIGGERS: Dict = {}
@@ -53,41 +57,50 @@ class YamlStorageManager(IStorageManager):
         self.load_triggers()
         self.load_templates()
 
-    def load_templates(self) -> Dict:
+    def load_templates(self) -> None:
         self._TEMPLATES.clear()
 
         if not self.template_dir.is_dir():
             raise EngineException("Template dir provided is not a valid directory")
 
-        for template_file in self.template_dir.glob("*.yaml"):
+        for template_file in self.template_dir.glob("*"):
+            if template_file.suffix not in [".yml", ".yaml", ".json"]:
+                continue
+
             with template_file.open("r", encoding="utf-8") as file:
-                data = self.yaml.load(file)
+                data = json.load(file) if template_file.suffix == ".json" else self.yaml.load(file)
                 if data:
                     self._TEMPLATES.update(data)
 
-        assert len(self._TEMPLATES) != 0, "No valid templates found"
+        if not self._TEMPLATES:
+            raise EngineException("No valid templates found")
 
-        return self._TEMPLATES
-
-    def load_triggers(self) -> Dict:
+    def load_triggers(self) -> None:
         self._TRIGGERS.clear()
 
         if not self.trigger_dir.is_dir():
             raise EngineException("Trigger dir provided is not a valid directory")
 
-        for trigger_file in self.trigger_dir.glob("*.yaml"):
+        for trigger_file in self.trigger_dir.glob("*"):
+            if trigger_file.suffix not in [".yml", ".yaml", ".json"]:
+                continue
+
             with trigger_file.open("r", encoding="utf-8") as file:
-                data = self.yaml.load(file)
+                data = json.load(file) if trigger_file.suffix == ".json" else self.yaml.load(file)
                 if data:
                     self._TRIGGERS.update(data)
-
-        return self._TRIGGERS
 
     def exists(self, name: str) -> bool:
         return name in self._TEMPLATES
 
-    def get(self, name: str) -> Optional[Dict]:
-        return self._TEMPLATES.get(name)
+    def get(self, name: str) -> Optional[EngineTemplate]:
+        try:
+            return Template.as_model(self._TEMPLATES.get(name))
+        except:
+            return None
 
-    def triggers(self) -> Dict:
-        return self._TRIGGERS
+    def triggers(self) -> List[EngineRoute]:
+        return [
+            EngineRoute(user_input=v, next_stage=k, is_regex=str(v).startswith(EngineConstants.REGEX_PLACEHOLDER))
+            for k, v in self._TRIGGERS.items()
+        ]

@@ -1,0 +1,22 @@
+"START-MENU":
+  kind: button
+  message:
+    title: Title
+    body: Test body
+    footer: pywce
+    buttons:
+      - Button1
+      - Button2
+  routes:
+    "button1": "REPORT"
+    "button2": "GITHUB-PROFILE"
+
+"GITHUB-PROFILE":
+  kind: cta
+  message:
+    title: "Support"
+    body: "View my GitHub profile, projects and star, fork, share, contribute or support"
+    url: "https://github.com/DonnC"
+    button: "GitHub"
+  routes:
+    "re:.*": "START-MENU"

@@ -1,28 +1,28 @@
 import threading
 from typing import Any, Dict, Type, List, Union
 
-from pywce import ISessionManager, pywce_logger
+from pywce.modules.session import ISessionManager
 from . import T
 
 
-class DictSessionManager(ISessionManager):
+class DefaultSessionManager(ISessionManager):
     """
-        Default session manager
+        Default in-memory dict-based session manager
 
         Uses python dict datatype to implement simple data storage
 
         Uses a thread-safe approach using threading.Lock() with context for safety
     """
+    DEFAULT_PROP_KEY: str = "pywce_prop_key"
 
     def __init__(self):
         self.global_session: Dict[str, Any] = {}
         self.sessions: Dict[str, Dict[str, Any]] = {}
         self.lock = threading.Lock()
-        self.logger = pywce_logger(__name__)
 
     @property
     def prop_key(self) -> str:
-        return "pywce_prop_key"
+        return self.DEFAULT_PROP_KEY
 
     def session(self, session_id: str) -> ISessionManager:
         with self.lock:
@@ -57,7 +57,7 @@ class DictSessionManager(ISessionManager):
 
     def fetch_all(self, session_id: str, is_global: bool = False) -> Union[Dict[str, Any], None]:
         with self.lock:
-            if is_global is True:
+            if is_global:
                 return self.global_session
             return self.sessions.get(session_id)
 
@@ -80,26 +80,33 @@ class DictSessionManager(ISessionManager):
                 self.global_session.pop(key)
 
     def clear(self, session_id: str, retain_keys: List[str] = None) -> None:
-        if retain_keys is None or retain_keys == []:
-            self.sessions[session_id] = {}
-            return
+        with self.lock:
+            if retain_keys is None or retain_keys == []:
+                self.sessions[session_id] = {}
+                return
 
-        for retain_key in retain_keys:
-            data = self.fetch_all(session_id)
-            for k, v in data.items():
-                if k == retain_key:
-                    continue
-                self.evict(session_id, k)
+            data = self.sessions.get(session_id, {})
+            if data is None:
+                return
+
+            keys_to_remove = [k for k in data.keys()
+                              if k not in (retain_keys or []) and k != self.prop_key]
+
+            for key in keys_to_remove:
+                if key in self.sessions[session_id]:
+                    self.sessions[session_id].pop(key)
 
     def clear_global(self) -> None:
         self.global_session = {}
 
     def key_in_session(self, session_id: str, key: str, check_global: bool = True) -> bool:
-        with self.lock:
-            if check_global:
-                return self.global_session.get(key) is not None
+        in_global = self.global_session.get(key) is not None
+        in_user = self.sessions.get(session_id).get(key) is not None
 
-            return self.sessions.get(session_id).get(key) is not None
+        if check_global:
+            return in_global or in_user
+
+        return in_user
 
     def get_user_props(self, session_id: str) -> Dict[str, Any]:
         return self.get(session_id, self.prop_key)

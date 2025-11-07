@@ -1,9 +1,0 @@
-"COMING-SOON":
-  type: button
-  message:
-    title: ℹ️ Notice
-    body: Feature coming soon.
-    buttons:
-      - Menu
-  routes:
-    "menu": "START-MENU"

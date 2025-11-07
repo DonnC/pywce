@@ -1,0 +1,62 @@
+"ask_name":
+  kind: text
+  prop: username
+  message: Hello, What's your name please
+  routes:
+    "re:.*": "ask_birth_year"
+
+"ask_birth_year":
+  kind: text
+  prop: birth_year
+  message: |
+    Thank you, *{{ p.username }}!* Please enter your birth year.
+    
+    _For example: 2025_
+  routes:
+    "re:^\\d{4}$": "ask_national_id"
+
+"ask_national_id":
+  kind: text
+  prop: national_id
+  message: "Now, please provide your national ID Number.\nFormat: xx-xxxxxx L xx"
+  routes:
+    # TODO: Add regex validation
+    "re:.*": "ask_booking_time"
+
+"ask_booking_time":
+  kind: text
+  prop: booking_time_index
+  message: |
+    Select your preferred booking time?
+    1. 10:00 AM
+    2. 10:30 AM
+    3. 01:00 PM
+    4. 03:00 PM
+    
+    _Reply with numbered option
+  routes:
+    "re:\\d": "confirmation"
+
+"confirmation":
+  kind: button
+  message:
+    title: Book Summary
+    body: |
+      Confirm your order
+      
+      Name: {{ p.username }}
+      Birth Year: {{ p.birth_year }}
+      ID Number: {{ p.national_id }}
+      Time Slot: Option No. {{ p.booking_time_index }}
+    buttons:
+      - Confirm
+      - Book Again
+  routes:
+    "confirm": "order_complete"
+    "book again": "ask_name"
+
+"order_complete":
+  kind: text
+  message: Thank you for booking with us. Type *menu* to go to menu
+  routes:
+    "re:.*": start

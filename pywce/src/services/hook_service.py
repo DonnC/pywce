@@ -1,15 +1,12 @@
 import importlib
-import inspect
+import logging
 from functools import wraps
 from typing import Callable, Literal, Optional
 
-from pywce.src.models import ExternalHandlerResponse, TemplateTypeConstants
-from pywce.src.exceptions import HookError
+from pywce.src.exceptions import InternalHookError, HookException
 from pywce.src.models import HookArg
-from pywce.src.services.ai_service import AiResponse
-from pywce.src.utils.engine_logger import pywce_logger
 
-_logger = pywce_logger(__name__)
+_logger = logging.getLogger(__name__)
 
 # Global registries for hooks
 _hook_registry = {}
@@ -17,6 +14,7 @@ _dotted_path_registry = {}
 _function_cache = {}
 _global_pre_hooks = []
 _global_post_hooks = []
+
 
 class HookService:
     """
@@ -27,6 +25,7 @@ class HookService:
     Dynamically call hook functions or class methods.
     All hooks should accept a [HookArg] param and return a [HookArg] response.
     """
+
     @staticmethod
     def registry():
         return _hook_registry
@@ -34,26 +33,6 @@ class HookService:
     @staticmethod
     def path_registry():
         return _dotted_path_registry
-
-    @staticmethod
-    def map_ai_handler_response(recipient:str, ai_response: AiResponse, agent_name:str="🤖") -> ExternalHandlerResponse:
-        # TODO: map all supported ai responses
-        if ai_response.typ == "button":
-            _type = TemplateTypeConstants.BUTTON
-
-        elif ai_response.typ == "list":
-            _type = TemplateTypeConstants.LIST
-
-        else:
-            _type = TemplateTypeConstants.TEXT
-
-        return ExternalHandlerResponse(
-            typ=_type,
-            title=ai_response.title,
-            message=f"{agent_name}\n{ai_response.message}",
-            options=ai_response.options,
-            recipient_id=recipient
-        )
 
     @staticmethod
     def register_hook(name: str, func: Callable = None, dotted_path: str = None):
@@ -69,12 +48,10 @@ class HookService:
         elif dotted_path:
             _dotted_path_registry[name] = dotted_path
 
-        _logger.debug("Registered %s hook: %s", "func" if func else "path", name)
-
     @staticmethod
     def register_global_hook(hook_dotted_path: str, hook_type: Literal["pre", "post"]):
         """
-        Register a global pre or post hook.
+        Register a global or pre or post hook.
         :param hook_dotted_path: Dotted path to the hook function.
         :param hook_type: Either "pre" or "post".
         """
@@ -83,7 +60,7 @@ class HookService:
         elif hook_type == "post":
             _global_post_hooks.append(hook_dotted_path)
         else:
-            raise HookError("Invalid hook_type. Use 'pre' or 'post'.")
+            raise InternalHookError("Invalid hook_type. Use 'pre' or 'post'.")
 
     @staticmethod
     def register_callable_global_hooks(pre: list[Callable], post: list[Callable]):
@@ -137,7 +114,7 @@ class HookService:
             raise ImportError(f"Could not load function from dotted path '{dotted_path}': {e}")
 
     @staticmethod
-    async def _execute_hook(hook_dotted_path: str, hook_arg: HookArg) -> HookArg:
+    def _execute_hook(hook_dotted_path: str, hook_arg: HookArg) -> HookArg:
         """
         Execute a function from registry or lazy loading it.
 
@@ -160,20 +137,17 @@ class HookService:
                 hook_func = HookService.load_function_from_dotted_path(hook_dotted_path)
                 HookService.register_hook(name=hook_dotted_path, dotted_path=hook_dotted_path)
 
-            # implement class based hook
-
-            # Function-based hook
-            if inspect.iscoroutinefunction(hook_func):
-                return await hook_func(hook_arg)
-
             return hook_func(hook_arg)
+
+        except HookException as e:
+            raise HookException(e.message, e.data)
 
         except Exception as e:
             _logger.error("Hook processing failure. Hook: '%s', error: %s", hook_dotted_path, str(e))
-            raise HookError(f"Failed to execute hook: {hook_dotted_path}") from e
+            raise HookException(f"Something went wrong. Could not process request", str(e))
 
     @staticmethod
-    async def process_hook(hook_dotted_path: str, hook_arg: HookArg) -> HookArg:
+    def process_hook(hook_dotted_path: str, hook_arg: HookArg) -> HookArg:
         """
         Execute a function from registry or lazy loading it.
 
@@ -181,16 +155,17 @@ class HookService:
         :param hook_arg: The argument to pass to the hook function.
         :return: The result of the hook function.
         """
-        return await HookService._execute_hook(hook_dotted_path, hook_arg)
+        return HookService._execute_hook(hook_dotted_path, hook_arg)
 
     @staticmethod
-    async def process_global_hooks(hook_type: Literal["pre", "post"], hook_arg: HookArg) -> None:
+    def process_global_hooks(hook_type: Literal["pre", "post"], hook_arg: HookArg) -> Optional[HookArg]:
         try:
             hooks = _global_pre_hooks if hook_type == "pre" else _global_post_hooks
             for pre_hook in hooks:
-                await HookService._execute_hook(pre_hook, hook_arg)
-        except HookError as e:
-            _logger.critical("Global `%s` hook processing failure, error: %s", hook_type, e.message)
+                HookService._execute_hook(pre_hook, hook_arg)
+
+        except Exception as e:
+            _logger.critical("Global `%s` hook processing failure, error: %s", hook_type, e)
 
 
 # decorator
@@ -207,7 +182,7 @@ def hook(func: Callable, global_type: Optional[Literal["pre", "post"]] = None) -
         @wraps(inner_func)
         def wrapper(arg: HookArg) -> HookArg:
             if not isinstance(arg, HookArg):
-                raise HookError(f"Expected HookArg instance, got {type(arg).__name__}")
+                raise InternalHookError(f"Expected HookArg instance, got {type(arg).__name__}")
             return inner_func(arg)
 
         # Compute the full dotted path for the function

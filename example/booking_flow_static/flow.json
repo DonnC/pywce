@@ -1,0 +1,83 @@
+{
+  "version": "7.1",
+  "screens": [
+    {
+      "id": "BOOK_SCREEN",
+      "title": "Book A Demo",
+      "terminal": true,
+      "success": true,
+      "data": {},
+      "layout": {
+        "type": "SingleColumnLayout",
+        "children": [
+          {
+            "type": "TextSubheading",
+            "text": "Fill your book details below"
+          },
+          {
+            "input-type": "text",
+            "label": "First Name",
+            "name": "first_name",
+            "required": true,
+            "type": "TextInput"
+          },
+          {
+            "input-type": "text",
+            "label": "Last Name",
+            "name": "last_name",
+            "required": true,
+            "type": "TextInput"
+          },
+          {
+            "input-type": "text",
+            "label": "National ID",
+            "name": "national_id",
+            "required": true,
+            "type": "TextInput",
+            "helper-text": "Format: xx-xxxxxx L xx"
+          },
+          {
+            "label": "Birth Date",
+            "name": "birth_date",
+            "required": true,
+            "type": "DatePicker"
+          },
+          {
+            "data-source": [
+              {
+                "id": "10_00",
+                "title": "10:00 hrs"
+              },
+              {
+                "id": "12_30",
+                "title": "12:30 hrs"
+              },
+              {
+                "id": "15_00",
+                "title": "15:00 hrs"
+              }
+            ],
+            "label": "Time Slot",
+            "name": "time_slot",
+            "required": true,
+            "type": "Dropdown"
+          },
+          {
+            "type": "Footer",
+            "label": "Submit",
+            "on-click-action": {
+              "name": "complete",
+              "payload": {
+                "first_name": "${form.first_name}",
+                "last_name": "${form.last_name}",
+                "national_id": "${form.national_id}",
+                "birth_date": "${form.birth_date}",
+                "time_slot": "${form.time_slot}"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

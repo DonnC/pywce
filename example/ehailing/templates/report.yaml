@@ -1,6 +1,0 @@
-"REPORT":
-  type: text
-  prop: report
-  message: "Provide report information"
-  routes:
-    "re:.*": "START-MENU"
