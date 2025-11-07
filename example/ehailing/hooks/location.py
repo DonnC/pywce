@@ -1,12 +1,11 @@
-from pywce import hook, HookArg, pywce_logger
+import logging
 
-logger = pywce_logger(__name__)
+from pywce import HookArg
 
-@hook
+logger = logging.getLogger(__name__)
+
 def save_destination(arg: HookArg) -> HookArg:
-    logger.info(f"Destination hook arg: {arg}")
-
-    # TODO: assess arg and implement business logic
+    # TODO: implement business logic
     #       Data will be available in the arg.additional_data
 
     return arg

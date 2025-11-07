@@ -1,4 +1,3 @@
-*.json
 *.env
-/autogen_multiagents/config.yaml
-!/autogen_multiagents/studio/
+*.pem
+test.py

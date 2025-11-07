@@ -1,13 +1,18 @@
 import os
+from typing import Optional
 
 from dotenv import load_dotenv
 
-from pywce import Engine, client, storage, EngineConfig
+from pywce import Engine, storage, EngineConfig, client
 from .global_hooks import log_incoming_message
 
 load_dotenv()
 
-yaml_storage = storage.YamlStorageManager(os.getenv("TEMPLATES_DIR"), os.getenv("TRIGGERS_DIR"))
+private_key: Optional[str] = None
+
+if os.getenv('PRIVATE_KEY_PATH') is not None:
+    with open(os.getenv('PRIVATE_KEY_PATH'), 'r') as key_file:
+        private_key = key_file.read()
 
 # create a .env and set the appropriate keys
 _wa_config = client.WhatsAppConfig(
@@ -15,19 +20,21 @@ _wa_config = client.WhatsAppConfig(
     phone_number_id=os.getenv("PHONE_NUMBER_ID"),
     hub_verification_token=os.getenv("WEBHOOK_HUB_TOKEN"),
     app_secret=os.getenv("APP_SECRET"),
-    use_emulator=int(os.getenv("USE_EMULATOR", 0)) == 1
+    private_key=private_key,
+    private_key_pwd=os.getenv("PRIVATE_KEY_PASS_KEY")
 )
 
-whatsapp = client.WhatsApp(_wa_config)
+whatsapp = client.WhatsApp(whatsapp_config=_wa_config)
+
+hybrid_storage = storage.YamlJsonStorageManager(os.getenv("TEMPLATES_DIR"), os.getenv("TRIGGERS_DIR"))
 
 _eng_config = EngineConfig(
     whatsapp=whatsapp,
-    storage_manager=yaml_storage,
+    storage_manager=hybrid_storage,
     start_template_stage=os.getenv("START_STAGE"),
-
+    report_template_stage=os.getenv("REPORT_STAGE"),
     # optional fields, depends on the example project being run
-    global_pre_hooks=[log_incoming_message],
-    ext_handler_hook="example.ai_agents.hooks.ai_hook.agent_processor"
+    global_pre_hooks=[log_incoming_message]
 )
 
 engine = Engine(config=_eng_config)

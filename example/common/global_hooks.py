@@ -1,13 +1,21 @@
-from pywce import HookArg, pywce_logger
+import logging
+from dataclasses import asdict
 
-logger = pywce_logger(__name__)
+from rich.console import Console
+from rich.panel import Panel
+from rich.pretty import Pretty
+
+from pywce import HookArg, client
+from .data import LocalDataSource
+
+logger = logging.getLogger(__name__)
 
 
-def log_incoming_message(arg: HookArg) -> None:
+def log_incoming_message(arg: HookArg, title: str = None) -> None:
     """
-    initiate(arg: HookArg)
+    log_incoming_message(arg: HookArg)
 
-    A global pre-hook called everytime & before any other hooks are processed.
+    A global pre-hook called everytime before any other hooks are processed.
 
     Args:
         arg (HookArg): pass hook argument from engine
@@ -15,6 +23,32 @@ def log_incoming_message(arg: HookArg) -> None:
     Returns:
         None: global hooks have no need to return anything
     """
-    logger.debug(f"{'*' * 10} New incoming request arg {'*' * 10}")
-    logger.warning(arg)
-    logger.debug(f"{'*' * 30}")
+    panel_title = title if title is not None else "HookArg | Global"
+    panel = Panel.fit(Pretty(arg), title=panel_title, subtitle=f"{arg.hook}")
+    logger.debug(Console().print(panel, highlight=True))
+
+
+def flow_endpoint_handler(payload: client.FlowEndpointPayload) -> dict:
+    """
+    Handles all flow endpoint requests, the callable receives payload already decrypted
+    """
+
+    arg = HookArg(
+        hook="flow_endpoint_handler",
+        additional_data=asdict(payload),
+        user=client.WaUser(),
+        session_id=''
+    )
+
+    log_incoming_message(arg)
+
+    response = {}
+
+    action = payload.data.get('type')
+
+    if action == 'time_slots':
+        response = LocalDataSource.flow_time_slots
+
+    # TODO: handle other logic
+
+    return response

@@ -5,68 +5,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e700a6d4-f3fd-4ca6-8806-bc5eb9b6e49c" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/agents.json" beforeDir="false" afterPath="$PROJECT_DIR$/example/agents.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/common/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/common/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/assets/favicon.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/media/endpoints-1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/media/portal-1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/media/portal-2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/media/portal-3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/media/portal-4.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/media/portal-5.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/storage/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/bot.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/hooks/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/hooks/capture_ride.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/hooks/live_support.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/hooks/live_support_handler.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/hooks/location.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/hooks/name_template.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/templates/ehailing-bot.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/templates/live-support.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/templates/report.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/chatbot/triggers/triggers.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/components/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/components/action_bar.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/components/chat_window.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/components/footer.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/components/message_card.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/components/sidebar.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/components/sidebar_chat.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/constants.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/model.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/portal.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/redis_manager.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/state.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/portal/style.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/pubsub.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/requirements.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/rxconfig.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/portal/seed.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/.env.example" beforeDir="false" afterPath="$PROJECT_DIR$/example/.env.example" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/example/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ehailing/triggers/triggers.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/common/triggers/triggers.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pywce/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/modules/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/engine.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/engine.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/models/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/services/message_processor.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/message_processor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/services/worker.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/worker.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_engine.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_engine.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/src/services/template_message_processor.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/template_message_processor.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ExportToHTMLSettings">
+    <option name="OPEN_IN_BROWSER" value="true" />
+    <option name="OUTPUT_DIRECTORY" value="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\htmlReport" />
+  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Unit Test" />
         <option value="HTML File" />
         <option value="Python Script" />
+        <option value="Python Unit Test" />
       </list>
     </option>
   </component>
@@ -77,7 +39,7 @@
   &quot;associatedIndex&quot;: 0
 }</component>
   <component name="ProjectId" id="2rAoEdJkTF5Da6PwlEmqQp8upUx" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+  <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
@@ -89,6 +51,21 @@
     &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
     &quot;HTTP Request.generated-requests | #1.executor&quot;: &quot;Run&quot;,
     &quot;HTTP Request.generated-requests | #2.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for session_manager_test.TestSessionManager.test_clear.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for session_manager_test.TestSessionManager.test_clear_global.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for session_manager_test.TestSessionManager.test_clear_with_retain_keys.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for session_manager_test.TestSessionManager.test_evict.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for session_manager_test.TestSessionManager.test_evict_all.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for session_manager_test.TestSessionManager.test_evict_global.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for session_manager_test.TestSessionManager.test_evict_prop.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for session_manager_test.TestSessionManager.test_get_user_props.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for session_manager_test.TestSessionManager.test_key_in_session.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for session_manager_test.TestSessionManager.test_prop_key.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for session_manager_test.TestSessionManager.test_save_all_and_fetch_all.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for session_manager_test.TestSessionManager.test_save_and_get.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for session_manager_test.TestSessionManager.test_save_global_and_get_global.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for session_manager_test.TestSessionManager.test_save_prop_and_get_from_props.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for session_manager_test.TestSessionManager.test_session.executor&quot;: &quot;Run&quot;,
     &quot;Python tests.Python tests for test_cachetool_session_manager.TestSessionManager.executor&quot;: &quot;Run&quot;,
     &quot;Python tests.Python tests for test_cachetool_session_manager.TestSessionManager.test_prop.executor&quot;: &quot;Debug&quot;,
     &quot;Python tests.Python tests for test_cachetool_session_manager.TestSessionManager.test_save.executor&quot;: &quot;Debug&quot;,
@@ -97,7 +74,23 @@
     &quot;Python tests.Python tests for test_default_session_impl.TestSessionManager.test_clear.executor&quot;: &quot;Run&quot;,
     &quot;Python tests.Python tests for test_engine.MyTestCase.executor&quot;: &quot;Run&quot;,
     &quot;Python tests.Python tests for test_engine.TestPywceEngine.executor&quot;: &quot;Debug&quot;,
+    &quot;Python tests.Python tests for test_whatsapp.TestWhatsApp.test_send_message.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for test_whatsapp.TestWhatsApp.test_send_template.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for test_yaml_json_storage_manager.TestYamlJsonStorageManager.test_exists_with_invalid_name.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for test_yaml_json_storage_manager.TestYamlJsonStorageManager.test_exists_with_valid_name.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for test_yaml_json_storage_manager.TestYamlJsonStorageManager.test_get_with_invalid_name.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for test_yaml_json_storage_manager.TestYamlJsonStorageManager.test_get_with_valid_name.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for test_yaml_json_storage_manager.TestYamlJsonStorageManager.test_initialization_with_invalid_directory.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for test_yaml_json_storage_manager.TestYamlJsonStorageManager.test_initialization_with_valid_directories.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for test_yaml_json_storage_manager.TestYamlJsonStorageManager.test_load_templates_with_valid_files.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for test_yaml_json_storage_manager.TestYamlJsonStorageManager.test_load_templates_without_valid_files.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for test_yaml_json_storage_manager.TestYamlJsonStorageManager.test_load_triggers_with_valid_files.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for test_yaml_json_storage_manager.TestYamlJsonStorageManager.test_triggers_list_generation.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in session_manager_test.py.executor&quot;: &quot;Coverage&quot;,
     &quot;Python tests.Python tests in test_default_session_impl.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in test_session_manager.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in test_whatsapp.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in test_yaml_json_storage_manager.py.executor&quot;: &quot;Run&quot;,
     &quot;Python tests.Python tests in tests.executor&quot;: &quot;Run&quot;,
     &quot;Python.agents.executor&quot;: &quot;Run&quot;,
     &quot;Python.hook_service.executor&quot;: &quot;Run&quot;,
@@ -106,18 +99,22 @@
     &quot;Python.response_structure.executor&quot;: &quot;Run&quot;,
     &quot;Python.scratch.executor&quot;: &quot;Run&quot;,
     &quot;Python.templetor.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test.executor&quot;: &quot;Run&quot;,
     &quot;Python.test_ai.executor&quot;: &quot;Run&quot;,
     &quot;Python.test_v.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;feat/openai&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/DEVELOPER/Documents/Personal/Personal/Projects/python/pywce/example/ai_agents/templates&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;sync&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/DEVELOPER/Documents/Personal/Personal/Projects/python/pywce/tests/fixtures/invalid&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;editing.templates&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.intellij.aiplayground.settings.llm&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
   &quot;keyToStringList&quot;: {
@@ -130,93 +127,27 @@
     ]
   }
 }</component>
+  <component name="PyCoverageOptionsProvider">
+    <option name="myUseBundledCoveragePy" value="true" />
+  </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\example\ai_agents\templates" />
-      <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\example" />
-      <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\example\demo" />
-      <recent name="$PROJECT_DIR$/portal/portal/chatbot" />
-      <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\example\standalone_chatbot" />
+      <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\tests\fixtures\invalid" />
+      <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\tests\fixtures" />
+      <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\example\booking_flow_endpoint" />
+      <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\example\booking_flow_static" />
+      <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\example\booking_stage_based\templates" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\example\common" />
+      <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\pywce\src" />
+      <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\pywce\src\models\template" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\example" />
       <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\example\ai_agents\templates" />
-      <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce" />
-      <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\example\common" />
-      <recent name="C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\pywce\src\services" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.agents">
-    <configuration name="agents" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="pywce" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/example/autogen_multiagents" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/example/autogen_multiagents/agents.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="pywce" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/example/engine_chatbot" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/example/engine_chatbot/main.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="test_ai" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="pywce" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test_ai.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests for test_cachetool_session_manager.TestSessionManager.test_prop" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python tests.Python tests for test_whatsapp.TestWhatsApp.test_send_template">
+    <configuration name="Python tests for test_whatsapp.TestWhatsApp.test_send_message" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="pywce" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -228,24 +159,89 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;test_cachetool_session_manager.TestSessionManager.test_prop&quot;" />
+      <option name="_new_target" value="&quot;test_whatsapp.TestWhatsApp.test_send_message&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests for test_whatsapp.TestWhatsApp.test_send_template" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="pywce" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_whatsapp.TestWhatsApp.test_send_template&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests in test_session_manager.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="pywce" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/tests/test_session_manager.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests in test_whatsapp.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="pywce" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/tests/test_whatsapp.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests in test_yaml_json_storage_manager.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="pywce" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/tests/test_yaml_json_storage_manager.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.agents" />
-        <item itemvalue="Python.test_ai" />
-        <item itemvalue="Python.main" />
-        <item itemvalue="Python tests.Python tests for test_cachetool_session_manager.TestSessionManager.test_prop" />
+        <item itemvalue="Python tests.Python tests for test_whatsapp.TestWhatsApp.test_send_template" />
+        <item itemvalue="Python tests.Python tests in test_whatsapp.py" />
+        <item itemvalue="Python tests.Python tests for test_whatsapp.TestWhatsApp.test_send_message" />
+        <item itemvalue="Python tests.Python tests in test_session_manager.py" />
+        <item itemvalue="Python tests.Python tests in test_yaml_json_storage_manager.py" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-PY-243.25659.43" />
-        <option value="bundled-python-sdk-181015f7ab06-4df51de95216-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-243.25659.43" />
+        <option value="bundled-js-predefined-d6986cc7102b-3aa1da707db6-JavaScript-PY-252.26830.99" />
+        <option value="bundled-python-sdk-164cda30dcd9-0af03a5fa574-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.26830.99" />
       </set>
     </attachedChunks>
   </component>
@@ -345,6 +341,89 @@
       <workItem from="1741242638403" duration="12093000" />
       <workItem from="1742110498766" duration="7006000" />
       <workItem from="1742130653125" duration="5208000" />
+      <workItem from="1742328964643" duration="669000" />
+      <workItem from="1742544428471" duration="3539000" />
+      <workItem from="1742561806651" duration="2687000" />
+      <workItem from="1742576031686" duration="1520000" />
+      <workItem from="1742759312968" duration="3859000" />
+      <workItem from="1742799522920" duration="1319000" />
+      <workItem from="1742821974728" duration="1770000" />
+      <workItem from="1742845032830" duration="1221000" />
+      <workItem from="1742886935185" duration="11825000" />
+      <workItem from="1742972125672" duration="10580000" />
+      <workItem from="1743008634357" duration="11286000" />
+      <workItem from="1743095152968" duration="6578000" />
+      <workItem from="1743161273800" duration="2558000" />
+      <workItem from="1743183642279" duration="322000" />
+      <workItem from="1743187137324" duration="7173000" />
+      <workItem from="1743267779728" duration="1500000" />
+      <workItem from="1743275257015" duration="1976000" />
+      <workItem from="1743326526005" duration="12524000" />
+      <workItem from="1743430881434" duration="4299000" />
+      <workItem from="1743455009458" duration="100000" />
+      <workItem from="1743766751082" duration="2464000" />
+      <workItem from="1743946391675" duration="2559000" />
+      <workItem from="1744017161205" duration="220000" />
+      <workItem from="1744039179772" duration="4829000" />
+      <workItem from="1744109505904" duration="8000" />
+      <workItem from="1744116306121" duration="7812000" />
+      <workItem from="1744397456536" duration="5383000" />
+      <workItem from="1744525523667" duration="4899000" />
+      <workItem from="1744573244305" duration="7195000" />
+      <workItem from="1744631502375" duration="131000" />
+      <workItem from="1744652955087" duration="664000" />
+      <workItem from="1744740100892" duration="1269000" />
+      <workItem from="1744785623652" duration="5075000" />
+      <workItem from="1744915434656" duration="20000" />
+      <workItem from="1744978608104" duration="98000" />
+      <workItem from="1746959635901" duration="1230000" />
+      <workItem from="1747154417579" duration="4485000" />
+      <workItem from="1747204492111" duration="5685000" />
+      <workItem from="1747294313724" duration="3440000" />
+      <workItem from="1747314743920" duration="7207000" />
+      <workItem from="1747520751139" duration="1794000" />
+      <workItem from="1747649128228" duration="147000" />
+      <workItem from="1749383392714" duration="4628000" />
+      <workItem from="1749556850991" duration="1506000" />
+      <workItem from="1749622711402" duration="23188000" />
+      <workItem from="1749728919634" duration="9465000" />
+      <workItem from="1749748372197" duration="3702000" />
+      <workItem from="1749799975895" duration="1717000" />
+      <workItem from="1749814238825" duration="3246000" />
+      <workItem from="1749899391173" duration="2761000" />
+      <workItem from="1749972168707" duration="3801000" />
+      <workItem from="1750001574852" duration="2419000" />
+      <workItem from="1750004253994" duration="1572000" />
+      <workItem from="1750159154854" duration="27000" />
+      <workItem from="1750183718037" duration="533000" />
+      <workItem from="1750192120734" duration="1088000" />
+      <workItem from="1750253744976" duration="6000" />
+      <workItem from="1750335960271" duration="3579000" />
+      <workItem from="1750354424301" duration="1742000" />
+      <workItem from="1750358857893" duration="904000" />
+      <workItem from="1750602281023" duration="1592000" />
+      <workItem from="1750660071897" duration="12858000" />
+      <workItem from="1751130294324" duration="918000" />
+      <workItem from="1751187462162" duration="1951000" />
+      <workItem from="1751477593794" duration="1290000" />
+      <workItem from="1751549675061" duration="106000" />
+      <workItem from="1751880941465" duration="14764000" />
+      <workItem from="1752055201318" duration="6217000" />
+      <workItem from="1752130231953" duration="13124000" />
+      <workItem from="1752352857256" duration="110000" />
+      <workItem from="1752499024709" duration="615000" />
+      <workItem from="1752650287687" duration="594000" />
+      <workItem from="1752818935538" duration="2025000" />
+      <workItem from="1752830583197" duration="57000" />
+      <workItem from="1752830702371" duration="270000" />
+      <workItem from="1752861199251" duration="189000" />
+      <workItem from="1753169470969" duration="638000" />
+      <workItem from="1753946999675" duration="2045000" />
+      <workItem from="1755179092544" duration="2565000" />
+      <workItem from="1755502987983" duration="10594000" />
+      <workItem from="1761569149079" duration="1832000" />
+      <workItem from="1762366013808" duration="3983000" />
+      <workItem from="1762497194990" duration="1894000" />
     </task>
     <servers />
   </component>
@@ -352,15 +431,16 @@
     <option name="version" value="3" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/pywce$main.coverage" NAME="main Coverage Results" MODIFIED="1739284387965" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/example/ehailing" />
+    <SUITE FILE_PATH="coverage/pywce$.coverage" NAME=" Coverage Results" MODIFIED="1752148702338" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/pywce$response_structure.coverage" NAME="response_structure Coverage Results" MODIFIED="1737218227283" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/pywce/modules/whatsapp/model" />
     <SUITE FILE_PATH="coverage/pywce$scratch.coverage" NAME="scratch Coverage Results" MODIFIED="1738929427889" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$APPLICATION_CONFIG_DIR$/scratches" />
-    <SUITE FILE_PATH="coverage/pywce$test_ai.coverage" NAME="test_ai Coverage Results" MODIFIED="1741163828286" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/pywce$.coverage" NAME=" Coverage Results" MODIFIED="1737924789160" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
-    <SUITE FILE_PATH="coverage/pywce$hook_service.coverage" NAME="hook_service Coverage Results" MODIFIED="1737218975528" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/pywce/src/services" />
-    <SUITE FILE_PATH="coverage/pywce$templetor.coverage" NAME="templetor Coverage Results" MODIFIED="1736407777201" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/example" />
-    <SUITE FILE_PATH="coverage/pywce$pubsub_test.coverage" NAME="pubsub_test Coverage Results" MODIFIED="1738936009261" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/portal" />
+    <SUITE FILE_PATH="coverage/pywce$test.coverage" NAME="test Coverage Results" MODIFIED="1743060099602" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/example" />
     <SUITE FILE_PATH="coverage/pywce$test_v.coverage" NAME="test_v Coverage Results" MODIFIED="1736092146828" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/pywce$main.coverage" NAME="main Coverage Results" MODIFIED="1739284387965" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/example/ehailing" />
+    <SUITE FILE_PATH="coverage/pywce$pubsub_test.coverage" NAME="pubsub_test Coverage Results" MODIFIED="1738936009261" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/portal" />
+    <SUITE FILE_PATH="coverage/pywce$hook_service.coverage" NAME="hook_service Coverage Results" MODIFIED="1737218975528" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/pywce/src/services" />
     <SUITE FILE_PATH="coverage/pywce$agents.coverage" NAME="agents Coverage Results" MODIFIED="1741259598056" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/example/autogen_multiagents" />
+    <SUITE FILE_PATH="coverage/pywce$test_ai.coverage" NAME="test_ai Coverage Results" MODIFIED="1741163828286" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/pywce$templetor.coverage" NAME="templetor Coverage Results" MODIFIED="1736407777201" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/example" />
   </component>
 </project>

@@ -1,0 +1,10 @@
+"start":
+  kind: button
+  message:
+    title: Bookings
+    body: Hello, let's get you started to your bookings. Click the button to begin
+    footer: pywce
+    buttons:
+      - Begin Booking
+  routes:
+    "begin booking": "ask_name"

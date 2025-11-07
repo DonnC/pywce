@@ -13,7 +13,7 @@ class EngineException(Exception):
         self.data = data
 
     def __str__(self):
-        return f"[{self.__class__.__str__}] Message: {self.message} | Data: {self.data}"
+        return f"[{self.__class__.__name__}] Message: {self.message} | Data: {self.data}"
 
 
 class AiException(EngineException):
@@ -24,11 +24,15 @@ class EngineClientException(EngineException):
     def __init__(self, message, data=None):
         super().__init__(message, data)
 
+class FlowEndpointException(EngineException):
+    def __init__(self, message, data=500):
+        super().__init__(message, data)
+
 class EngineInternalException(EngineException):
     def __init__(self, message, data=None):
         super().__init__(message, data)
 
-class HookError(EngineInternalException):
+class InternalHookError(EngineInternalException):
     def __init__(self, message, data=None):
         super().__init__(message, data)
 
@@ -43,6 +47,10 @@ class TemplateRenderException(EngineException):
 
 
 class EngineResponseException(EngineException):
+    def __init__(self, message, data=None):
+        super().__init__(message, data)
+
+class HookException(EngineResponseException):
     def __init__(self, message, data=None):
         super().__init__(message, data)
 

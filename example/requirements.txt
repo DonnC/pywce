@@ -1,5 +1,3 @@
 fastapi[standard]
 python-dotenv
-autogen-ext[openai]
-autogen-agentchat
-autogenstudio
+rich

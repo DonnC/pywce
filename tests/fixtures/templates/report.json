@@ -1,0 +1,10 @@
+{
+  "REPORT": {
+    "kind": "text",
+    "prop": "report",
+    "message": "Test report",
+    "routes": {
+      "re:.*": "START-MENU"
+    }
+  }
+}

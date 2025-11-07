@@ -1,8 +1,10 @@
-from pywce import HookArg, pywce_logger, hook
+import logging
+import time
 
-logger = pywce_logger(__name__)
+from pywce import HookArg
 
-@hook
+logger = logging.getLogger(__name__)
+
 def capture(arg: HookArg):
     """
     Simulate capturing user ride and saving to db or perform further actions
@@ -10,13 +12,13 @@ def capture(arg: HookArg):
     :param arg: HookArg passed by the engine
     :return: updated HookArg
     """
-    logger.debug(f"Capturing ride: {arg}")
+    saved_user_props = arg.session_manager.get_user_props(session_id=arg.session_id)
 
-    session_id = arg.user.wa_id
-    session = arg.session_manager
+    # simulate request processing
+    time.sleep(10)
 
     if arg.user_input == 'confirm':
-        # perform further actions
-        logger.info(f"Current user props: {session.get_user_props(session_id=session_id)}")
+        logger.debug(f"Current user props: %s", saved_user_props)
+        # TODO: implement logic
 
     return arg

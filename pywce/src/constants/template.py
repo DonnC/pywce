@@ -4,12 +4,12 @@ from dataclasses import dataclass
 @dataclass(frozen=True)
 class TemplateConstants:
     """
-    All supported engine template fields
+    All supported engine templates fields
 
     :var REPLY_MESSAGE_ID: Supports str | bool. Str, the static message id to reply to. Bool, true to tag
-                           (reply to) user message when rendering this template.
+                           (reply to) user message when rendering this templates.
 
-    :var TEMPLATE_TYPE: the supported engine template type which results in a message to render
+    :var TEMPLATE_TYPE: the supported engine templates type which results in a message to render
     :var READ_RECEIPT: bool - whether to mark user message as read or not
     :var SESSION: bool - If set, skip engine session processing. Treat message like a quick, once-off message.
     :var DYNAMIC_ROUTER: hook - used to determine next route to jump to and skip the configured next route
@@ -26,15 +26,14 @@ class TemplateConstants:
     ON_RECEIVE = "on-receive"
     REPLY_MESSAGE_ID = "message-id"
     ON_GENERATE = "on-generate"
-    VALIDATOR = "validator"
     TRANSIENT = "transient"
     ROUTES = "routes"
     DYNAMIC_ROUTER = "router"
     MIDDLEWARE = "middleware"
-    TEMPLATE = "template"
+    TEMPLATE = "templates"
     PARAMS = "params"
 
-    # inner template keys
+    # inner templates keys
     MESSAGE = "message"
     MESSAGE_TITLE = "title"
     MESSAGE_BODY = "body"
@@ -54,7 +53,7 @@ class TemplateConstants:
     MESSAGE_CATALOG_PRODUCT_ID = "product-id"
     MESSAGE_CATALOG_ID = "catalog-id"
 
-    # template
+    # templates
     MESSAGE_TEMPLATE_LANG = "language"
 
 

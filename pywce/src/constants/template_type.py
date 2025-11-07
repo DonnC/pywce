@@ -7,7 +7,7 @@ class TemplateTypeConstants:
     CTA = "cta"
     LIST = "list"
     TEXT = "text"
-    TEMPLATE = "template"
+    TEMPLATE = "templates"
     DYNAMIC = "dynamic"
     MEDIA = "media"
     FLOW = "flow"
@@ -26,7 +26,7 @@ TEMPLATE_TYPE_MAPPING = {
     "catalog": TemplateTypeConstants.CATALOG,
     "product": TemplateTypeConstants.SINGLE_PRODUCT,
     "products": TemplateTypeConstants.MULTI_PRODUCT,
-    "template": TemplateTypeConstants.TEMPLATE,
+    "templates": TemplateTypeConstants.TEMPLATE,
     "list": TemplateTypeConstants.LIST,
     "text": TemplateTypeConstants.TEXT,
     "dynamic": TemplateTypeConstants.DYNAMIC,

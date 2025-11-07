@@ -1,0 +1,9 @@
+# define global commands or phrases to catch in order to process a specific stage template
+# e.g. If a user types `start` or hi - render the START-MENU stage template
+
+# format is as below
+# YOUR-TEMPLATE-STAGE-NAME: re:<your-specific-regex-command>
+
+
+# when user greets the bot, render the first start menu stage
+"START-MENU": "re:(?i)^(start|hi|hie|menu)$"

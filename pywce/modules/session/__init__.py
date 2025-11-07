@@ -11,7 +11,7 @@ class ISessionManager(ABC):
         pass
 
     @abstractmethod
-    def session(self, session_id: str):
+    def session(self, session_id: str) -> "ISessionManager":
         """
         create a unique user session from given session_id
 
