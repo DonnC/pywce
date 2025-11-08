@@ -22,7 +22,7 @@ from pywce.modules.storage import IStorageManager
 from pywce.src.constants import SessionConstants, EngineConstants, TemplateTypeConstants
 from pywce.src.engine import Engine
 from pywce.src.models import HookArg, TemplateDynamicBody, EngineConfig, ExternalHandlerResponse
-from pywce.src.services import HookService, hook
+from pywce.src.services import HookService, hook, VisualTranslator
 from pywce.src.exceptions import HookException, FlowEndpointException
 
 __author__ = "Donald Chinhuru"
@@ -57,7 +57,10 @@ __all__ = [
     # constants
     "SessionConstants",
     "EngineConstants",
-    "TemplateTypeConstants"
+    "TemplateTypeConstants",
+
+    # service
+    "VisualTranslator",
 ]
 __doc__ = (
     "A batteries-included WhatsApp ChatBot builder framework using a template-driven approach. "

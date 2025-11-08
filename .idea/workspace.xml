@@ -5,14 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e700a6d4-f3fd-4ca6-8806-bc5eb9b6e49c" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pywce/src/services/visual_builder_translator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/pywce.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/pywce.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/.env.example" beforeDir="false" afterPath="$PROJECT_DIR$/example/.env.example" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/example/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ehailing/triggers/triggers.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/common/triggers/triggers.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pywce/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/services/template_message_processor.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/template_message_processor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/src/services/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/__init__.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,8 +25,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="HTML File" />
-        <option value="Python Script" />
         <option value="Python Unit Test" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -46,87 +44,87 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;HTTP Request.generated-requests | #1.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.generated-requests | #2.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for session_manager_test.TestSessionManager.test_clear.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for session_manager_test.TestSessionManager.test_clear_global.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for session_manager_test.TestSessionManager.test_clear_with_retain_keys.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for session_manager_test.TestSessionManager.test_evict.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for session_manager_test.TestSessionManager.test_evict_all.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for session_manager_test.TestSessionManager.test_evict_global.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for session_manager_test.TestSessionManager.test_evict_prop.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for session_manager_test.TestSessionManager.test_get_user_props.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for session_manager_test.TestSessionManager.test_key_in_session.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for session_manager_test.TestSessionManager.test_prop_key.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for session_manager_test.TestSessionManager.test_save_all_and_fetch_all.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for session_manager_test.TestSessionManager.test_save_and_get.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for session_manager_test.TestSessionManager.test_save_global_and_get_global.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for session_manager_test.TestSessionManager.test_save_prop_and_get_from_props.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for session_manager_test.TestSessionManager.test_session.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for test_cachetool_session_manager.TestSessionManager.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for test_cachetool_session_manager.TestSessionManager.test_prop.executor&quot;: &quot;Debug&quot;,
-    &quot;Python tests.Python tests for test_cachetool_session_manager.TestSessionManager.test_save.executor&quot;: &quot;Debug&quot;,
-    &quot;Python tests.Python tests for test_default_session_impl.TestDefaultSessionManager.test_save.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for test_default_session_impl.TestSessionManager.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for test_default_session_impl.TestSessionManager.test_clear.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for test_engine.MyTestCase.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for test_engine.TestPywceEngine.executor&quot;: &quot;Debug&quot;,
-    &quot;Python tests.Python tests for test_whatsapp.TestWhatsApp.test_send_message.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for test_whatsapp.TestWhatsApp.test_send_template.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for test_yaml_json_storage_manager.TestYamlJsonStorageManager.test_exists_with_invalid_name.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for test_yaml_json_storage_manager.TestYamlJsonStorageManager.test_exists_with_valid_name.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for test_yaml_json_storage_manager.TestYamlJsonStorageManager.test_get_with_invalid_name.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for test_yaml_json_storage_manager.TestYamlJsonStorageManager.test_get_with_valid_name.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for test_yaml_json_storage_manager.TestYamlJsonStorageManager.test_initialization_with_invalid_directory.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for test_yaml_json_storage_manager.TestYamlJsonStorageManager.test_initialization_with_valid_directories.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for test_yaml_json_storage_manager.TestYamlJsonStorageManager.test_load_templates_with_valid_files.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for test_yaml_json_storage_manager.TestYamlJsonStorageManager.test_load_templates_without_valid_files.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for test_yaml_json_storage_manager.TestYamlJsonStorageManager.test_load_triggers_with_valid_files.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for test_yaml_json_storage_manager.TestYamlJsonStorageManager.test_triggers_list_generation.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests in session_manager_test.py.executor&quot;: &quot;Coverage&quot;,
-    &quot;Python tests.Python tests in test_default_session_impl.py.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests in test_session_manager.py.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests in test_whatsapp.py.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests in test_yaml_json_storage_manager.py.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests in tests.executor&quot;: &quot;Run&quot;,
-    &quot;Python.agents.executor&quot;: &quot;Run&quot;,
-    &quot;Python.hook_service.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.pubsub_test.executor&quot;: &quot;Run&quot;,
-    &quot;Python.response_structure.executor&quot;: &quot;Run&quot;,
-    &quot;Python.scratch.executor&quot;: &quot;Run&quot;,
-    &quot;Python.templetor.executor&quot;: &quot;Run&quot;,
-    &quot;Python.test.executor&quot;: &quot;Run&quot;,
-    &quot;Python.test_ai.executor&quot;: &quot;Run&quot;,
-    &quot;Python.test_v.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;sync&quot;,
-    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/DEVELOPER/Documents/Personal/Personal/Projects/python/pywce/tests/fixtures/invalid&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.intellij.aiplayground.settings.llm&quot;,
-    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
+    "HTTP Request.generated-requests | #1.executor": "Run",
+    "HTTP Request.generated-requests | #2.executor": "Run",
+    "Python tests.Python tests for session_manager_test.TestSessionManager.test_clear.executor": "Run",
+    "Python tests.Python tests for session_manager_test.TestSessionManager.test_clear_global.executor": "Run",
+    "Python tests.Python tests for session_manager_test.TestSessionManager.test_clear_with_retain_keys.executor": "Run",
+    "Python tests.Python tests for session_manager_test.TestSessionManager.test_evict.executor": "Run",
+    "Python tests.Python tests for session_manager_test.TestSessionManager.test_evict_all.executor": "Run",
+    "Python tests.Python tests for session_manager_test.TestSessionManager.test_evict_global.executor": "Run",
+    "Python tests.Python tests for session_manager_test.TestSessionManager.test_evict_prop.executor": "Run",
+    "Python tests.Python tests for session_manager_test.TestSessionManager.test_get_user_props.executor": "Run",
+    "Python tests.Python tests for session_manager_test.TestSessionManager.test_key_in_session.executor": "Run",
+    "Python tests.Python tests for session_manager_test.TestSessionManager.test_prop_key.executor": "Run",
+    "Python tests.Python tests for session_manager_test.TestSessionManager.test_save_all_and_fetch_all.executor": "Run",
+    "Python tests.Python tests for session_manager_test.TestSessionManager.test_save_and_get.executor": "Run",
+    "Python tests.Python tests for session_manager_test.TestSessionManager.test_save_global_and_get_global.executor": "Run",
+    "Python tests.Python tests for session_manager_test.TestSessionManager.test_save_prop_and_get_from_props.executor": "Run",
+    "Python tests.Python tests for session_manager_test.TestSessionManager.test_session.executor": "Run",
+    "Python tests.Python tests for test_cachetool_session_manager.TestSessionManager.executor": "Run",
+    "Python tests.Python tests for test_cachetool_session_manager.TestSessionManager.test_prop.executor": "Debug",
+    "Python tests.Python tests for test_cachetool_session_manager.TestSessionManager.test_save.executor": "Debug",
+    "Python tests.Python tests for test_default_session_impl.TestDefaultSessionManager.test_save.executor": "Run",
+    "Python tests.Python tests for test_default_session_impl.TestSessionManager.executor": "Run",
+    "Python tests.Python tests for test_default_session_impl.TestSessionManager.test_clear.executor": "Run",
+    "Python tests.Python tests for test_engine.MyTestCase.executor": "Run",
+    "Python tests.Python tests for test_engine.TestPywceEngine.executor": "Debug",
+    "Python tests.Python tests for test_whatsapp.TestWhatsApp.test_send_message.executor": "Run",
+    "Python tests.Python tests for test_whatsapp.TestWhatsApp.test_send_template.executor": "Run",
+    "Python tests.Python tests for test_yaml_json_storage_manager.TestYamlJsonStorageManager.test_exists_with_invalid_name.executor": "Run",
+    "Python tests.Python tests for test_yaml_json_storage_manager.TestYamlJsonStorageManager.test_exists_with_valid_name.executor": "Run",
+    "Python tests.Python tests for test_yaml_json_storage_manager.TestYamlJsonStorageManager.test_get_with_invalid_name.executor": "Run",
+    "Python tests.Python tests for test_yaml_json_storage_manager.TestYamlJsonStorageManager.test_get_with_valid_name.executor": "Run",
+    "Python tests.Python tests for test_yaml_json_storage_manager.TestYamlJsonStorageManager.test_initialization_with_invalid_directory.executor": "Run",
+    "Python tests.Python tests for test_yaml_json_storage_manager.TestYamlJsonStorageManager.test_initialization_with_valid_directories.executor": "Run",
+    "Python tests.Python tests for test_yaml_json_storage_manager.TestYamlJsonStorageManager.test_load_templates_with_valid_files.executor": "Run",
+    "Python tests.Python tests for test_yaml_json_storage_manager.TestYamlJsonStorageManager.test_load_templates_without_valid_files.executor": "Run",
+    "Python tests.Python tests for test_yaml_json_storage_manager.TestYamlJsonStorageManager.test_load_triggers_with_valid_files.executor": "Run",
+    "Python tests.Python tests for test_yaml_json_storage_manager.TestYamlJsonStorageManager.test_triggers_list_generation.executor": "Run",
+    "Python tests.Python tests in session_manager_test.py.executor": "Coverage",
+    "Python tests.Python tests in test_default_session_impl.py.executor": "Run",
+    "Python tests.Python tests in test_session_manager.py.executor": "Run",
+    "Python tests.Python tests in test_whatsapp.py.executor": "Run",
+    "Python tests.Python tests in test_yaml_json_storage_manager.py.executor": "Run",
+    "Python tests.Python tests in tests.executor": "Run",
+    "Python.agents.executor": "Run",
+    "Python.hook_service.executor": "Run",
+    "Python.main.executor": "Run",
+    "Python.pubsub_test.executor": "Run",
+    "Python.response_structure.executor": "Run",
+    "Python.scratch.executor": "Run",
+    "Python.templetor.executor": "Run",
+    "Python.test.executor": "Run",
+    "Python.test_ai.executor": "Run",
+    "Python.test_v.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "dev",
+    "junie.onboarding.icon.badge.shown": "true",
+    "last_opened_file_path": "C:/Users/DEVELOPER/Documents/Personal/Personal/Projects/wce/pywce",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "com.intellij.aiplayground.settings.llm",
+    "to.speed.mode.migration.done": "true",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;sqlite&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "sqlite"
     ],
-    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
-      &quot;JSON&quot;,
-      &quot;Markdown&quot;
+    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
+      "JSON",
+      "Markdown"
     ]
   }
-}</component>
+}]]></component>
   <component name="PyCoverageOptionsProvider">
     <option name="myUseBundledCoveragePy" value="true" />
   </component>
@@ -424,6 +422,7 @@
       <workItem from="1761569149079" duration="1832000" />
       <workItem from="1762366013808" duration="3983000" />
       <workItem from="1762497194990" duration="1894000" />
+      <workItem from="1762630967516" duration="1788000" />
     </task>
     <servers />
   </component>
