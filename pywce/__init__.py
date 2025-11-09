@@ -15,15 +15,15 @@ Author: Donald Chinhuru
 """
 
 import pywce.src.templates as template
-
 from pywce.modules import client, DefaultSessionManager, storage
 from pywce.modules.session import ISessionManager
 from pywce.modules.storage import IStorageManager
 from pywce.src.constants import SessionConstants, EngineConstants, TemplateTypeConstants
 from pywce.src.engine import Engine
+from pywce.src.exceptions import HookException, FlowEndpointException
 from pywce.src.models import HookArg, TemplateDynamicBody, EngineConfig, ExternalHandlerResponse
 from pywce.src.services import HookService, hook, VisualTranslator
-from pywce.src.exceptions import HookException, FlowEndpointException
+from pywce.src.utils import HookUtil
 
 __author__ = "Donald Chinhuru"
 __email__ = "donychinhuru@gmail.com"
@@ -49,6 +49,7 @@ __all__ = [
     "TemplateDynamicBody",
     "HookService",
     "hook",
+    "HookUtil",
 
     # util
     "HookException",

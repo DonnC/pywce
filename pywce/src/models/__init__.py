@@ -41,6 +41,7 @@ class EngineConfig:
     webhook_timestamp_threshold_s: int = 10
     session_manager: ISessionManager = DefaultSessionManager()
     on_hook_arg: Optional[Callable] = None
+    external_renderer: Optional[Callable] = None
     global_pre_hooks: list[Callable] = field(default_factory=list)
     global_post_hooks: list[Callable] = field(default_factory=list)
 
