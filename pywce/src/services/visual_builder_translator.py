@@ -1,29 +1,39 @@
 import json
-from typing import Dict, List, Any
+from typing import Dict, List, Any, Tuple
+
+from pywce.src.constants.engine import EngineConstants
+from pywce.src.templates import EngineRoute
 
 
 class VisualTranslator:
     """
-    Translates a Visual Builder JSON export into the pywce-compatible 
-    dictionary format. This class is stateless.
+    Translates a React Flow JSON export into the pywce-compatible
+    dictionary format and a list of triggers.
+
+    This class is stateless and part of your core pywce library.
     """
 
-    def translate(self, builder_json: str) -> Dict[str, Any]:
+    def translate(self, react_flow_json: str) -> Tuple[Dict[str, Any], List[EngineRoute]]:
         """
         Main entry point for translation.
 
         Args:
-            builder_json: A string containing the JSON from 
-                             the Visual Builder builder.
+            react_flow_json: A string containing the JSON from
+                             the React Flow builder.
 
         Returns:
-            A dictionary in pywce format, e.g., {"START MENU": {...}}
+            A tuple containing:
+            1. (Dict[str, Any]): The pywce-compatible templates dictionary.
+            2. (List[EngineRoute]): A list of global triggers.
         """
+        pywce_flow: Dict[str, Any] = {}
+        pywce_triggers: List[EngineRoute] = []
+
         try:
-            data = json.loads(builder_json)
-            templates_list = data.get("templates", [])
+            data = json.loads(react_flow_json)
+            templates_list: List[Dict] = data.get("templates", [])
             if not templates_list:
-                return {}
+                return ({}, [])
 
             # --- Pass 1: Create ID-to-Name map ---
             id_to_name_map = {
@@ -32,25 +42,40 @@ class VisualTranslator:
                 if tpl.get("id") and tpl.get("name")
             }
 
-            # --- Pass 2: Transform and build the dict ---
-            engine_flow = {}
+            # --- Pass 2: Transform templates and extract triggers ---
             for tpl in templates_list:
                 template_name = tpl.get("name")
                 if not template_name:
                     continue
 
+                # 1. Transform the template node
                 transformed_tpl = self._transform_template(tpl, id_to_name_map)
-                engine_flow[template_name] = transformed_tpl
+                pywce_flow[template_name] = transformed_tpl
 
-            return engine_flow
+                # 2. Extract global triggers
+                settings = tpl.get("settings", {})
+                trigger_pattern = settings.get("trigger")
+
+                if trigger_pattern:
+                    #
+                    if not trigger_pattern.startswith(EngineConstants.REGEX_PLACEHOLDER):
+                        trigger_input = f"{EngineConstants.REGEX_PLACEHOLDER}{trigger_pattern}"
+                    else:
+                        trigger_input = trigger_pattern
+
+                    pywce_triggers.append(EngineRoute(
+                        user_input=trigger_input,
+                        next_stage=template_name
+                    ))
+
+            return (pywce_flow, pywce_triggers)
 
         except Exception as e:
-            # Handle JSON parsing errors, etc.
-            print(f"Visual Builder Translation Error: {e}")
-            return {}
+            print(f"Builder Translation Error: {e}")  # TODO: Or use a proper logger
+            return ({}, [])
 
     def _transform_template(self, tpl: Dict, id_map: Dict) -> Dict:
-        """Transforms a single node from Visual Builder."""
+        """Transforms a single node from Builder into a pywce-compatible dict."""
 
         kind = tpl.get("type")
         message = tpl.get("message", {})
@@ -64,32 +89,71 @@ class VisualTranslator:
             "message": message,
         }
 
-        # Transform routes
+        # --- Transform Routes ---
+        # Converts the list of route objects into the {pattern: next_stage} dict
         transformed_routes = {}
         for route in tpl.get("routes", []):
-            pattern = route.get("pattern", "")
+            pattern = route.get("pattern")
             target_id = route.get("connectedTo")
-            if target_id and target_id in id_map:
-                target_name = id_map[target_id]
-                transformed_routes[pattern] = target_name
+            is_regex = route.get("isRegex", False)
+
+            # Determine the final key for the routes dict
+            final_pattern_key = str(pattern)  # Ensure it's a string
+
+            if is_regex and not final_pattern_key.startswith(EngineConstants.REGEX_PLACEHOLDER):
+                final_pattern_key = f"{EngineConstants.REGEX_PLACEHOLDER}{final_pattern_key}"
+
+            target_name = id_map.get(target_id)
+            if target_name:  # Only add routes that connect to another node
+                transformed_routes[final_pattern_key] = target_name
 
         transformed_tpl["routes"] = transformed_routes
 
-        # Flatten 'settings'
-        if "settings" in tpl:
-            transformed_tpl.update(tpl["settings"])
-            # TODO: fix message-id
+        # --- Flatten Settings ---
+        # Maps keys from 'settings' to the BaseTemplate model fields
+        settings = tpl.get("settings", {})
+        if settings:
+            # Direct 1:1 maps
+            for key in ["checkpoint", "prop", "params", "typing", "authenticated", "session", "transient"]:
+                if key in settings:
+                    transformed_tpl[key] = settings[key]
 
-        # Flatten 'hooks'
-        if "hooks" in tpl:
-            for hook in tpl["hooks"]:
-                transformed_tpl[hook.get("type")] = hook.get("path")
-                # TODO: fix params
+            # Renamed maps (JSON key -> Pydantic field name)
+            if "ack" in settings:
+                transformed_tpl["acknowledge"] = settings["ack"]
+            if "replyMsgId" in settings:
+                transformed_tpl["reply_message_id"] = settings["replyMsgId"]
+            # TODO: 'trigger', 'isStart', 'isReport' are NOT flattened,
+            # as they are not part of the BaseTemplate model.
+
+        # --- Flatten Hooks ---
+        # Maps the list of hook objects to the BaseTemplate model fields
+        hooks = tpl.get("hooks", [])
+        for hook in hooks:
+            hook_type = hook.get("type")
+            hook_path = hook.get("path")
+
+            # Map from JSON 'type' to Pydantic 'field name'
+            if hook_type and hook_path:
+                if hook_type == "on-receive":
+                    transformed_tpl["on_receive"] = hook_path
+                elif hook_type == "on-generate":
+                    transformed_tpl["on_generate"] = hook_path
+                elif hook_type == "template":
+                    transformed_tpl["template"] = hook_path
+                elif hook_type == "router":
+                    transformed_tpl["router"] = hook_path
+                elif hook_type == "middleware":
+                    transformed_tpl["middleware"] = hook_path
 
         return transformed_tpl
 
     def _transform_list_sections(self, sections: List[Dict]) -> List[Dict]:
-        """Transforms list rows to match SectionRowItem Pydantic model."""
+        """
+        Transforms list rows to match SectionRowItem Pydantic model.
+        - Renames 'id' to 'identifier'
+        - Renames 'desc' to 'description'
+        """
         transformed_sections = []
         for section in sections:
             transformed_rows = []
