@@ -205,6 +205,17 @@ class MessageProcessor:
             except:
                 _logger.warning("Could not show typing indicator")
 
+    def _show_reaction(self) -> None:
+        if self.CURRENT_TEMPLATE.react is not None:
+            try:
+                self.whatsapp.send_reaction(
+                    emoji=self.CURRENT_TEMPLATE.react,
+                    message_id=self.user.msg_id,
+                    recipient_id=self.user.wa_id
+                )
+            except:
+                _logger.warning("Failed to send: %s reaction to message", self.CURRENT_TEMPLATE.react)
+
     def process_dynamic_route_hook(self) -> Union[str, None]:
         """
         Router hook is used to force a redirect to the next stage by taking the response of the `router` hook.
@@ -304,6 +315,7 @@ class MessageProcessor:
         self._check_for_session_bypass()
         self._check_save_checkpoint()
         self._show_typing_indicator()
+        self._show_reaction()
 
         self._compute_hook_arg()
 

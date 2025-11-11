@@ -5,7 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e700a6d4-f3fd-4ca6-8806-bc5eb9b6e49c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/example/ui-builder-flow.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/src/services/message_processor.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/message_processor.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pywce/src/services/visual_builder_translator.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/visual_builder_translator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/src/templates/base_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/templates/base_model.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -420,6 +424,7 @@
       <workItem from="1762630967516" duration="1788000" />
       <workItem from="1762705457606" duration="1853000" />
       <workItem from="1762791721187" duration="2801000" />
+      <workItem from="1762835545743" duration="7452000" />
     </task>
     <servers />
   </component>

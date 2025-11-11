@@ -1,5 +1,5 @@
 import json
-from typing import Dict, List, Any, Tuple
+from typing import Dict, List, Any, Tuple, Optional
 
 from pywce.src.constants.engine import EngineConstants
 from pywce.src.templates import EngineRoute
@@ -11,7 +11,12 @@ class VisualTranslator:
     dictionary format and a list of triggers.
 
     This class is stateless and part of your core pywce library.
+    ---
+
     """
+
+    START_MENU: Optional[str] = None
+    REPORT_MENU: Optional[str] = None
 
     def translate(self, react_flow_json: str) -> Tuple[Dict[str, Any], List[EngineRoute]]:
         """
@@ -52,8 +57,15 @@ class VisualTranslator:
                 transformed_tpl = self._transform_template(tpl, id_to_name_map)
                 pywce_flow[template_name] = transformed_tpl
 
-                # 2. Extract global triggers
                 settings = tpl.get("settings", {})
+
+                if settings.get("isReport", False):
+                    self.REPORT_MENU = template_name
+
+                if settings.get("isStart", False):
+                    self.START_MENU = template_name
+
+                # 2. Extract global triggers
                 trigger_pattern = settings.get("trigger")
 
                 if trigger_pattern:
@@ -114,7 +126,7 @@ class VisualTranslator:
         settings = tpl.get("settings", {})
         if settings:
             # Direct 1:1 maps
-            for key in ["checkpoint", "prop", "params", "typing", "authenticated", "session", "transient"]:
+            for key in ["checkpoint", "react", "prop", "params", "typing", "authenticated", "session", "transient"]:
                 if key in settings:
                     transformed_tpl[key] = settings[key]
 
@@ -123,8 +135,6 @@ class VisualTranslator:
                 transformed_tpl["acknowledge"] = settings["ack"]
             if "replyMsgId" in settings:
                 transformed_tpl["reply_message_id"] = settings["replyMsgId"]
-            # TODO: 'trigger', 'isStart', 'isReport' are NOT flattened,
-            # as they are not part of the BaseTemplate model.
 
         # --- Flatten Hooks ---
         # Maps the list of hook objects to the BaseTemplate model fields

@@ -1,0 +1,326 @@
+{
+  "templates": [
+    {
+      "id": "button-1762493139035",
+      "name": "START MENU",
+      "type": "button",
+      "message": {
+        "body": "Hi {{ s.wa_name }}. Enjoy an innovative template-driven framework for chatbot development\n\nSelect your next action",
+        "title": "Greetings",
+        "footer": "pywce",
+        "buttons": [
+          "Developer Profile",
+          "eHailing Bot"
+        ]
+      },
+      "routes": [
+        {
+          "id": "route_1762493582101",
+          "pattern": "Developer Profile",
+          "isRegex": false,
+          "connectedTo": "cta-1762498088215"
+        },
+        {
+          "id": "route_1762493591133",
+          "pattern": "eHailing Bot",
+          "isRegex": false,
+          "connectedTo": "button-1762499373358"
+        }
+      ],
+      "position": {
+        "x": -130.08710095494325,
+        "y": -143.63784063774986
+      },
+      "settings": {
+        "checkpoint": true
+      }
+    },
+    {
+      "id": "cta-1762498088215",
+      "name": "GITHUB PROFILE",
+      "type": "cta",
+      "message": {
+        "body": "View my GitHub profile, projects and star, fork, share , contribute or support",
+        "title": "Support",
+        "footer": "",
+        "url": "https://github.com/DonnC",
+        "button": "GitHub"
+      },
+      "routes": [
+        {
+          "id": "route_1762498328458",
+          "pattern": ".*",
+          "isRegex": true,
+          "connectedTo": "button-1762493139035"
+        }
+      ],
+      "position": {
+        "x": -354.50072667955817,
+        "y": 20.32610952420991
+      }
+    },
+    {
+      "id": "button-1762499373358",
+      "name": "START EHAILING",
+      "type": "button",
+      "message": {
+        "body": "Hi  {{ s.wa_name }}, I'm a PoC eHailing PickDrive assistant.\n\nTo begin, click the button below",
+        "title": "eHailing ChatBot",
+        "footer": "pywce",
+        "buttons": [
+          "begin"
+        ]
+      },
+      "routes": [
+        {
+          "id": "route-1762499807506",
+          "pattern": "",
+          "isRegex": false,
+          "connectedTo": "button-1762499572072"
+        }
+      ],
+      "settings": {
+        "checkpoint": true
+      },
+      "position": {
+        "x": 143.148236546346,
+        "y": -124.2961316175665
+      }
+    },
+    {
+      "id": "button-1762499572072",
+      "name": "SELECT RIDE",
+      "type": "button",
+      "message": {
+        "body": "Great, to offer you with exclusive riding experience, select your prefferred ride type.",
+        "title": "PickDrive",
+        "footer": "",
+        "buttons": [
+          "Ride",
+          "Standard",
+          "Luxury"
+        ]
+      },
+      "routes": [
+        {
+          "id": "route_1762499871073",
+          "pattern": ".*",
+          "isRegex": true,
+          "connectedTo": "request-location-1762499819081"
+        }
+      ],
+      "settings": {
+        "prop": "ride_type"
+      },
+      "position": {
+        "x": -67.36363150975677,
+        "y": 22.56199662134634
+      }
+    },
+    {
+      "id": "request-location-1762499819081",
+      "name": "PICKUP LOCATION",
+      "type": "request-location",
+      "message": "Where would you like to be picked from?",
+      "routes": [
+        {
+          "id": "route-1762499923850",
+          "pattern": ".*",
+          "isRegex": true,
+          "connectedTo": "request-location-1762499918409"
+        }
+      ],
+      "position": {
+        "x": -67.10196118869186,
+        "y": 136.7793140044191
+      }
+    },
+    {
+      "id": "request-location-1762499918409",
+      "name": "DESTINATION LOCATION",
+      "type": "request-location",
+      "message": "Where would you like to go?",
+      "routes": [
+        {
+          "id": "route_1762499965497",
+          "pattern": ".*",
+          "isRegex": true,
+          "connectedTo": "button-1762500038549"
+        }
+      ],
+      "hooks": [
+        {
+          "type": "on-receive",
+          "path": "example.ehailing.hooks.location.save_destination"
+        }
+      ],
+      "position": {
+        "x": -67.01200689811569,
+        "y": 242.15742601708467
+      }
+    },
+    {
+      "id": "button-1762500038549",
+      "name": "RIDE OFFER",
+      "type": "button",
+      "message": {
+        "body": "Ride fee: USD $3.50\nArrival time: ~3mins",
+        "title": "Ride",
+        "footer": "",
+        "buttons": [
+          "Accept",
+          "Counter Offer"
+        ]
+      },
+      "routes": [
+        {
+          "id": "route_1762500135585",
+          "pattern": "",
+          "isRegex": false,
+          "connectedTo": "list-1762500227637"
+        },
+        {
+          "id": "route_1762500136166",
+          "pattern": "",
+          "isRegex": false
+        }
+      ],
+      "position": {
+        "x": -67.78046682545497,
+        "y": 353.95816997804184
+      }
+    },
+    {
+      "id": "list-1762500227637",
+      "name": "AVAILABLE DRIVERS",
+      "type": "list",
+      "message": {
+        "body": "I found rides matching your choice. Select one you like and they will be ready to pick you up.",
+        "title": "Available Drivers",
+        "footer": "",
+        "button": "Vuew Drivers",
+        "sections": [
+          {
+            "title": "Available Rides",
+            "rows": [
+              {
+                "id": "0",
+                "title": "Donald | $3.50",
+                "desc": "Honda Fit, 300m (4.0)"
+              },
+              {
+                "id": "1",
+                "title": "Pamela | $3.20",
+                "desc": "Toyota Aqua, 300m (3.8)"
+              }
+            ]
+          },
+          {
+            "title": "Other Rides",
+            "rows": [
+              {
+                "id": "2",
+                "title": "Tanaka | $3.00",
+                "desc": "Nissan Note, 250m (4.2)"
+              }
+            ]
+          }
+        ]
+      },
+      "routes": [
+        {
+          "id": "route_1762500448141",
+          "pattern": ".*",
+          "isRegex": true,
+          "connectedTo": "button-1762500479445"
+        }
+      ],
+      "position": {
+        "x": 668.3102557283366,
+        "y": -141.52999650274796
+      }
+    },
+    {
+      "id": "button-1762500479445",
+      "name": "CONFIRM OFFER",
+      "type": "button",
+      "message": {
+        "body": "Ride: {{ p.ride.type }}\nDriver: Donald\nVehicle Color: Silver\nReg Number: QZX XXXX\n\nConfirm to notify the driver to come pick you up now!",
+        "title": "PickDrive Ride",
+        "footer": "",
+        "buttons": [
+          "Confirm",
+          "Abort"
+        ]
+      },
+      "routes": [
+        {
+          "id": "route-1762500699317",
+          "pattern": "confirm",
+          "isRegex": false,
+          "connectedTo": "button-1762500654022"
+        },
+        {
+          "id": "route_1762500714503",
+          "pattern": "abort",
+          "isRegex": false,
+          "connectedTo": "button-1762493139035"
+        }
+      ],
+      "settings": {
+        "typing": true
+      },
+      "position": {
+        "x": 667.7267881361984,
+        "y": 44.96512096295009
+      }
+    },
+    {
+      "id": "button-1762500654022",
+      "name": "DRIVER COMMAND COME",
+      "type": "button",
+      "message": {
+        "body": "Driver is coming your location now!",
+        "title": "Pick Drive",
+        "footer": "",
+        "buttons": [
+          "Report"
+        ]
+      },
+      "routes": [
+        {
+          "id": "route-1762500796523",
+          "pattern": "",
+          "isRegex": false,
+          "connectedTo": "text-1762500785071"
+        }
+      ],
+      "position": {
+        "x": 667.3794470475967,
+        "y": 190.22259709226367
+      }
+    },
+    {
+      "id": "text-1762500785071",
+      "name": "REPORT",
+      "type": "text",
+      "message": "Provide report information",
+      "routes": [
+        {
+          "id": "route-1762500835019",
+          "pattern": "",
+          "isRegex": false,
+          "connectedTo": "button-1762493139035"
+        }
+      ],
+      "settings": {
+        "prop": "report"
+      },
+      "position": {
+        "x": 666.4260002161284,
+        "y": 335.29711842098817
+      }
+    }
+  ],
+  "version": "1.0"
+}
