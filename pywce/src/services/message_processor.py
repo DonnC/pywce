@@ -57,8 +57,14 @@ class MessageProcessor:
     def _get_current_template(self) -> None:
         current_stage_in_session = self.session.get(session_id=self.session_id, key=SessionConstants.CURRENT_STAGE)
 
+        _logger.debug("Current stage in session: %s", current_stage_in_session)
+
         if current_stage_in_session is None:
             self.CURRENT_STAGE = self.config.start_template_stage
+
+            _logger.debug("Setting current stage to start stage. Config: %s", self.config)
+
+            _logger.debug("No current stage in session, setting to start stage: %s", self.CURRENT_STAGE)
 
             self.CURRENT_TEMPLATE = self._get_stage_template(self.CURRENT_STAGE)
             self.IS_FIRST_TIME = True
@@ -69,6 +75,8 @@ class MessageProcessor:
 
         self.CURRENT_STAGE = current_stage_in_session
         self.CURRENT_TEMPLATE = self._get_stage_template(current_stage_in_session)
+
+        _logger.debug("Loaded current template: %s", self.CURRENT_TEMPLATE)
 
     def _check_if_trigger(self, possible_trigger_input: str = None) -> None:
         if self.HOOK_ARG is None:

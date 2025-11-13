@@ -205,7 +205,7 @@ class Worker:
 
         next_stage, next_template = self._hook_next_template_handler(processor)
 
-        logger.debug("Next templates stage: %s", next_stage)
+        logger.debug("Next template stage: %s", next_stage)
 
         service_model = WhatsAppServiceModel(
             config=self.job.engine_config,
@@ -348,5 +348,5 @@ class Worker:
             return
 
         except EngineInternalException as e:
-            logger.error(f"Message: %s, data: %s", e.message, e.data)
+            logger.error(f"Message: %s, data: %s", e.message, e.data, exc_info=True)
             return

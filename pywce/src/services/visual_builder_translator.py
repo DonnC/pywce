@@ -1,9 +1,12 @@
 import json
+import logging
 from typing import Dict, List, Any, Tuple, Optional
 
 from pywce.src.constants.engine import EngineConstants
 from pywce.src.templates import EngineRoute
 
+
+_logger = logging.getLogger(__name__)
 
 class VisualTranslator:
     """
@@ -17,6 +20,9 @@ class VisualTranslator:
 
     START_MENU: Optional[str] = None
     REPORT_MENU: Optional[str] = None
+
+    def __init__(self):
+        pass
 
     def translate(self, react_flow_json: str) -> Tuple[Dict[str, Any], List[EngineRoute]]:
         """
@@ -77,13 +83,14 @@ class VisualTranslator:
 
                     pywce_triggers.append(EngineRoute(
                         user_input=trigger_input,
-                        next_stage=template_name
+                        next_stage=template_name,
+                        is_regex=str(trigger_input).startswith(EngineConstants.REGEX_PLACEHOLDER)
                     ))
 
             return (pywce_flow, pywce_triggers)
 
-        except Exception as e:
-            print(f"Builder Translation Error: {e}")  # TODO: Or use a proper logger
+        except:
+            _logger.error("Builder translation error", exc_info=True)
             return ({}, [])
 
     def _transform_template(self, tpl: Dict, id_map: Dict) -> Dict:
