@@ -169,6 +169,8 @@ class Worker:
 
         next_template_stage = self._next_route_handler(msg_processor)
 
+        logger.debug("Determined next template stage: %s", next_template_stage)
+
         next_template = self.job.engine_config.storage_manager.get(next_template_stage)
 
         self._check_authentication(next_template)

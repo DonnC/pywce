@@ -62,10 +62,6 @@ class MessageProcessor:
         if current_stage_in_session is None:
             self.CURRENT_STAGE = self.config.start_template_stage
 
-            _logger.debug("Setting current stage to start stage. Config: %s", self.config)
-
-            _logger.debug("No current stage in session, setting to start stage: %s", self.CURRENT_STAGE)
-
             self.CURRENT_TEMPLATE = self._get_stage_template(self.CURRENT_STAGE)
             self.IS_FIRST_TIME = True
 
@@ -75,8 +71,6 @@ class MessageProcessor:
 
         self.CURRENT_STAGE = current_stage_in_session
         self.CURRENT_TEMPLATE = self._get_stage_template(current_stage_in_session)
-
-        _logger.debug("Loaded current template: %s", self.CURRENT_TEMPLATE)
 
     def _check_if_trigger(self, possible_trigger_input: str = None) -> None:
         if self.HOOK_ARG is None:
@@ -175,6 +169,8 @@ class MessageProcessor:
             case _:
                 raise EngineResponseException(message="Unsupported response, kindly provide a valid response",
                                               data=self.CURRENT_STAGE)
+            
+        _logger.debug("Extracted message body input: %s", self.USER_INPUT)
 
     def _check_for_session_bypass(self) -> None:
         if self.CURRENT_TEMPLATE.session is False:
@@ -326,5 +322,7 @@ class MessageProcessor:
         self._show_reaction()
 
         self._compute_hook_arg()
+
+        _logger.debug("Hook arg computed: %s", self.HOOK_ARG)
 
         HookUtil.run_listener(listener=self.config.on_hook_arg, arg=self.HOOK_ARG)
