@@ -229,17 +229,17 @@ class Worker:
         """
 
         if self._is_old_webhook():
-            logger.warning(f"Skipping old webhook request. %s Discarding...", self.payload.body)
+            logger.warning("Skipping old webhook request. %s Discarding...", self.payload.body)
             return
 
         if self.job.payload.typ == client.MessageTypeEnum.UNKNOWN or \
                 self.job.payload.typ == client.MessageTypeEnum.UNSUPPORTED:
-            logger.warning(f"Received unknown | unsupported message: %s", self.user.wa_id)
+            logger.warning("Received unknown | unsupported message: %s", self.user.wa_id)
             return
 
         if self.job.engine_config.handle_session_queue:
             if self._exists_in_queue():
-                logger.warning(f"Duplicate message found: %s", self.payload.body)
+                logger.warning("Duplicate message found: %s", self.payload.body)
                 return
 
         last_debounce_timestamp = self.session.get(session_id=self.session_id, key=SessionConstants.CURRENT_DEBOUNCE)
@@ -280,7 +280,7 @@ class Worker:
             return
 
         except HookException as e:
-            logger.error(f"HookException exc, message: %s, data: %s", e.message, e.data)
+            logger.error("HookException exc, message: %s, data: %s", e.message, e.data)
 
             btn = ButtonTemplate(
                 message=ButtonMessage(
@@ -296,7 +296,7 @@ class Worker:
             return
 
         except EngineResponseException as e:
-            logger.error(f"EngineResponse exc, message: %s, data: %s", e.message, e.data)
+            logger.error("EngineResponse exc, message: %s, data: %s", e.message, e.data)
 
             btn = ButtonTemplate(
                 message=ButtonMessage(
@@ -330,7 +330,7 @@ class Worker:
             return
 
         except EngineSessionException as e:
-            logger.error(f"Session expired | inactive for: %s. Clearing data", self.user.wa_id)
+            logger.error("Session expired | inactive for: %s. Clearing data", self.user.wa_id)
 
             # TODO: may want to delegate this call to the user
             self.session.clear(session_id=self.user.wa_id)
@@ -350,5 +350,5 @@ class Worker:
             return
 
         except EngineInternalException as e:
-            logger.error(f"Message: %s, data: %s", e.message, e.data, exc_info=True)
+            logger.error("Message: %s, data: %s", e.message, e.data, exc_info=True)
             return
