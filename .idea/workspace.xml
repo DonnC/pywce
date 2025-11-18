@@ -5,12 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e700a6d4-f3fd-4ca6-8806-bc5eb9b6e49c" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/pywce/src/constants/session.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/constants/session.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/engine.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/engine.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/models/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/services/hook_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/hook_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/services/message_processor.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/message_processor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/services/worker.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/worker.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/pywce.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/pywce.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -103,6 +101,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
     "git-widget-placeholder": "dev",
     "junie.onboarding.icon.badge.shown": "true",
     "last_opened_file_path": "/home/donnc/frappe-bench/apps/frappe_pywce/lib/pywce",
@@ -111,7 +110,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "com.intellij.aiplayground.settings.llm",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
     "to.speed.mode.migration.done": "true",
     "vue.rearranger.settings.migration": "true"
   },
@@ -238,6 +237,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
+        <option value="bundled-js-predefined-d6986cc7102b-3aa1da707db6-JavaScript-PY-252.27397.106" />
         <option value="bundled-python-sdk-4e2b1448bda8-9a97661f3031-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.27397.106" />
       </set>
     </attachedChunks>
@@ -426,6 +426,8 @@
       <workItem from="1762791721187" duration="2801000" />
       <workItem from="1762835545743" duration="7452000" />
       <workItem from="1763218031256" duration="4764000" />
+      <workItem from="1763462222826" duration="28000" />
+      <workItem from="1763488927722" duration="3717000" />
     </task>
     <servers />
   </component>
