@@ -20,7 +20,7 @@ allowing you to define conversation flows and business logic in a clean and modu
 
 ## Installation
 ```bash
-pip install git+https://github.com/DonnC/pywce.git@sync
+pip install pywce
 ```
 
 ---
