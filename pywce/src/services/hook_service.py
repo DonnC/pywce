@@ -3,7 +3,7 @@ import logging
 from functools import wraps
 from typing import Callable, Literal, Optional
 
-from pywce.src.exceptions import InternalHookError, HookException
+from pywce.src.exceptions import InternalHookError, HookException, EngineResponseException
 from pywce.src.models import HookArg
 
 _logger = logging.getLogger(__name__)
@@ -141,6 +141,9 @@ class HookService:
 
         except HookException as e:
             raise HookException(e.message, e.data)
+
+        except EngineResponseException as e:
+            raise e
 
         except Exception as e:
             _logger.error("Hook processing failure. Hook: '%s', error: %s", hook_dotted_path, str(e))

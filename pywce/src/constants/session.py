@@ -30,3 +30,4 @@ class SessionConstants:
     EXTERNAL_CHAT_HANDLER = "pywce_ext_handler"
 
     DEFAULT_NAME = "wa_name"
+    DEFAULT_MOBILE = "wa_mobile"

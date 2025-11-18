@@ -34,7 +34,7 @@ class Engine:
 
         if has_ext_handler_session is not None:
             self._user_session(recipient_id).evict(session_id=recipient_id, key=SessionConstants.EXTERNAL_CHAT_HANDLER)
-            logger.warning(f"External handler session terminated for: %s", recipient_id)
+            logger.warning("External handler session terminated for: %s", recipient_id)
 
     def ext_handler_respond(self, response: ExternalHandlerResponse):
         """
@@ -58,7 +58,7 @@ class Engine:
 
             response_msg_id = self.whatsapp.util.get_response_message_id(response)
 
-            logger.debug(f"ExtHandler message responded with id: %s", response_msg_id)
+            logger.debug("ExtHandler message responded with id: %s", response_msg_id)
 
             return response_msg_id
 
@@ -67,15 +67,20 @@ class Engine:
     def process_webhook(self, webhook_data: Dict[str, Any]):
         if not self.whatsapp.util.is_valid_webhook_message(webhook_data):
             _msg = webhook_data if self.config.log_invalid_webhooks is True else "skipping.."
-            logger.warning(f"Invalid webhook message: %s", _msg)
+            logger.warning("Invalid webhook message: %s", _msg)
             return
 
         wa_user = self.whatsapp.util.get_wa_user(webhook_data)
         user_session: ISessionManager = self._user_session(wa_user.wa_id)
         response_model = self.whatsapp.util.get_response_structure(webhook_data)
 
+        #  ========= put session defaults ============
         if user_session.get(wa_user.wa_id, SessionConstants.DEFAULT_NAME) is None:
             user_session.save(wa_user.wa_id, SessionConstants.DEFAULT_NAME, wa_user.name)
+
+        if user_session.get(wa_user.wa_id, SessionConstants.DEFAULT_MOBILE) is None:
+            user_session.save(wa_user.wa_id, SessionConstants.DEFAULT_MOBILE, wa_user.wa_id)
+        # ============= end ====================
 
         # check if user has running external handler
         has_ext_session = user_session.get(session_id=wa_user.wa_id, key=SessionConstants.EXTERNAL_CHAT_HANDLER)

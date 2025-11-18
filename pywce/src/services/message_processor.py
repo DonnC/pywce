@@ -57,6 +57,8 @@ class MessageProcessor:
     def _get_current_template(self) -> None:
         current_stage_in_session = self.session.get(session_id=self.session_id, key=SessionConstants.CURRENT_STAGE)
 
+        _logger.debug("Current stage in session: %s", current_stage_in_session)
+
         if current_stage_in_session is None:
             self.CURRENT_STAGE = self.config.start_template_stage
 
@@ -70,9 +72,33 @@ class MessageProcessor:
         self.CURRENT_STAGE = current_stage_in_session
         self.CURRENT_TEMPLATE = self._get_stage_template(current_stage_in_session)
 
+    def _checK_for_trigger_routes(self, possible_trigger_input: str) -> bool:
+        # a helper function to check if there are any valid triggers matching user input
+        # if available, go to that route
+        for trigger in self.config.storage_manager.triggers():
+            _next_stage = trigger.next_stage
+
+            if EngineUtil.has_triggered(trigger, possible_trigger_input):
+                if EngineConstants.TRIGGER_ROUTE_SEPERATOR in trigger.next_stage:
+                    _next_stage, trigger_route_param = trigger.next_stage.split(EngineConstants.TRIGGER_ROUTE_SEPERATOR)
+                    self.HOOK_ARG.params.update({EngineConstants.TRIGGER_ROUTE_PARAM: trigger_route_param})
+                    HookUtil.run_listener(listener=self.config.on_hook_arg, arg=self.HOOK_ARG)
+
+                self.CURRENT_TEMPLATE = self._get_stage_template(_next_stage)
+                self.CURRENT_STAGE = _next_stage
+                self.IS_FROM_TRIGGER = True
+                self.session.save(session_id=self.session_id, key=SessionConstants.CURRENT_STAGE,
+                                  data=self.CURRENT_STAGE)
+                _logger.debug("Template change from trigger: %s. Stage: %s", trigger, _next_stage)
+                return True
+
+        return False
+
     def _check_if_trigger(self, possible_trigger_input: str = None) -> None:
         if self.HOOK_ARG is None:
             self._compute_hook_arg()
+
+        _logger.debug("Checking if possible trigger: %s", possible_trigger_input)
 
         if possible_trigger_input is None:
             return
@@ -90,10 +116,13 @@ class MessageProcessor:
                 self.CURRENT_TEMPLATE = self._get_stage_template(self.CURRENT_STAGE)
 
             else:
-                _stage = self.session.get(session_id=self.session_id,
-                                          key=SessionConstants.LATEST_CHECKPOINT) or self.config.start_template_stage
-                self.CURRENT_STAGE = _stage
-                self.CURRENT_TEMPLATE = self._get_stage_template(self.CURRENT_STAGE)
+                # this is tricky, user may be logged in / logged out, back to checkpoint or default to start template
+                # there may be a defined trigger route
+                if not self._checK_for_trigger_routes(possible_trigger_input):
+                    _stage = self.session.get(session_id=self.session_id,
+                                              key=SessionConstants.LATEST_CHECKPOINT) or self.config.start_template_stage
+                    self.CURRENT_STAGE = _stage
+                    self.CURRENT_TEMPLATE = self._get_stage_template(self.CURRENT_STAGE)
 
             self.IS_FROM_TRIGGER = True
             self.session.save(session_id=self.session_id, key=SessionConstants.CURRENT_STAGE, data=self.CURRENT_STAGE)
@@ -101,22 +130,7 @@ class MessageProcessor:
                           self.CURRENT_STAGE)
             return
 
-        for trigger in self.config.storage_manager.triggers():
-            _next_stage = trigger.next_stage
-
-            if EngineUtil.has_triggered(trigger, possible_trigger_input):
-                if EngineConstants.TRIGGER_ROUTE_SEPERATOR in trigger.next_stage:
-                    _next_stage, trigger_route_param = trigger.next_stage.split(EngineConstants.TRIGGER_ROUTE_SEPERATOR)
-                    self.HOOK_ARG.params.update({EngineConstants.TRIGGER_ROUTE_PARAM: trigger_route_param})
-                    HookUtil.run_listener(listener=self.config.on_hook_arg, arg=self.HOOK_ARG)
-
-                self.CURRENT_TEMPLATE = self._get_stage_template(_next_stage)
-                self.CURRENT_STAGE = _next_stage
-                self.IS_FROM_TRIGGER = True
-                self.session.save(session_id=self.session_id, key=SessionConstants.CURRENT_STAGE,
-                                  data=self.CURRENT_STAGE)
-                _logger.debug("Template change from trigger: %s. Stage: %s", trigger, _next_stage)
-                return
+        if self._checK_for_trigger_routes(possible_trigger_input): return
 
         # TODO: check if current msg id is null, throw Ambiguous old webhook exc
 
@@ -167,6 +181,8 @@ class MessageProcessor:
             case _:
                 raise EngineResponseException(message="Unsupported response, kindly provide a valid response",
                                               data=self.CURRENT_STAGE)
+            
+        _logger.debug("Extracted message body input: %s", self.USER_INPUT)
 
     def _check_for_session_bypass(self) -> None:
         if self.CURRENT_TEMPLATE.session is False:
@@ -184,7 +200,7 @@ class MessageProcessor:
         self.HOOK_ARG.from_trigger = self.IS_FROM_TRIGGER
 
         if tpl.params is not None:
-            self.HOOK_ARG.params.update(tpl.get(TemplateConstants.PARAMS))
+            self.HOOK_ARG.params.update(tpl.params)
 
         HookUtil.run_listener(listener=self.config.on_hook_arg, arg=self.HOOK_ARG)
 
@@ -204,6 +220,17 @@ class MessageProcessor:
                 self.whatsapp.show_typing_indicator(self.user.msg_id)
             except:
                 _logger.warning("Could not show typing indicator")
+
+    def _show_reaction(self) -> None:
+        if self.CURRENT_TEMPLATE.react is not None:
+            try:
+                self.whatsapp.send_reaction(
+                    emoji=self.CURRENT_TEMPLATE.react,
+                    message_id=self.user.msg_id,
+                    recipient_id=self.user.wa_id
+                )
+            except:
+                _logger.warning("Failed to send: %s reaction to message", self.CURRENT_TEMPLATE.react)
 
     def process_dynamic_route_hook(self) -> Union[str, None]:
         """
@@ -304,7 +331,10 @@ class MessageProcessor:
         self._check_for_session_bypass()
         self._check_save_checkpoint()
         self._show_typing_indicator()
+        self._show_reaction()
 
         self._compute_hook_arg()
+
+        _logger.debug("Hook arg computed: %s", self.HOOK_ARG)
 
         HookUtil.run_listener(listener=self.config.on_hook_arg, arg=self.HOOK_ARG)

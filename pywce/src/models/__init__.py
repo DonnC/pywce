@@ -37,10 +37,11 @@ class EngineConfig:
     read_receipts: bool = False
     log_invalid_webhooks: bool = False
     inactivity_timeout_min: int = 3
-    debounce_timeout_ms: int = 6000
+    debounce_timeout_ms: int = 3000
     webhook_timestamp_threshold_s: int = 10
     session_manager: ISessionManager = DefaultSessionManager()
     on_hook_arg: Optional[Callable] = None
+    external_renderer: Optional[Callable] = None
     global_pre_hooks: list[Callable] = field(default_factory=list)
     global_post_hooks: list[Callable] = field(default_factory=list)
 

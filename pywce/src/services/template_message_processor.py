@@ -44,6 +44,8 @@ class TemplateMessageProcessor:
         """
         Process and replace special variables in the templates ({{ s.var }} and {{ p.var }}).
 
+        eg {{ s.var_name_in_session }} or {{ p.prop_name }}
+
         Replace `s.` vars with session data
 
         Replace `p.` vars with session props data
@@ -88,18 +90,28 @@ class TemplateMessageProcessor:
 
         if skip: return
 
-        if self.template.template is not None:
-            response = HookUtil.process_hook(hook=self.template.template,
-                                             arg=self.hook,
-                                             external=self.config.ext_hook_processor
-                                             )
+        if self.config.external_renderer is not None:
+            rendered_dict = self.config.external_renderer(
+                template_dict=templates.Template.as_dict(self.template),
+                hook_path=self.template.template,
+                hook_arg=self.hook,
+                ext_hook_processor=self.config.ext_hook_processor
+            )
+            self.template = templates.Template.as_model(rendered_dict)
 
-            self.template = templates.Template.as_model(EngineUtil.render_template(
-                template=templates.Template.as_dict(self.template),
-                context=response.template_body.render_template_payload
-            ))
+        else:
+            if self.template.template is not None:
+                response = HookUtil.process_hook(hook=self.template.template,
+                                                 arg=self.hook,
+                                                 external=self.config.ext_hook_processor
+                                                 )
 
-            self._setup()
+                self.template = templates.Template.as_model(EngineUtil.render_template(
+                    template=templates.Template.as_dict(self.template),
+                    context=response.template_body.render_template_payload
+                ))
+
+        self._setup()
 
     def _get_common_interactive_fields(self) -> Dict[str, Any]:
         """
