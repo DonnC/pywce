@@ -9,12 +9,8 @@ logger = logging.getLogger(__name__)
 
 class HookUtil:
     @staticmethod
-    def process_hook(hook: str, arg: HookArg, external: Optional[Callable] = None) -> HookArg:
+    def process_hook(hook: str, arg: HookArg) -> HookArg:
         arg.hook = hook
-
-        if hook.startswith(EngineConstants.EXT_HOOK_PROCESSOR_PLACEHOLDER) and external is not None:
-            return external(arg)
-
         return HookService.process_hook(hook_dotted_path=hook, hook_arg=arg)
 
     @staticmethod

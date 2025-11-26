@@ -66,12 +66,8 @@ class Worker:
                     message="Your session has expired. Kindly login again to access our WhatsApp Services")
 
     def _inactivity_handler(self) -> bool:
-        if not self.job.engine_config.handle_session_inactivity: return False
-
-        is_auth_set = self.session.get(session_id=self.session_id, key=SessionConstants.VALID_AUTH_SESSION)
-        last_active = self.session.get(session_id=self.session_id, key=SessionConstants.LAST_ACTIVITY_AT)
-
-        if is_auth_set is not None:
+        if self.job.engine_config.handle_session_inactivity:
+            last_active = self.session.get(session_id=self.session_id, key=SessionConstants.LAST_ACTIVITY_AT)
             return EngineUtil.has_interaction_expired(last_active, self.job.engine_config.inactivity_timeout_min)
         return False
 
@@ -135,7 +131,7 @@ class Worker:
         if msg_processor.IS_FROM_TRIGGER:
             return msg_processor.CURRENT_STAGE
 
-        # if its 1 of the unprocessable templates, just take the next route
+        # if its 1 of the unprocessable templates return, just take the next route
         is_route_unprocessable = isinstance(msg_processor.CURRENT_TEMPLATE, FlowTemplate) or \
                                  isinstance(msg_processor.CURRENT_TEMPLATE, RequestLocationTemplate) or \
                                  isinstance(msg_processor.CURRENT_TEMPLATE, MediaTemplate) or \
@@ -174,6 +170,8 @@ class Worker:
         next_template = self.job.engine_config.storage_manager.get(next_template_stage)
 
         self._check_authentication(next_template)
+
+        # good time to process global pre-hooks
         msg_processor.process_pre_hooks(next_template)
 
         return next_template_stage, next_template
@@ -229,7 +227,7 @@ class Worker:
         """
 
         if self._is_old_webhook():
-            logger.warning("Skipping old webhook request. %s Discarding...", self.payload.body)
+            logger.warning("Skipping old webhook request. %s", self.payload.body)
             return
 
         if self.job.payload.typ == client.MessageTypeEnum.UNKNOWN or \
@@ -239,7 +237,7 @@ class Worker:
 
         if self.job.engine_config.handle_session_queue:
             if self._exists_in_queue():
-                logger.warning("Duplicate message found: %s", self.payload.body)
+                logger.warning("Skipping duplicate message found: %s", self.payload.body)
                 return
 
         last_debounce_timestamp = self.session.get(session_id=self.session_id, key=SessionConstants.CURRENT_DEBOUNCE)
@@ -330,9 +328,8 @@ class Worker:
             return
 
         except EngineSessionException as e:
-            logger.error("Session expired | inactive for: %s. Clearing data", self.user.wa_id)
+            logger.error("Session expired | inactive for: %s. Clearing data..", self.user.wa_id)
 
-            # TODO: may want to delegate this call to the user
             self.session.clear(session_id=self.user.wa_id)
 
             btn = ButtonTemplate(

@@ -71,7 +71,7 @@ class WhatsApp:
         self.base_url = f"https://graph.facebook.com/{self.config.version}"
         self.url = f"{self.base_url}/{self.config.phone_number_id}/messages"
 
-        if self.config.use_emulator is True:
+        if self.config.use_emulator:
             self.url = self.config.emulator_url
 
         self.headers = {

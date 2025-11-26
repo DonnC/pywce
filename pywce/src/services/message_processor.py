@@ -185,13 +185,13 @@ class MessageProcessor:
         _logger.debug("Extracted message body input: %s", self.USER_INPUT)
 
     def _check_for_session_bypass(self) -> None:
-        if self.CURRENT_TEMPLATE.session is False:
+        if not self.CURRENT_TEMPLATE.session:
             self.IS_FROM_TRIGGER = False
             self.session.save(session_id=self.session_id, key=SessionConstants.CURRENT_STAGE,
                               data=self.CURRENT_STAGE)
 
     def _check_save_checkpoint(self) -> None:
-        if self.CURRENT_TEMPLATE.checkpoint is True:
+        if self.CURRENT_TEMPLATE.checkpoint:
             self.session.save(session_id=self.session_id, key=SessionConstants.LATEST_CHECKPOINT,
                               data=self.CURRENT_STAGE)
 
@@ -247,8 +247,7 @@ class MessageProcessor:
 
                 result = HookUtil.process_hook(
                     hook=self.CURRENT_TEMPLATE.router,
-                    arg=self.HOOK_ARG,
-                    external=self.config.ext_hook_processor
+                    arg=self.HOOK_ARG
                 )
 
                 return result.additional_data.get(EngineConstants.DYNAMIC_ROUTE_KEY)
@@ -272,8 +271,7 @@ class MessageProcessor:
 
         if self.CURRENT_TEMPLATE.on_generate is not None:
             HookUtil.process_hook(hook=self.CURRENT_TEMPLATE.on_generate,
-                                  arg=self.HOOK_ARG,
-                                  external=self.config.ext_hook_processor
+                                  arg=self.HOOK_ARG
                                   )
 
     def process_post_hooks(self) -> None:
@@ -299,15 +297,11 @@ class MessageProcessor:
 
         if self.CURRENT_TEMPLATE.on_receive is not None:
             HookUtil.process_hook(hook=self.CURRENT_TEMPLATE.on_receive,
-                                  arg=self.HOOK_ARG,
-                                  external=self.config.ext_hook_processor
-                                  )
+                                  arg=self.HOOK_ARG,)
 
         if self.CURRENT_TEMPLATE.middleware is not None:
             HookUtil.process_hook(hook=self.CURRENT_TEMPLATE.middleware,
-                                  arg=self.HOOK_ARG,
-                                  external=self.config.ext_hook_processor
-                                  )
+                                  arg=self.HOOK_ARG)
 
         if self.CURRENT_TEMPLATE.prop is not None:
             self.session.save_prop(

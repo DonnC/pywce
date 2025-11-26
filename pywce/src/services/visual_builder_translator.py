@@ -44,7 +44,7 @@ class VisualTranslator:
             data = json.loads(react_flow_json)
             templates_list: List[Dict] = data.get("templates", [])
             if not templates_list:
-                return ({}, [])
+                return {}, []
 
             # --- Pass 1: Create ID-to-Name map ---
             id_to_name_map = {
@@ -75,7 +75,6 @@ class VisualTranslator:
                 trigger_pattern = settings.get("trigger")
 
                 if trigger_pattern:
-                    #
                     if not trigger_pattern.startswith(EngineConstants.REGEX_PLACEHOLDER):
                         trigger_input = f"{EngineConstants.REGEX_PLACEHOLDER}{trigger_pattern}"
                     else:
@@ -87,11 +86,11 @@ class VisualTranslator:
                         is_regex=str(trigger_input).startswith(EngineConstants.REGEX_PLACEHOLDER)
                     ))
 
-            return (pywce_flow, pywce_triggers)
+            return pywce_flow, pywce_triggers
 
         except:
             _logger.error("Builder translation error", exc_info=True)
-            return ({}, [])
+            return {}, []
 
     def _transform_template(self, tpl: Dict, id_map: Dict) -> Dict:
         """Transforms a single node from Builder into a pywce-compatible dict."""
@@ -117,7 +116,7 @@ class VisualTranslator:
             is_regex = route.get("isRegex", False)
 
             # Determine the final key for the routes dict
-            final_pattern_key = str(pattern)  # Ensure it's a string
+            final_pattern_key = str(pattern)
 
             if is_regex and not final_pattern_key.startswith(EngineConstants.REGEX_PLACEHOLDER):
                 final_pattern_key = f"{EngineConstants.REGEX_PLACEHOLDER}{final_pattern_key}"

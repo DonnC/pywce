@@ -94,16 +94,14 @@ class TemplateMessageProcessor:
             rendered_dict = self.config.external_renderer(
                 template_dict=templates.Template.as_dict(self.template),
                 hook_path=self.template.template,
-                hook_arg=self.hook,
-                ext_hook_processor=self.config.ext_hook_processor
+                hook_arg=self.hook
             )
             self.template = templates.Template.as_model(rendered_dict)
 
         else:
             if self.template.template is not None:
                 response = HookUtil.process_hook(hook=self.template.template,
-                                                 arg=self.hook,
-                                                 external=self.config.ext_hook_processor
+                                                 arg=self.hook
                                                  )
 
                 self.template = templates.Template.as_model(EngineUtil.render_template(
@@ -314,8 +312,7 @@ class TemplateMessageProcessor:
 
         if self.template.template is not None:
             response = HookUtil.process_hook(hook=self.template.template,
-                                             arg=self.hook,
-                                             external=self.config.ext_hook_processor
+                                             arg=self.hook
                                              )
 
             flow_initial_payload = response.template_body.flow_payload
@@ -411,8 +408,7 @@ class TemplateMessageProcessor:
         assert self.template.template is not None, "templates hook is missing"
 
         response = HookUtil.process_hook(hook=self.template.template,
-                                         arg=self.hook,
-                                         external=self.config.ext_hook_processor
+                                         arg=self.hook
                                          )
 
         self.template = response.template_body.dynamic_template
@@ -431,8 +427,7 @@ class TemplateMessageProcessor:
         assert self.template.template is not None, "templates hook is missing"
 
         response = HookUtil.process_hook(hook=self.template.template,
-                                         arg=self.hook,
-                                         external=self.config.ext_hook_processor
+                                         arg=self.hook
                                          )
 
         components: List = response.template_body.render_template_payload.get(EngineConstants.WHATSAPP_TEMPLATE_KEY, [])
@@ -450,7 +445,7 @@ class TemplateMessageProcessor:
         :param template: process as engine templates message else, bypass engine logic
         :return:
         """
-        if template is True:
+        if template:
             self._process_template_hook(
                 skip=isinstance(self.template, templates.FlowTemplate) or \
                      isinstance(self.template, templates.DynamicTemplate) or \

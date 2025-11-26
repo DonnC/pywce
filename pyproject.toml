@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pywce"
-version = "3.0.0"
+version = "3.0.1"
 authors = [
     { name = "Donald Chinhuru", email = "donnclab@gmail.com" },
 ]
@@ -29,7 +29,7 @@ classifiers = [
 ]
 
 dependencies = [
-    "httpx~=0.28.1", "ruamel.yaml~=0.18.10",
+    "httpx~=0.28.1", "ruamel.yaml~=0.18.10", "cryptography",
     "requests-toolbelt~=1.0.0", "Jinja2~=3.1.6"
 ]
 

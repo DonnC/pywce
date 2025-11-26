@@ -22,15 +22,11 @@ class EngineConfig:
         :var tag_on_reply: if enabled, engine will tag (reply) every message as it responds to it
         :var log_invalid_webhooks: if enabled, engine will log (WARN) all detailed invalid webhooks
         :var read_receipts: If enabled, engine will mark every message received as read.
-        :var ext_handler_hook: path to external chat handler hook. If message is received and ext_handler is active,
-                                call this hook to handle requests
     """
     whatsapp: client.WhatsApp
     start_template_stage: str
     report_template_stage: str
     storage_manager: storage.IStorageManager
-    ext_handler_hook: Optional[str] = None
-    ext_hook_processor: Optional[Callable] = None
     handle_session_queue: bool = True
     handle_session_inactivity: bool = True
     tag_on_reply: bool = False
@@ -130,16 +126,3 @@ class QuickButtonModel:
     title: str = None
     footer: str = None
     message_id: str = None
-
-
-@dataclass
-class ExternalHandlerResponse:
-    """
-    Model for external chat handler
-
-    Example use case:
-        1. Live Support
-        2. AI Agent
-    """
-    recipient_id: str
-    template: EngineTemplate

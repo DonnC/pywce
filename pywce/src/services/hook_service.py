@@ -63,23 +63,23 @@ class HookService:
             raise InternalHookError("Invalid hook_type. Use 'pre' or 'post'.")
 
     @staticmethod
-    def register_callable_global_hooks(pre: list[Callable], post: list[Callable]):
+    def register_global_hooks(pre: list[Callable], post: list[Callable]):
         for pre_hook in pre:
             dotted_path = f"{pre_hook.__module__}.{pre_hook.__name__}"
 
-            func = HookService.load_function_from_dotted_path(dotted_path)
+            func = HookService.load_function(dotted_path)
             HookService.register_hook(name=dotted_path, func=func)
             HookService.register_global_hook(dotted_path, "pre")
 
         for post_hook in post:
             dotted_path = f"{post_hook.__module__}.{post_hook.__name__}"
 
-            func = HookService.load_function_from_dotted_path(dotted_path)
+            func = HookService.load_function(dotted_path)
             HookService.register_hook(name=dotted_path, func=func)
             HookService.register_global_hook(dotted_path, "post")
 
     @staticmethod
-    def load_function_from_dotted_path(dotted_path: str) -> Callable:
+    def load_function(dotted_path: str) -> Callable:
         """
         Load a function or attribute from a given dotted path.
 
@@ -95,13 +95,10 @@ class HookService:
 
             # Split the dotted path and resolve step by step
             parts = dotted_path.split('.')
-            module_path = '.'.join(parts[:-1])  # Module path (all except the last part)
-            function_name = parts[-1]  # Function or attribute name (last part)
+            module_path = '.'.join(parts[:-1])
+            function_name = parts[-1]
 
-            # Import the module
             module = importlib.import_module(module_path)
-
-            # Resolve the function or attribute
             function = getattr(module, function_name, None)
 
             if not callable(function):
@@ -124,17 +121,15 @@ class HookService:
         """
         try:
             if hook_dotted_path in _hook_registry:
-                # Retrieve the eagerly registered hook
                 hook_func = _hook_registry[hook_dotted_path]
 
             elif hook_dotted_path in _dotted_path_registry:
-                # Lazily resolve the hook
                 dotted_path = _dotted_path_registry[hook_dotted_path]
-                hook_func = HookService.load_function_from_dotted_path(dotted_path)
+                hook_func = HookService.load_function(dotted_path)
                 _hook_registry[hook_dotted_path] = hook_func
 
             else:
-                hook_func = HookService.load_function_from_dotted_path(hook_dotted_path)
+                hook_func = HookService.load_function(hook_dotted_path)
                 HookService.register_hook(name=hook_dotted_path, dotted_path=hook_dotted_path)
 
             return hook_func(hook_arg)
@@ -147,7 +142,7 @@ class HookService:
 
         except Exception as e:
             _logger.error("Hook processing failure. Hook: '%s', error: %s", hook_dotted_path, str(e))
-            raise HookException(f"Something went wrong. Could not process request", str(e))
+            raise HookException("Something went wrong. Could not process request", str(e))
 
     @staticmethod
     def process_hook(hook_dotted_path: str, hook_arg: HookArg) -> HookArg:
@@ -171,7 +166,6 @@ class HookService:
             _logger.critical("Global `%s` hook processing failure, error: %s", hook_type, e)
 
 
-# decorator
 def hook(func: Callable, global_type: Optional[Literal["pre", "post"]] = None) -> Callable:
     """
     Decorator to register a hook function with validation.
