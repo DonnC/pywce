@@ -12,7 +12,7 @@ import os
 from base64 import b64decode, b64encode
 from collections.abc import Callable
 from dataclasses import dataclass
-from typing import Dict, Any, List, Union, Optional
+from typing import Dict, Any, List, Tuple, Union, Optional
 
 from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import padding
@@ -623,6 +623,42 @@ class WhatsApp:
             if self.is_valid_webhook_message(webhook_data):
                 data = self._pre_process(webhook_data)
                 return MessageUtils(message_data=data.get("messages")[0]).get_structure()
+            
+        def get_user_input(self, payload: ResponseStructure) -> Tuple[Any, Any]:
+            """
+                Extracts message body from webhook
+            """
+            USER_INPUT: Tuple[Any, Any]
+
+            match payload.typ:
+                case MessageTypeEnum.TEXT:
+                    USER_INPUT = (payload.body.get("body"), None)
+
+                case MessageTypeEnum.BUTTON | MessageTypeEnum.INTERACTIVE_BUTTON | \
+                  MessageTypeEnum.INTERACTIVE_LIST:
+                    if "text" in payload.body:
+                        USER_INPUT = (payload.body.get("text"), None)
+                    else:
+                        # for interactive button & list
+                        USER_INPUT = (str(payload.body.get("id")), payload.body)
+
+                case MessageTypeEnum.LOCATION:
+                    USER_INPUT = (None, payload.body)
+
+                case MessageTypeEnum.INTERACTIVE:
+                    USER_INPUT = (None, payload.body)
+
+                case MessageTypeEnum.IMAGE | MessageTypeEnum.STICKER | \
+                    MessageTypeEnum.DOCUMENT | MessageTypeEnum.AUDIO | MessageTypeEnum.VIDEO:
+                    USER_INPUT = (None, payload.body)
+
+                case MessageTypeEnum.INTERACTIVE_FLOW:
+                    USER_INPUT = (payload.body.get("screen"), payload.body)
+
+                case _:
+                    raise ValueError(message="Unsupported response, kindly provide a valid response")
+                
+            return USER_INPUT
 
         def upload_media(self, media_path: str) -> Union[str, None]:
             """

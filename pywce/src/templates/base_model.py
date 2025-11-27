@@ -1,3 +1,5 @@
+from dataclasses import field
+from email.policy import default
 from typing import Dict, Optional, Any, List, Union
 
 from pydantic import BaseModel, Field, field_validator, model_serializer
@@ -38,7 +40,7 @@ class BaseMessage(BaseModel):
 # ----------
 class BaseTemplate(BaseModel):
     kind: str = Field(..., alias=TemplateConstants.TEMPLATE_TYPE)
-    routes: List[EngineRoute]
+    routes: List[EngineRoute] = field(default_factory=list)
 
     # attr
     acknowledge: bool = Field(False, alias=TemplateConstants.READ_RECEIPT)

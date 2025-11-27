@@ -44,6 +44,7 @@ class MessageProcessor:
             session_id=self.session_id,
             session_manager=self.session,
             user=self.user,
+            from_trigger=self.IS_FROM_TRIGGER,
             user_input=self.USER_INPUT[0],
             additional_data=self.USER_INPUT[1]
         )
@@ -72,7 +73,7 @@ class MessageProcessor:
         self.CURRENT_STAGE = current_stage_in_session
         self.CURRENT_TEMPLATE = self._get_stage_template(current_stage_in_session)
 
-    def _checK_for_trigger_routes(self, possible_trigger_input: str) -> bool:
+    def _check_for_trigger_routes(self, possible_trigger_input: str) -> bool:
         # a helper function to check if there are any valid triggers matching user input
         # if available, go to that route
         for trigger in self.config.storage_manager.triggers():
@@ -118,7 +119,7 @@ class MessageProcessor:
             else:
                 # this is tricky, user may be logged in / logged out, back to checkpoint or default to start template
                 # there may be a defined trigger route
-                if not self._checK_for_trigger_routes(possible_trigger_input):
+                if not self._check_for_trigger_routes(possible_trigger_input):
                     _stage = self.session.get(session_id=self.session_id,
                                               key=SessionConstants.LATEST_CHECKPOINT) or self.config.start_template_stage
                     self.CURRENT_STAGE = _stage
@@ -130,7 +131,7 @@ class MessageProcessor:
                           self.CURRENT_STAGE)
             return
 
-        if self._checK_for_trigger_routes(possible_trigger_input): return
+        if self._check_for_trigger_routes(possible_trigger_input): return
 
         # TODO: check if current msg id is null, throw Ambiguous old webhook exc
 
@@ -150,37 +151,15 @@ class MessageProcessor:
             None
         """
 
+        self.USER_INPUT = self.config.whatsapp.util.get_user_input(self.payload)
+
         match self.payload.typ:
-            case client.MessageTypeEnum.TEXT:
-                self.USER_INPUT = (self.payload.body.get("body"), None)
+            case client.MessageTypeEnum.TEXT | client.MessageTypeEnum.BUTTON | client.MessageTypeEnum.INTERACTIVE_BUTTON | \
+                 client.MessageTypeEnum.INTERACTIVE_LIST:
                 self._check_if_trigger(self.USER_INPUT[0])
 
-            case client.MessageTypeEnum.BUTTON | client.MessageTypeEnum.INTERACTIVE_BUTTON | \
-                 client.MessageTypeEnum.INTERACTIVE_LIST:
-                if "text" in self.payload.body:
-                    self.USER_INPUT = (self.payload.body.get("text"), None)
-                    self._check_if_trigger(self.USER_INPUT[0])
-                else:
-                    # for interactive button & list
-                    self.USER_INPUT = (str(self.payload.body.get("id")), self.payload.body)
-                    self._check_if_trigger(self.USER_INPUT[0])
-
-            case client.MessageTypeEnum.LOCATION:
-                self.USER_INPUT = (None, self.payload.body)
-
-            case client.MessageTypeEnum.INTERACTIVE:
-                self.USER_INPUT = (None, self.payload.body)
-
-            case client.MessageTypeEnum.IMAGE | client.MessageTypeEnum.STICKER | \
-                 client.MessageTypeEnum.DOCUMENT | client.MessageTypeEnum.AUDIO | client.MessageTypeEnum.VIDEO:
-                self.USER_INPUT = (None, self.payload.body)
-
-            case client.MessageTypeEnum.INTERACTIVE_FLOW:
-                self.USER_INPUT = (self.payload.body.get("screen"), self.payload.body)
-
             case _:
-                raise EngineResponseException(message="Unsupported response, kindly provide a valid response",
-                                              data=self.CURRENT_STAGE)
+                pass
             
         _logger.debug("Extracted message body input: %s", self.USER_INPUT)
 
