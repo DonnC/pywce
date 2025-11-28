@@ -390,7 +390,7 @@ class WhatsApp:
             Utility class for WhatsApp utility methods
         """
         _HUB_SIGNATURE_HEADER_KEY = "x-hub-signature-256"
-        _MEDIA_DIR = "pywce_downloads"
+        _MEDIA_DIR = "/tmp/pywce_media"
         _TAG_LENGTH_BYTES = 16
 
         def __init__(self, parent) -> None:
@@ -670,10 +670,10 @@ class WhatsApp:
             REFERENCE:
             https://developers.facebook.com/docs/whatsapp/cloud-api/reference/media#
             """
-            content_type, _ = mimetypes.guess_type(media_path)
-            headers = self.parent.headers.copy()
-
             try:
+                content_type, _ = mimetypes.guess_type(media_path)
+                headers = self.parent.headers.copy()
+
                 with Client() as client, open(os.path.realpath(media_path), 'rb') as file:
                     files = {'file': (os.path.basename(media_path), file, content_type)}
                     data = {
