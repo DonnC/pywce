@@ -8,7 +8,6 @@ from pywce.src.exceptions import EngineInternalException
 from pywce.src.models import WhatsAppServiceModel
 from pywce.src.services.template_message_processor import TemplateMessageProcessor
 
-
 logger = logging.getLogger(__name__)
 
 class WhatsAppService:
