@@ -3,10 +3,14 @@ from typing import Optional
 
 from dotenv import load_dotenv
 
-from pywce import Engine, storage, EngineConfig, client
+from pywce import Engine, storage, EngineConfig, client, history
 from .global_hooks import log_incoming_message
 
 load_dotenv()
+
+hybrid_storage = storage.YamlJsonStorageManager(os.getenv("TEMPLATES_DIR"), os.getenv("TRIGGERS_DIR"))
+history_manager = history.FileHistoryManager(base_dir="history")
+emulator_mode = str(os.getenv("USE_EMULATOR", 0)) == "1"
 
 private_key: Optional[str] = None
 
@@ -21,16 +25,18 @@ _wa_config = client.WhatsAppConfig(
     hub_verification_token=os.getenv("WEBHOOK_HUB_TOKEN"),
     app_secret=os.getenv("APP_SECRET"),
     private_key=private_key,
-    private_key_pwd=os.getenv("PRIVATE_KEY_PASS_KEY")
+    private_key_pwd=os.getenv("PRIVATE_KEY_PASS_KEY"),
+
+    use_emulator=emulator_mode,
 )
 
 whatsapp = client.WhatsApp(whatsapp_config=_wa_config)
 
-hybrid_storage = storage.YamlJsonStorageManager(os.getenv("TEMPLATES_DIR"), os.getenv("TRIGGERS_DIR"))
-
 _eng_config = EngineConfig(
     whatsapp=whatsapp,
     storage_manager=hybrid_storage,
+    history_manager=history_manager,
+    debounce_timeout_ms=0 if emulator_mode else 3000,
     start_template_stage=os.getenv("START_STAGE"),
     report_template_stage=os.getenv("REPORT_STAGE"),
     # optional fields, depends on the example project being run

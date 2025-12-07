@@ -1,5 +1,4 @@
 from dataclasses import field
-from email.policy import default
 from typing import Dict, Optional, Any, List, Union
 
 from pydantic import BaseModel, Field, field_validator, model_serializer
@@ -19,9 +18,11 @@ class SectionRowItem(BaseModel):
     title: str
     description: Optional[str] = None
 
+
 class ListSection(BaseModel):
     title: str
     rows: List[SectionRowItem]
+
 
 class ProductsListSection(BaseModel):
     title: str

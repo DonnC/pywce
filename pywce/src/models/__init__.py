@@ -3,7 +3,7 @@ from typing import Dict, Any, List, Optional, Callable
 
 from pydantic import BaseModel
 
-from pywce.modules import client, storage, ISessionManager, DefaultSessionManager
+from pywce.modules import client, storage, ISessionManager, DefaultSessionManager, history
 from pywce.src.templates import EngineTemplate
 
 
@@ -27,6 +27,7 @@ class EngineConfig:
     start_template_stage: str
     report_template_stage: str
     storage_manager: storage.IStorageManager
+    session_manager: ISessionManager
     handle_session_queue: bool = True
     handle_session_inactivity: bool = True
     tag_on_reply: bool = False
@@ -36,6 +37,7 @@ class EngineConfig:
     debounce_timeout_ms: int = 3000
     webhook_timestamp_threshold_s: int = 10
     session_manager: ISessionManager = DefaultSessionManager()
+    history_manager: Optional[history.IHistoryManager] = None
     on_hook_arg: Optional[Callable] = None
     external_renderer: Optional[Callable] = None
     global_pre_hooks: list[Callable] = field(default_factory=list)

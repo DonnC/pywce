@@ -1,3 +1,4 @@
 *.env
 *.pem
 test.py
+*.jsonl

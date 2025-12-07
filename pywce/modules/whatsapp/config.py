@@ -17,4 +17,4 @@ class WhatsAppConfig:
     flow_action: str = "navigate"
 
     use_emulator: bool = False
-    emulator_url: str = "http://localhost:3000/api/hook-response"
+    emulator_url: str = "http://localhost:3001/send-to-emulator"

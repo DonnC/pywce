@@ -73,6 +73,7 @@ class WhatsApp:
 
         if self.config.use_emulator:
             self.url = self.config.emulator_url
+            _logger.debug("Using emulator url: %s", self.url)
 
         self.headers = {
             "Content-Type": "application/json",
@@ -570,6 +571,7 @@ class WhatsApp:
             """
                 check if the response after sending to whatsapp is valid
             """
+            if self.parent.config.use_emulator: return True
             is_whatsapp = response_data.get("messaging_product") == "whatsapp"
             is_same_recipient = recipient_id == response_data.get("contacts")[0].get("wa_id")
             has_msg_id = response_data.get("messages")[0].get("id").startswith("wamid.")
@@ -628,37 +630,28 @@ class WhatsApp:
             """
                 Extracts message body from webhook
             """
-            USER_INPUT: Tuple[Any, Any]
+            user_input: Tuple[Any, Any] = (None, None)
 
             match payload.typ:
                 case MessageTypeEnum.TEXT:
-                    USER_INPUT = (payload.body.get("body"), None)
+                    user_input = (payload.body.get("body"), None)
 
                 case MessageTypeEnum.BUTTON | MessageTypeEnum.INTERACTIVE_BUTTON | \
                   MessageTypeEnum.INTERACTIVE_LIST:
                     if "text" in payload.body:
-                        USER_INPUT = (payload.body.get("text"), None)
+                        user_input = (payload.body.get("text"), None)
                     else:
                         # for interactive button & list
-                        USER_INPUT = (str(payload.body.get("id")), payload.body)
-
-                case MessageTypeEnum.LOCATION:
-                    USER_INPUT = (None, payload.body)
-
-                case MessageTypeEnum.INTERACTIVE:
-                    USER_INPUT = (None, payload.body)
-
-                case MessageTypeEnum.IMAGE | MessageTypeEnum.STICKER | \
-                    MessageTypeEnum.DOCUMENT | MessageTypeEnum.AUDIO | MessageTypeEnum.VIDEO:
-                    USER_INPUT = (None, payload.body)
+                        user_input = (str(payload.body.get("id")), payload.body)
 
                 case MessageTypeEnum.INTERACTIVE_FLOW:
-                    USER_INPUT = (payload.body.get("screen"), payload.body)
+                    user_input = (payload.body.get("screen"), payload.body)
 
                 case _:
-                    raise ValueError(message="Unsupported response, kindly provide a valid response")
-                
-            return USER_INPUT
+                    # inclusive: any other interactive, media, location
+                    user_input = (None, payload.body)
+
+            return user_input
 
         def upload_media(self, media_path: str) -> Union[str, None]:
             """

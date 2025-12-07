@@ -1,4 +1,5 @@
 import pywce.modules.storage as storage
+import pywce.modules.history as history
 import pywce.modules.whatsapp as client
 from pywce.modules.session import ISessionManager
 from pywce.modules.session.dict_session_manager import DefaultSessionManager

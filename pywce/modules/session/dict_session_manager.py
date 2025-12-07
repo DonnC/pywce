@@ -1,3 +1,4 @@
+import logging
 import threading
 from typing import Any, Dict, Type, List, Union
 
@@ -5,11 +6,11 @@ from pywce.modules.session import ISessionManager
 from . import T
 
 
+_logger = logging.getLogger(__name__)
+
 class DefaultSessionManager(ISessionManager):
     """
         Default in-memory dict-based session manager
-
-        Uses python dict datatype to implement simple data storage
 
         Uses a thread-safe approach using threading.Lock() with context for safety
     """
@@ -19,6 +20,7 @@ class DefaultSessionManager(ISessionManager):
         self.global_session: Dict[str, Any] = {}
         self.sessions: Dict[str, Dict[str, Any]] = {}
         self.lock = threading.Lock()
+        _logger.info("Default session manager initialized!")
 
     @property
     def prop_key(self) -> str:
@@ -83,6 +85,7 @@ class DefaultSessionManager(ISessionManager):
         with self.lock:
             if retain_keys is None or retain_keys == []:
                 self.sessions[session_id] = {}
+                _logger.debug("User session: %s, cleared!", session_id)
                 return
 
             data = self.sessions.get(session_id, {})
@@ -98,6 +101,7 @@ class DefaultSessionManager(ISessionManager):
 
     def clear_global(self) -> None:
         self.global_session = {}
+        _logger.info("Global session data cleared!")
 
     def key_in_session(self, session_id: str, key: str, check_global: bool = True) -> bool:
         in_global = self.global_session.get(key) is not None

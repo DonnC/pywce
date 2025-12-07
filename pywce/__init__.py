@@ -15,7 +15,7 @@ Author: Donald Chinhuru
 """
 
 import pywce.src.templates as template
-from pywce.modules import client, DefaultSessionManager, storage
+from pywce.modules import client, DefaultSessionManager, storage, history
 from pywce.modules.session import ISessionManager
 from pywce.src.constants import SessionConstants, EngineConstants, TemplateTypeConstants
 from pywce.src.engine import Engine
@@ -34,6 +34,7 @@ __all__ = [
     "ISessionManager",
     "DefaultSessionManager",
     "storage",
+    "history",
 
     # engine
     "Engine",

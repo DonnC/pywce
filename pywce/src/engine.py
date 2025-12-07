@@ -1,7 +1,8 @@
 import logging
+from datetime import datetime as dtime
 from typing import Dict, Any
 
-from pywce.modules import ISessionManager
+from pywce.modules import ISessionManager, history
 from pywce.src.constants import SessionConstants
 from pywce.src.models import EngineConfig, WorkerJob
 from pywce.src.services import Worker, HookService
@@ -31,6 +32,19 @@ class Engine:
         wa_user = self.whatsapp.util.get_wa_user(webhook_data)
         user_session: ISessionManager = self._user_session(wa_user.wa_id)
         response_model = self.whatsapp.util.get_response_structure(webhook_data)
+
+        if self.config.history_manager:
+            current_stage = user_session.get(session_id=wa_user.wa_id, key=SessionConstants.CURRENT_STAGE)
+            _content, _metadata = self.whatsapp.util.get_user_input(response_model)
+            history_entry = history.History(
+                role="user",
+                message_type=response_model.typ.name.upper(),
+                content=_content,
+                metadata=_metadata,
+                timestamp=dtime.now().isoformat(),
+                stage=current_stage or self.config.start_template_stage
+            )
+            self.config.history_manager.log_message(wa_user.wa_id, history_entry)
 
         #  ========= put session defaults ============
         if user_session.get(wa_user.wa_id, SessionConstants.DEFAULT_NAME) is None:
