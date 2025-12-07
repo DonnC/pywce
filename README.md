@@ -152,8 +152,8 @@ Use `fastapi` or `flask` or any python library to create endpoint to receive Wha
 
 from .config import engine, whatsapp
 
-def bg_wehbook_handler(payload: dict, headers: dict) -> None:
-    engine.process_webhook(payload, headers)
+def bg_wehbook_handler(payload: dict) -> None:
+    engine.process_webhook(payload)
 
 @app.post("/chatbot/webhook")
 async def process_webhook(req: Request, bg_task: BackgroundTasks):
@@ -163,7 +163,7 @@ async def process_webhook(req: Request, bg_task: BackgroundTasks):
     """
     payload = await req.json()
 
-    bg_task.add_task(bg_wehbook_handler, payload, dict(req.headers))
+    bg_task.add_task(bg_wehbook_handler, payload)
     
     return Response(content="ACK", status_code=200)
 ```
