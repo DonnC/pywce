@@ -36,17 +36,18 @@ class Engine:
         if self.config.history_manager:
             current_stage = user_session.get(session_id=wa_user.wa_id, key=SessionConstants.CURRENT_STAGE)
             _content, _metadata = self.whatsapp.util.get_user_input(response_model)
-            history_entry = history.History(
+            history_log = history.History(
                 role="user",
+                uid=wa_user.wa_id,
                 message_type=response_model.typ.name.upper(),
                 content=_content,
                 metadata=_metadata,
                 timestamp=dtime.now().isoformat(),
-                stage=current_stage or self.config.start_template_stage
+                stage=current_stage
             )
-            self.config.history_manager.log_message(wa_user.wa_id, history_entry)
+            self.config.history_manager.log_message(history_log)
 
-        #  ========= put session defaults ============
+        #  ========= session defaults ==========
         if user_session.get(wa_user.wa_id, SessionConstants.DEFAULT_NAME) is None:
             user_session.save(wa_user.wa_id, SessionConstants.DEFAULT_NAME, wa_user.name)
 

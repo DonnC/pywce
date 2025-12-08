@@ -12,6 +12,7 @@
 
 "SELECT-RIDE":
   kind: button
+  typing: true
   prop: ride_type
   message:
     title: PickDrive

@@ -72,6 +72,8 @@ class HookArg(BaseModel):
 
         The model has all the data a hook might need to process any further business logic
 
+        If an error is encountered, throw a [HookException]
+
         :var user: current whatsapp user object
         :var template_body: mainly returned from templates, dynamic or flow hooks
         :var additional_data: data from interactive & unprocessable message type responses. E.g a list, location, flow etc response
@@ -92,6 +94,7 @@ class HookArg(BaseModel):
     additional_data: Optional[Dict[str, Any]] = None
     params: Dict[Any, Any] = field(default_factory=dict)
     hook: Optional[str] = None
+    redirect_to: Optional[str] = None
 
     model_config = {
         "json_exclude": {"session_manager"},
@@ -108,6 +111,7 @@ class HookArg(BaseModel):
             "user_input": self.user_input,
             "flow": self.flow,
             "hook": self.hook,
+            "redirect_to": self.redirect_to,
             "additional_data": self.additional_data
         }
         return f"HookArg({attrs})"

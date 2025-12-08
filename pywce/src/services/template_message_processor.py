@@ -152,6 +152,22 @@ class TemplateMessageProcessor:
             **self._get_common_interactive_fields()
         }
 
+        if self.template.message.header is not None:
+            if isinstance(self.template.message.header, templates.MediaMessage):
+                media_header = {"type": self.template.message.header.kind}
+
+                if self.template.message.header.media_id is not None:
+                    media_header[self.template.message.header.kind] = {"id": self.template.message.header.media_id}
+
+                elif self.template.message.header.url is not None:
+                    media_header[self.template.message.header.kind] = {"link": self.template.message.header.media_id}
+
+                data["header"] = media_header
+
+            else:
+                data["header"] = {"type": "text", "text": self.template.message.header}
+
+
         buttons_data = []
         for button in buttons:
             buttons_data.append({

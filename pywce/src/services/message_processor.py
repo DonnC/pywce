@@ -2,8 +2,8 @@ import logging
 from typing import Dict, Tuple, Any, Union, Optional
 
 from pywce.modules import ISessionManager, client
-from pywce.src.constants import EngineConstants, SessionConstants, TemplateConstants
-from pywce.src.exceptions import EngineInternalException, EngineResponseException
+from pywce.src.constants import EngineConstants, SessionConstants
+from pywce.src.exceptions import EngineInternalException
 from pywce.src.models import WorkerJob, HookArg
 from pywce.src.services import HookService
 from pywce.src.templates import EngineTemplate
@@ -11,7 +11,6 @@ from pywce.src.utils.engine_util import EngineUtil
 from pywce.src.utils.hook_util import HookUtil
 
 _logger = logging.getLogger(__name__)
-
 
 class MessageProcessor:
     """
@@ -80,8 +79,8 @@ class MessageProcessor:
             _next_stage = trigger.next_stage
 
             if EngineUtil.has_triggered(trigger, possible_trigger_input):
-                if EngineConstants.TRIGGER_ROUTE_SEPERATOR in trigger.next_stage:
-                    _next_stage, trigger_route_param = trigger.next_stage.split(EngineConstants.TRIGGER_ROUTE_SEPERATOR)
+                if EngineConstants.TRIGGER_ROUTE_SEPARATOR in trigger.next_stage:
+                    _next_stage, trigger_route_param = trigger.next_stage.split(EngineConstants.TRIGGER_ROUTE_SEPARATOR)
                     self.HOOK_ARG.params.update({EngineConstants.TRIGGER_ROUTE_PARAM: trigger_route_param})
                     HookUtil.run_listener(listener=self.config.on_hook_arg, arg=self.HOOK_ARG)
 
@@ -96,6 +95,9 @@ class MessageProcessor:
         return False
 
     def _check_if_trigger(self, possible_trigger_input: str = None) -> None:
+        checkpoint = self.session.get(session_id=self.session_id, key=SessionConstants.LATEST_CHECKPOINT)
+        prev = self.session.get(session_id=self.session_id, key=SessionConstants.PREV_STAGE)
+
         if self.HOOK_ARG is None:
             self._compute_hook_arg()
 
@@ -111,17 +113,16 @@ class MessageProcessor:
                 self.CURRENT_STAGE = self.config.report_template_stage
                 self.CURRENT_TEMPLATE = self._get_stage_template(self.CURRENT_STAGE)
 
-            elif possible_trigger_input.lower() == EngineConstants.DEFAULT_BACK_BTN_NAME.lower() or possible_trigger_input.lower() == EngineConstants.DEFAULT_RETRY_BTN_NAME.lower():
-                self.CURRENT_STAGE = self.session.get(session_id=self.session_id,
-                                                      key=SessionConstants.PREV_STAGE) or self.config.start_template_stage
+            elif possible_trigger_input.lower() == EngineConstants.DEFAULT_BACK_BTN_NAME.lower() \
+                    or possible_trigger_input.lower() == EngineConstants.DEFAULT_RETRY_BTN_NAME.lower():
+                self.CURRENT_STAGE = prev or checkpoint or self.config.start_template_stage
                 self.CURRENT_TEMPLATE = self._get_stage_template(self.CURRENT_STAGE)
 
             else:
                 # this is tricky, user may be logged in / logged out, back to checkpoint or default to start template
                 # there may be a defined trigger route
                 if not self._check_for_trigger_routes(possible_trigger_input):
-                    _stage = self.session.get(session_id=self.session_id,
-                                              key=SessionConstants.LATEST_CHECKPOINT) or self.config.start_template_stage
+                    _stage = checkpoint or self.config.start_template_stage
                     self.CURRENT_STAGE = _stage
                     self.CURRENT_TEMPLATE = self._get_stage_template(self.CURRENT_STAGE)
 
@@ -160,7 +161,7 @@ class MessageProcessor:
 
             case _:
                 pass
-            
+
         _logger.debug("Extracted message body input: %s", self.USER_INPUT)
 
     def _check_for_session_bypass(self) -> None:
@@ -184,14 +185,13 @@ class MessageProcessor:
         HookUtil.run_listener(listener=self.config.on_hook_arg, arg=self.HOOK_ARG)
 
     def _ack_user_message(self) -> None:
-        # a fire & forget approach
         mark_as_read = self.config.read_receipts is True or self.CURRENT_TEMPLATE.acknowledge is True
 
         if mark_as_read is True:
             try:
                 self.whatsapp.mark_as_read(self.user.msg_id)
-            except:
-                _logger.warning("Failed to ack user message")
+            except Exception as e:
+                _logger.warning("Failed to ack user message: %s", str(e))
 
     def _show_typing_indicator(self) -> None:
         if self.CURRENT_TEMPLATE.typing:
@@ -215,7 +215,7 @@ class MessageProcessor:
         """
         Router hook is used to force a redirect to the next stage by taking the response of the `router` hook.
 
-        Router hook should return route stage inside the additional_data with key **EngineConstants.DYNAMIC_ROUTE_KEY**
+        Router hook should return redirect route set on `.redirect_to`
 
         :return: str or None
         """
@@ -224,15 +224,12 @@ class MessageProcessor:
             try:
                 self._check_template_params()
 
-                result = HookUtil.process_hook(
-                    hook=self.CURRENT_TEMPLATE.router,
-                    arg=self.HOOK_ARG
-                )
+                result = HookUtil.process_hook(hook=self.CURRENT_TEMPLATE.router, arg=self.HOOK_ARG)
 
-                return result.additional_data.get(EngineConstants.DYNAMIC_ROUTE_KEY)
+                return result.redirect_to
 
-            except:
-                _logger.error("Failed to do dynamic route hook")
+            except Exception as e:
+                _logger.error("Failed to process dynamic route redirect: %s", str(e))
 
         return None
 
@@ -249,9 +246,7 @@ class MessageProcessor:
         HookService.process_global_hooks("pre", self.HOOK_ARG)
 
         if self.CURRENT_TEMPLATE.on_generate is not None:
-            HookUtil.process_hook(hook=self.CURRENT_TEMPLATE.on_generate,
-                                  arg=self.HOOK_ARG
-                                  )
+            HookUtil.process_hook(hook=self.CURRENT_TEMPLATE.on_generate, arg=self.HOOK_ARG)
 
     def process_post_hooks(self) -> None:
         """
@@ -275,12 +270,10 @@ class MessageProcessor:
         self._check_template_params()
 
         if self.CURRENT_TEMPLATE.on_receive is not None:
-            HookUtil.process_hook(hook=self.CURRENT_TEMPLATE.on_receive,
-                                  arg=self.HOOK_ARG,)
+            HookUtil.process_hook(hook=self.CURRENT_TEMPLATE.on_receive, arg=self.HOOK_ARG)
 
         if self.CURRENT_TEMPLATE.middleware is not None:
-            HookUtil.process_hook(hook=self.CURRENT_TEMPLATE.middleware,
-                                  arg=self.HOOK_ARG)
+            HookUtil.process_hook(hook=self.CURRENT_TEMPLATE.middleware, arg=self.HOOK_ARG)
 
         if self.CURRENT_TEMPLATE.prop is not None:
             self.session.save_prop(

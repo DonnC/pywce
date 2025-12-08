@@ -11,10 +11,18 @@ class BaseInteractiveMessage(BaseMessage):
     title: Optional[str] = None
     footer: Optional[str] = None
 
+class MediaMessage(BaseMessage):
+    kind: str = Field(..., alias=TemplateConstants.TEMPLATE_TYPE)
+    media_id: Optional[str] = Field(None, alias=TemplateConstants.MESSAGE_ID)
+    url: Optional[str] = None
+    caption: Optional[str] = None
+    filename: Optional[str] = None
+
 
 # Message Models for Each Type
 class ButtonMessage(BaseInteractiveMessage):
     buttons: List[str] = Field(..., alias=TemplateConstants.MESSAGE_BUTTONS)
+    header: Optional[Union[str, MediaMessage]] = None
 
 
 class CatalogMessage(BaseInteractiveMessage):
@@ -92,15 +100,6 @@ class ListMessage(BaseInteractiveMessage):
             }
 
         return data
-
-
-class MediaMessage(BaseMessage):
-    kind: str = Field(..., alias=TemplateConstants.TEMPLATE_TYPE)
-    media_id: Optional[str] = Field(None, alias=TemplateConstants.MESSAGE_ID)
-    url: Optional[str] = None
-    caption: Optional[str] = None
-    filename: Optional[str] = None
-
 
 class FlowMessage(BaseInteractiveMessage):
     flow_id: Union[int, str]

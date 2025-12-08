@@ -96,15 +96,16 @@ class WhatsAppService:
             current_stage = session.get(session_id=session_id, key=SessionConstants.CURRENT_STAGE)
 
             if self.model.config.history_manager:
-                history_entry = history.History(
+                history_log = history.History(
                     role="bot",
-                    message_type=_tpl.kind,
+                    uid=session_id,
+                    message_type=_tpl.kind.upper(),
                     content=_history_content,
                     metadata=_history_metadata,
                     timestamp=dnow,
-                    stage=current_stage
+                    stage=self.model.next_stage
                 )
-                self.model.config.history_manager.log_message(session_id, history_entry)
+                self.model.config.history_manager.log_message(history_log)
 
             if handle_session:
                 session.save(session_id=session_id, key=SessionConstants.PREV_STAGE, data=current_stage)
