@@ -30,7 +30,7 @@ _wa_config = client.WhatsAppConfig(
     use_emulator=emulator_mode,
 )
 
-whatsapp = client.WhatsApp(whatsapp_config=_wa_config)
+whatsapp = client.WhatsApp(_wa_config)
 
 _eng_config = EngineConfig(
     whatsapp=whatsapp,
@@ -39,8 +39,8 @@ _eng_config = EngineConfig(
     debounce_timeout_ms=0 if emulator_mode else 3000,
     start_template_stage=os.getenv("START_STAGE"),
     report_template_stage=os.getenv("REPORT_STAGE"),
-    # optional fields, depends on the example project being run
+
     global_pre_hooks=[log_incoming_message]
 )
 
-engine = Engine(config=_eng_config)
+engine = Engine(_eng_config)

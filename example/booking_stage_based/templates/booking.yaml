@@ -59,4 +59,4 @@
   kind: text
   message: Thank you for booking with us. Type *menu* to go to menu
   routes:
-    "re:.*": start
+    "re:.*": "START-MENU"

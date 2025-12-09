@@ -3,7 +3,7 @@
   checkpoint: true
   message:
     title: eHailing Chatbot
-    body: "Hi {{ s.wa_name }}, I'm a PoC eHailing PickDrive assistant.\n\nTo begin, click the button below"
+    body: "> Hi {{ s.wa_name }}, I'm a PoC eHailing PickDrive assistant.\n\nTo begin, click the button below"
     footer: pywce
     buttons:
       - Begin
@@ -12,12 +12,14 @@
 
 "SELECT-RIDE":
   kind: button
-  typing: true
   prop: ride_type
   message:
     title: PickDrive
-    body: "Great, to offer you with exclusive riding experience, select your preferred ride type"
-    footer: pywce
+    body: "Great, to offer you with `exclusive` riding experience, select your preferred ride type"
+    footer: "Img credit: istock - lemono"
+    header:
+      type: image
+      url: "https://media.istockphoto.com/id/1289790084/vector/tiny-male-customer-character-order-taxi-via-smartphone-app-with-map-young-man-using.jpg?s=1024x1024&w=is&k=20&c=v30WHxsai3Gpb2ZIB6PWvojd5CKLcBDnvsKTZuGruC0="
     buttons:
       - Ride
       - Standard
@@ -82,14 +84,15 @@
 "CONFIRM-OFFER":
   kind: button
   typing: true
+  react: "✍🏼"
   on-receive: "example.ehailing.hooks.capture_ride.capture"
   message:
     title: PickDrive Ride
     body: |
-      Ride: {{ p.ride_type }}
-      Driver: Donald
-      Vehicle Color: Silver
-      Reg Number: QZW 0123
+      Ride: `{{ p.ride_type }}`
+      Driver: `Donald`
+      Vehicle Color: `Silver`
+      Reg Number: `QZW 0123`
       
       Confirm to notify the driver to come pick you up now
     buttons:
@@ -104,6 +107,7 @@
   message:
     title: PickDrive
     body: "Driver is coming to your location now!"
+    footer: "Expect few seconds delay"
     buttons:
       - Report
   routes:

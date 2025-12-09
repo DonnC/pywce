@@ -37,6 +37,7 @@ def verify_webhook_challenge(request: Request) -> Response:
     mode, token, challenge = params.get("hub.mode"), params.get("hub.verify_token"), params.get("hub.challenge")
 
     if whatsapp.util.webhook_challenge(mode, challenge, token):
+        logger.debug("Webhook challenge: %s, mode: %s, token: %s", challenge, mode, token)
         return Response(content=challenge, status_code=status.HTTP_200_OK)
 
     raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Forbidden")

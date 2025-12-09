@@ -1,3 +1,4 @@
+import logging
 from abc import ABC, abstractmethod
 from pathlib import Path
 import json
@@ -10,6 +11,7 @@ from pywce.src.exceptions import EngineException
 from pywce.src.templates import EngineTemplate, Template
 from pywce.src.templates.base_model import EngineRoute
 
+_logger = logging.getLogger(__name__)
 
 class IStorageManager(ABC):
     """Abstract base class for different templates storage backends."""
@@ -96,7 +98,8 @@ class YamlJsonStorageManager(IStorageManager):
     def get(self, name: str) -> Optional[EngineTemplate]:
         try:
             return Template.as_model(self._TEMPLATES.get(name))
-        except:
+        except Exception as e:
+            _logger.error("Load template: %s, error: %s", name, str(e))
             return None
 
     def triggers(self) -> List[EngineRoute]:

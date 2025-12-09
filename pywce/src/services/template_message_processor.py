@@ -1,3 +1,4 @@
+import logging
 import re
 from random import randint
 from typing import Dict, Any, List, Union, Optional
@@ -9,6 +10,8 @@ from pywce.src.exceptions import EngineInternalException
 from pywce.src.models import WhatsAppServiceModel
 from pywce.src.utils.engine_util import EngineUtil
 from pywce.src.utils.hook_util import HookUtil
+
+_logger = logging.getLogger(__name__)
 
 
 class TemplateMessageProcessor:
@@ -115,7 +118,6 @@ class TemplateMessageProcessor:
         """
         Helper function to get common fields (header, body, footer) if they exist.
 
-        TODO: implement different supported header types for quick reply button messages
         """
         _message: templates.BaseInteractiveMessage = self.template.message
         interactive_fields = {"body": {"text": _message.body}}
@@ -160,13 +162,14 @@ class TemplateMessageProcessor:
                     media_header[self.template.message.header.kind] = {"id": self.template.message.header.media_id}
 
                 elif self.template.message.header.url is not None:
-                    media_header[self.template.message.header.kind] = {"link": self.template.message.header.media_id}
+                    media_header[self.template.message.header.kind] = {"link": self.template.message.header.url}
 
                 data["header"] = media_header
 
             else:
                 data["header"] = {"type": "text", "text": self.template.message.header}
 
+        _logger.debug("Current button data: %s", str(data))
 
         buttons_data = []
         for button in buttons:

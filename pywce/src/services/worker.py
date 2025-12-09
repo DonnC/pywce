@@ -54,7 +54,7 @@ class Worker:
         return time_difference > self.job.engine_config.webhook_timestamp_threshold_s
 
     def _check_authentication(self, current_template: EngineTemplate) -> None:
-        if current_template.authenticated:
+        if current_template and current_template.authenticated:
             is_auth_set = self.session.get(session_id=self.session_id, key=SessionConstants.VALID_AUTH_SESSION)
             logged_in_time = self.session.get(session_id=self.session_id, key=SessionConstants.AUTH_EXPIRE_AT)
 

@@ -6,14 +6,23 @@
   <component name="ChangeListManager">
     <list default="true" id="e700a6d4-f3fd-4ca6-8806-bc5eb9b6e49c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/booking_flow_endpoint/triggers/triggers.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/booking_flow_static/triggers/triggers.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/booking_stage_based/templates/booking.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/booking_stage_based/templates/booking.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/booking_stage_based/templates/report.json" beforeDir="false" afterPath="$PROJECT_DIR$/example/booking_stage_based/templates/report.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/booking_stage_based/templates/start.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/booking_stage_based/templates/start.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/booking_stage_based/triggers/triggers.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/common/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/common/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/common/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/common/routes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/common/tasks.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/common/tasks.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/ehailing/templates/ehailing.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ehailing/templates/ehailing.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pyproject.toml" beforeDir="false" afterPath="$PROJECT_DIR$/pyproject.toml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pywce/modules/history/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/history/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/constants/engine.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/constants/engine.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/engine.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/engine.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/models/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/modules/storage/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/storage/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/modules/whatsapp/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/whatsapp/config.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pywce/src/services/message_processor.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/message_processor.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pywce/src/services/template_message_processor.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/template_message_processor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/services/whatsapp_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/whatsapp_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/src/services/worker.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/worker.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pywce/src/templates/messages.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/templates/messages.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -440,7 +449,10 @@
       <workItem from="1765020897109" duration="733000" />
       <workItem from="1765049898569" duration="71000" />
       <workItem from="1765085052083" duration="14393000" />
-      <workItem from="1765175022994" duration="13034000" />
+      <workItem from="1765175022994" duration="17576000" />
+      <workItem from="1765212982824" duration="3815000" />
+      <workItem from="1765261886117" duration="2185000" />
+      <workItem from="1765266567368" duration="2530000" />
     </task>
     <servers />
   </component>

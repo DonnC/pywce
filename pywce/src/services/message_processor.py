@@ -301,6 +301,6 @@ class MessageProcessor:
 
         self._compute_hook_arg()
 
-        _logger.debug("Hook arg computed: %s", self.HOOK_ARG)
+        _logger.debug("Hook arg computed: %s", str(self.HOOK_ARG))
 
         HookUtil.run_listener(listener=self.config.on_hook_arg, arg=self.HOOK_ARG)

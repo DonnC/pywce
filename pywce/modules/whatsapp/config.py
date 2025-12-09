@@ -12,7 +12,7 @@ class WhatsAppConfig:
     app_secret: str = None
     private_key:str = None
     private_key_pwd: str = None
-    version: str = "v22.0"
+    version: str = "v24.0"
     flow_version: str = "3"
     flow_action: str = "navigate"
 

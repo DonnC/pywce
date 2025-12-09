@@ -22,7 +22,7 @@ class MediaMessage(BaseMessage):
 # Message Models for Each Type
 class ButtonMessage(BaseInteractiveMessage):
     buttons: List[str] = Field(..., alias=TemplateConstants.MESSAGE_BUTTONS)
-    header: Optional[Union[str, MediaMessage]] = None
+    header: Optional[Union[MediaMessage, str]] = None
 
 
 class CatalogMessage(BaseInteractiveMessage):
