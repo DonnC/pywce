@@ -18,6 +18,8 @@ class MessageUtils:
         "order": MessageTypeEnum.ORDER,
         "interactive": MessageTypeEnum.INTERACTIVE,
         "sticker": MessageTypeEnum.STICKER,
+        "location": MessageTypeEnum.LOCATION,
+        "contacts": MessageTypeEnum.CONTACTS,
 
         # interactive inner types
         "list_reply": MessageTypeEnum.INTERACTIVE_LIST,
@@ -35,12 +37,6 @@ class MessageUtils:
         :return: ResponseStructure
         """
         message_type = self.message_data.get("type")
-
-        if "location" in self.message_data:
-            return ResponseStructure(typ=MessageTypeEnum.LOCATION, body=self.message_data.get("location"))
-
-        if "contacts" in self.message_data:
-            return ResponseStructure(typ=MessageTypeEnum.CONTACTS, body=self.message_data.get("contacts"))
 
         type_ = self._TYPE_MAPPING.get(message_type, MessageTypeEnum.UNKNOWN)
 

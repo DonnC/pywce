@@ -5,25 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e700a6d4-f3fd-4ca6-8806-bc5eb9b6e49c" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/ddeb3faf-4db3-4b48-bfe5-0e212a1ba645.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/ddeb3faf-4db3-4b48-bfe5-0e212a1ba645.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/f27e3548-1089-4a71-af1e-f049aca9d8a8.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/f27e3548-1089-4a71-af1e-f049aca9d8a8.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/booking_flow_endpoint/triggers/triggers.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/booking_flow_static/triggers/triggers.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/booking_stage_based/templates/booking.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/booking_stage_based/templates/booking.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/booking_stage_based/templates/report.json" beforeDir="false" afterPath="$PROJECT_DIR$/example/booking_stage_based/templates/report.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/booking_stage_based/templates/start.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/booking_stage_based/templates/start.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/booking_stage_based/triggers/triggers.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/common/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/common/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/common/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/common/routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/common/tasks.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/common/tasks.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ehailing/templates/ehailing.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ehailing/templates/ehailing.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pyproject.toml" beforeDir="false" afterPath="$PROJECT_DIR$/pyproject.toml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/modules/history/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/history/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/modules/storage/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/storage/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/modules/whatsapp/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/whatsapp/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/services/message_processor.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/message_processor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/services/template_message_processor.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/template_message_processor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/services/worker.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/services/worker.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pywce/src/templates/messages.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/src/templates/messages.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/modules/whatsapp/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/whatsapp/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pywce/modules/whatsapp/message_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/pywce/modules/whatsapp/message_utils.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -116,6 +104,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
     &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
     &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
@@ -170,6 +159,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="RUN_TOOL" value="" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;test_whatsapp.TestWhatsApp.test_send_message&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
@@ -186,6 +176,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="RUN_TOOL" value="" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;test_whatsapp.TestWhatsApp.test_send_template&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
@@ -202,6 +193,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="RUN_TOOL" value="" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;$PROJECT_DIR$/tests/test_session_manager.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
@@ -218,6 +210,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="RUN_TOOL" value="" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;$PROJECT_DIR$/tests/test_whatsapp.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
@@ -234,6 +227,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="RUN_TOOL" value="" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;$PROJECT_DIR$/tests/test_yaml_json_storage_manager.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
@@ -252,8 +246,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-a71380e98a7c-JavaScript-PY-252.28238.29" />
-        <option value="bundled-python-sdk-a101402ee41c-968fe969f28a-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.28238.29" />
+        <option value="bundled-js-predefined-d6986cc7102b-c7e53b3be11b-JavaScript-PY-253.28294.336" />
+        <option value="bundled-python-sdk-0978a7220b69-9867c7d4c0a4-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-253.28294.336" />
       </set>
     </attachedChunks>
   </component>
@@ -453,6 +447,11 @@
       <workItem from="1765212982824" duration="3815000" />
       <workItem from="1765261886117" duration="2185000" />
       <workItem from="1765266567368" duration="2530000" />
+      <workItem from="1765314733999" duration="484000" />
+      <workItem from="1765379534686" duration="5086000" />
+      <workItem from="1765435370715" duration="3469000" />
+      <workItem from="1765634986145" duration="3920000" />
+      <workItem from="1765648711321" duration="10601000" />
     </task>
     <servers />
   </component>

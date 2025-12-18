@@ -758,8 +758,7 @@ class WhatsApp:
             save_file_here = os.path.join(folder, filename)
 
             if os.path.isfile(save_file_here):
-                filename = f"dup_rand{randint(11, 99)}_{filename}"
-                save_file_here = os.path.join(folder, filename)
+                _logger.warning("File %s, already exists! overwriting..", filename)
 
             try:
                 with Client() as client:
