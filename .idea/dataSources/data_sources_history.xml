@@ -1,23 +1,33 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="dataSourceStorageLocal" created-in="PY-253.31033.139">
-    <data-source name="pywce_support" uuid="f27e3548-1089-4a71-af1e-f049aca9d8a8">
+<DataSourcesHistory>
+  <DataSourceFromHistory isRemovedFromProject="false">
+    <data-source source="LOCAL" name="pywce_support" uuid="f27e3548-1089-4a71-af1e-f049aca9d8a8">
       <database-info product="SQLite" version="3.45.1" jdbc-version="4.2" driver-name="SQLite JDBC" driver-version="3.45.1.0" dbms="SQLITE" exact-version="3.45.1" exact-driver-version="3.45">
         <identifier-quote-string>&quot;</identifier-quote-string>
       </database-info>
       <case-sensitivity plain-identifiers="mixed" quoted-identifiers="mixed" />
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:C:\Users\DEVELOPER\Documents\Personal\Personal\Projects\python\pywce\portal\pywce_support.db</jdbc-url>
       <auth-provider>no-auth</auth-provider>
       <schema-mapping>
         <introspection-scope>
           <node kind="schema" qname="@" />
         </introspection-scope>
       </schema-mapping>
+      <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source name="pywce_support.db" uuid="ddeb3faf-4db3-4b48-bfe5-0e212a1ba645">
+  </DataSourceFromHistory>
+  <DataSourceFromHistory isRemovedFromProject="false">
+    <data-source source="LOCAL" name="pywce_support.db" uuid="ddeb3faf-4db3-4b48-bfe5-0e212a1ba645">
       <database-info product="SQLite" version="3.45.1" jdbc-version="4.2" driver-name="SQLite JDBC" driver-version="3.45.1.0" dbms="SQLITE" exact-version="3.45.1" exact-driver-version="3.45">
         <identifier-quote-string>&quot;</identifier-quote-string>
       </database-info>
       <case-sensitivity plain-identifiers="mixed" quoted-identifiers="mixed" />
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/portal/pywce_support.db</jdbc-url>
       <secret-storage>master_key</secret-storage>
       <auth-provider>no-auth</auth-provider>
       <schema-mapping>
@@ -25,6 +35,7 @@
           <node kind="schema" qname="@" />
         </introspection-scope>
       </schema-mapping>
+      <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-  </component>
-</project>
+  </DataSourceFromHistory>
+</DataSourcesHistory>

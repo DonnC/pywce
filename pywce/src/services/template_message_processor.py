@@ -39,9 +39,16 @@ class TemplateMessageProcessor:
         """
         Get message id to reply to
 
+        If template reply message id is any string, assume to tag the reply message
+
         :return: None or message id to reply to
         """
-        return self.user.msg_id if self.config.tag_on_reply else self.template.reply_message_id
+        if self.template.reply_message_id is not None:
+            msg_id = self.user.msg_id if len(str(self.template.reply_message_id)) > 0 else None
+
+        else:
+            msg_id = self.user.msg_id if self.config.tag_on_reply else None
+        return msg_id
 
     def _process_special_vars(self) -> templates.EngineTemplate:
         """
