@@ -1,0 +1,85 @@
+"START-MENU":
+  kind: button
+  checkpoint: true
+  message:
+    title: Evolving Support Bot
+    body: "Hi {{ s.wa_name }}, I can answer known topics, draft new skills, and activate generated capabilities."
+    buttons:
+      - Ask AI
+      - Teach New Skill
+      - Generated Assets
+  routes:
+    "ask ai": "ASK-AI"
+    "teach new skill": "TEACH-SKILL"
+    "generated assets": "GENERATED-ASSETS"
+
+"ASK-AI":
+  kind: text
+  prop: evolving_request
+  router: example.self_evolving_support_bot.hooks.evolve.route_request
+  message: "Ask a question or describe what you need."
+  routes:
+    "re:.*": "START-MENU"
+
+"KNOWN-RESPONSE":
+  kind: button
+  template: example.self_evolving_support_bot.hooks.evolve.render_known_response
+  message:
+    title: AI Support
+    body: |
+      Topic: {{ topic }}
+      
+      Response: {{ response }}
+      
+      Source: {{ source }}
+    buttons:
+      - Teach New Skill
+      - Generated Assets
+      - Menu
+  routes:
+    "teach new skill": "TEACH-SKILL"
+    "generated assets": "GENERATED-ASSETS"
+    "menu": "START-MENU"
+
+"TEACH-SKILL":
+  kind: text
+  prop: skill_request
+  on-receive: example.self_evolving_support_bot.hooks.evolve.draft_new_skill
+  message: "Describe the new support skill or scenario I should learn."
+  routes:
+    "re:.*": "DRAFT-RESULT"
+
+"DRAFT-RESULT":
+  kind: button
+  template: example.self_evolving_support_bot.hooks.evolve.render_draft_result
+  message:
+    title: Drafted Capability
+    body: |
+      Summary: {{ summary }}
+      
+      Validation: {{ validation }}
+      
+      Guardrail: {{ guardrail }}
+      
+      Assets:
+      {{ assets }}
+    buttons:
+      - Activate Draft
+      - Menu
+  routes:
+    "activate draft": "ACTIVATE-DRAFT"
+    "menu": "START-MENU"
+
+"ACTIVATE-DRAFT":
+  kind: text
+  on-generate: example.self_evolving_support_bot.hooks.evolve.activate_draft
+  message: "Draft activated and template storage reloaded. Ask again to use the new capability."
+  routes:
+    "re:.*": "START-MENU"
+
+"GENERATED-ASSETS":
+  kind: dynamic
+  template: example.self_evolving_support_bot.hooks.evolve.list_generated_assets_template
+  message: placeholder
+  routes:
+    "re:.*": "START-MENU"

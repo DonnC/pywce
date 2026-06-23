@@ -1,0 +1,33 @@
+"START-MENU":
+  kind: button
+  on_receive: tests.fixtures.hooks_runtime.start_on_receive
+  message:
+    title: Start
+    body: Choose what to test
+    buttons:
+      - Hook
+      - Dynamic
+  routes:
+    "hook": "HOOK-TARGET"
+    "dynamic": "DYNAMIC-TEXT"
+
+"HOOK-TARGET":
+  kind: text
+  on_generate: tests.fixtures.hooks_runtime.next_on_generate
+  message: Hook target reached
+  routes:
+    "re:.*": "START-MENU"
+
+"DYNAMIC-TEXT":
+  kind: text
+  template: tests.fixtures.hooks_runtime.render_name
+  message: Hello {{ name }}
+  routes:
+    "re:.*": "START-MENU"
+
+"REPORT":
+  kind: text
+  message: Report stage
+  routes:
+    "re:.*": "START-MENU"
+

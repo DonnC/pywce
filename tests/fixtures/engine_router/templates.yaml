@@ -1,0 +1,23 @@
+"START-MENU":
+  kind: button
+  router: tests.fixtures.hooks_runtime.route_to_report
+  message:
+    title: Start
+    body: Router test
+    buttons:
+      - Continue
+  routes:
+    "continue": "HOOK-TARGET"
+
+"HOOK-TARGET":
+  kind: text
+  message: Hook target reached
+  routes:
+    "re:.*": "START-MENU"
+
+"REPORT":
+  kind: text
+  message: Report stage
+  routes:
+    "re:.*": "START-MENU"
+

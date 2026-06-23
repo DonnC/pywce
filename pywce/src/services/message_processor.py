@@ -241,12 +241,14 @@ class MessageProcessor:
         :param next_stage_template: for processing next stage templates else use current stage templates
         :return: None
         """
-        self._check_template_params(next_stage_template)
+        target_template = next_stage_template or self.CURRENT_TEMPLATE
+
+        self._check_template_params(target_template)
 
         HookService.process_global_hooks("pre", self.HOOK_ARG)
 
-        if self.CURRENT_TEMPLATE.on_generate is not None:
-            HookUtil.process_hook(hook=self.CURRENT_TEMPLATE.on_generate, arg=self.HOOK_ARG)
+        if target_template.on_generate is not None:
+            HookUtil.process_hook(hook=target_template.on_generate, arg=self.HOOK_ARG)
 
     def process_post_hooks(self) -> None:
         """

@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module version="4">
-  <component name="PackageRequirementsSettings">
-    <option name="removeUnused" value="true" />
+<module external.system.id="pyproject.toml" type="PYTHON_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/venv" />
+    </content>
+    <orderEntry type="jdk" jdkName="Python 3.11 (pywce) (3)" jdkType="Python SDK" />
+    <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>

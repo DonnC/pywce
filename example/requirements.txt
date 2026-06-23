@@ -1,3 +1,4 @@
 fastapi[standard]
 python-dotenv
 rich
+fastmcp>=3.2,<4

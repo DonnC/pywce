@@ -3,8 +3,8 @@ import logging
 from fastapi import APIRouter, Request, BackgroundTasks, HTTPException, Response, status
 
 from pywce import FlowEndpointException
-from .config import whatsapp
 from .global_hooks import flow_endpoint_handler
+from .runtime_loader import get_whatsapp
 from .tasks import engine_bg_task
 
 logger = logging.getLogger(__name__)
@@ -23,6 +23,7 @@ def index():
 @router.post("/webhook")
 async def handle_incoming_webhook(request: Request, background_tasks: BackgroundTasks):
     payload_bytes = await request.body()
+    whatsapp = get_whatsapp()
     payload = whatsapp.util.bytes_to_dict(payload_bytes)
 
     # Add processing task to background: recommended approach
@@ -33,6 +34,7 @@ async def handle_incoming_webhook(request: Request, background_tasks: Background
 
 @router.get("/webhook")
 def verify_webhook_challenge(request: Request) -> Response:
+    whatsapp = get_whatsapp()
     params = request.query_params
     mode, token, challenge = params.get("hub.mode"), params.get("hub.verify_token"), params.get("hub.challenge")
 
@@ -63,6 +65,7 @@ async def handle_flow_endpoint_request(request: Request):
         4. Response payload encryption
     """
     try:
+        whatsapp = get_whatsapp()
         enc_json_data = await request.json()
 
         flow_response = whatsapp.util.flow_endpoint_handler(
@@ -87,6 +90,7 @@ async def handle_flow_endpoint_request_manually(request: Request):
         Manually process a flow endpoint request
     """
     try:
+        whatsapp = get_whatsapp()
         # 1. get request encrypted flow request
         enc_json_data = await request.json()
 

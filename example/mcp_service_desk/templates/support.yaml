@@ -1,0 +1,127 @@
+"START-MENU":
+  kind: button
+  checkpoint: true
+  message:
+    title: Service Desk
+    body: "Hi {{ s.wa_name }}, welcome to the support desk. Choose how I can help you."
+    footer: pywce + mcp
+    buttons:
+      - Begin Support
+      - Live Support
+  routes:
+    "begin support": "SERVICE-MENU"
+    "live support": "LIVE-SUPPORT-CTA"
+
+"SERVICE-MENU":
+  kind: list
+  message:
+    title: Support Options
+    body: Choose the support path that best matches what you need.
+    button: View Options
+    sections:
+      "Support":
+        ask_question:
+          title: Ask a Question
+          description: Get an AI-assisted support response
+        share_location:
+          title: Share Location
+          description: Send your current service location
+        troubleshooting_guide:
+          title: Troubleshooting Guide
+          description: Receive a rich troubleshooting handout
+      "Escalation":
+        live_support:
+          title: Talk to Live Support
+          description: Escalate your issue to a support agent
+        report_issue:
+          title: Report an Issue
+          description: Send a report for follow-up
+  routes:
+    "ask_question": "ASK-QUESTION"
+    "share_location": "SHARE-LOCATION"
+    "troubleshooting_guide": "TROUBLESHOOT-GUIDE"
+    "live_support": "LIVE-SUPPORT-CTA"
+    "report_issue": "REPORT"
+
+"ASK-QUESTION":
+  kind: text
+  prop: support_issue
+  message: "Please describe your issue or question in your own words."
+  routes:
+    "re:.*": "MCP-ANSWER"
+
+"MCP-ANSWER":
+  kind: button
+  template: example.mcp_service_desk.hooks.assist.render_assist_answer
+  message:
+    title: Support Assistant
+    body: |
+      Summary: {{ summary }}
+      
+      Recommended first response type: {{ recommendation }}
+      
+      Suggested response style: {{ strategy }}
+      
+      Escalation note: {{ escalation }}
+      
+      Safety note: {{ guardrail }}
+    buttons:
+      - Need Live Support
+      - Share Location
+      - Menu
+  routes:
+    "need live support": "LIVE-SUPPORT-CTA"
+    "share location": "SHARE-LOCATION"
+    "menu": "START-MENU"
+
+"SHARE-LOCATION":
+  kind: request-location
+  message: "Please share your current location so I can include it in your support context."
+  routes:
+    "re:.*": "LOCATION-CONFIRM"
+
+"LOCATION-CONFIRM":
+  kind: location
+  template: example.mcp_service_desk.hooks.location.render_shared_location
+  on-receive: example.mcp_service_desk.hooks.location.capture_shared_location
+  message:
+    lat: "{{ lat }}"
+    lon: "{{ lon }}"
+    name: "{{ name }}"
+    address: "{{ address }}"
+  routes:
+    "re:.*": "FOLLOW-UP"
+
+"TROUBLESHOOT-GUIDE":
+  kind: media
+  message:
+    type: document
+    url: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+    caption: "Service desk troubleshooting guide"
+    filename: "support-guide.pdf"
+  routes:
+    "re:.*": "FOLLOW-UP"
+
+"FOLLOW-UP":
+  kind: button
+  message:
+    title: Was this helpful?
+    body: Let me know whether you are resolved or still need escalation.
+    buttons:
+      - Resolved
+      - Live Support
+      - Menu
+  routes:
+    "resolved": "START-MENU"
+    "live support": "LIVE-SUPPORT-CTA"
+    "menu": "START-MENU"
+
+"LIVE-SUPPORT-CTA":
+  kind: cta
+  message:
+    title: Live Support
+    body: "Use the button below to open the live support portal with your current context."
+    button: Open Support
+    url: "https://example.com/support?user={{ s.wa_mobile }}"
+  routes:
+    "re:.*": "START-MENU"

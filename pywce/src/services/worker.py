@@ -187,7 +187,12 @@ class Worker:
         service_model = WhatsAppServiceModel(
             config=self.job.engine_config,
             template=btn_template,
-            hook_arg=HookArg(user=self.user, session_id=self.user.wa_id, user_input=None)
+            hook_arg=HookArg(
+                user=self.user,
+                session_id=self.user.wa_id,
+                user_input=None,
+                session_manager=self.session
+            )
         )
 
         whatsapp_service = WhatsAppService(model=service_model)

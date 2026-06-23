@@ -41,6 +41,11 @@ class IStorageManager(ABC):
         """Load a single templates by name."""
         pass
 
+    @abstractmethod
+    def validate(self) -> None:
+        """Validate loaded templates and triggers."""
+        pass
+
 
 class YamlJsonStorageManager(IStorageManager):
     """
@@ -58,6 +63,7 @@ class YamlJsonStorageManager(IStorageManager):
 
         self.load_triggers()
         self.load_templates()
+        self.validate()
 
     def load_templates(self) -> None:
         self._TEMPLATES.clear()
@@ -101,6 +107,56 @@ class YamlJsonStorageManager(IStorageManager):
         except Exception as e:
             _logger.error("Load template: %s, error: %s", name, str(e))
             return None
+
+    def validate(self) -> None:
+        from pywce.src.services import HookService
+
+        validated_templates: Dict[str, EngineTemplate] = {}
+
+        for name, raw_template in self._TEMPLATES.items():
+            try:
+                validated_templates[name] = Template.as_model(raw_template)
+            except Exception as e:
+                raise EngineException(f"Invalid template '{name}': {e}")
+
+        for name, template in validated_templates.items():
+            for hook_name in [
+                template.template,
+                template.on_receive,
+                template.on_generate,
+                template.router,
+                template.middleware,
+            ]:
+                if hook_name is None:
+                    continue
+
+                try:
+                    HookService.load_function(hook_name)
+                except Exception as e:
+                    raise EngineException(
+                        f"Invalid hook '{hook_name}' in template '{name}': {e}"
+                    )
+
+            for route in template.routes:
+                if route.next_stage not in validated_templates:
+                    raise EngineException(
+                        f"Template '{name}' has unknown next stage '{route.next_stage}'"
+                    )
+
+        for next_stage, user_input in self._TRIGGERS.items():
+            if next_stage not in validated_templates:
+                raise EngineException(
+                    f"Unknown trigger stage '{next_stage}'"
+                )
+
+            try:
+                EngineRoute(
+                    user_input=user_input,
+                    next_stage=next_stage,
+                    is_regex=str(user_input).startswith(EngineConstants.REGEX_PLACEHOLDER)
+                )
+            except Exception as e:
+                raise EngineException(f"Invalid trigger for stage '{next_stage}': {e}")
 
     def triggers(self) -> List[EngineRoute]:
         return [

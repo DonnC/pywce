@@ -1,0 +1,7 @@
+"REPORT":
+  kind: text
+  prop: evolving_report
+  message: "Please describe the issue you want to report."
+  routes:
+    "re:.*": "START-MENU"
+

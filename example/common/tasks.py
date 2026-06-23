@@ -1,5 +1,5 @@
-from .config import engine
+from .runtime_loader import get_engine
 
 
 def engine_bg_task(payload: dict) -> None:
-    engine.process_webhook(payload)
+    get_engine().process_webhook(payload)
